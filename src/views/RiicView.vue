@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import OperatorCard from '@/components/riic/OperatorCard.vue';
-import Schedule from '@/components/riic/Schedule.vue';
-import { type ScheduleType, type StationType, type StationQueueType, type CharDataType } from '@/types/riic';
-import { bgColorMap } from '@/utils/colorMap';
-import type { ColorInstance, ColorLike } from 'color';
-import Color from 'color';
-import { computed, ref, watch } from 'vue';
+import Schedule from '@/components/riic/Schedule.vue'
+import {
+  type CharDataType,
+  type ScheduleType,
+  type StationQueueType,
+  type StationType,
+} from '@/types/riic'
+import { getCharIdbyName } from '@/utils/character'
+import { ref, watch } from 'vue'
 
 const exampleInput: string = `12 小时 | 12 小时 | 12 小时
 控制中枢
@@ -64,9 +66,9 @@ const exampleInput: string = `12 小时 | 12 小时 | 12 小时
 ---
 发电站
 发电站
-承曦格雷伊2 红脸小车 | 18%
+承曦格雷伊2 Lancet-20! | 18%
 格雷伊0 澄闪2 | 40%
-承曦格雷伊2 红脸小车 | 18%
+承曦格雷伊2 Lancet-20! | 18%
 ---
 办公室
 办公室
@@ -84,21 +86,20 @@ const exampleInput: string = `12 小时 | 12 小时 | 12 小时
 办公室
 |
 |
-W |`;
+W |`
 
 /**
  * 输入框内容
  */
-const rawInput = ref<string>(exampleInput);
+const rawInput = ref<string>(exampleInput)
 
 /**
  * 解析后的数据
  */
 const data = ref<ScheduleType>({
-    queueDescription: [],
-    lines: [],
-});
-
+  queueDescription: [],
+  lines: [],
+})
 
 /**
  * @example
@@ -106,51 +107,54 @@ const data = ref<ScheduleType>({
  * Output: ['12 小时', '12 小时', '12 小时']
  */
 function parseQueueDescription(segment: string): string[] {
-    const tokens: string[] = segment
-        .split('|')
-        .map(s => s.trim());
-    return tokens;
+  const tokens: string[] = segment.split('|').map((s) => s.trim())
+  return tokens
 }
-
 
 /**
  * @example
  * Input: '能天使1'
- * Output: { operatorName: '能天使', eliteLevel: 1 }
+ * Output: { charId: 'char_103_angel', displayName: '能天使', eliteLevel: 1, isTired: false }
  * @example
- * Input: '白面鸮'
- * Output: { operatorName: '白面鸮', eliteLevel: null }
+ * Input: 'Lancet-20!'
+ * Output: { charId: 'char_285_medic2', displayName: 'Lancet-2', eliteLevel: 0, isTired: true }
  */
 function parseOperator(s: string): CharDataType {
-    s = s.trim();
-    if (s.length >= 1 && '012'.includes(s.slice(-1))) {
-        const operatorName = s.slice(0, -1);
-        const eliteLevel = parseInt(s.charAt(s.length - 1));
-        return { operatorName, eliteLevel };
-    } else {
-        return { operatorName: s, eliteLevel: null };
-    }
+  s = s.trim()
+  const isTired = s.endsWith('!')
+  if (isTired) {
+    s = s.slice(0, -1)
+  }
+  const eliteLevel = '012'.includes(s.slice(-1)) ? parseInt(s.slice(-1)) : null
+  if (eliteLevel !== null) {
+    s = s.slice(0, -1)
+  }
+  const displayName = s
+  const charId = getCharIdbyName(displayName) ?? ''
+  return { charId, displayName, eliteLevel, isTired }
 }
-
 
 /**
  * @example
- * Input: '能天使1 白面鸮 | 说明文字'
+ * Input: '能天使1 Lancet-20! | 说明文字'
  * Output: {
  *     operators: [
- *         { operatorName: '能天使', eliteLevel: 1 },
- *         { operatorName: '白面鸮', eliteLevel: null },
+ *         { charId: 'char_103_angel', displayName: '能天使', eliteLevel: 1, isTired: false },
+ *         { charId: 'char_285_medic2', displayName: 'Lancet-2', eliteLevel: 0, isTired: true },
  *     ],
  *     description: '说明文字',
  * }
  */
 function parseQueue(s: string): StationQueueType {
-    const [opsPart, ...descParts] = s.split('|');
-    const operators: CharDataType[] = (opsPart || '').trim().split(/\s+/).filter(Boolean).map(parseOperator);
-    const description: string = descParts.join('|').trim();
-    return { operators, description };
+  const [opsPart, ...descParts] = s.split('|')
+  const operators: CharDataType[] = (opsPart || '')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .map(parseOperator)
+  const description: string = descParts.join('|').trim()
+  return { chars: operators, description }
 }
-
 
 /**
  * @example
@@ -162,14 +166,13 @@ function parseQueue(s: string): StationQueueType {
  * 白面鸮 灰喉2 深海色1 | 第三行描述文字
  */
 function parseStation(s: string): StationType {
-    const lines: string[] = s.trim().split(/\r?\n/);
-    const title: string = lines[0] ?? '';
-    const stationType: string = lines[1] ?? '';
-    const queueLines: string[] = lines.slice(2);
-    const queues: StationQueueType[] = queueLines.map(parseQueue);
-    return { title, stationType, queues };
+  const lines: string[] = s.trim().split(/\r?\n/)
+  const title: string = lines[0] ?? ''
+  const stationType: string = lines[1] ?? ''
+  const queueLines: string[] = lines.slice(2)
+  const queues: StationQueueType[] = queueLines.map(parseQueue)
+  return { title, stationType, queues }
 }
-
 
 /**
  * @example
@@ -194,15 +197,18 @@ function parseStation(s: string): StationType {
  * 斥罪2 | 说明文字
  */
 function parseSchedule(s: string): ScheduleType {
-    const [queueDescLine, ...content] = s.trim().split(/\r?\n/);
-    const queueDescription: string[] = parseQueueDescription(queueDescLine || '');
-    const stationBlocks: string[] = content.join('\n').trim().split(/^\s*={3,}\s*$/m);
-    const lines: StationType[][] = stationBlocks.map(block => {
-        const stationStrings: string[] = block.trim().split(/^\s*-{3,}\s*$/m);
-        const stations: StationType[] = stationStrings.map(parseStation);
-        return stations;
-    });
-    return { queueDescription, lines };
+  const [queueDescLine, ...content] = s.trim().split(/\r?\n/)
+  const queueDescription: string[] = parseQueueDescription(queueDescLine || '')
+  const stationBlocks: string[] = content
+    .join('\n')
+    .trim()
+    .split(/^\s*={3,}\s*$/m)
+  const lines: StationType[][] = stationBlocks.map((block) => {
+    const stationStrings: string[] = block.trim().split(/^\s*-{3,}\s*$/m)
+    const stations: StationType[] = stationStrings.map(parseStation)
+    return stations
+  })
+  return { queueDescription, lines }
 }
 
 // 主解析器：将输入文本解析为 ScheduleType
@@ -282,28 +288,28 @@ function parseSchedule(s: string): ScheduleType {
 //     return { queueDescription, lines: parsedLines };
 // }
 watch(
-    rawInput,
-    () => {
-        data.value = parseSchedule(rawInput.value || '');
-    },
-    { immediate: true },
-);
+  rawInput,
+  () => {
+    data.value = parseSchedule(rawInput.value || '')
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
-    <!-- <OperatorCard operatorName="能天使" :eliteLevel="2" /> -->
-    <div class="riic-page">
-        <div class="input-panel">
-            <div>
-                <label for="riic-input">在此粘贴排班文本：</label>
-            </div>
-            <textarea id="riic-input" v-model="rawInput" rows="14" :placeholder="exampleInput"></textarea>
-        </div>
-
-        <div class="output-panel">
-            <Schedule class="schedule" v-bind="data" />
-        </div>
+  <!-- <OperatorCard operatorName="能天使" :eliteLevel="2" /> -->
+  <div class="riic-page">
+    <div class="input-panel">
+      <div>
+        <label for="riic-input">在此粘贴排班文本：</label>
+      </div>
+      <textarea id="riic-input" v-model="rawInput" rows="14" :placeholder="exampleInput"></textarea>
     </div>
+
+    <div class="output-panel">
+      <Schedule class="schedule" v-bind="data" />
+    </div>
+  </div>
 </template>
 
 <style scoped lang="scss">
@@ -320,30 +326,30 @@ watch(
 // }
 
 textarea {
-    width: 100%;
-    font-family: monospace;
-    font-size: 1em;
-    padding: 1em;
+  width: 100%;
+  font-family: monospace;
+  font-size: 1em;
+  padding: 1em;
 }
 
 button {
-    padding: 6px 12px;
-    cursor: pointer;
+  padding: 6px 12px;
+  cursor: pointer;
 }
 
 .output-panel {
-    width: 2160px;
-    height: 1080px;
-    background-image: url('/images/resources/背景.png');
-    overflow: visible;
-    background-color: black;
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  width: 2160px;
+  height: 1080px;
+  background-image: url('/images/resources/背景.png');
+  overflow: visible;
+  background-color: black;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .schedule {
-    zoom: 0.5;
+  zoom: 0.5;
 }
 </style>

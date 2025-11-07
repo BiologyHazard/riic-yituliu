@@ -1,21 +1,22 @@
 export interface CharDataType {
-    operatorName: string;
-    eliteLevel: number | null;
+  charId: string
+  displayName: string
+  eliteLevel: number | null
+  isTired: boolean
 }
 
 export interface StationQueueType {
-    operators: CharDataType[];
-    description: string;
+  chars: CharDataType[]
+  description: string
 }
 
 export interface StationType {
-    title: string;
-    stationType: string;
-    queues: StationQueueType[];
+  title: string
+  stationType: string
+  queues: StationQueueType[]
 }
 
-
 export interface ScheduleType {
-    queueDescription: string[];
-    lines: StationType[][];
+  queueDescription: string[]
+  lines: StationType[][]
 }

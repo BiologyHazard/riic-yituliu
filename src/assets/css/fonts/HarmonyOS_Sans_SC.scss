@@ -1,22 +1,22 @@
 @mixin font-face($weight, $filename) {
-    @font-face {
-        font-family: 'HarmonyOS Sans SC';
-        src: url('/fonts/#{$filename}.ttf') format('truetype');
-        font-weight: $weight;
-        font-style: normal;
-        font-display: swap;
-    }
+  @font-face {
+    font-family: 'HarmonyOS Sans SC';
+    src: url('/fonts/#{$filename}.ttf') format('truetype');
+    font-weight: $weight;
+    font-style: normal;
+    font-display: swap;
+  }
 }
 
 $font-weights: (
-    100: 'HarmonyOS_Sans_SC_Thin',
-    300: 'HarmonyOS_Sans_SC_Light',
-    400: 'HarmonyOS_Sans_SC_Regular',
-    500: 'HarmonyOS_Sans_SC_Medium',
-    700: 'HarmonyOS_Sans_SC_Bold',
-    900: 'HarmonyOS_Sans_SC_Black',
+  100: 'HarmonyOS_Sans_SC_Thin',
+  300: 'HarmonyOS_Sans_SC_Light',
+  400: 'HarmonyOS_Sans_SC_Regular',
+  500: 'HarmonyOS_Sans_SC_Medium',
+  700: 'HarmonyOS_Sans_SC_Bold',
+  900: 'HarmonyOS_Sans_SC_Black',
 );
 
 @each $weight, $filename in $font-weights {
-    @include font-face($weight, $filename);
+  @include font-face($weight, $filename);
 }
