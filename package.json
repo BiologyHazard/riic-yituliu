@@ -17,11 +17,13 @@
   },
   "dependencies": {
     "color": "^5.0.2",
+    "crypto-js": "^4.2.0",
     "vue": "^3.5.22",
     "vue-router": "^4.6.3"
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.2",
+    "@types/crypto-js": "^4.2.2",
     "@types/node": "^22.18.11",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/eslint-config-prettier": "^10.2.0",

@@ -1,59 +1,69 @@
 <script setup lang="ts">
 import {
-  getCharProfession,
-  getCharRarity,
   getCharAvatar,
+  getCharProfessionId,
+  getCharRarity,
   getProfessionName,
-} from '@/utils/character'
-import { computed } from 'vue'
+} from '@/utils/character';
+import { getPrtsWikiMediaUrl } from '@/utils/prtsWiki';
+import { computed } from 'vue';
 
-interface Props {
-  charId: string // 干员 ID
-  eliteLevel?: number // 精英化等级，0/1/2，默认为 0 (可选)
-  isTired?: boolean // 是否注意力涣散 (可选)
-  rarity?: number // 稀有度 (可选)
-  profession?: string // 职业 (可选)
-  showBackgroundImage?: boolean // 是否显示背景图
-  showRarity?: boolean // 是否显示稀有度角标
-  showProfession?: boolean // 是否显示职业角标
-  showEliteLevel?: boolean // 是否显示精英阶段角标
+interface OperatorAvatarProps {
+  charId: string; // 干员 ID
+  eliteLevel?: number; // 精英化等级，0/1/2，默认为 0 (可选)
+  isTired?: boolean; // 是否注意力涣散 (可选)
+  rarity?: number; // 稀有度 (可选)
+  profession?: string; // 职业 (可选)
+  showBackgroundImage?: boolean; // 是否显示背景图
+  showRarity?: boolean; // 是否显示稀有度角标
+  showProfession?: boolean; // 是否显示职业角标
+  showEliteLevel?: boolean; // 是否显示精英阶段角标
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<OperatorAvatarProps>(), {
   eliteLevel: 0,
   isTired: false,
   showBackgroundImage: false,
   showRarity: false,
   showProfession: false,
   showEliteLevel: false,
-})
+});
 
 // 背景底图 URL
-const backgroundUrl: string = '/images/resources/干员头像底图.png'
+const backgroundUrl: string = '/images/resources/干员头像底图.png';
 
 // 精英阶段角标 URL
-const eliteUrl = computed(() => `/images/resources/精英_${props.eliteLevel}_大图.png`)
+const eliteUrl = computed(
+  () => `https://torappu.prts.wiki/assets/elite_icon/elite_${props.eliteLevel}_large.png`,
+);
 
 // 职业角标 URL
-const professionUrl = computed(
-  () =>
-    `/images/resources/图标_职业_${getProfessionName(props.profession ?? getCharProfession(props.charId) ?? '')}.png`,
-)
+const professionUrl = computed(() => {
+  const professionId = props.profession ?? getCharProfessionId(props.charId);
+  const professionName = getProfessionName(professionId ?? '');
+  const fileName = `图标_职业_${professionName}.png`;
+  const url = getPrtsWikiMediaUrl(fileName);
+  return url;
+});
 
 // 稀有度角标 URL
 const rarityUrl = computed(
-  () => `/images/resources/稀有度_黄_${props.rarity ?? getCharRarity(props.charId) ?? 0}.png`,
-)
+  () =>
+    `https://torappu.prts.wiki/assets/rarity_icon/rarity_yellow_${props.rarity ?? getCharRarity(props.charId) ?? 0}.png`,
+);
 
 // 干员头像 URL
 const avatarUrl = computed(
-  () => `/images/avatar/${getCharAvatar(props.charId, props.eliteLevel)}.png`,
-)
+  () =>
+    `https://torappu.prts.wiki/assets/char_avatar/${getCharAvatar(props.charId, props.eliteLevel)}.png`,
+  // 森空岛的 CDN 不允许跨域
+  // `https://web.hycdn.cn/arknights/game/assets/char_skin/avatar/${encodeURIComponent(getCharSkinId(props.charId, props.eliteLevel))}.png`,
+);
 </script>
 
 <template>
   <div class="operator-avatar">
-    <img v-if="showBackgroundImage" class="bg" :src="backgroundUrl" alt="背景" />
+    <img v-if="showBackgroundImage" class="bg" :src="backgroundUrl" alt="干员头像背景" />
     <img class="avatar" :src="avatarUrl" :alt="`干员 ${charId}`" />
     <div v-if="isTired" class="tired"></div>
     <img v-if="showProfession" class="profession" :src="professionUrl" alt="职业" />
@@ -97,8 +107,8 @@ const avatarUrl = computed(
 }
 
 .profession {
-  width: 20%;
-  height: 20%;
+  width: 25%;
+  height: 25%;
   top: 0%;
   left: 0%;
   z-index: 3;
@@ -116,7 +126,7 @@ const avatarUrl = computed(
 .rarity {
   width: auto;
   height: 18%;
-  bottom: 2%;
+  bottom: 0%;
   right: 0%;
   z-index: 3;
 }

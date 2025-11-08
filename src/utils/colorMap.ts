@@ -1,4 +1,4 @@
-import Color, { type ColorInstance } from 'color'
+import Color, { type ColorInstance } from 'color';
 
 export const bgColorMap: Map<string, ColorInstance> = new Map(
   Object.entries({
@@ -16,7 +16,7 @@ export const bgColorMap: Map<string, ColorInstance> = new Map(
     办公室: '#565656',
     会客室: '#dd653f',
   }).map(([k, v]) => [k, Color(v)]),
-)
+);
 
 export const fontColorMap: Map<string, ColorInstance> = new Map(
   Object.entries({
@@ -30,4 +30,4 @@ export const fontColorMap: Map<string, ColorInstance> = new Map(
     办公室: '#ffffff',
     会客室: '#ffffff',
   }).map(([k, v]) => [k, Color(v)]),
-)
+);

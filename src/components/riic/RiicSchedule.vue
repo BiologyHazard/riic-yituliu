@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import Station from '@/components/riic/Station.vue'
-import { type ScheduleType } from '@/types/riic'
+import Station from '@/components/riic/RiicStation.vue';
+import { type ScheduleType } from '@/types/riic';
 
-const props = defineProps<ScheduleType>()
+const props = defineProps<ScheduleType>();
 </script>
 
 <template>
@@ -12,10 +12,10 @@ const props = defineProps<ScheduleType>()
         <div class="queue-descriptions">
           <div
             class="queue-description"
-            v-for="(description, index) in props.queueDescription"
-            :key="index"
+            v-for="(description, queueIndex) in props.queueDescription"
+            :key="queueIndex"
           >
-            {{ `队列 ${index + 1}` }}<br />{{ description }}
+            {{ `队列 ${queueIndex + 1}` }}<br />{{ description }}
           </div>
         </div>
         <div class="stations">

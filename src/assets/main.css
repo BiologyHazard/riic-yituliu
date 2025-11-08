@@ -1,4 +1,5 @@
 @import './base.css';
+@import '@/assets/css/fonts/HarmonyOS_Sans_SC.scss';
 
 #app {
   /* max-width: 1280px; */

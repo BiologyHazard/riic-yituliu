@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,12 +22,14 @@ const router = createRouter({
       meta: { title: 'Test' },
     },
   ],
-})
+});
 
 router.afterEach((to) => {
   if (to.meta.title) {
-    document.title = to.meta.title as string
+    document.title = `${to.meta.title} - 明日方舟基建一图流`;
+  } else {
+    document.title = '明日方舟基建一图流';
   }
-})
+});
 
-export default router
+export default router;

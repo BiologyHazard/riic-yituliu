@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { type CharDataType } from '@/types/riic'
-import { nextTick, useTemplateRef, watch } from 'vue'
-import OperatorAvatar from './OperatorAvatar.vue'
+import { type CharDataType } from '@/types/riic';
+import { nextTick, useTemplateRef, watch } from 'vue';
+import OperatorAvatar from './OperatorAvatar.vue';
 
-const props = defineProps<CharDataType>()
+const props = defineProps<CharDataType>();
 
 /**
  * 计算字体大小以适应容器宽度
@@ -17,20 +17,20 @@ function updateText(
   minFontSize: number = 16,
   maxFontSize: number = 32,
 ) {
-  if (!element.textContent) return
+  if (!element.textContent) return;
 
-  let fontSize: number = maxFontSize
-  element.style.fontSize = `${fontSize}px`
+  let fontSize: number = maxFontSize;
+  element.style.fontSize = `${fontSize}px`;
   nextTick(() => {
     if (element.scrollWidth > containerWidth) {
-      fontSize = Math.max((fontSize * containerWidth) / element.scrollWidth, minFontSize)
-      element.style.fontSize = `${fontSize}px`
+      fontSize = Math.max((fontSize * containerWidth) / element.scrollWidth, minFontSize);
+      element.style.fontSize = `${fontSize}px`;
     }
-  })
+  });
 }
 
-const operatorNameContainerRef = useTemplateRef<HTMLElement>('operatorNameContainerRef')
-const operatorNameRef = useTemplateRef<HTMLElement>('operatorNameRef')
+const operatorNameContainerRef = useTemplateRef<HTMLElement>('operatorNameContainerRef');
+const operatorNameRef = useTemplateRef<HTMLElement>('operatorNameRef');
 
 watch([props, operatorNameRef], () => {
   if (operatorNameRef.value) {
@@ -39,9 +39,9 @@ watch([props, operatorNameRef], () => {
       (operatorNameContainerRef.value?.clientWidth || 180) * 0.98,
       18,
       36,
-    )
+    );
   }
-})
+});
 </script>
 
 <template>
@@ -52,7 +52,9 @@ watch([props, operatorNameRef], () => {
         :elite-level="props.eliteLevel ?? 0"
         :is-tired="props.isTired"
         show-background-image
-        show-elite-level
+        show-rarity
+        show-profession
+        :show-elite-level="props.eliteLevel !== null"
       />
     </div>
     <div id="operatorNameContainer" class="operator-name-container" ref="operatorNameContainerRef">
@@ -64,9 +66,6 @@ watch([props, operatorNameRef], () => {
 </template>
 
 <style scoped lang="scss">
-// 导入所需字体
-@use '@/assets/css/fonts/HarmonyOS_Sans_SC.scss';
-
 // .operator-card {
 //     display: inline-flex;
 //     flex-direction: column;

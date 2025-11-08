@@ -1,40 +1,40 @@
 <script setup lang="ts">
-import { type StationType } from '@/types/riic'
-import { bgColorMap, fontColorMap } from '@/utils/colorMap'
-import type { ColorInstance } from 'color'
-import Color from 'color'
-import OperatorCard from './OperatorCard.vue'
+import { type StationType } from '@/types/riic';
+import { bgColorMap, fontColorMap } from '@/utils/colorMap';
+import type { ColorInstance } from 'color';
+import Color from 'color';
+import OperatorCard from './OperatorCard.vue';
 
 /**
  * 获取左侧标题栏背景色
  */
 function getLeftBackgroundColor(stationType: string): ColorInstance {
-  return bgColorMap.get(stationType) ?? Color('#299DFF')
+  return bgColorMap.get(stationType) ?? Color('#299DFF');
 }
 
 /**
  * 获取右侧内容区背景色，为左侧颜色的半透明版本
  */
 function getRightBackgroundColor(stationType: string): ColorInstance {
-  const leftBackgroundColor = getLeftBackgroundColor(stationType)
-  return leftBackgroundColor.alpha(leftBackgroundColor.alpha() * 0.5)
+  const leftBackgroundColor = getLeftBackgroundColor(stationType);
+  return leftBackgroundColor.alpha(leftBackgroundColor.alpha() * 0.5);
 }
 
 /**
  * 获取左侧标题栏文本颜色
  */
 function getLeftTextColor(stationType: string): ColorInstance {
-  return fontColorMap.get(stationType) ?? Color('white')
+  return fontColorMap.get(stationType) ?? Color('white');
 }
 
 /**
  * 获取右侧内容区文本颜色
  */
-function getRightTextColor(stationType: string): ColorInstance {
-  return Color('white')
+function getRightTextColor(): ColorInstance {
+  return Color('white');
 }
 
-const props = defineProps<StationType>()
+const props = defineProps<StationType>();
 </script>
 
 <template>
@@ -107,7 +107,7 @@ const props = defineProps<StationType>()
 // 描述文本样式
 .description {
   height: 1em;
-  color: v-bind('getRightTextColor(props.stationType).string()');
+  color: v-bind('getRightTextColor().string()');
   font-family: 'HarmonyOS Sans SC', sans-serif;
   font-weight: 500;
   font-size: 42px;

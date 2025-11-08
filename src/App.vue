@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView } from 'vue-router';
 </script>
 
 <template>
@@ -16,7 +16,7 @@ import { RouterLink, RouterView } from 'vue-router'
   <RouterView />
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 header {
   display: flex;
   place-items: center;
@@ -37,7 +37,7 @@ header .wrapper {
 }
 
 nav {
-  /* width: 100%; */
+  // width: 100%;
   text-align: center;
   font-size: 1.5rem;
 }
