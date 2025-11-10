@@ -52,10 +52,18 @@ watch([props, operatorNameRef], () => {
         :elite-level="props.eliteLevel ?? 0"
         :is-tired="props.isTired"
         show-background-image
-        show-rarity
-        show-profession
         :show-elite-level="props.eliteLevel !== null"
       />
+      <!-- <div
+        style="
+          position: absolute;
+          width: 180px;
+          height: 180px;
+          top: 0;
+          left: 0;
+          background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 100%) 100%);
+        "
+        ></div> -->
     </div>
     <div id="operatorNameContainer" class="operator-name-container" ref="operatorNameContainerRef">
       <span id="operatorName" class="operator-name" ref="operatorNameRef">{{
@@ -79,20 +87,14 @@ watch([props, operatorNameRef], () => {
   height: 180px;
 }
 
-// 头像样式
-// .avatar {
-//     width: 100%;
-//     height: 100%;
-//     object-fit: cover;
-//     object-position: top center;
-// }
-
 // 干员名称样式
 .operator-name-container {
-  background-color: #1f1f1f;
-  text-align: center;
+  // position: absolute;
+  // bottom: 0;
   width: 180px;
   height: 46px;
+  background-color: #1f1f1f;
+  text-align: center;
 }
 
 .operator-name {

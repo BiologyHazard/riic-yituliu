@@ -15,12 +15,6 @@ const router = createRouter({
       component: () => import('@/views/RiicView.vue'),
       meta: { title: 'RIIC' },
     },
-    {
-      path: '/test',
-      name: 'test',
-      component: () => import('@/views/TestView.vue'),
-      meta: { title: 'Test' },
-    },
   ],
 });
 

@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import Schedule from '@/components/riic/RiicSchedule.vue';
+import RiicSchedule from '@/components/riic/RiicSchedule.vue';
 import {
   type CharDataType,
   type ScheduleType,
   type StationQueueType,
   type StationType,
+  type StatItem,
 } from '@/types/riic';
 import { getCharIdbyName } from '@/utils/character';
 import { ref, useTemplateRef, watch } from 'vue';
@@ -27,7 +28,7 @@ scheduleFiles = Object.fromEntries(
   }),
 );
 
-const exampleInput: string = scheduleFiles['右满 342 搓玉 一天两换'] ?? '';
+const exampleInput: string = scheduleFiles['右满 252（2 赤金）一天两换'] ?? '';
 
 /**
  * 输入框内容
@@ -38,17 +39,42 @@ const rawInput = ref<string>(exampleInput);
  * 解析后的数据
  */
 const data = ref<ScheduleType>({
-  queueDescription: [],
+  title: '',
+  description: '',
+  stats: [],
+  queueDescriptions: [],
   lines: [],
 });
+
+/**
+ * @example
+ * Input: 'EXP 51.1k | 贵金属 44.6k | 龙门币 53.3k | 高级凭证 0.801'
+ * Output: [
+ *     { itemName: 'EXP', itemCount: '51.1k' },
+ *     { itemName: '贵金属', itemCount: '44.6k' },
+ *     { itemName: '龙门币', itemCount: '53.3k' },
+ *     { itemName: '高级凭证', itemCount: '0.801' },
+ * ]
+ */
+function parseStats(s: string): StatItem[] {
+  return s
+    .split('|')
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .map((part) => {
+      const [itemName, ...itemCountParts] = part.split(' ') as [string, ...string[]];
+      const itemCount = itemCountParts.join(' ').trim();
+      return { itemName, itemCount };
+    });
+}
 
 /**
  * @example
  * Input: '12 小时 | 12 小时 | 12 小时'
  * Output: ['12 小时', '12 小时', '12 小时']
  */
-function parseQueueDescription(segment: string): string[] {
-  const tokens: string[] = segment.split('|').map((s) => s.trim());
+function parseQueueDescriptions(s: string): string[] {
+  const tokens: string[] = s.split('|').map((s) => s.trim());
   return tokens;
 }
 
@@ -118,7 +144,13 @@ function parseStation(s: string): StationType {
 /**
  * @example
  * Input:
- * 12 小时 | 12 小时 | 12 小时
+ * 153
+ * 一天三换
+ * -=-
+ * 菲亚梅塔 007 阿罗玛、槐琥
+ * -=-
+ * EXP 81.2k | 贵金属 22.6k | 龙门币 28.9k | 高级凭证 0.756
+ * 17 小时 | 3.5 小时 | 3.5 小时
  * 制造站
  * #ffd800
  * 能天使1 能天使1 推进之王1 | 第一行描述文字
@@ -138,8 +170,12 @@ function parseStation(s: string): StationType {
  * 斥罪2 | 说明文字
  */
 function parseSchedule(s: string): ScheduleType {
-  const [queueDescLine, ...content] = s.trim().split(/\r?\n/);
-  const queueDescription: string[] = parseQueueDescription(queueDescLine || '');
+  const [titlePart, descriptionPart, ...rest] = s.trim().split(/^\s*-=-\s*$/m);
+  const title = (titlePart ?? '').trim();
+  const description = (descriptionPart ?? '').trim();
+  const [statsLine, queueDescLine, ...content] = rest.join('\n-=-\n').trim().split(/\r?\n/);
+  const stats: StatItem[] = parseStats(statsLine ?? '');
+  const queueDescriptions: string[] = parseQueueDescriptions(queueDescLine ?? '');
   const stationBlocks: string[] = content
     .join('\n')
     .trim()
@@ -149,7 +185,7 @@ function parseSchedule(s: string): ScheduleType {
     const stations: StationType[] = stationStrings.map(parseStation);
     return stations;
   });
-  return { queueDescription, lines };
+  return { title, description, stats, queueDescriptions, lines };
 }
 
 watch(
@@ -161,11 +197,14 @@ watch(
 );
 
 const outputPanelRef = useTemplateRef<HTMLDivElement>('outputPanelRef');
+const widthRef = ref<'100%' | '2160px'>('100%');
 </script>
 
 <template>
   <h1>基建一图流排班表生成器</h1>
-  <nav>
+
+  <h2>排班表预设</h2>
+  <div class="schedule-files">
     <div v-for="[name, content] in Object.entries(scheduleFiles)" :key="name">
       <a
         href=""
@@ -177,72 +216,99 @@ const outputPanelRef = useTemplateRef<HTMLDivElement>('outputPanelRef');
         >{{ name }}</a
       >
     </div>
-  </nav>
-  <div class="riic-page">
-    <div class="input-panel">
-      <div>
-        <label for="riic-input">在此粘贴排班文本：</label>
-      </div>
-      <textarea id="riic-input" v-model="rawInput" rows="30" :placeholder="exampleInput"></textarea>
-    </div>
+  </div>
 
-    <div class="output-panel" ref="outputPanelRef">
-      <Schedule class="schedule" v-bind="data" />
+  <h2>排班表编辑器</h2>
+  <div class="input-panel">
+    <label for="riic-input">在此粘贴排班文本：</label>
+    <textarea id="riic-input" v-model="rawInput" rows="30" :placeholder="exampleInput"></textarea>
+  </div>
+
+  <h2>显示设置</h2>
+  <div class="settings">
+    <div class="input-group">
+      <label>
+        <input type="radio" value="100%" v-model="widthRef" />
+        <span class="radio-label">滚动</span>
+      </label>
+      <label>
+        <input type="radio" value="2160px" v-model="widthRef" />
+        <span class="radio-label">溢出</span>
+      </label>
     </div>
-    <div>
-      <button
-        @click="
-          () => {
-            if (outputPanelRef) {
-              outputPanelRef.requestFullscreen();
-            }
+    <button
+      @click="
+        () => {
+          if (outputPanelRef) {
+            outputPanelRef.requestFullscreen();
           }
-        "
-      >
-        全屏预览排班表
-      </button>
-    </div>
+        }
+      "
+    >
+      全屏预览排班表
+    </button>
+  </div>
+
+  <h2>排班表预览</h2>
+  <div class="output-panel" ref="outputPanelRef">
+    <RiicSchedule class="schedule" v-bind="data" />
   </div>
 </template>
 
 <style scoped lang="scss">
-// .riic-page {
-//     display: flex;
-//     flex-direction: column;
-//     gap: 20px;
-// }
+h1 {
+  text-align: center;
+}
 
-// .input-panel {
-//     display: flex;
-//     flex-direction: column;
-//     gap: 8px;
-// }
+.schedule-files {
+  margin-block-end: 1em;
+
+  div {
+    margin-block: 0.8em;
+  }
+}
 
 textarea {
-  width: 100%;
-  font-family: monospace;
-  font-size: 1em;
+  display: block;
   padding: 1em;
+  margin-block: 1em;
+  border: 1px solid var(--color-border);
+  border-radius: 1em;
+  background-color: var(--color-code-background);
+  color: var(--color-code-text);
+  width: 100%;
+  font-family: var(--mono-font);
+  font-size: 1rem;
+}
+
+.settings {
+  margin-block: 1em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1em;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5em;
+}
+
+input[type='radio'] {
+  margin-inline: 0.4em;
 }
 
 button {
-  padding: 6px 12px;
+  padding: 0.2em 0.5em;
   cursor: pointer;
+  font-size: 1em;
 }
 
 .output-panel {
-  width: 2160px;
-  height: 1080px;
-  background-image: url('/images/resources/背景.png');
-  overflow: visible;
-  background-color: black;
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.schedule {
-  zoom: 0.5;
+  overflow: auto;
+  width: v-bind('widthRef');
+  transition: width 0.3s;
 }
 </style>

@@ -40,9 +40,7 @@ const props = defineProps<StationType>();
 <template>
   <div class="trade-station-container">
     <!-- 左侧标签栏 -->
-    <div class="station-label">
-      <div class="label-text">{{ props.title }}</div>
-    </div>
+    <div class="station-label">{{ props.title }}</div>
 
     <!-- 右侧内容区 -->
     <div class="content-area">
@@ -65,21 +63,18 @@ const props = defineProps<StationType>();
 
 // 左侧标题样式
 .station-label {
-  background-color: v-bind('getLeftBackgroundColor(props.stationType).string()');
-  width: 64px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-// 标题文本样式
-.label-text {
+  width: 64px;
+  background-color: v-bind('getLeftBackgroundColor(props.stationType).string()');
   color: v-bind('getLeftTextColor(props.stationType).string()');
   font-family: 'HarmonyOS Sans SC', sans-serif;
   font-weight: 700;
+  font-size: 46px;
   writing-mode: vertical-rl;
   text-orientation: upright;
-  font-size: 46px;
   // letter-spacing: -1px;
   // padding: 10px 0;
 }
@@ -106,12 +101,14 @@ const props = defineProps<StationType>();
 
 // 描述文本样式
 .description {
-  height: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.2em;
   color: v-bind('getRightTextColor().string()');
   font-family: 'HarmonyOS Sans SC', sans-serif;
   font-weight: 500;
   font-size: 42px;
-  line-height: 1em;
   text-align: center;
   // margin-top: 8px;
 }

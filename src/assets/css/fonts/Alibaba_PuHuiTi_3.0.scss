@@ -1,0 +1,25 @@
+@mixin font-face($weight, $filename) {
+  @font-face {
+    font-family: 'Alibaba PuHuiTi 3.0';
+    src: url('@/assets/fonts/Alibaba_PuHuiTi_3.0/#{$filename}.ttf') format('truetype');
+    font-weight: $weight;
+    font-style: normal;
+    font-display: swap;
+  }
+}
+
+$font-weights: (
+  250: 'AlibabaPuHuiTi-3-35-Thin',
+  300: 'AlibabaPuHuiTi-3-45-Light',
+  400: 'AlibabaPuHuiTi-3-55-Regular',
+  500: 'AlibabaPuHuiTi-3-65-Medium',
+  600: 'AlibabaPuHuiTi-3-75-SemiBold',
+  700: 'AlibabaPuHuiTi-3-85-Bold',
+  800: 'AlibabaPuHuiTi-3-95-ExtraBold',
+  900: 'AlibabaPuHuiTi-3-105-Heavy',
+  1000: 'AlibabaPuHuiTi-3-115-Black',
+);
+
+@each $weight, $filename in $font-weights {
+  @include font-face($weight, $filename);
+}

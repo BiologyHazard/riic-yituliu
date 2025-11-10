@@ -29,9 +29,6 @@ const props = withDefaults(defineProps<OperatorAvatarProps>(), {
   showEliteLevel: false,
 });
 
-// 背景底图 URL
-const backgroundUrl: string = '/images/resources/干员头像底图.png';
-
 // 精英阶段角标 URL
 const eliteUrl = computed(
   () => `https://torappu.prts.wiki/assets/elite_icon/elite_${props.eliteLevel}_large.png`,
@@ -63,7 +60,12 @@ const avatarUrl = computed(
 
 <template>
   <div class="operator-avatar">
-    <img v-if="showBackgroundImage" class="bg" :src="backgroundUrl" alt="干员头像背景" />
+    <img
+      v-if="showBackgroundImage"
+      class="background-image"
+      src="@/assets/images/riic/干员头像底图.png"
+      alt="干员头像底图"
+    />
     <img class="avatar" :src="avatarUrl" :alt="`干员 ${charId}`" />
     <div v-if="isTired" class="tired"></div>
     <img v-if="showProfession" class="profession" :src="professionUrl" alt="职业" />
@@ -81,29 +83,27 @@ const avatarUrl = computed(
 
 .operator-avatar img {
   position: absolute;
-  display: block;
   user-select: none;
   pointer-events: none;
 }
 
-.bg {
-  // inset: 0;
+.background-image {
   width: 100%;
   height: 100%;
-  z-index: 0;
+  // z-index: 0;
 }
 
 .avatar {
   width: 100%;
   height: 100%;
-  z-index: 1;
+  // z-index: 1;
 }
 
 .tired {
   position: absolute;
   inset: 0;
   background-color: #ff000080;
-  z-index: 2;
+  // z-index: 2;
 }
 
 .profession {
@@ -111,7 +111,7 @@ const avatarUrl = computed(
   height: 25%;
   top: 0%;
   left: 0%;
-  z-index: 3;
+  // z-index: 3;
 }
 
 .elite {
@@ -120,7 +120,7 @@ const avatarUrl = computed(
   bottom: 0%;
   left: 0%;
   // filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.5));
-  z-index: 3;
+  // z-index: 3;
 }
 
 .rarity {
@@ -128,6 +128,6 @@ const avatarUrl = computed(
   height: 18%;
   bottom: 0%;
   right: 0%;
-  z-index: 3;
+  // z-index: 3;
 }
 </style>

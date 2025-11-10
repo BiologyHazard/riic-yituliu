@@ -1,16 +1,29 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router';
+import { theme, toggleTheme, initTheme } from '@/utils/theme';
+import DarkMode from './components/icons/DarkMode.vue';
+import LightMode from './components/icons/LightMode.vue';
+
+// initialize theme on app start
+initTheme();
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="32" height="32" />
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/riic">RIIC</RouterLink>
-      </nav>
-    </div>
+    <RouterLink to="/">
+      <img class="logo theme-dark-darken" src="@/assets/images/白鸥.png" alt="logo" />
+    </RouterLink>
+    <nav>
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/riic">RIIC</RouterLink>
+    </nav>
+    <button class="theme-toggle" @click="toggleTheme" type="button">
+      <!-- 🌞🌙 -->
+      <div class="theme-icon">
+        <DarkMode v-if="theme === 'dark'" />
+        <LightMode v-else />
+      </div>
+    </button>
   </header>
 
   <RouterView />
@@ -18,28 +31,31 @@ import { RouterLink, RouterView } from 'vue-router';
 
 <style scoped lang="scss">
 header {
+  // position: sticky;
+  // top: 0;
+  // z-index: 100;
+  // background-color: var(--color-background);
   display: flex;
-  place-items: center;
-  justify-content: center;
-  line-height: 1.5;
-  max-height: 100vh;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  // gap: 1em;
+  margin-block-end: 1em;
 }
 
-header .wrapper {
+header a {
   display: flex;
-  place-items: flex-start;
-  flex-wrap: wrap;
 }
 
 .logo {
-  display: block;
-  margin: 0 2rem 0 0;
+  display: inline-block;
+  width: 2em;
+  height: 2em;
 }
 
 nav {
-  // width: 100%;
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1em;
 }
 
 nav a.router-link-exact-active {
@@ -57,5 +73,32 @@ nav a {
 
 nav a:not(:first-of-type) {
   border-left: 1px solid var(--color-border);
+}
+
+.theme-toggle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: none;
+  width: 2em;
+  height: 2em;
+  padding: 0;
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 0.4rem;
+  cursor: pointer;
+  color: var(--color-text);
+  font-size: 1em;
+  transition: background-color 0.1s;
+}
+
+.theme-icon {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.theme-toggle:hover {
+  background-color: #aaa3;
+  transition: background-color 0.1s;
 }
 </style>

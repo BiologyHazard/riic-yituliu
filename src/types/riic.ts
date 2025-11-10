@@ -16,7 +16,15 @@ export interface StationType {
   queues: StationQueueType[];
 }
 
+export interface StatItem {
+  itemName: string;
+  itemCount: string;
+}
+
 export interface ScheduleType {
-  queueDescription: string[];
+  title: string;
+  description: string;
+  stats: StatItem[];
+  queueDescriptions: string[];
   lines: StationType[][];
 }
