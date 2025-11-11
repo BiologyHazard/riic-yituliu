@@ -44,6 +44,9 @@ jobs:
       - name: Build Project
         run: npm run build -- -- --base "$VITE_BASE_URL"
 
+      - name: Copy 404 Page
+        run: cp dist/index.html dist/404.html
+
       - name: Upload Artifacts
         uses: actions/upload-pages-artifact@v4
         with:
