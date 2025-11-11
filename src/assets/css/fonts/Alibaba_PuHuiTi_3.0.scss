@@ -1,13 +1,7 @@
 @mixin font-face($weight, $filename) {
   @font-face {
     font-family: 'Alibaba PuHuiTi 3.0';
-    src:
-      url('@/assets/fonts/Alibaba_PuHuiTi_3.0/#{$filename}/#{$filename}.woff2') format('woff2'),
-      url('@/assets/fonts/Alibaba_PuHuiTi_3.0/#{$filename}/#{$filename}.woff') format('woff'),
-      url('@/assets/fonts/Alibaba_PuHuiTi_3.0/#{$filename}/#{$filename}.ttf') format('truetype'),
-      url('@/assets/fonts/Alibaba_PuHuiTi_3.0/#{$filename}/#{$filename}.otf') format('opentype'),
-      url('@/assets/fonts/Alibaba_PuHuiTi_3.0/#{$filename}/#{$filename}.eot#iefix')
-        format('embedded-opentype');
+    src: url('/fonts/Alibaba_PuHuiTi_3.0/#{$filename}.woff2') format('woff2');
     font-weight: $weight;
     font-style: normal;
     font-display: swap;
