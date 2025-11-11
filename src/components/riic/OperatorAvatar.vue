@@ -63,7 +63,7 @@ const avatarUrl = computed(
     <img
       v-if="showBackgroundImage"
       class="background-image"
-      src="@/assets/images/riic/干员头像底图.png"
+      src="@/assets/images/riic/基建解析UI_干员头像底图_180x180_2510101215_BioHazard.webp"
       alt="干员头像底图"
     />
     <img class="avatar" :src="avatarUrl" :alt="`干员 ${charId}`" />

@@ -37,7 +37,11 @@ const itemInfoMap: Record<string, itemInfo> = {
 <template>
   <div class="schedule">
     <!-- 背景图片 -->
-    <img class="background-image" src="@/assets/images/riic/背景.png" alt="背景" />
+    <img
+      class="background-image"
+      src="@/assets/images/riic/基建解析UI_背景_2511111452_BioHazard.webp"
+      alt="背景"
+    />
 
     <!-- 排班表标题 -->
     <div class="schedule-title">
@@ -47,8 +51,8 @@ const itemInfoMap: Record<string, itemInfo> = {
         <div class="left-content">{{ props.title }}</div>
         <img
           class="decoration"
-          src="@/assets/images/riic/基建解析UI_标题后面跟着的那个东西_2510101219_BioHazard.png"
-          alt="decoration"
+          src="@/assets/images/riic/基建解析UI_标题后面跟着的那个东西_2510101219_BioHazard.webp"
+          alt="标题装饰"
         />
       </div>
 

@@ -11,7 +11,7 @@ initTheme();
 <template>
   <header>
     <RouterLink to="/">
-      <img class="logo theme-dark-darken" src="@/assets/images/白鸥.png" alt="logo" />
+      <img class="logo theme-dark-darken" src="@/assets/images/白鸥.webp" alt="logo" />
     </RouterLink>
     <nav>
       <RouterLink to="/">Home</RouterLink>
