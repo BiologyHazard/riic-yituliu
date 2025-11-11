@@ -39,7 +39,7 @@ jobs:
           fi
 
       - name: Download Fonts
-        run: bash ./scripts/download_fonts.sh
+        run: npm run download-fonts
 
       - name: Build Project
         run: npm run build -- -- --base "$VITE_BASE_URL"
