@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# 已弃用：此脚本已被 TypeScript 版本替代
+# 请使用：npm run download-fonts
+# 或直接运行：npx jiti scripts/download_fonts.ts
+
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
