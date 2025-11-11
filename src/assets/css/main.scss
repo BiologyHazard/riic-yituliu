@@ -320,3 +320,25 @@ a:hover {
   // background-color: hsla(160, 100%, 37%, 0.2);
   background-color: oklch(from var(--color-primary) l c h / 0.2);
 }
+
+summary {
+  position: relative;
+  display: block;
+  cursor: pointer;
+  list-style: none;
+}
+
+summary::before {
+  content: '▶';
+  display: inline-block;
+  position: absolute;
+  left: -0.5em;
+  top: 50%;
+  font-size: 0.5em;
+  transform: translate(-100%, -50%);
+  transition: transform 0.2s;
+}
+
+details[open] summary::before {
+  transform: translate(-100%, -50%) rotate(90deg);
+}

@@ -76,13 +76,7 @@ nav a:not(:first-of-type) {
 }
 
 .theme-toggle {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: none;
-  width: 2em;
-  height: 2em;
-  padding: 0;
+  padding: 0.25em;
   background-color: transparent;
   border: 1px solid var(--color-border);
   border-radius: 0.4rem;

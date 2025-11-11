@@ -222,8 +222,8 @@ const itemInfoMap: Record<string, itemInfo> = {
   flex-direction: column;
   gap: 40px;
   position: relative;
-  // zoom: 0.48;
-  transform: scale(0.48) translate(-50%, -50%);
+  zoom: 0.48;
+  // transform: scale(0.48) translate(-50%, -50%);
   transform-origin: center;
   margin: auto;
 }
