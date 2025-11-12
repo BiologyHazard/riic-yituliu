@@ -2,6 +2,7 @@
 import Station from '@/components/riic/RiicStation.vue';
 import { type ScheduleType } from '@/types/riic';
 import Color, { type ColorInstance } from 'color';
+import RiicYituliuDecoration from '../icons/RiicYituliuDecoration.vue';
 
 const props = defineProps<ScheduleType>();
 
@@ -49,11 +50,7 @@ const itemInfoMap: Record<string, itemInfo> = {
       <div class="left-block">
         <div class="bar"></div>
         <div class="left-content">{{ props.title }}</div>
-        <img
-          class="decoration"
-          src="@/assets/images/riic/基建解析UI_标题后面跟着的那个东西_2510101219_BioHazard.webp"
-          alt="标题装饰"
-        />
+        <RiicYituliuDecoration class="decoration" />
       </div>
 
       <!-- 中间说明 -->
@@ -161,6 +158,7 @@ const itemInfoMap: Record<string, itemInfo> = {
 }
 
 .decoration {
+  width: auto;
   height: 54px;
   margin-left: -47px;
 }
