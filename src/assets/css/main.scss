@@ -1,7 +1,9 @@
+/* Import Fonts */
 @use '@/assets/css/fonts/HarmonyOS_Sans_SC.scss';
 @use '@/assets/css/fonts/Alibaba_PuHuiTi_3.0.scss';
+@use '@/assets/css/fonts/JetBrains_Mono.scss';
 
-// Color Palette from Tailwind CSS
+/* Color Palette from Tailwind CSS */
 :root {
   --color-red-50: oklch(0.971 0.013 17.38);
   --color-red-100: oklch(0.936 0.032 17.717);
@@ -249,13 +251,12 @@
   --color-white: #fff;
 }
 
+/* Global Styles */
 :root {
   color-scheme: normal;
 
   --sans-font: 'HarmonyOS Sans SC', sans-serif;
-  --mono-font:
-    'Jetbrains Mono', Consolas, Menlo, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace,
-    var(--sans-font);
+  --mono-font: 'JetBrains Mono', monospace, var(--sans-font);
 
   --color-primary: #299dff;
   --color-background: var(--color-zinc-100);

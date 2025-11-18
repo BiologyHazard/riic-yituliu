@@ -1,9 +1,9 @@
-@mixin font-face($weight, $filename) {
+@mixin font-face($font-weight, $filename, $font-style) {
   @font-face {
     font-family: 'HarmonyOS Sans SC';
     src: url('/fonts/HarmonyOS_Sans_SC/#{$filename}.ttf') format('truetype');
-    font-weight: $weight;
-    font-style: normal;
+    font-weight: $font-weight;
+    font-style: $font-style;
     font-display: swap;
   }
 }
@@ -19,5 +19,5 @@ $font-weights: (
 );
 
 @each $weight, $filename in $font-weights {
-  @include font-face($weight, $filename);
+  @include font-face($weight, $filename, normal);
 }

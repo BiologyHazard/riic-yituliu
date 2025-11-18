@@ -4,16 +4,20 @@
 
 1. 鸿蒙黑体
 
-https://developer.huawei.com/consumer/cn/design/resource/
+   https://developer.huawei.com/consumer/cn/design/resource/
 
 2. 阿里巴巴普惠体 3.0
 
-https://www.alibabafonts.com/#/font
+   https://www.alibabafonts.com/#/font
+
+3. JetBrains Mono
+
+   https://www.jetbrains.com/lp/mono/
 
 字体文件较大，未直接包含在仓库中。
 
 请使用以下命令下载字体：
 
-```bash
+```sh
 npm run download-fonts
 ```

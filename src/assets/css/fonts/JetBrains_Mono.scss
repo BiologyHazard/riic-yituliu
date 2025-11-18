@@ -1,0 +1,39 @@
+@mixin font-face($font-weight, $filename, $font-style) {
+  @font-face {
+    font-family: 'JetBrains Mono';
+    src: url('/fonts/JetBrains_Mono/#{$filename}.woff2') format('woff2');
+    font-weight: $font-weight;
+    font-style: $font-style;
+    font-display: swap;
+  }
+}
+
+$jetbrains-mono-weights-normal: (
+  100: 'JetBrainsMono-Thin',
+  200: 'JetBrainsMono-ExtraLight',
+  300: 'JetBrainsMono-Light',
+  400: 'JetBrainsMono-Regular',
+  500: 'JetBrainsMono-Medium',
+  600: 'JetBrainsMono-SemiBold',
+  700: 'JetBrainsMono-Bold',
+  800: 'JetBrainsMono-ExtraBold',
+);
+
+$jetbrains-mono-weights-italic: (
+  100: 'JetBrainsMono-ThinItalic',
+  200: 'JetBrainsMono-ExtraLightItalic',
+  300: 'JetBrainsMono-LightItalic',
+  400: 'JetBrainsMono-Italic',
+  500: 'JetBrainsMono-MediumItalic',
+  600: 'JetBrainsMono-SemiBoldItalic',
+  700: 'JetBrainsMono-BoldItalic',
+  800: 'JetBrainsMono-ExtraBoldItalic',
+);
+
+@each $weight, $name in $jetbrains-mono-weights-normal {
+  @include font-face($weight, $name, normal);
+}
+
+@each $weight, $name in $jetbrains-mono-weights-italic {
+  @include font-face($weight, $name, italic);
+}

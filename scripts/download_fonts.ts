@@ -62,6 +62,29 @@ const FONTS: FontConfig[] = [
       Referer: 'https://fonts.alibabadesign.com',
     },
   },
+  {
+    name: 'JetBrains Mono',
+    url: 'https://download.jetbrains.com/fonts/JetBrainsMono-2.304.zip',
+    srcFileList: [
+      'fonts/webfonts/JetBrainsMono-Thin.woff2',
+      'fonts/webfonts/JetBrainsMono-ThinItalic.woff2',
+      'fonts/webfonts/JetBrainsMono-ExtraLight.woff2',
+      'fonts/webfonts/JetBrainsMono-ExtraLightItalic.woff2',
+      'fonts/webfonts/JetBrainsMono-Light.woff2',
+      'fonts/webfonts/JetBrainsMono-LightItalic.woff2',
+      'fonts/webfonts/JetBrainsMono-Regular.woff2',
+      'fonts/webfonts/JetBrainsMono-Italic.woff2',
+      'fonts/webfonts/JetBrainsMono-Medium.woff2',
+      'fonts/webfonts/JetBrainsMono-MediumItalic.woff2',
+      'fonts/webfonts/JetBrainsMono-SemiBold.woff2',
+      'fonts/webfonts/JetBrainsMono-SemiBoldItalic.woff2',
+      'fonts/webfonts/JetBrainsMono-Bold.woff2',
+      'fonts/webfonts/JetBrainsMono-BoldItalic.woff2',
+      'fonts/webfonts/JetBrainsMono-ExtraBold.woff2',
+      'fonts/webfonts/JetBrainsMono-ExtraBoldItalic.woff2',
+    ],
+    dstDir: 'public/fonts/JetBrains_Mono',
+  },
 ];
 
 /**
