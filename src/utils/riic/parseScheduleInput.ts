@@ -9,7 +9,7 @@ import {
   type StationType,
   type StatItem,
 } from '@/types/riic';
-import { getCharIdbyName } from '@/utils/character';
+import { getCharIdByName } from '@/utils/character';
 
 /**
  * @example
@@ -62,7 +62,7 @@ function parseOperator(s: string): CharDataType {
     s = s.slice(0, -1);
   }
   const displayName = s;
-  const charId = getCharIdbyName(displayName) ?? '';
+  const charId = getCharIdByName(displayName) ?? '';
   return { charId, displayName, eliteLevel, isTired };
 }
 

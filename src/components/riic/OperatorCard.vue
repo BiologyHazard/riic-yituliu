@@ -8,15 +8,17 @@ const props = defineProps<CharDataType>();
 /**
  * 计算字体大小以适应容器宽度
  * @param element 需要调整字体大小的文本元素
- * @param minFontSize 最小字体大小
- * @param maxFontSize 最大字体大小
+ * @param containerWidth 容器宽度（像素）
+ * @param minFontSize 最小字体大小（像素），默认 16
+ * @param maxFontSize 最大字体大小（像素），默认 32
+ * @returns {void}
  */
 function updateText(
   element: HTMLElement,
   containerWidth: number,
   minFontSize: number = 16,
   maxFontSize: number = 32,
-) {
+): void {
   if (!element.textContent) return;
 
   let fontSize: number = maxFontSize;
