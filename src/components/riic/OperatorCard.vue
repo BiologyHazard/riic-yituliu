@@ -1,35 +1,10 @@
 <script setup lang="ts">
 import { type CharDataType } from '@/types/riic';
-import { nextTick, useTemplateRef, watch } from 'vue';
+import { updateText } from '@/utils/autoFontSizing';
+import { useTemplateRef, watch } from 'vue';
 import OperatorAvatar from './OperatorAvatar.vue';
 
 const props = defineProps<CharDataType>();
-
-/**
- * 计算字体大小以适应容器宽度
- * @param element 需要调整字体大小的文本元素
- * @param containerWidth 容器宽度（像素）
- * @param minFontSize 最小字体大小（像素），默认 16
- * @param maxFontSize 最大字体大小（像素），默认 32
- * @returns {void}
- */
-function updateText(
-  element: HTMLElement,
-  containerWidth: number,
-  minFontSize: number = 16,
-  maxFontSize: number = 32,
-): void {
-  if (!element.textContent) return;
-
-  let fontSize: number = maxFontSize;
-  element.style.fontSize = `${fontSize}px`;
-  nextTick(() => {
-    if (element.scrollWidth > containerWidth) {
-      fontSize = Math.max((fontSize * containerWidth) / element.scrollWidth, minFontSize);
-      element.style.fontSize = `${fontSize}px`;
-    }
-  });
-}
 
 const operatorNameContainerRef = useTemplateRef<HTMLElement>('operatorNameContainerRef');
 const operatorNameRef = useTemplateRef<HTMLElement>('operatorNameRef');
@@ -38,7 +13,7 @@ watch([props, operatorNameRef], () => {
   if (operatorNameRef.value) {
     updateText(
       operatorNameRef.value,
-      (operatorNameContainerRef.value?.clientWidth || 180) * 0.98,
+      (operatorNameContainerRef.value?.clientWidth || 180) * 0.95,
       18,
       36,
     );
@@ -56,16 +31,6 @@ watch([props, operatorNameRef], () => {
         show-background-image
         :show-elite-level="props.eliteLevel !== null"
       />
-      <!-- <div
-        style="
-          position: absolute;
-          width: 180px;
-          height: 180px;
-          top: 0;
-          left: 0;
-          background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 100%) 100%);
-        "
-        ></div> -->
     </div>
     <div id="operatorNameContainer" class="operator-name-container" ref="operatorNameContainerRef">
       <span id="operatorName" class="operator-name" ref="operatorNameRef">{{
@@ -76,12 +41,6 @@ watch([props, operatorNameRef], () => {
 </template>
 
 <style scoped lang="scss">
-// .operator-card {
-//     display: inline-flex;
-//     flex-direction: column;
-//     align-items: center;
-// }
-
 // 头像容器
 .avatar-container {
   // position: relative;
