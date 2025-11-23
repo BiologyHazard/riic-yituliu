@@ -199,7 +199,7 @@ watch([props, operatorNameElement], () => {
 }
 
 .td-buff-cond {
-  width: 128px;
+  width: 132px;
   text-align: center;
 }
 
