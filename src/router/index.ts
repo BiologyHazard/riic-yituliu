@@ -16,6 +16,12 @@ const router = createRouter({
       meta: { title: '排班表生成器' },
     },
     {
+      path: '/base-skill',
+      name: 'base-skill',
+      component: () => import('@/views/BaseSkillView.vue'),
+      meta: { title: '基建技能' },
+    },
+    {
       path: '/links',
       name: 'links',
       component: () => import('@/views/LinksView.vue'),
