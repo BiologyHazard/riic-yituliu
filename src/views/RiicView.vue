@@ -145,35 +145,6 @@ h1 {
   margin-block: 0.8em;
 }
 
-button {
-  padding: 0.3em 0.5em;
-  background-color: transparent;
-  border: 1px solid var(--color-border);
-  border-radius: 0.4rem;
-  cursor: pointer;
-  color: var(--color-text);
-  font-size: 1em;
-}
-
-button:hover {
-  border-color: var(--color-text);
-  background-color: #aaa3;
-}
-
-textarea {
-  display: block;
-  padding: 1em;
-  margin-block: 1em;
-  border: 1px solid var(--color-border);
-  border-radius: 1em;
-  background-color: var(--color-code-background);
-  color: var(--color-code-text);
-  width: 100%;
-  font-family: var(--mono-font);
-  font-size: 1rem;
-  text-wrap: nowrap;
-}
-
 .settings {
   margin-block: 1em;
   display: flex;

@@ -1,24 +1,4 @@
-export interface Character {
-  name: string;
-  rarity: number | string;
-  profession: string;
-}
-
-export interface CharSkin {
-  avatarId: string;
-}
-
-export interface Skin {
-  charSkins: Record<string, CharSkin>;
-  buildinEvolveMap: Record<string, Record<string, string>>;
-}
-
-export const characterTable: Record<string, Character> = await fetch(
-  'https://torappu.prts.wiki/gamedata/latest/excel/character_table.json',
-).then((res) => res.json());
-export const skinTable: Skin = await fetch(
-  'https://torappu.prts.wiki/gamedata/latest/excel/skin_table.json',
-).then((res) => res.json());
+import { characterTable, skinTable } from '@/utils/gameData';
 
 export const professionMap: Map<string, string> = new Map(
   Object.entries({

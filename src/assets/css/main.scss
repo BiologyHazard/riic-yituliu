@@ -254,15 +254,30 @@
 
 /* Global Styles */
 :root {
-  color-scheme: normal;
-
   --sans-font: 'HarmonyOS Sans SC', sans-serif;
   --mono-font: 'JetBrains Mono', monospace, var(--sans-font);
 
   --color-primary: #299dff;
+
+  --color-t1: #a0a0a0;
+  --color-t2: #dce537;
+  --color-t3: #00b3fd;
+  --color-t4: #d4c3d4;
+  --color-t5: #ffc802;
+}
+
+:root {
+  color-scheme: normal;
+
   --color-background: var(--color-zinc-100);
+  --color-background-light: var(--color-zinc-200);
+
   --color-text: var(--color-zinc-800);
-  --color-border: oklch(from var(--color-zinc-800) l c h / 0.4);
+  --color-text-light: var(--color-zinc-600);
+
+  --color-border: var(--color-zinc-300);
+  --color-border-hover: var(--color-zinc-400);
+
   --color-code-text: var(--color-sky-900);
   --color-code-background: var(--color-white);
 }
@@ -275,8 +290,14 @@
   color-scheme: dark;
 
   --color-background: var(--color-zinc-900);
+  --color-background-light: var(--color-zinc-800);
+
   --color-text: var(--color-zinc-200);
-  --color-border: oklch(from var(--color-zinc-200) l c h / 0.4);
+  --color-text-light: var(--color-zinc-400);
+
+  --color-border: var(--color-zinc-700);
+  --color-border-hover: var(--color-zinc-600);
+
   --color-code-text: var(--color-sky-200);
   --color-code-background: var(--color-zinc-800);
 }
@@ -294,6 +315,7 @@
 
 html {
   font-size: 18px;
+  overflow-y: scroll;
 }
 
 body {
@@ -304,7 +326,9 @@ body {
   margin: 0 auto;
   background: var(--color-background);
   color: var(--color-text);
-  font-family: 'HarmonyOS Sans SC', sans-serif;
+  font-family: var(--sans-font);
+  font-feature-settings: 'calt' on;
+  line-height: 1.6;
   transition:
     color 0.2s,
     background-color 0.2s;
@@ -321,6 +345,50 @@ a {
 a:hover {
   // background-color: hsla(160, 100%, 37%, 0.2);
   background-color: oklch(from var(--color-primary) l c h / 0.2);
+}
+
+button {
+  margin: 0;
+  padding: 0.5em 1em;
+  border: 0.05em solid var(--color-border);
+  border-radius: 0.5em;
+  background-color: var(--color-background);
+  font-family: var(--sans-font);
+  font-size: 1em;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--color-border-hover);
+    background-color: var(--color-background-light);
+  }
+}
+
+input[type='number'],
+input[type='text'] {
+  padding: 0.3em 0.5em;
+  font-size: 1em;
+  background-color: var(--color-background-light);
+  border-radius: 0.4em;
+  border: 0.08em solid var(--color-border);
+  font-family: var(--sans-font);
+
+  &:hover {
+    border-color: var(--color-border-hover);
+  }
+}
+
+textarea {
+  display: block;
+  padding: 1em;
+  margin-block: 1em;
+  border: 1px solid var(--color-border);
+  border-radius: 1em;
+  background-color: var(--color-code-background);
+  color: var(--color-code-text);
+  width: 100%;
+  font-family: var(--mono-font);
+  font-size: 1rem;
+  text-wrap: nowrap;
 }
 
 summary {
@@ -343,4 +411,30 @@ summary::before {
 
 details[open] summary::before {
   transform: translate(-100%, -50%) rotate(90deg);
+}
+
+.color-t1 {
+  color: var(--color-t1);
+}
+
+.color-t2 {
+  color: var(--color-t2);
+  // 添加黑色描边，以增加对比度
+  -webkit-text-stroke: 0.1em black;
+  paint-order: stroke fill;
+}
+
+.color-t3 {
+  color: var(--color-t3);
+}
+
+.color-t4 {
+  color: var(--color-t4);
+  // 添加黑色描边，以增加对比度
+  -webkit-text-stroke: 0.1em black;
+  paint-order: stroke fill;
+}
+
+.color-t5 {
+  color: var(--color-t5);
 }
