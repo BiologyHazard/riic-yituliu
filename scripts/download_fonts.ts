@@ -85,6 +85,12 @@ const FONTS: FontConfig[] = [
     ],
     dstDir: 'public/fonts/JetBrains_Mono',
   },
+  {
+    name: 'Outfit',
+    url: 'https://github.com/Outfitio/Outfit-Fonts/archive/refs/tags/1.1.zip',
+    srcFileList: ['Outfit-Fonts-1.1/fonts/variable/Outfit[wght].ttf'],
+    dstDir: 'public/fonts/Outfit',
+  },
 ];
 
 /**
