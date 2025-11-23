@@ -31,7 +31,7 @@ npm install
 
 ### Download Fonts
 
-Download required fonts (HarmonyOS Sans SC, Alibaba PuHuiTi 3.0, JetBrains Mono):
+Download required fonts (HarmonyOS Sans SC, Alibaba PuHuiTi 3.0, JetBrains Mono, Outfit):
 
 ```sh
 npm run download-fonts

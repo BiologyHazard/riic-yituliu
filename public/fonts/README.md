@@ -14,6 +14,10 @@
 
    https://www.jetbrains.com/lp/mono/
 
+4. Outfit
+
+   https://github.com/Outfitio/Outfit-Fonts
+
 字体文件较大，未直接包含在仓库中。
 
 请使用以下命令下载字体：
