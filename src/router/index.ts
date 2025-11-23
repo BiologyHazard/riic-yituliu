@@ -7,13 +7,19 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: () => import('@/views/HomeView.vue'),
-      meta: { title: 'Home' },
+      meta: { title: '首页' },
     },
     {
       path: '/riic',
       name: 'riic',
       component: () => import('@/views/RiicView.vue'),
-      meta: { title: 'RIIC' },
+      meta: { title: '排班表生成器' },
+    },
+    {
+      path: '/links',
+      name: 'links',
+      component: () => import('@/views/LinksView.vue'),
+      meta: { title: '友情链接' },
     },
   ],
 });

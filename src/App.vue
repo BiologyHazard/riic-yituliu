@@ -14,8 +14,9 @@ initTheme();
       <img class="logo theme-dark-darken" src="@/assets/images/白鸥.webp" alt="logo" />
     </RouterLink>
     <nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/riic">RIIC</RouterLink>
+      <RouterLink to="/">首页</RouterLink>
+      <RouterLink to="/riic">排班表生成器</RouterLink>
+      <RouterLink to="/links">友情链接</RouterLink>
     </nav>
     <button class="theme-toggle" @click="toggleTheme" type="button">
       <!-- 🌞🌙 -->
@@ -77,13 +78,13 @@ nav a:not(:first-of-type) {
 
 .theme-toggle {
   padding: 0.25em;
-  background-color: transparent;
-  border: 1px solid var(--color-border);
-  border-radius: 0.4rem;
-  cursor: pointer;
-  color: var(--color-text);
-  font-size: 1em;
-  transition: background-color 0.1s;
+  // background-color: transparent;
+  // border: 1px solid var(--color-border);
+  // border-radius: 0.4rem;
+  // cursor: pointer;
+  // color: var(--color-text);
+  // font-size: 1em;
+  // transition: background-color 0.1s;
 }
 
 .theme-icon {
@@ -91,8 +92,8 @@ nav a:not(:first-of-type) {
   height: 1.5em;
 }
 
-.theme-toggle:hover {
-  background-color: #aaa3;
-  transition: background-color 0.1s;
-}
+// .theme-toggle:hover {
+//   background-color: #aaa3;
+//   transition: background-color 0.1s;
+// }
 </style>
