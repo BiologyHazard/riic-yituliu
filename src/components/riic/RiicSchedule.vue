@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import RiicYituliuDecoration from '@/components/icons/RiicYituliuDecoration.vue';
 import Station from '@/components/riic/RiicStation.vue';
-import { type ScheduleType } from '@/types/riic';
-import Color, { type ColorInstance } from 'color';
+import type { ScheduleType } from '@/types/riic';
+import type { ColorInstance } from 'color';
+import Color from 'color';
 
 const props = defineProps<ScheduleType>();
 

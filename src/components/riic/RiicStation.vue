@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { type StationType } from '@/types/riic';
+import OperatorCard from '@/components/riic/OperatorCard.vue';
+import type { StationType } from '@/types/riic';
 import { bgColorMap, fontColorMap } from '@/utils/colorMap';
 import type { ColorInstance } from 'color';
 import Color from 'color';
-import OperatorCard from './OperatorCard.vue';
 
 /**
  * 获取左侧标题栏背景色

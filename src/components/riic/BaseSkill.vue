@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import OperatorAvatar from '@/components/riic/OperatorAvatar.vue';
+import type { BuffUnlockCondition } from '@/types/gameData';
 import { updateText } from '@/utils/autoFontSizing';
 import { getCharName } from '@/utils/character';
-import { buildingData, gamedataConst, type BuffUnlockCondition } from '@/utils/gameData';
+import { buildingData, gamedataConst } from '@/utils/gameData';
 import { computed, useTemplateRef, watch } from 'vue';
 
 const props = defineProps<{ charId: string }>();

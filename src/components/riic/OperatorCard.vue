@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { type CharDataType } from '@/types/riic';
+import OperatorAvatar from '@/components/riic/OperatorAvatar.vue';
+import type { CharDataType } from '@/types/riic';
 import { updateText } from '@/utils/autoFontSizing';
 import { useTemplateRef, watch } from 'vue';
-import OperatorAvatar from './OperatorAvatar.vue';
 
 const props = defineProps<CharDataType>();
 

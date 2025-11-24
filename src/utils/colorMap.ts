@@ -1,4 +1,5 @@
-import Color, { type ColorInstance } from 'color';
+import type { ColorInstance } from 'color';
+import Color from 'color';
 
 export const bgColorMap: Map<string, ColorInstance> = new Map(
   Object.entries({
