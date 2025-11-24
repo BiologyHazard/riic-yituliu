@@ -190,10 +190,6 @@ async function fetchLinks(): Promise<void> {
   }
 }
 
-function getGlobalWindow(): Window {
-  return window;
-}
-
 // 组件挂载时获取数据
 onMounted(() => {
   fetchLinks();
@@ -247,16 +243,17 @@ onMounted(() => {
 
         <!-- 链接按钮 -->
         <div class="link-buttons">
-          <button
-            v-for="linkItem in link.links"
-            :key="linkItem.url"
-            @click="getGlobalWindow().open(linkItem.url, '_blank', 'noopener,noreferrer')"
-            class="link-button"
-            :class="{ primary: linkItem.primary }"
+          <a
+            v-for="(linkItem, index) in link.links"
+            :key="index"
+            :href="linkItem.url"
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            {{ linkItem.localized_name.zh_CN }}
-            <ExternalIcon />
-          </button>
+            <button class="link-button" :class="{ primary: linkItem.primary }">
+              {{ linkItem.localized_name.zh_CN }}<ExternalIcon />
+            </button>
+          </a>
         </div>
       </div>
     </div>

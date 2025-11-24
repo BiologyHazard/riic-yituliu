@@ -64,6 +64,7 @@ const zoomRef = ref<number>(1);
     <div class="schedule-files">
       <div v-for="[name, content] in Object.entries(scheduleFiles)" :key="name">
         <a
+          class="link"
           href=""
           @click.prevent="
             () => {

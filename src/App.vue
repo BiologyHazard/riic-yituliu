@@ -10,14 +10,14 @@ initTheme();
 
 <template>
   <header>
-    <RouterLink to="/">
+    <RouterLink class="link" to="/">
       <img class="logo theme-dark-darken" src="@/assets/images/白鸥.webp" alt="logo" />
     </RouterLink>
     <nav>
-      <RouterLink to="/">首页</RouterLink>
-      <RouterLink to="/riic">排班表生成器</RouterLink>
-      <RouterLink to="/base-skill">基建技能</RouterLink>
-      <RouterLink to="/links">友情链接</RouterLink>
+      <RouterLink class="link" to="/">首页</RouterLink>
+      <RouterLink class="link" to="/riic">排班表生成器</RouterLink>
+      <RouterLink class="link" to="/base-skill">基建技能</RouterLink>
+      <RouterLink class="link" to="/links">友情链接</RouterLink>
     </nav>
     <button class="theme-toggle" @click="toggleTheme" type="button">
       <!-- 🌞🌙 -->
