@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import RiicSkill from '@/components/riic/BaseSkill.vue';
 import { getCharIdByName } from '@/utils/character';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { buildingData, characterTable } from '@/utils/gameData';
+import { buildingData } from '@/utils/gameData';
 import { computed, ref } from 'vue';
 
 const charNameInput = ref<string>('Lancet-2\nCastle-3\nTHRM-EX\n正义骑士号');
@@ -20,33 +19,9 @@ const charIdList = computed(
         (charId) => charId !== undefined && buildingData.chars[charId] !== undefined,
       ) as string[],
 );
-// const charName = ref<string>('Lancet-2');
-// const charId = computed(() => getCharIdByName(charName.value));
 </script>
 
 <template>
-  <!-- <div>
-    <label for="charNameInput">选择干员：</label>
-    <input
-      id="charNameInput"
-      type="text"
-      list="charNameList"
-      v-model="charName"
-      placeholder="输入或选择干员"
-    />
-    <datalist id="charNameList">
-      <option
-        v-for="[charId, charData] in Object.entries(characterTable).filter(
-          ([charId, charData]) => buildingData.chars[charId] !== undefined,
-        )"
-        :key="charId"
-        :value="charData.name"
-      ></option>
-    </datalist>
-  </div>
-  <div class="output-panel" v-if="charId !== undefined && buildingData.chars[charId] !== undefined">
-    <RiicSkill :char-id="charId" />
-  </div> -->
   <div>
     <label for="charNameInput">输入干员名称：</label>
     <textarea
@@ -57,8 +32,10 @@ const charIdList = computed(
       placeholder="输入干员名称"
     ></textarea>
   </div>
-  <div class="output-panel" v-for="charId in charIdList" :key="charId">
-    <RiicSkill :char-id="charId" />
+  <div>
+    <div class="output-panel" v-for="charId in charIdList" :key="charId">
+      <RiicSkill :char-id="charId" />
+    </div>
   </div>
 </template>
 
