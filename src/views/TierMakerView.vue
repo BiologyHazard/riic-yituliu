@@ -2,8 +2,8 @@
 import OperatorAvatar from '@/components/riic/OperatorAvatar.vue';
 import type { CharacterTable } from '@/types/gameData';
 import { characterTable } from '@/utils/gameData';
-import { onMounted, ref, watch } from 'vue';
 import Color from 'color';
+import { nextTick, onMounted, reactive, ref, watch } from 'vue';
 
 interface DragPayload {
   charId: string;
@@ -14,6 +14,15 @@ interface TierMakerState {
   tierNames: string[];
   tiers: string[][];
   pool: string[];
+}
+
+interface AnimatingItem {
+  charId: string;
+  startX: number;
+  startY: number;
+  endX: number;
+  endY: number;
+  progress: number;
 }
 
 const STORAGE_KEY = 'tier-maker-state-v1';
@@ -65,6 +74,24 @@ const charIds = [
   'char_4214_cairn',
 ];
 
+const trashCharIds = [
+  'char_4052_surfer',
+  'char_4172_xingzh',
+  'char_4173_nowell',
+  'char_4171_wulfen',
+  'char_445_wscoot',
+  'char_4178_alanna',
+  'char_4188_confes',
+  'char_4187_graceb',
+  'char_4191_tippi',
+  'char_4196_reckpr',
+  'char_4199_makiri',
+  'char_4207_branch',
+  'char_4051_akkord',
+  'char_394_hadiya',
+  'char_4211_snhunt',
+];
+
 const tierNames = ['神', '夯', '顶级', '人上人', 'NPC', '拉完了'];
 const tierColors = ['#7030a0', '#b22600', '#ff8427', '#ffe085', '#c4bd97', '#a6a6a6'].map((c) =>
   Color(c),
@@ -73,12 +100,21 @@ const tierColors = ['#7030a0', '#b22600', '#ff8427', '#ffe085', '#c4bd97', '#a6a
 function makeEmptyState(): TierMakerState {
   return {
     tierNames: [...tierNames],
-    tiers: tierNames.map(() => []),
-    pool: [...charIds],
+    tiers: [[], [], [], [], [], [...trashCharIds]],
+    pool: charIds.filter((id) => !trashCharIds.includes(id)),
   };
 }
 
 const state = ref<TierMakerState>(makeEmptyState());
+
+// 拖拽状态
+const draggedChar = ref<string | null>(null);
+const dropTarget = ref<number | 'POOL' | null>(null);
+
+// 动画状态
+const animatingItems = ref<AnimatingItem[]>([]);
+const hiddenChars = ref<Set<string>>(new Set()); // 正在动画的头像需要在目标位置隐藏
+const ANIMATION_DURATION = 500; // 动画持续时间（毫秒）
 
 // 初始化：从本地读取；否则全部放入池子
 onMounted(() => {
@@ -108,6 +144,12 @@ function onDragStart(evt: DragEvent, payload: DragPayload) {
   if (!evt.dataTransfer) return;
   evt.dataTransfer.setData('text/plain', JSON.stringify(payload));
   evt.dataTransfer.effectAllowed = 'move';
+  draggedChar.value = payload.charId;
+}
+
+function onDragEnd() {
+  draggedChar.value = null;
+  dropTarget.value = null;
 }
 
 function getPayload(evt: DragEvent): DragPayload | null {
@@ -145,18 +187,117 @@ function moveTo(target: number | 'POOL', charId: string, from: number | 'POOL') 
   dstArr.sort((a, b) => charIds.indexOf(a) - charIds.indexOf(b));
 }
 
+// 获取元素在页面上的中心位置
+function getElementCenter(element: HTMLElement): { x: number; y: number } {
+  const rect = element.getBoundingClientRect();
+  return {
+    x: rect.left + rect.width / 2,
+    y: rect.top + rect.height / 2,
+  };
+}
+
+// 执行动画
+async function animateMove(charId: string, from: number | 'POOL', to: number | 'POOL') {
+  console.log('🎬 animateMove called:', { charId, from, to });
+
+  if (from === to) {
+    console.log('❌ Same position, skipping animation');
+    return; // 同一位置不需要动画
+  }
+
+  // 先获取源元素位置（必须在移动数据前获取）
+  const selector = `[data-char-id="${charId}"][data-location="${from}"]`;
+  console.log('🔍 Looking for source element with selector:', selector);
+  const sourceEl = document.querySelector(selector) as HTMLElement;
+
+  if (!sourceEl) {
+    console.log('❌ Source element not found, skipping animation');
+    // 如果找不到源元素，直接移动数据，不做动画
+    moveTo(to, charId, from);
+    return;
+  }
+
+  const start = getElementCenter(sourceEl);
+  console.log('📍 Source position:', start);
+
+  // 标记这个头像为隐藏状态（在目标位置不显示）
+  hiddenChars.value.add(charId);
+
+  // 立即移动数据
+  moveTo(to, charId, from);
+
+  // 等待 DOM 更新，然后找到头像在目标位置的实际元素
+  await nextTick();
+
+  const targetSelector = `[data-char-id="${charId}"][data-location="${to}"]`;
+  console.log('🔍 Looking for target element with selector:', targetSelector);
+  const targetEl = document.querySelector(targetSelector) as HTMLElement;
+
+  if (!targetEl) {
+    console.log('❌ Target element not found after moving');
+    hiddenChars.value.delete(charId);
+    return;
+  }
+
+  const end = getElementCenter(targetEl);
+  console.log('🎯 Target position:', end);
+
+  // 创建响应式动画项（使用 reactive 确保 Vue 能追踪 progress 变化）
+  const animItem = reactive<AnimatingItem>({
+    charId,
+    startX: start.x,
+    startY: start.y,
+    endX: end.x,
+    endY: end.y,
+    progress: 0,
+  });
+
+  console.log('✅ Animation item created:', animItem);
+
+  animatingItems.value.push(animItem);
+  console.log('📊 Current animatingItems count:', animatingItems.value.length);
+
+  // 启动动画
+  const startTime = performance.now();
+  const animate = (currentTime: number) => {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / ANIMATION_DURATION, 1);
+
+    // 使用缓动函数（easeOutCubic）
+    const eased = 1 - Math.pow(1 - progress, 3);
+    animItem.progress = eased;
+
+    if (progress < 1) {
+      requestAnimationFrame(animate);
+    } else {
+      console.log('🏁 Animation completed for:', charId);
+      // 动画完成，移除动画项和隐藏标记
+      const index = animatingItems.value.indexOf(animItem);
+      if (index >= 0) {
+        animatingItems.value.splice(index, 1);
+      }
+      hiddenChars.value.delete(charId);
+    }
+  };
+
+  requestAnimationFrame(animate);
+  console.log('🚀 Animation started');
+}
+
 function onDropToTier(evt: DragEvent, tierIndex: number) {
   evt.preventDefault();
+  dropTarget.value = null;
   const payload = getPayload(evt);
   if (!payload) return;
-  moveTo(tierIndex, payload.charId, payload.from);
+  animateMove(payload.charId, payload.from, tierIndex);
 }
 
 function onDropToPool(evt: DragEvent) {
   evt.preventDefault();
+  dropTarget.value = null;
   const payload = getPayload(evt);
   if (!payload) return;
-  moveTo('POOL', payload.charId, payload.from);
+  animateMove(payload.charId, payload.from, 'POOL');
 }
 
 function allowDrop(evt: DragEvent) {
@@ -164,8 +305,99 @@ function allowDrop(evt: DragEvent) {
   evt.dataTransfer!.dropEffect = 'move';
 }
 
+function onDragEnterTier(tierIndex: number) {
+  dropTarget.value = tierIndex;
+}
+
+function onDragEnterPool() {
+  dropTarget.value = 'POOL';
+}
+
+function onDragLeave() {
+  // 这里不立即清除dropTarget，因为可能在子元素间移动
+}
+
+function onDragOverTier(evt: DragEvent, tierIndex: number) {
+  allowDrop(evt);
+  dropTarget.value = tierIndex;
+}
+
+function onDragOverPool(evt: DragEvent) {
+  allowDrop(evt);
+  dropTarget.value = 'POOL';
+}
+
 function resetAll() {
-  state.value = makeEmptyState();
+  // 收集所有需要飞回 pool 的头像
+  const charsToAnimate: Array<{ charId: string; from: number | 'POOL'; to: number | 'POOL' }> = [];
+
+  state.value.tiers.forEach((tier, tierIndex) => {
+    tier.forEach((charId) => {
+      charsToAnimate.push({
+        charId,
+        from: tierIndex,
+        to: trashCharIds.includes(charId) ? 5 : 'POOL',
+      });
+    });
+  });
+  state.value.pool.forEach((charId) => {
+    if (!trashCharIds.includes(charId)) return;
+    charsToAnimate.push({ charId, from: 'POOL', to: 5 });
+  });
+
+  // 如果没有需要移动的头像，直接重置
+  if (charsToAnimate.length === 0) {
+    state.value = makeEmptyState();
+    return;
+  }
+
+  // 为每个头像触发动画（添加小延迟让动画更自然）
+  charsToAnimate.forEach((item, index) => {
+    setTimeout(() => {
+      animateMove(item.charId, item.from, item.to);
+    }, index * 30); // 每个动画间隔30ms
+  });
+}
+
+// 计算预览头像应该显示在哪个位置（用于在循环中显示）
+function shouldShowPreviewBefore(tierIndex: number, currentCharId: string): boolean {
+  if (dropTarget.value !== tierIndex || !draggedChar.value) return false;
+  const tier = state.value.tiers[tierIndex] || [];
+  if (tier.includes(draggedChar.value)) return false;
+
+  // 计算如果加入这个头像，排序后的位置
+  const draggedIndex = charIds.indexOf(draggedChar.value);
+  const currentIndex = charIds.indexOf(currentCharId);
+
+  // 只在第一个大于拖拽头像的位置显示预览
+  if (currentIndex > draggedIndex) {
+    // 检查是否是第一个大于拖拽头像的
+    const indexInTier = tier.indexOf(currentCharId);
+    if (indexInTier > 0) {
+      const prevCharId = tier[indexInTier - 1];
+      const prevIndex = charIds.indexOf(prevCharId);
+      // 如果前一个也大于拖拽头像，则不显示
+      if (prevIndex > draggedIndex) return false;
+    }
+    return true;
+  }
+
+  return false;
+}
+
+// 计算预览头像是否应该显示在末尾
+function shouldShowPreviewAtEnd(tierIndex: number): boolean {
+  if (dropTarget.value !== tierIndex || !draggedChar.value) return false;
+  const tier = state.value.tiers[tierIndex] || [];
+  if (tier.includes(draggedChar.value)) return false;
+
+  // 如果列表为空，或者拖拽的头像应该排在最后
+  if (tier.length === 0) return true;
+
+  const draggedIndex = charIds.indexOf(draggedChar.value);
+  const lastIndex = charIds.indexOf(tier[tier.length - 1]);
+
+  return draggedIndex > lastIndex;
 }
 </script>
 
@@ -176,7 +408,11 @@ function resetAll() {
         v-for="(tierName, index) in state.tierNames"
         :key="index"
         class="tier-row"
-        @dragover="allowDrop"
+        :class="{ 'drag-over': dropTarget === index }"
+        :data-tier-index="index"
+        @dragover="(e) => onDragOverTier(e, index)"
+        @dragenter="onDragEnterTier(index)"
+        @dragleave="onDragLeave"
         @drop="(e) => onDropToTier(e, index)"
       >
         <div
@@ -189,35 +425,109 @@ function resetAll() {
           {{ tierName }}
         </div>
         <div class="tier-list">
-          <div
-            v-for="charId in state.tiers[index]"
-            :key="charId"
-            class="tile"
-            draggable="true"
-            @dragstart="(e) => onDragStart(e, { charId, from: index })"
-            :title="characterTable[charId]?.name"
-          >
-            <OperatorAvatar :char-id="charId" />
+          <template v-for="charId in state.tiers[index]" :key="charId">
+            <!-- 预览头像（显示在当前头像之前） -->
+            <div
+              v-if="shouldShowPreviewBefore(index, charId)"
+              :key="`preview-before-${charId}`"
+              class="tile preview"
+            >
+              <OperatorAvatar :char-id="draggedChar!" />
+            </div>
+            <!-- 实际头像 -->
+            <div
+              class="tile"
+              :class="{ hidden: hiddenChars.has(charId) }"
+              :data-char-id="charId"
+              :data-location="index"
+              draggable="true"
+              @dragstart="(e) => onDragStart(e, { charId, from: index })"
+              @dragend="onDragEnd"
+              :title="characterTable[charId]?.name"
+            >
+              <OperatorAvatar :char-id="charId" />
+            </div>
+          </template>
+          <!-- 预览头像（显示在末尾） -->
+          <div v-if="shouldShowPreviewAtEnd(index)" class="tile preview">
+            <OperatorAvatar :char-id="draggedChar!" />
           </div>
         </div>
       </div>
     </div>
 
-    <div class="pool-header">
-      <div>可用干员</div>
-      <button class="btn" @click="resetAll">重置</button>
+    <div class="pool-section">
+      <div class="pool-header">
+        <div>可用干员</div>
+        <button class="btn" @click="resetAll">重置</button>
+      </div>
+
+      <div
+        class="pool"
+        :class="{ 'drag-over': dropTarget === 'POOL' }"
+        @dragover="onDragOverPool"
+        @dragenter="onDragEnterPool"
+        @dragleave="onDragLeave"
+        @drop="onDropToPool"
+      >
+        <template v-for="(charId, idx) in state.pool" :key="charId">
+          <!-- 预览头像（只在第一个大于拖拽头像的位置显示） -->
+          <div
+            v-if="
+              dropTarget === 'POOL' &&
+              draggedChar &&
+              !state.pool.includes(draggedChar) &&
+              charIds.indexOf(charId) > charIds.indexOf(draggedChar) &&
+              (idx === 0 || charIds.indexOf(state.pool[idx - 1]) <= charIds.indexOf(draggedChar))
+            "
+            :key="`preview-before-${charId}`"
+            class="tile preview"
+          >
+            <OperatorAvatar :char-id="draggedChar" />
+          </div>
+          <!-- 实际头像 -->
+          <div
+            class="tile"
+            :class="{ hidden: hiddenChars.has(charId) }"
+            :data-char-id="charId"
+            :data-location="'POOL'"
+            draggable="true"
+            @dragstart="(e) => onDragStart(e, { charId, from: 'POOL' })"
+            @dragend="onDragEnd"
+            :title="(characterTable as unknown as CharacterTable)[charId]?.name"
+          >
+            <OperatorAvatar :char-id="charId" />
+          </div>
+        </template>
+        <!-- 预览头像（显示在末尾） -->
+        <div
+          v-if="
+            dropTarget === 'POOL' &&
+            draggedChar &&
+            !state.pool.includes(draggedChar) &&
+            (state.pool.length === 0 ||
+              charIds.indexOf(draggedChar) > charIds.indexOf(state.pool[state.pool.length - 1]))
+          "
+          class="tile preview"
+        >
+          <OperatorAvatar :char-id="draggedChar" />
+        </div>
+      </div>
     </div>
 
-    <div class="pool" @dragover="allowDrop" @drop="onDropToPool">
+    <!-- 动画层 -->
+    <div class="animation-layer">
       <div
-        v-for="charId in state.pool"
-        :key="charId"
-        class="tile"
-        draggable="true"
-        @dragstart="(e) => onDragStart(e, { charId, from: 'POOL' })"
-        :title="(characterTable as unknown as CharacterTable)[charId]?.name"
+        v-for="(item, idx) in animatingItems"
+        :key="`anim-${item.charId}-${idx}`"
+        class="animating-tile"
+        :style="{
+          left: item.startX + (item.endX - item.startX) * item.progress + 'px',
+          top: item.startY + (item.endY - item.startY) * item.progress + 'px',
+          opacity: 0.0 + item.progress * 1,
+        }"
       >
-        <OperatorAvatar :char-id="charId" />
+        <OperatorAvatar :char-id="item.charId" />
       </div>
     </div>
   </div>
@@ -227,13 +537,26 @@ function resetAll() {
 $avatar-size: clamp(36px, 12vw, 72px);
 
 .tier-maker {
+  width: 1420px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 16px;
   user-select: none;
+  position: relative;
+  align-items: flex-start;
 }
 
 .board {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.pool-section {
+  width: 490px;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -245,6 +568,11 @@ $avatar-size: clamp(36px, 12vw, 72px);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 8px;
   overflow: hidden;
+  transition: background-color 0.2s;
+
+  &.drag-over {
+    background: rgba(100, 150, 255, 0.15);
+  }
 }
 
 .tier-label {
@@ -272,7 +600,7 @@ $avatar-size: clamp(36px, 12vw, 72px);
   justify-content: space-between;
   align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
+  font-weight: 500;
 }
 
 .pool {
@@ -283,6 +611,17 @@ $avatar-size: clamp(36px, 12vw, 72px);
   border: 1px dashed rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   min-height: calc($avatar-size + 16px);
+  // height: calc(100vh - 200px);
+  overflow-y: auto;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
+  align-content: flex-start;
+
+  &.drag-over {
+    background: rgba(100, 150, 255, 0.15);
+    border-color: rgba(100, 150, 255, 0.5);
+  }
 }
 
 .tile {
@@ -292,5 +631,56 @@ $avatar-size: clamp(36px, 12vw, 72px);
   overflow: hidden;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.08);
+  cursor: grab;
+  // transition: opacity 0.15s;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  &.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &.preview {
+    opacity: 0.4;
+    border: 2px dashed rgba(100, 150, 255, 0.8);
+    cursor: default;
+    animation: preview-pulse 1s ease-in-out infinite;
+  }
+}
+
+@keyframes preview-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.animation-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.animating-tile {
+  position: absolute;
+  width: $avatar-size;
+  height: $avatar-size;
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  will-change: transform, opacity;
 }
 </style>

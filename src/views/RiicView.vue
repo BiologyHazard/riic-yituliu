@@ -23,7 +23,7 @@ scheduleFiles = Object.fromEntries(
   }),
 );
 
-const exampleInput: string = scheduleFiles['右满 252（2 赤金）一天两换'] ?? '';
+const exampleInput: string = scheduleFiles['右满 252（2 赤金）一天两换 2026-01-09-10-47'] ?? '';
 
 /**
  * 输入框内容

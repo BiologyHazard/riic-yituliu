@@ -22,6 +22,18 @@ const router = createRouter({
       meta: { title: '基建技能' },
     },
     {
+      path: '/material-info',
+      name: 'material-info',
+      component: () => import('@/views/MaterialInfoView.vue'),
+      meta: { title: '材料信息' },
+    },
+    {
+      path: '/stages',
+      name: 'stage-list',
+      component: () => import('@/views/StageList.vue'),
+      meta: { title: '作战列表' },
+    },
+    {
       path: '/links',
       name: 'links',
       component: () => import('@/views/LinksView.vue'),
