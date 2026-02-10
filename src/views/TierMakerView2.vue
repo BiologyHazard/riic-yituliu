@@ -27,86 +27,95 @@ interface AnimatingItem {
 const STORAGE_KEY = 'tier-maker-state-v1';
 
 const charIds = [
-  'char_120_hibisc',
-  'char_212_ansel',
-  'char_117_myrrh',
-  'char_181_flower',
-  'char_187_ccheal',
-  'char_129_bluep',
-  'char_219_meteo',
-  'char_282_catap',
-  'char_298_susuro',
-  'char_348_ceylon',
-  'char_2014_nian',
-  'char_379_sesa',
-  'char_345_folnic',
-  'char_349_chiave',
-  'char_346_aosta',
-  'char_311_mudrok',
-  'char_363_toddi',
-  'char_4207_branch',
-  'char_4072_ironmn',
-  'char_271_spikes',
-  'char_423_blemsh',
-  'char_489_serum',
-  'char_449_glider',
+  'char_009_12fce',
+  'char_503_rang',
+  'char_208_melan',
+  'char_211_adnach',
+  'char_277_sqrrel',
+  'char_289_gyuki',
+  'char_110_deepcl',
+  'char_127_estell',
+  'char_237_gravel',
+  'char_230_savage',
+  'char_242_otter',
+  'char_137_brownb',
+  'char_284_spot',
+  'char_253_greyy',
+  'char_188_helage',
+  'char_131_flameb',
+  'char_248_mgllan',
+  'char_017_huang',
+  'char_226_hmau',
+  'char_222_bpipe',
+  'char_301_cutter',
+  'char_373_lionhd',
+  'char_293_thorns',
+  'char_440_pinecn',
+  'char_458_rfrost',
+  'char_003_kalts',
+  'char_421_crow',
+  'char_484_robrta',
   'char_4019_ncdeer',
-  'char_4039_horn',
-  'char_433_windft',
-  'char_4067_lolxh',
-  'char_491_humus',
-  'char_4107_vrdant',
-  'char_4011_lessng',
-  'char_4117_ray',
-  'char_4130_luton',
-  'char_4165_ctrail',
-  'char_4164_tecno',
-  'char_4173_nowell',
-  'char_4213_skybx',
+  'char_4040_rockr',
+  'char_4014_lunacu',
+  'char_488_buildr',
+  'char_4119_wanqin',
+  'char_4162_cathy',
+  'char_1502_crosly',
+  'char_4191_tippi',
+  'char_1043_leizi2',
 ];
 
 const 神CharIds = ['char_4019_ncdeer'];
 
-const 夯CharIds = ['char_423_blemsh', 'char_489_serum'];
+const 夯CharIds = [] as string[];
 
-const 顶级CharIds = ['char_2014_nian', 'char_271_spikes', 'char_4039_horn', 'char_4072_ironmn'];
+const 顶级CharIds = [
+  'char_188_helage',
+  'char_131_flameb',
+  'char_017_huang',
+  'char_222_bpipe',
+  'char_4014_lunacu',
+  'char_1043_leizi2',
+];
 
 const 人上人CharIds = [
-  'char_349_chiave',
-  'char_346_aosta',
-  'char_311_mudrok',
-  'char_363_toddi',
-  'char_491_humus',
-  'char_4207_branch',
+  'char_373_lionhd',
+  'char_458_rfrost',
+  'char_421_crow',
+  'char_488_buildr',
+  'char_1502_crosly',
 ];
 
 const NPCCharIds = [
-  'char_129_bluep',
-  'char_219_meteo',
-  'char_282_catap',
-  'char_298_susuro',
-  'char_348_ceylon',
-  'char_449_glider',
-  'char_4107_vrdant',
-  'char_4011_lessng',
-  'char_4164_tecno',
+  'char_277_sqrrel',
+  'char_289_gyuki',
+  'char_230_savage',
+  'char_137_brownb',
+  'char_301_cutter',
+  'char_440_pinecn',
+  'char_003_kalts',
+  'char_484_robrta',
 ];
 
 const 拉完了CharIds = [
-  'char_120_hibisc',
-  'char_212_ansel',
-  'char_117_myrrh',
-  'char_181_flower',
-  'char_187_ccheal',
-  'char_379_sesa',
-  'char_345_folnic',
-  'char_433_windft',
-  'char_4067_lolxh',
-  'char_4117_ray',
-  'char_4130_luton',
-  'char_4165_ctrail',
-  'char_4173_nowell',
-  'char_4213_skybx',
+  'char_009_12fce',
+  'char_503_rang',
+  'char_208_melan',
+  'char_211_adnach',
+  'char_110_deepcl',
+  'char_127_estell',
+  'char_237_gravel',
+  'char_242_otter',
+  'char_284_spot',
+  'char_253_greyy',
+  'char_248_mgllan',
+  'char_226_hmau',
+  'char_293_thorns',
+  'char_4040_rockr',
+  'char_4119_wanqin',
+  'char_4162_cathy',
+  'char_4191_tippi',
 ];
 
 const tierNames = ['神', '夯', '顶级', '人上人', 'NPC', '拉完了'];
@@ -123,16 +132,36 @@ function makeEmptyState(): TierMakerState {
 
 function makeState1(): TierMakerState {
   return {
-    tiers: [[], [], [], [], [...NPCCharIds], []],
-    pool: charIds.filter((id) => !NPCCharIds.includes(id)),
+    tiers: [[], [], [...顶级CharIds], [], [], []],
+    pool: charIds.filter((id) => !顶级CharIds.includes(id)),
   };
 }
 
 function makeState2(): TierMakerState {
   return {
-    tiers: [[], [], [], [], [...NPCCharIds], 拉完了CharIds.filter((id) => id !== 'char_4117_ray')],
+    tiers: [[], [], [...顶级CharIds], [...人上人CharIds], [], []],
+    pool: charIds.filter((id) => !顶级CharIds.includes(id) && !人上人CharIds.includes(id)),
+  };
+}
+
+function makeState3(): TierMakerState {
+  return {
+    tiers: [[], [], [...顶级CharIds], [...人上人CharIds], [...NPCCharIds], []],
     pool: charIds.filter(
-      (id) => (!NPCCharIds.includes(id) && !拉完了CharIds.includes(id)) || id === 'char_4117_ray',
+      (id) => !顶级CharIds.includes(id) && !人上人CharIds.includes(id) && !NPCCharIds.includes(id),
+    ),
+  };
+}
+
+function makeState4(): TierMakerState {
+  return {
+    tiers: [[], [], [...顶级CharIds], [...人上人CharIds], [...NPCCharIds], [...拉完了CharIds]],
+    pool: charIds.filter(
+      (id) =>
+        !顶级CharIds.includes(id) &&
+        !人上人CharIds.includes(id) &&
+        !NPCCharIds.includes(id) &&
+        !拉完了CharIds.includes(id),
     ),
   };
 }
@@ -523,7 +552,9 @@ function shouldShowPreviewAtEnd(tierIndex: number): boolean {
         <div class="pool-header-text">可用干员</div>
         <button type="button" @click="moveAll(makeEmptyState())">重置</button>
         <button type="button" @click="moveAll(makeState1())">80%</button>
-        <button type="button" @click="moveAll(makeState2())">≤ 75%</button>
+        <button type="button" @click="moveAll(makeState2())">75%</button>
+        <button type="button" @click="moveAll(makeState3())">70%</button>
+        <button type="button" @click="moveAll(makeState4())">≤ 65%</button>
         <button v-show="false" type="button" @click="moveAll(makeFinalState())">最终状态</button>
       </div>
 

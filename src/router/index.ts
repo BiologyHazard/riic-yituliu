@@ -39,6 +39,18 @@ const router = createRouter({
       component: () => import('@/views/LinksView.vue'),
       meta: { title: '友情链接' },
     },
+    {
+      path: '/tier',
+      name: 'tier-maker',
+      component: () => import('@/views/TierMakerView.vue'),
+      meta: { title: '干员分Tier' },
+    },
+    {
+      path: '/tier2',
+      name: 'tier-maker2',
+      component: () => import('@/views/TierMakerView2.vue'),
+      meta: { title: '干员分Tier2' },
+    },
   ],
 });
 
