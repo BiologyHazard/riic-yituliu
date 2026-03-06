@@ -95,7 +95,7 @@ watch(props, () => {
             <template v-if="stat.itemCount.includes(' + ')">
               {{ stat.itemCount.split(' + ')[0] }}
               +
-              <img class="base-ap-icon" src="@/assets/images/riic/无人机.png" alt="无人机" />
+              <img class="base-ap-icon" src="@/assets/images/riic/icon_labor.webp" alt="无人机" />
               {{ stat.itemCount.split(' + ')[1] }}
             </template>
             <!-- 普通格式：例如 "5.239" -->
@@ -252,9 +252,10 @@ watch(props, () => {
   // position: absolute;
   // right: 0;
   // bottom: 0;
-  width: 36px;
-  height: 36px;
+  width: auto;
+  height: 30px;
   // transform: translate(50%, 50%);
+  margin-inline: 4px;
   filter: drop-shadow(0 0 2px black);
 }
 
