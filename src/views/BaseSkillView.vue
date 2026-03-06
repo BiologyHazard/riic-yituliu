@@ -33,9 +33,7 @@ const charIdList = computed(
     ></textarea>
   </div>
   <div>
-    <div class="output-panel" v-for="charId in charIdList" :key="charId">
-      <RiicSkill :char-id="charId" />
-    </div>
+    <RiicSkill v-for="charId in charIdList" :key="charId" :char-id="charId" />
   </div>
 </template>
 
