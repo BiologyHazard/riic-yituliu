@@ -12,6 +12,7 @@ const operatorNameElement = useTemplateRef('operatorNameElement');
 
 function getSkillIconUrl(skillIcon: string): string {
   return `https://torappu.prts.wiki/assets/build_skill_icon/${skillIcon}.png`;
+  // `https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/refs/heads/main/building_skill/${skillIcon}.png`
 }
 
 function getCondText({ phase, level }: BuffUnlockCondition): string {

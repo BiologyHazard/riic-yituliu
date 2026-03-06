@@ -42,3 +42,28 @@ export const itemTable: ItemTable = await fetch(
 // export const zoneTable = await fetch(
 //   'https://torappu.prts.wiki/gamedata/latest/excel/zone_table.json',
 // ).then((res) => res.json());
+
+// /** `excel/character_table.json` */
+// export const characterTable: CharacterTable = await fetch(
+//   'https://raw.githubusercontent.com/ArknightsAssets/ArknightsGamedata/refs/heads/master/cn/gamedata/excel/character_table.json',
+// ).then((res) => res.json());
+
+// /** `excel/skin_table.json` */
+// export const skinTable: SkinTable = await fetch(
+//   'https://raw.githubusercontent.com/ArknightsAssets/ArknightsGamedata/refs/heads/master/cn/gamedata/excel/skin_table.json',
+// ).then((res) => res.json());
+
+// /** `excel/building_data.json` */
+// export const buildingData: BuildingData = await fetch(
+//   'https://raw.githubusercontent.com/ArknightsAssets/ArknightsGamedata/refs/heads/master/cn/gamedata/excel/building_data.json',
+// ).then((res) => res.json());
+
+// /** `excel/gamedata_const.json` */
+// export const gamedataConst: GameDataConst = await fetch(
+//   'https://raw.githubusercontent.com/ArknightsAssets/ArknightsGamedata/refs/heads/master/cn/gamedata/excel/gamedata_const.json',
+// ).then((res) => res.json());
+
+// /** `excel/item_table.json` */
+// export const itemTable: ItemTable = await fetch(
+//   'https://raw.githubusercontent.com/ArknightsAssets/ArknightsGamedata/refs/heads/master/cn/gamedata/excel/item_table.json',
+// ).then((res) => res.json());

@@ -65,6 +65,7 @@ const avatarId = computed(() => {
 /** 头像 URL */
 const avatarUrl = computed(
   () => `https://torappu.prts.wiki/assets/char_avatar/${avatarId.value}.png`,
+  // `https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/refs/heads/main/avatar/${avatarId.value}.png`,
   // 森空岛的 CDN 不允许跨域
   // `https://web.hycdn.cn/arknights/game/assets/char_skin/avatar/${encodeURIComponent(getCharSkinId(props.charId, props.eliteLevel))}.png`,
 );
