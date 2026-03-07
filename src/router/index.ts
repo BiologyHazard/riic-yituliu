@@ -22,10 +22,34 @@ const router = createRouter({
       meta: { title: '基建技能' },
     },
     {
+      path: '/material-info',
+      name: 'material-info',
+      component: () => import('@/views/MaterialInfoView.vue'),
+      meta: { title: '材料信息' },
+    },
+    {
+      path: '/stages',
+      name: 'stage-list',
+      component: () => import('@/views/StageList.vue'),
+      meta: { title: '作战列表' },
+    },
+    {
       path: '/links',
       name: 'links',
       component: () => import('@/views/LinksView.vue'),
       meta: { title: '友情链接' },
+    },
+    {
+      path: '/tier',
+      name: 'tier-maker',
+      component: () => import('@/views/TierMakerView.vue'),
+      meta: { title: '干员分Tier' },
+    },
+    {
+      path: '/tier2',
+      name: 'tier-maker2',
+      component: () => import('@/views/TierMakerView2.vue'),
+      meta: { title: '干员分Tier2' },
     },
   ],
 });

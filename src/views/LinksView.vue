@@ -209,7 +209,7 @@ onMounted(() => {
     <!-- 错误状态 -->
     <div v-else-if="error" class="error-state">
       <p class="error-message">❌ {{ error }}</p>
-      <button @click="fetchLinks" class="retry-button">重试</button>
+      <button class="retry-button" @click="fetchLinks">重试</button>
     </div>
 
     <!-- 正常状态 -->

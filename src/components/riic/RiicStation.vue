@@ -44,9 +44,9 @@ const props = defineProps<StationType>();
 
     <!-- 右侧内容区 -->
     <div class="content-area">
-      <div class="operator-queue" v-for="(row, index) in props.queues" :key="index">
+      <div v-for="(row, rowIndex) in props.queues" :key="rowIndex" class="operator-queue">
         <div class="operator-row">
-          <OperatorCard v-for="(char, index) in row.chars" :key="index" v-bind="char" />
+          <OperatorCard v-for="(char, charIndex) in row.chars" :key="charIndex" v-bind="char" />
         </div>
         <div class="description">{{ row.description }}</div>
       </div>

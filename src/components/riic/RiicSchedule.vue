@@ -4,13 +4,19 @@ import Station from '@/components/riic/RiicStation.vue';
 import type { ScheduleType } from '@/types/riic';
 import type { ColorInstance } from 'color';
 import Color from 'color';
+import { nextTick, onMounted, ref, watch } from 'vue';
 
 const props = defineProps<ScheduleType>();
+
+const contentContainerElement = ref<HTMLDivElement | null>(null);
+const contentElement = ref<HTMLDivElement | null>(null);
 
 interface itemInfo {
   imageUrl: string;
   backgroundColor: ColorInstance;
 }
+
+// const baseApIconUrl = 'https://torappu.prts.wiki/assets/item_icon/raw/AP_BASE.png';
 
 const itemInfoMap: Record<string, itemInfo> = {
   EXP: {
@@ -34,6 +40,25 @@ const itemInfoMap: Record<string, itemInfo> = {
     backgroundColor: Color('#ffd80080'),
   },
 };
+
+function adjustContentZoom() {
+  if (contentContainerElement.value && contentElement.value) {
+    contentElement.value.style.zoom = '1';
+    nextTick(() => {
+      const scaleX = (2160 * 0.95) / contentContainerElement.value!.clientWidth;
+      const scaleY = (920 * 0.95) / contentContainerElement.value!.clientHeight;
+      const scale = Math.min(scaleX, scaleY, 1);
+      contentElement.value!.style.zoom = scale.toString();
+    });
+  }
+}
+
+onMounted(() => {
+  adjustContentZoom();
+});
+watch(props, () => {
+  adjustContentZoom();
+});
 </script>
 
 <template>
@@ -55,18 +80,28 @@ const itemInfoMap: Record<string, itemInfo> = {
       </div>
 
       <!-- 中间说明 -->
-      <div class="middle-block" v-if="props.description">{{ props.description }}</div>
+      <div v-if="props.description" class="middle-block">{{ props.description }}</div>
 
       <!-- 右侧统计 -->
       <div class="stats-block">
-        <div class="stats-item" v-for="(stat, index) in props.stats" :key="index">
+        <div v-for="(stat, index) in props.stats" :key="index" class="stats-item">
           <div
             class="item-count"
             :style="{
               backgroundColor: itemInfoMap[stat.itemName]?.backgroundColor.string(),
             }"
           >
-            {{ stat.itemCount }}
+            <!-- 带无人机加成的格式：例如 "3.6k + 12.5k" -->
+            <template v-if="stat.itemCount.includes(' + ')">
+              {{ stat.itemCount.split(' + ')[0] }}
+              +
+              <img class="base-ap-icon" src="@/assets/images/riic/icon_labor.webp" alt="无人机" />
+              {{ stat.itemCount.split(' + ')[1] }}
+            </template>
+            <!-- 普通格式：例如 "5.239" -->
+            <template v-else>
+              {{ stat.itemCount }}
+            </template>
           </div>
           <img
             class="item-image"
@@ -78,26 +113,28 @@ const itemInfoMap: Record<string, itemInfo> = {
     </div>
 
     <!-- 排班表内容 -->
-    <div class="schedule-content">
-      <div class="schedule-line" v-for="(stationLine, lineIndex) in props.lines" :key="lineIndex">
-        <div class="queue-descriptions">
-          <div
-            class="queue-description"
-            v-for="(description, queueIndex) in props.queueDescriptions"
-            :key="queueIndex"
-          >
-            {{ `队列 ${queueIndex + 1}` }}<br />{{ description }}
+    <div ref="contentContainerElement" class="schedule-content-container">
+      <div ref="contentElement" class="schedule-content">
+        <div v-for="(stationLine, lineIndex) in props.lines" :key="lineIndex" class="schedule-line">
+          <div class="queue-descriptions">
+            <div
+              v-for="(description, queueIndex) in props.queueDescriptions"
+              :key="queueIndex"
+              class="queue-description"
+            >
+              {{ `队列 ${queueIndex + 1}` }}<br />{{ description }}
+            </div>
+          </div>
+          <div class="stations">
+            <Station
+              v-for="(station, stationIndex) in stationLine"
+              :key="stationIndex"
+              v-bind="station"
+            />
           </div>
         </div>
-        <div class="stations">
-          <Station
-            v-for="(station, stationIndex) in stationLine"
-            :key="stationIndex"
-            v-bind="station"
-          />
-        </div>
+        <div v-if="false" class="watermark">@逻辑元LogicalByte</div>
       </div>
-      <div class="watermark">@逻辑元LogicalByte</div>
     </div>
   </div>
 </template>
@@ -197,6 +234,7 @@ const itemInfoMap: Record<string, itemInfo> = {
 }
 
 .item-count {
+  position: relative;
   display: flex;
   justify-content: flex-end; // 右对齐
   align-items: center; // 垂直居中
@@ -206,8 +244,19 @@ const itemInfoMap: Record<string, itemInfo> = {
   font-family: 'HarmonyOS Sans SC', sans-serif;
   font-weight: 500;
   font-size: 28px;
-  padding: 0 12px 0 40px;
+  padding: 0 20px 0 40px;
   margin: 0 0 0 30px;
+}
+
+.base-ap-icon {
+  // position: absolute;
+  // right: 0;
+  // bottom: 0;
+  width: auto;
+  height: 30px;
+  // transform: translate(50%, 50%);
+  margin-inline: 4px;
+  filter: drop-shadow(0 0 2px black);
 }
 
 .item-image {
@@ -216,15 +265,18 @@ const itemInfoMap: Record<string, itemInfo> = {
   height: 60px;
 }
 
+.schedule-content-container {
+  margin: auto;
+}
+
 .schedule-content {
   display: flex;
   flex-direction: column;
   gap: 40px;
   position: relative;
-  zoom: 0.48;
+  // zoom: 0.48;
   // transform: scale(0.48) translate(-50%, -50%);
   transform-origin: center;
-  margin: auto;
 }
 
 .schedule-line {

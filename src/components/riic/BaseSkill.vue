@@ -80,7 +80,7 @@ watch([props, operatorNameElement], () => {
 </script>
 
 <template>
-  <div class="riic-skill" v-if="buildingCharDataRef !== undefined">
+  <div v-if="buildingCharDataRef !== undefined" class="riic-skill">
     <div class="operator-card">
       <OperatorAvatar
         :char-id="props.charId"
@@ -91,7 +91,7 @@ watch([props, operatorNameElement], () => {
         show-profession
       />
       <div class="operator-name-container">
-        <span class="operator-name" ref="operatorNameElement">{{ getCharName(props.charId) }}</span>
+        <span ref="operatorNameElement" class="operator-name">{{ getCharName(props.charId) }}</span>
       </div>
     </div>
     <table class="riic-skill-table">
@@ -102,8 +102,8 @@ watch([props, operatorNameElement], () => {
         >
           <tr v-for="(buffDataItem, buffDataIndex) in buffCharItem.buffData" :key="buffDataIndex">
             <td
-              class="td-buff-index"
               v-if="buffDataIndex === 0"
+              class="td-buff-index"
               :rowspan="buffCharItem.buffData.length"
               :style="{
                 color: buildingData.buffs[buffDataItem.buffId]!.textColor,

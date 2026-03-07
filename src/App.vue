@@ -17,9 +17,11 @@ initTheme();
       <RouterLink class="link" to="/">首页</RouterLink>
       <RouterLink class="link" to="/riic">排班表生成器</RouterLink>
       <RouterLink class="link" to="/base-skill">基建技能</RouterLink>
+      <RouterLink class="link" to="/material-info">材料信息</RouterLink>
+      <RouterLink class="link" to="/stages">作战列表</RouterLink>
       <RouterLink class="link" to="/links">友情链接</RouterLink>
     </nav>
-    <button class="theme-toggle" @click="toggleTheme" type="button">
+    <button class="theme-toggle" type="button" @click="toggleTheme">
       <!-- 🌞🌙 -->
       <div class="theme-icon">
         <DarkMode v-if="theme === 'dark'" />
