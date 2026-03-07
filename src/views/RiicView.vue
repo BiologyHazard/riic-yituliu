@@ -92,11 +92,11 @@ const zoomRef = ref<number>(1);
     <div class="settings">
       <div class="radio-group">
         <label>
-          <input type="radio" value="auto" v-model="overflowRef" />
+          <input v-model="overflowRef" type="radio" value="auto" />
           <span class="radio-label">滚动</span>
         </label>
         <label>
-          <input type="radio" value="visible" v-model="overflowRef" />
+          <input v-model="overflowRef" type="radio" value="visible" />
           <span class="radio-label">溢出</span>
         </label>
       </div>
@@ -113,20 +113,20 @@ const zoomRef = ref<number>(1);
       </button>
       <div class="radio-group">
         <label>
-          <input type="radio" :value="0.5" v-model="zoomRef" />
+          <input v-model="zoomRef" type="radio" :value="0.5" />
           <span class="radio-label">0.5x</span>
         </label>
         <label>
-          <input type="radio" :value="1" v-model="zoomRef" />
+          <input v-model="zoomRef" type="radio" :value="1" />
           <span class="radio-label">1x</span>
         </label>
         <label>
-          <input type="radio" :value="2" v-model="zoomRef" />
+          <input v-model="zoomRef" type="radio" :value="2" />
           <span class="radio-label">2x</span>
         </label>
       </div>
     </div>
-    <div class="output-panel" ref="outputPanelRef">
+    <div ref="outputPanelRef" class="output-panel">
       <RiicSchedule class="schedule" v-bind="data" />
     </div>
   </details>

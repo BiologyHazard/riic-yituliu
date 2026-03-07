@@ -22,27 +22,27 @@ const zoneTable = await fetch(
     <summary><h2>按活动分类</h2></summary>
     <ul>
       <li
-        class="activity-item"
         v-for="[activityId, activity] in Object.entries(activityTable.basicInfo)"
         :key="activityId"
+        class="activity-item"
       >
         {{ activity.name }}（{{ activityId }}）
         <ul>
           <li
-            class="zone-item"
             v-for="[zoneId, zoneInfo] in Object.entries(activityTable.zoneToActivity)
               .filter(([zoneId, activityIdInMap]) => activityIdInMap === activityId)
               .map(([zoneId, activityId]) => [zoneId, zoneTable.zones[zoneId]])"
             :key="zoneId"
+            class="zone-item"
           >
             {{ zoneInfo.zoneNameFirst }} {{ zoneInfo.zoneNameSecond }}（{{ zoneId }}）
             <ul>
               <li
-                class="stage-item"
                 v-for="[stageId, stageInfo] in Object.entries(stageTable.stages).filter(
                   ([stageId, stageInfo]) => stageInfo.zoneId === zoneId,
                 )"
                 :key="stageId"
+                class="stage-item"
               >
                 {{ stageInfo.code }} {{ stageInfo.name
                 }}{{ stageInfo.difficulty === 'FOUR_STAR' ? '（突袭）' : '' }}（{{ stageId }}）
@@ -58,18 +58,18 @@ const zoneTable = await fetch(
     <summary><h2>按区域分类</h2></summary>
     <ul>
       <li
-        class="zone-item"
         v-for="[zoneId, zoneInfo] in Object.entries(zoneTable.zones)"
         :key="zoneId"
+        class="zone-item"
       >
         {{ zoneInfo.zoneNameFirst }} {{ zoneInfo.zoneNameSecond }}（{{ zoneId }}）
         <ul>
           <li
-            class="stage-item"
             v-for="[stageId, stageInfo] in Object.entries(stageTable.stages).filter(
               ([stageId, stageInfo]) => stageInfo.zoneId === zoneId,
             )"
             :key="stageId"
+            class="stage-item"
           >
             {{ stageInfo.code }} {{ stageInfo.name
             }}{{ stageInfo.difficulty === 'FOUR_STAR' ? '（突袭）' : '' }}（{{ stageId }}）

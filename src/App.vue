@@ -21,7 +21,7 @@ initTheme();
       <RouterLink class="link" to="/stages">作战列表</RouterLink>
       <RouterLink class="link" to="/links">友情链接</RouterLink>
     </nav>
-    <button class="theme-toggle" @click="toggleTheme" type="button">
+    <button class="theme-toggle" type="button" @click="toggleTheme">
       <!-- 🌞🌙 -->
       <div class="theme-icon">
         <DarkMode v-if="theme === 'dark'" />

@@ -23,6 +23,8 @@ interface OperatorAvatarProps {
 const props = withDefaults(defineProps<OperatorAvatarProps>(), {
   eliteLevel: 0,
   isTired: false,
+  rarity: undefined,
+  profession: undefined,
   showBackgroundImage: false,
   showRarity: false,
   showProfession: false,

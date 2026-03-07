@@ -80,11 +80,11 @@ watch(props, () => {
       </div>
 
       <!-- 中间说明 -->
-      <div class="middle-block" v-if="props.description">{{ props.description }}</div>
+      <div v-if="props.description" class="middle-block">{{ props.description }}</div>
 
       <!-- 右侧统计 -->
       <div class="stats-block">
-        <div class="stats-item" v-for="(stat, index) in props.stats" :key="index">
+        <div v-for="(stat, index) in props.stats" :key="index" class="stats-item">
           <div
             class="item-count"
             :style="{
@@ -113,14 +113,14 @@ watch(props, () => {
     </div>
 
     <!-- 排班表内容 -->
-    <div class="schedule-content-container" ref="contentContainerElement">
-      <div class="schedule-content" ref="contentElement">
-        <div class="schedule-line" v-for="(stationLine, lineIndex) in props.lines" :key="lineIndex">
+    <div ref="contentContainerElement" class="schedule-content-container">
+      <div ref="contentElement" class="schedule-content">
+        <div v-for="(stationLine, lineIndex) in props.lines" :key="lineIndex" class="schedule-line">
           <div class="queue-descriptions">
             <div
-              class="queue-description"
               v-for="(description, queueIndex) in props.queueDescriptions"
               :key="queueIndex"
+              class="queue-description"
             >
               {{ `队列 ${queueIndex + 1}` }}<br />{{ description }}
             </div>

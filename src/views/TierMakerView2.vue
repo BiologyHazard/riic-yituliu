@@ -532,9 +532,9 @@ function shouldShowPreviewAtEnd(tierIndex: number): boolean {
               :data-char-id="charId"
               :data-location="index"
               draggable="true"
+              :title="characterTable[charId]?.name"
               @dragstart="(e) => onDragStart(e, { charId, from: index })"
               @dragend="onDragEnd"
-              :title="characterTable[charId]?.name"
             >
               <OperatorAvatar :char-id="charId" />
             </div>
@@ -588,9 +588,9 @@ function shouldShowPreviewAtEnd(tierIndex: number): boolean {
             :data-char-id="charId"
             :data-location="'POOL'"
             draggable="true"
+            :title="(characterTable as unknown as CharacterTable)[charId]?.name"
             @dragstart="(e) => onDragStart(e, { charId, from: 'POOL' })"
             @dragend="onDragEnd"
-            :title="(characterTable as unknown as CharacterTable)[charId]?.name"
           >
             <OperatorAvatar :char-id="charId" />
           </div>

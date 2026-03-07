@@ -32,8 +32,8 @@ watch([props, operatorNameRef], () => {
         :show-elite-level="props.eliteLevel !== null"
       />
     </div>
-    <div id="operatorNameContainer" class="operator-name-container" ref="operatorNameContainerRef">
-      <span id="operatorName" class="operator-name" ref="operatorNameRef">{{
+    <div id="operatorNameContainer" ref="operatorNameContainerRef" class="operator-name-container">
+      <span id="operatorName" ref="operatorNameRef" class="operator-name">{{
         props.displayName
       }}</span>
     </div>

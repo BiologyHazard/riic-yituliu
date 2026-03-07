@@ -132,10 +132,10 @@ function judgeStageType(stageId: string): 'SS_T1' | 'SS_T2' | 'SS_T3' | 'OTHERS'
 const stageTypeMap = new Map(
   Array.from(stageIdToStage.keys()).map((stageId) => [stageId, judgeStageType(stageId)]),
 );
-const ssT2StageIds = Array.from(stageTypeMap.entries())
+const _ssT2StageIds = Array.from(stageTypeMap.entries())
   .filter(([, type]) => type === 'SS_T2')
   .map(([stageId]) => stageId);
-const ssT3StageIds = Array.from(stageTypeMap.entries())
+const _ssT3StageIds = Array.from(stageTypeMap.entries())
   .filter(([, type]) => type === 'SS_T3')
   .map(([stageId]) => stageId);
 
@@ -174,7 +174,7 @@ for (const [stageId, stage] of stageIdToStage.entries()) {
           ([itemId]) => itemIdToItem.get(itemId)?.itemType === 'MATERIAL',
         ),
       );
-      const dropItemIds = Array.from(dropInfoFiltered.keys());
+      const _dropItemIds = Array.from(dropInfoFiltered.keys());
 
       break;
     case 'SS_T3':
