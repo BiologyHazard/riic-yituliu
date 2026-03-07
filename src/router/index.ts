@@ -1,4 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import HomeView from '@/views/HomeView.vue';
+import RiicView from '@/views/RiicView.vue';
+import BaseSkillView from '@/views/BaseSkillView.vue';
+import MaterialInfoView from '@/views/MaterialInfoView.vue';
+import StageList from '@/views/StageList.vue';
+import LinksView from '@/views/LinksView.vue';
+import TierMakerView from '@/views/TierMakerView.vue';
+import TierMakerView2 from '@/views/TierMakerView2.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -6,49 +14,49 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('@/views/HomeView.vue'),
+      component: HomeView,
       meta: { title: '首页' },
     },
     {
       path: '/riic',
       name: 'riic',
-      component: () => import('@/views/RiicView.vue'),
+      component: RiicView,
       meta: { title: '排班表生成器' },
     },
     {
       path: '/base-skill',
       name: 'base-skill',
-      component: () => import('@/views/BaseSkillView.vue'),
+      component: BaseSkillView,
       meta: { title: '基建技能' },
     },
     {
       path: '/material-info',
       name: 'material-info',
-      component: () => import('@/views/MaterialInfoView.vue'),
+      component: MaterialInfoView,
       meta: { title: '材料信息' },
     },
     {
       path: '/stages',
       name: 'stage-list',
-      component: () => import('@/views/StageList.vue'),
+      component: StageList,
       meta: { title: '作战列表' },
     },
     {
       path: '/links',
       name: 'links',
-      component: () => import('@/views/LinksView.vue'),
+      component: LinksView,
       meta: { title: '友情链接' },
     },
     {
       path: '/tier',
       name: 'tier-maker',
-      component: () => import('@/views/TierMakerView.vue'),
+      component: TierMakerView,
       meta: { title: '干员分Tier' },
     },
     {
       path: '/tier2',
       name: 'tier-maker2',
-      component: () => import('@/views/TierMakerView2.vue'),
+      component: TierMakerView2,
       meta: { title: '干员分Tier2' },
     },
   ],
