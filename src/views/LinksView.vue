@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import ExternalIcon from '@/components/icons/ExternalIcon.vue';
 import { ref, onMounted } from 'vue';
 
 /**
@@ -197,199 +196,97 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="links-view">
-    <h1>友情链接</h1>
+  <UContainer>
+    <UPage>
+      <UPageHeader title="友情链接" />
 
-    <!-- 加载状态 -->
-    <div v-if="loading" class="loading-state">
-      <div class="loading-spinner"></div>
-      <p>加载中……</p>
-    </div>
+      <UPageBody>
+        <!-- 加载状态 -->
+        <div v-if="loading" class="flex flex-col items-center justify-center gap-4 px-8 py-16">
+          <UIcon name="i-lucide-loader-circle" class="size-12 animate-spin" />
+          <p>加载中……</p>
+        </div>
 
-    <!-- 错误状态 -->
-    <div v-else-if="error" class="error-state">
-      <p class="error-message">❌ {{ error }}</p>
-      <button class="retry-button" @click="fetchLinks">重试</button>
-    </div>
-
-    <!-- 正常状态 -->
-    <div v-else class="links-grid">
-      <div v-for="link in links" :key="link.id" class="friend-link-card">
-        <!-- 图标和标题 -->
-        <div class="card-header">
-          <img
-            v-if="link.icon_url"
-            :src="link.icon_url"
-            :alt="`${link.localized_name.zh_CN}图标`"
-            class="link-icon"
+        <!-- 错误状态 -->
+        <div
+          v-else-if="error"
+          class="flex flex-col items-center justify-center gap-4 px-8 py-16 text-center"
+        >
+          <UAlert
+            icon="i-lucide-circle-x"
+            color="error"
+            variant="soft"
+            :title="`加载失败：${error}`"
           />
-          <span class="link-name">{{ link.localized_name.zh_CN }}</span>
+          <UButton variant="outline" color="neutral" @click="fetchLinks"> 重试 </UButton>
         </div>
 
-        <!-- 标签 -->
-        <div v-if="link.localized_tags.zh_CN.length" class="link-tags">
-          <div v-for="(tag, index) in link.localized_tags.zh_CN" :key="index" class="tag">
-            {{ tag }}
-          </div>
-        </div>
-
-        <!-- 描述 -->
-        <div class="link-description">{{ link.localized_description.zh_CN }}</div>
-
-        <!-- 标语 -->
-        <div v-if="link.localized_slogan.zh_CN" class="link-slogan">
-          {{ link.localized_slogan.zh_CN }}
-        </div>
-
-        <!-- 链接按钮 -->
-        <div class="link-buttons">
-          <a
-            v-for="(linkItem, index) in link.links"
-            :key="index"
-            :href="linkItem.url"
-            target="_blank"
-            rel="noopener noreferrer"
+        <!-- 正常状态 -->
+        <div v-else class="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-6">
+          <UCard
+            v-for="link in links"
+            class="divide-accented rounded-xl ring-accented"
+            :key="link.id"
+            variant="subtle"
           >
-            <button class="link-button" :class="{ primary: linkItem.primary }">
-              {{ linkItem.localized_name.zh_CN }}<ExternalIcon />
-            </button>
-          </a>
+            <template #header>
+              <div class="flex items-center gap-4">
+                <img
+                  v-if="link.icon_url"
+                  :src="link.icon_url"
+                  :alt="`${link.localized_name.zh_CN}图标`"
+                  class="size-12 shrink-0 rounded-lg object-cover"
+                />
+                <span class="flex-1 text-lg leading-snug font-bold break-all">
+                  {{ link.localized_name.zh_CN }}
+                </span>
+              </div>
+            </template>
+
+            <div class="space-y-6">
+              <!-- 标签 -->
+              <div v-if="link.localized_tags.zh_CN.length" class="flex flex-wrap gap-3">
+                <UBadge
+                  v-for="(tag, index) in link.localized_tags.zh_CN"
+                  :key="index"
+                  class="rounded-full bg-accented/80"
+                  variant="soft"
+                  color="neutral"
+                >
+                  {{ tag }}
+                </UBadge>
+              </div>
+
+              <!-- 描述 -->
+              <div>
+                {{ link.localized_description.zh_CN }}
+              </div>
+
+              <!-- 标语 -->
+              <div v-if="link.localized_slogan.zh_CN" class="font-medium text-primary italic">
+                {{ link.localized_slogan.zh_CN }}
+              </div>
+            </div>
+
+            <template #footer>
+              <div class="flex flex-wrap gap-3">
+                <UButton
+                  v-for="(linkItem, index) in link.links"
+                  :key="index"
+                  :href="linkItem.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  :variant="linkItem.primary ? 'solid' : 'outline'"
+                  color="neutral"
+                  trailing-icon="i-lucide-external-link"
+                  size="sm"
+                  >{{ linkItem.localized_name.zh_CN }}</UButton
+                >
+              </div>
+            </template>
+          </UCard>
         </div>
-      </div>
-    </div>
-  </div>
+      </UPageBody>
+    </UPage>
+  </UContainer>
 </template>
-
-<style scoped lang="scss">
-h1 {
-  text-align: center;
-}
-
-// 加载状态
-.loading-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 4em 2em;
-}
-
-.loading-spinner {
-  width: 3em;
-  height: 3em;
-  border: 3px solid gray;
-  border-top-color: white;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-// 错误状态
-.error-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 4em 2em;
-  text-align: center;
-}
-
-.error-message {
-  color: #ef4444;
-}
-
-// 正常状态
-.links-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 2em;
-}
-
-.friend-link-card {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5em;
-  background-color: var(--color-background-light);
-  border: 1px solid var(--color-border);
-  border-radius: 1em;
-  padding: 1.5em;
-}
-
-.card-header {
-  display: flex;
-  align-items: center;
-  gap: 1em;
-}
-
-.link-icon {
-  width: 3.5em;
-  height: 3.5em;
-  border-radius: 0.5em;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
-.link-name {
-  flex: 1;
-  font-size: 1.5em;
-  font-weight: bold;
-  line-height: 1.3;
-  overflow-wrap: anywhere;
-}
-
-.link-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75em 0.5em;
-}
-
-.tag {
-  padding: 0.375em 1em;
-  background-color: var(--color-background);
-  border-radius: 999999px;
-  font-size: 0.8em;
-  color: var(--color-text-light);
-}
-
-.link-description {
-  color: var(--color-text-light);
-  flex: 1;
-}
-
-.link-slogan {
-  font-size: var(--font-size-xs);
-  color: var(--color-primary);
-  font-weight: 500;
-  font-style: italic;
-}
-
-.link-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75em;
-}
-
-.link-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5em;
-  text-align: start;
-  font-weight: 500;
-}
-
-.external-icon {
-  width: 1em;
-  height: 1em;
-  opacity: 0.6;
-}
-
-.link-button:hover .external-icon {
-  opacity: 0.9;
-}
-</style>

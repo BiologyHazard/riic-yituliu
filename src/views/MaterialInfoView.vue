@@ -314,230 +314,231 @@ const t3EliteMaterialDisplayInfo = {
 </script>
 
 <template>
-  <h1>精英材料信息</h1>
-  <details open>
-    <summary><h2>显示设置</h2></summary>
-    <div class="decimal-control">
-      <label for="decimal-places">小数位数：</label>
-      <input id="decimal-places" v-model="decimalPlacesInputValue" type="number" min="0" step="1" />
-    </div>
-  </details>
+  <UContainer>
+    <UPage>
+      <UPageBody>
+        <h1>精英材料信息</h1>
 
-  <details>
-    <ul>
-      <li v-for="zone in zones" :key="zone.zoneId">
-        {{ zone.zoneName }}（{{ zone.zoneId }}）
-        <ul>
-          <li
-            v-for="stage in zone.stages
-              .map((stageId) => stageIdToStage.get(stageId)!)
-              .slice()
-              .sort((a, b) => a.stageId.localeCompare(b.stageId))"
-            :key="stage.stageId"
-          >
-            <span
-              :class="{
-                'color-t1': judgeStageType(stage.stageId) === 'SS_T1',
-                'color-t2': judgeStageType(stage.stageId) === 'SS_T2',
-                'color-t3': judgeStageType(stage.stageId) === 'SS_T3',
-              }"
-              >{{ stage.code }}（{{ stage.stageId }}）</span
-            >
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </details>
+        <UAccordion
+          multiple
+          :default-value="['显示设置', '白材料信息', '绿材料信息', '蓝材料信息']"
+          :items="[
+            { label: '显示设置', slot: 'settings' },
+            { label: '白材料信息', slot: 't1' },
+            { label: '绿材料信息', slot: 't2' },
+            { label: '蓝材料信息', slot: 't3' },
+          ]"
+        >
+          <template #settings>
+            <div class="decimal-control">
+              <label for="decimal-places">小数位数：</label>
+              <UInput
+                id="decimal-places"
+                v-model="decimalPlacesInputValue"
+                min="0"
+                step="1"
+                type="number"
+                class="decimal-input"
+              />
+            </div>
+          </template>
 
-  <details open>
-    <summary>
-      <h2><span class="color-t1">白材料</span>信息</h2>
-    </summary>
-    <div class="table-caption">
-      <div class="table-caption-left">
-        <div class="table-caption-title"><span class="color-t1">白材料</span>信息</div>
-        <div class="table-caption-subtitle">
-          更新于 {{ formatDateTimeWithOffset(currentDateTime) }}，请注意时效性
-        </div>
-      </div>
-      <div class="table-caption-right">
-        bilibili：Bio-Hazard<br />森空岛：BioHazard<br />NGA：Bio-Hazard
-      </div>
-    </div>
-    <div class="table-container">
-      <table id="t1-elite-material-display-table" class="table">
-        <thead>
-          <tr>
-            <td>图标</td>
-            <td>物品 ID</td>
-            <td>物品名称</td>
-            <td>加工站副产品权重</td>
-            <td>寻访参数模型交易所价格（8 个）</td>
-            <td>SideStory 单位理智掉落数</td>
-            <td>SideStory 单件期望理智</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="{
-              iconUrl,
-              itemId,
-              itemName,
-              workshopByproductWeight,
-              epgsShopPrice,
-              sideStoryDropRatePerSanity,
-              expectedSanityPerItem,
-            } in Object.values(t1EliteMaterialDisplayInfo)"
-            :key="itemId"
-          >
-            <td class="table-td-icon"><img :src="iconUrl" :alt="itemName" /></td>
-            <td>{{ itemId }}</td>
-            <td>{{ itemName }}</td>
-            <td>{{ workshopByproductWeight }}</td>
-            <td>{{ epgsShopPrice }}</td>
-            <td>{{ formatNumber(sideStoryDropRatePerSanity, decimalPlaces) }}</td>
-            <td>{{ formatNumber(expectedSanityPerItem, decimalPlaces) }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </details>
+          <template #t1>
+            <div class="table-caption">
+              <div class="table-caption-left">
+                <div class="table-caption-title"><span class="color-t1">白材料</span>信息</div>
+                <div class="table-caption-subtitle">
+                  更新于 {{ formatDateTimeWithOffset(currentDateTime) }}，请注意时效性
+                </div>
+              </div>
+              <div class="table-caption-right">
+                bilibili：Bio-Hazard<br />森空岛：BioHazard<br />NGA：Bio-Hazard
+              </div>
+            </div>
+            <div class="table-container">
+              <table id="t1-elite-material-display-table" class="table">
+                <thead>
+                  <tr>
+                    <td>图标</td>
+                    <td>物品 ID</td>
+                    <td>物品名称</td>
+                    <td>加工站副产品权重</td>
+                    <td>寻访参数模型交易所价格（8 个）</td>
+                    <td>SideStory 单位理智掉落数</td>
+                    <td>SideStory 单件期望理智</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="{
+                      iconUrl,
+                      itemId,
+                      itemName,
+                      workshopByproductWeight,
+                      epgsShopPrice,
+                      sideStoryDropRatePerSanity,
+                      expectedSanityPerItem,
+                    } in Object.values(t1EliteMaterialDisplayInfo)"
+                    :key="itemId"
+                  >
+                    <td class="table-td-icon"><img :src="iconUrl" :alt="itemName" /></td>
+                    <td>{{ itemId }}</td>
+                    <td>{{ itemName }}</td>
+                    <td>{{ workshopByproductWeight }}</td>
+                    <td>{{ epgsShopPrice }}</td>
+                    <td>{{ formatNumber(sideStoryDropRatePerSanity, decimalPlaces) }}</td>
+                    <td>{{ formatNumber(expectedSanityPerItem, decimalPlaces) }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </template>
 
-  <details open>
-    <summary>
-      <h2><span class="color-t2">绿材料</span>信息</h2>
-    </summary>
-    <div class="table-caption">
-      <div class="table-caption-left">
-        <div class="table-caption-title"><span class="color-t2">绿材料</span>信息</div>
-        <div class="table-caption-subtitle">
-          更新于 {{ formatDateTimeWithOffset(currentDateTime) }}，请注意时效性
-        </div>
-      </div>
-      <div class="table-caption-right">
-        bilibili：Bio-Hazard<br />森空岛：BioHazard<br />NGA：Bio-Hazard
-      </div>
-    </div>
-    <div class="table-container">
-      <table id="t2-elite-material-display-table" class="table">
-        <thead>
-          <tr>
-            <td>图标</td>
-            <td>物品 ID</td>
-            <td>物品名称</td>
-            <td>加工站副产品权重</td>
-            <td>寻访参数模型交易所价格（4 个）</td>
-            <td>SideStory 单位理智主掉落数</td>
-            <td>SideStory 主掉落单件期望理智</td>
-            <td>SideStory 单位理智副掉落数</td>
-            <td>SideStory 副掉落单件期望理智</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="{
-              iconUrl,
-              itemId,
-              itemName,
-              workshopByproductWeight,
-              epgsShopPrice,
-              sideStoryMainDropRatePerSanity,
-              expectedSanityPerMainDropItem,
-              sideStorySubDropRatePerSanity,
-              expectedSanityPerSubDropItem,
-            } in Object.values(t2EliteMaterialDisplayInfo)"
-            :key="itemId"
-          >
-            <td class="table-td-icon"><img :src="iconUrl" :alt="itemName" /></td>
-            <td>{{ itemId }}</td>
-            <td>{{ itemName }}</td>
-            <td>{{ workshopByproductWeight }}</td>
-            <td>{{ epgsShopPrice }}</td>
-            <td>{{ formatNumber(sideStoryMainDropRatePerSanity, decimalPlaces) }}</td>
-            <td>{{ formatNumber(expectedSanityPerMainDropItem, decimalPlaces) }}</td>
-            <td>{{ formatNumber(sideStorySubDropRatePerSanity, decimalPlaces) }}</td>
-            <td>{{ formatNumber(expectedSanityPerSubDropItem, decimalPlaces) }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </details>
+          <template #t2>
+            <div class="table-caption">
+              <div class="table-caption-left">
+                <div class="table-caption-title"><span class="color-t2">绿材料</span>信息</div>
+                <div class="table-caption-subtitle">
+                  更新于 {{ formatDateTimeWithOffset(currentDateTime) }}，请注意时效性
+                </div>
+              </div>
+              <div class="table-caption-right">
+                bilibili：Bio-Hazard<br />森空岛：BioHazard<br />NGA：Bio-Hazard
+              </div>
+            </div>
+            <div class="table-container">
+              <table id="t2-elite-material-display-table" class="table">
+                <thead>
+                  <tr>
+                    <td>图标</td>
+                    <td>物品 ID</td>
+                    <td>物品名称</td>
+                    <td>加工站副产品权重</td>
+                    <td>寻访参数模型交易所价格（4 个）</td>
+                    <td>SideStory 单位理智主掉落数</td>
+                    <td>SideStory 主掉落单件期望理智</td>
+                    <td>SideStory 单位理智副掉落数</td>
+                    <td>SideStory 副掉落单件期望理智</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="{
+                      iconUrl,
+                      itemId,
+                      itemName,
+                      workshopByproductWeight,
+                      epgsShopPrice,
+                      sideStoryMainDropRatePerSanity,
+                      expectedSanityPerMainDropItem,
+                      sideStorySubDropRatePerSanity,
+                      expectedSanityPerSubDropItem,
+                    } in Object.values(t2EliteMaterialDisplayInfo)"
+                    :key="itemId"
+                  >
+                    <td class="table-td-icon"><img :src="iconUrl" :alt="itemName" /></td>
+                    <td>{{ itemId }}</td>
+                    <td>{{ itemName }}</td>
+                    <td>{{ workshopByproductWeight }}</td>
+                    <td>{{ epgsShopPrice }}</td>
+                    <td>{{ formatNumber(sideStoryMainDropRatePerSanity, decimalPlaces) }}</td>
+                    <td>{{ formatNumber(expectedSanityPerMainDropItem, decimalPlaces) }}</td>
+                    <td>{{ formatNumber(sideStorySubDropRatePerSanity, decimalPlaces) }}</td>
+                    <td>{{ formatNumber(expectedSanityPerSubDropItem, decimalPlaces) }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </template>
 
-  <details open>
-    <summary>
-      <h2><span class="color-t3">蓝材料</span>信息</h2>
-    </summary>
-    <div class="table-caption">
-      <div class="table-caption-left">
-        <div class="table-caption-title"><span class="color-t3">蓝材料</span>信息</div>
-        <div class="table-caption-subtitle">
-          更新于 {{ formatDateTimeWithOffset(currentDateTime) }}，请注意时效性
-        </div>
-      </div>
-      <div class="table-caption-right">
-        bilibili：Bio-Hazard<br />森空岛：BioHazard<br />NGA：Bio-Hazard
-      </div>
-    </div>
-    <div class="table-container">
-      <table id="t3-elite-material-display-table" class="table">
-        <thead>
-          <tr>
-            <td>图标</td>
-            <td>物品 ID</td>
-            <td>物品名称</td>
-            <td>加工站副产品权重（2023-10-08 以前）</td>
-            <td>加工站副产品权重（2023-10-08 以后）</td>
-            <td>资质凭证区价格</td>
-            <td>资质凭证区库存数量</td>
-            <td>寻访参数模型交易所价格（2 个）</td>
-            <td>SideStory 单位理智掉落数</td>
-            <td>SideStory 单件期望理智</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="{
-              iconUrl,
-              itemId,
-              itemName,
-              workshopByproductWeightBefore20231008,
-              workshopByproductWeightAfter20231008,
-              qualificationCertificatePrice,
-              qualificationCertificateStock,
-              epgsShopPrice,
-              sideStoryDropRatePerSanity,
-              expectedSanityPerItem,
-            } in Object.values(t3EliteMaterialDisplayInfo)"
-            :key="itemId"
-          >
-            <td class="table-td-icon">
-              <a
-                :href="`https://prts.wiki/w/${itemName}`"
-                target="_blank"
-                rel="noopener noreferrer"
-                :title="`在 PRTS Wiki 上查看 ${itemName}`"
-                ><img :src="iconUrl" :alt="itemName"
-              /></a>
-            </td>
-            <td>{{ itemId }}</td>
-            <td>{{ itemName }}</td>
-            <td>{{ workshopByproductWeightBefore20231008 }}</td>
-            <td>{{ workshopByproductWeightAfter20231008 }}</td>
-            <td>{{ qualificationCertificatePrice }}</td>
-            <td>{{ qualificationCertificateStock }}</td>
-            <td>{{ epgsShopPrice }}</td>
-            <td>{{ formatNumber(sideStoryDropRatePerSanity, decimalPlaces) }}</td>
-            <td>{{ formatNumber(expectedSanityPerItem, decimalPlaces) }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </details>
+          <template #t3>
+            <div class="table-caption">
+              <div class="table-caption-left">
+                <div class="table-caption-title"><span class="color-t3">蓝材料</span>信息</div>
+                <div class="table-caption-subtitle">
+                  更新于 {{ formatDateTimeWithOffset(currentDateTime) }}，请注意时效性
+                </div>
+              </div>
+              <div class="table-caption-right">
+                bilibili：Bio-Hazard<br />森空岛：BioHazard<br />NGA：Bio-Hazard
+              </div>
+            </div>
+            <div class="table-container">
+              <table id="t3-elite-material-display-table" class="table">
+                <thead>
+                  <tr>
+                    <td>图标</td>
+                    <td>物品 ID</td>
+                    <td>物品名称</td>
+                    <td>加工站副产品权重（2023-10-08 以前）</td>
+                    <td>加工站副产品权重（2023-10-08 以后）</td>
+                    <td>资质凭证区价格</td>
+                    <td>资质凭证区库存数量</td>
+                    <td>寻访参数模型交易所价格（2 个）</td>
+                    <td>SideStory 单位理智掉落数</td>
+                    <td>SideStory 单件期望理智</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="{
+                      iconUrl,
+                      itemId,
+                      itemName,
+                      workshopByproductWeightBefore20231008,
+                      workshopByproductWeightAfter20231008,
+                      qualificationCertificatePrice,
+                      qualificationCertificateStock,
+                      epgsShopPrice,
+                      sideStoryDropRatePerSanity,
+                      expectedSanityPerItem,
+                    } in Object.values(t3EliteMaterialDisplayInfo)"
+                    :key="itemId"
+                  >
+                    <td class="table-td-icon">
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        :title="`在 PRTS Wiki 上查看 ${itemName}`"
+                        :href="`https://prts.wiki/w/${itemName}`"
+                        ><img :src="iconUrl" :alt="itemName"
+                      /></a>
+                    </td>
+                    <td>{{ itemId }}</td>
+                    <td>{{ itemName }}</td>
+                    <td>{{ workshopByproductWeightBefore20231008 }}</td>
+                    <td>{{ workshopByproductWeightAfter20231008 }}</td>
+                    <td>{{ qualificationCertificatePrice }}</td>
+                    <td>{{ qualificationCertificateStock }}</td>
+                    <td>{{ epgsShopPrice }}</td>
+                    <td>{{ formatNumber(sideStoryDropRatePerSanity, decimalPlaces) }}</td>
+                    <td>{{ formatNumber(expectedSanityPerItem, decimalPlaces) }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </template>
+        </UAccordion>
+      </UPageBody>
+    </UPage>
+  </UContainer>
 </template>
 
 <style scoped lang="scss">
-#decimal-places {
-  width: 5em;
+h1 {
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+.decimal-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.5em 0;
+}
+
+.decimal-input {
+  width: 6em;
 }
 
 .table-caption {
@@ -546,6 +547,7 @@ const t3EliteMaterialDisplayInfo = {
   justify-content: center;
   align-items: center;
   gap: 2em;
+  margin-bottom: 0.5em;
 
   .table-caption-left {
     text-align: center;

@@ -26,6 +26,13 @@ export default defineConfigWithVueTs(
         'error',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
+      'vue/attributes-order': [
+        'warn',
+        {
+          alphabetical: true,
+          sortLineLength: true,
+        },
+      ],
     },
   },
 );

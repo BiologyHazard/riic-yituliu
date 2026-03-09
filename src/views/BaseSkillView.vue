@@ -22,27 +22,18 @@ const charIdList = computed(
 </script>
 
 <template>
-  <div>
-    <label for="charNameInput">输入干员名称：</label>
-    <textarea
-      id="charNameInput"
-      v-model="charNameInput"
-      rows="4"
-      cols="50"
-      placeholder="输入干员名称"
-    ></textarea>
-  </div>
-  <div>
-    <RiicSkill v-for="charId in charIdList" :key="charId" :char-id="charId" />
-  </div>
+  <UContainer>
+    <UPage>
+      <UPageBody class="space-y-6">
+        <UFormField label="输入干员名称">
+          <UTextarea v-model="charNameInput" :rows="6" class="w-full" variant="subtle" />
+        </UFormField>
+        <div>
+          <RiicSkill v-for="charId in charIdList" :key="charId" :char-id="charId" />
+        </div>
+      </UPageBody>
+    </UPage>
+  </UContainer>
 </template>
 
-<style scoped lang="scss">
-input {
-  width: 200px;
-  height: 30px;
-  font-size: 1em;
-  padding: 5px;
-  margin-bottom: 20px;
-}
-</style>
+<style scoped lang="scss"></style>

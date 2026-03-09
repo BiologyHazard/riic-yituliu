@@ -499,12 +499,12 @@ function shouldShowPreviewAtEnd(tierIndex: number): boolean {
         v-for="(tierName, index) in tierNames"
         :key="index"
         class="tier-row"
-        :class="{ 'drag-over': dropTarget === index }"
         :data-tier-index="index"
-        @dragover="(e) => onDragOverTier(e, index)"
-        @dragenter="onDragEnterTier(index)"
+        :class="{ 'drag-over': dropTarget === index }"
         @dragleave="onDragLeave"
+        @dragenter="onDragEnterTier(index)"
         @drop="(e) => onDropToTier(e, index)"
+        @dragover="(e) => onDragOverTier(e, index)"
       >
         <div
           class="tier-label"
@@ -528,13 +528,13 @@ function shouldShowPreviewAtEnd(tierIndex: number): boolean {
             <!-- 实际头像 -->
             <div
               class="tile"
-              :class="{ hidden: hiddenChars.has(charId) }"
+              draggable="true"
               :data-char-id="charId"
               :data-location="index"
-              draggable="true"
               :title="characterTable[charId]?.name"
-              @dragstart="(e) => onDragStart(e, { charId, from: index })"
+              :class="{ hidden: hiddenChars.has(charId) }"
               @dragend="onDragEnd"
+              @dragstart="(e) => onDragStart(e, { charId, from: index })"
             >
               <OperatorAvatar :char-id="charId" />
             </div>
@@ -550,21 +550,64 @@ function shouldShowPreviewAtEnd(tierIndex: number): boolean {
     <div class="pool-section">
       <div class="pool-header">
         <div class="pool-header-text">可用干员</div>
-        <button type="button" @click="moveAll(makeEmptyState())">重置</button>
-        <button type="button" @click="moveAll(makeState1())">80%</button>
-        <button type="button" @click="moveAll(makeState2())">75%</button>
-        <button type="button" @click="moveAll(makeState3())">70%</button>
-        <button type="button" @click="moveAll(makeState4())">≤ 65%</button>
-        <button v-show="false" type="button" @click="moveAll(makeFinalState())">最终状态</button>
+        <UButton
+          size="sm"
+          type="button"
+          color="neutral"
+          variant="outline"
+          @click="moveAll(makeEmptyState())"
+          >重置</UButton
+        >
+        <UButton
+          size="sm"
+          type="button"
+          color="neutral"
+          variant="outline"
+          @click="moveAll(makeState1())"
+          >80%</UButton
+        >
+        <UButton
+          size="sm"
+          type="button"
+          color="neutral"
+          variant="outline"
+          @click="moveAll(makeState2())"
+          >75%</UButton
+        >
+        <UButton
+          size="sm"
+          type="button"
+          color="neutral"
+          variant="outline"
+          @click="moveAll(makeState3())"
+          >70%</UButton
+        >
+        <UButton
+          size="sm"
+          type="button"
+          color="neutral"
+          variant="outline"
+          @click="moveAll(makeState4())"
+          >≤ 65%</UButton
+        >
+        <UButton
+          v-show="false"
+          size="sm"
+          type="button"
+          color="neutral"
+          variant="outline"
+          @click="moveAll(makeFinalState())"
+          >最终状态</UButton
+        >
       </div>
 
       <div
         class="pool"
         :class="{ 'drag-over': dropTarget === 'POOL' }"
+        @drop="onDropToPool"
+        @dragleave="onDragLeave"
         @dragover="onDragOverPool"
         @dragenter="onDragEnterPool"
-        @dragleave="onDragLeave"
-        @drop="onDropToPool"
       >
         <template v-for="(charId, idx) in state.pool" :key="charId">
           <!-- 预览头像（只在第一个大于拖拽头像的位置显示） -->
@@ -584,13 +627,13 @@ function shouldShowPreviewAtEnd(tierIndex: number): boolean {
           <!-- 实际头像 -->
           <div
             class="tile"
-            :class="{ hidden: hiddenChars.has(charId) }"
+            draggable="true"
             :data-char-id="charId"
             :data-location="'POOL'"
-            draggable="true"
+            :class="{ hidden: hiddenChars.has(charId) }"
             :title="(characterTable as unknown as CharacterTable)[charId]?.name"
-            @dragstart="(e) => onDragStart(e, { charId, from: 'POOL' })"
             @dragend="onDragEnd"
+            @dragstart="(e) => onDragStart(e, { charId, from: 'POOL' })"
           >
             <OperatorAvatar :char-id="charId" />
           </div>

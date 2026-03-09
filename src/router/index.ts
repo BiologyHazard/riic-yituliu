@@ -1,12 +1,13 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '@/views/HomeView.vue';
-import RiicView from '@/views/RiicView.vue';
 import BaseSkillView from '@/views/BaseSkillView.vue';
-import MaterialInfoView from '@/views/MaterialInfoView.vue';
-import StageList from '@/views/StageList.vue';
+import GameBulletinView from '@/views/GameBulletinView.vue';
+import HomeView from '@/views/HomeView.vue';
 import LinksView from '@/views/LinksView.vue';
+import MaterialInfoView from '@/views/MaterialInfoView.vue';
+import RiicView from '@/views/RiicView.vue';
+import StageList from '@/views/StageList.vue';
 import TierMakerView from '@/views/TierMakerView.vue';
 import TierMakerView2 from '@/views/TierMakerView2.vue';
+import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,6 +41,12 @@ const router = createRouter({
       name: 'stage-list',
       component: StageList,
       meta: { title: '作战列表' },
+    },
+    {
+      path: '/game-bulletin',
+      name: 'game-bulletin',
+      component: GameBulletinView,
+      meta: { title: '游戏内公告' },
     },
     {
       path: '/links',

@@ -1,0 +1,7 @@
+@import 'tailwindcss';
+@import '@nuxt/ui';
+
+@theme {
+  --font-sans: 'HarmonyOS Sans SC', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace, var(--font-sans);
+}
