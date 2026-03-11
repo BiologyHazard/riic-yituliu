@@ -528,7 +528,7 @@ function shouldShowPreviewAtEnd(tierIndex: number): boolean {
             <!-- 实际头像 -->
             <div
               class="tile"
-              :class="{ hidden: hiddenChars.has(charId) }"
+              :class="{ 'char-hidden': hiddenChars.has(charId) }"
               :data-char-id="charId"
               :data-location="index"
               draggable="true"
@@ -627,7 +627,7 @@ function shouldShowPreviewAtEnd(tierIndex: number): boolean {
           <!-- 实际头像 -->
           <div
             class="tile"
-            :class="{ hidden: hiddenChars.has(charId) }"
+            :class="{ 'char-hidden': hiddenChars.has(charId) }"
             :data-char-id="charId"
             :data-location="'POOL'"
             draggable="true"
@@ -782,7 +782,7 @@ $avatar-size: clamp(36px, 12vw, 72px);
     cursor: grabbing;
   }
 
-  &.hidden {
+  &.char-hidden {
     opacity: 0;
     pointer-events: none;
   }
