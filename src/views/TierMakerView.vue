@@ -470,12 +470,12 @@ function shouldShowPreviewAtEnd(tierIndex: number): boolean {
         v-for="(tierName, index) in tierNames"
         :key="index"
         class="tier-row"
-        :data-tier-index="index"
         :class="{ 'drag-over': dropTarget === index }"
-        @dragleave="onDragLeave"
+        :data-tier-index="index"
         @dragenter="onDragEnterTier(index)"
-        @drop="(e) => onDropToTier(e, index)"
+        @dragleave="onDragLeave"
         @dragover="(e) => onDragOverTier(e, index)"
+        @drop="(e) => onDropToTier(e, index)"
       >
         <div
           class="tier-label"
@@ -499,11 +499,11 @@ function shouldShowPreviewAtEnd(tierIndex: number): boolean {
             <!-- 实际头像 -->
             <div
               class="tile"
-              draggable="true"
+              :class="{ hidden: hiddenChars.has(charId) }"
               :data-char-id="charId"
               :data-location="index"
+              draggable="true"
               :title="characterTable[charId]?.name"
-              :class="{ hidden: hiddenChars.has(charId) }"
               @dragend="onDragEnd"
               @dragstart="(e) => onDragStart(e, { charId, from: index })"
             >
@@ -522,34 +522,34 @@ function shouldShowPreviewAtEnd(tierIndex: number): boolean {
       <div class="pool-header">
         <div class="pool-header-text">可用干员</div>
         <UButton
+          color="neutral"
           size="sm"
           type="button"
-          color="neutral"
           variant="outline"
           @click="moveAll(makeEmptyState())"
           >重置</UButton
         >
         <UButton
+          color="neutral"
           size="sm"
           type="button"
-          color="neutral"
           variant="outline"
           @click="moveAll(makeState1())"
           >80%</UButton
         >
         <UButton
+          color="neutral"
           size="sm"
           type="button"
-          color="neutral"
           variant="outline"
           @click="moveAll(makeState2())"
           >≤ 75%</UButton
         >
         <UButton
           v-show="false"
+          color="neutral"
           size="sm"
           type="button"
-          color="neutral"
           variant="outline"
           @click="moveAll(makeFinalState())"
           >最终状态</UButton
@@ -559,10 +559,10 @@ function shouldShowPreviewAtEnd(tierIndex: number): boolean {
       <div
         class="pool"
         :class="{ 'drag-over': dropTarget === 'POOL' }"
-        @drop="onDropToPool"
+        @dragenter="onDragEnterPool"
         @dragleave="onDragLeave"
         @dragover="onDragOverPool"
-        @dragenter="onDragEnterPool"
+        @drop="onDropToPool"
       >
         <template v-for="(charId, idx) in state.pool" :key="charId">
           <!-- 预览头像（只在第一个大于拖拽头像的位置显示） -->
@@ -582,10 +582,10 @@ function shouldShowPreviewAtEnd(tierIndex: number): boolean {
           <!-- 实际头像 -->
           <div
             class="tile"
-            draggable="true"
+            :class="{ hidden: hiddenChars.has(charId) }"
             :data-char-id="charId"
             :data-location="'POOL'"
-            :class="{ hidden: hiddenChars.has(charId) }"
+            draggable="true"
             :title="(characterTable as unknown as CharacterTable)[charId]?.name"
             @dragend="onDragEnd"
             @dragstart="(e) => onDragStart(e, { charId, from: 'POOL' })"

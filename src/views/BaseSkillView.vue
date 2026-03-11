@@ -26,7 +26,7 @@ const charIdList = computed(
     <UPage>
       <UPageBody class="space-y-6">
         <UFormField label="输入干员名称">
-          <UTextarea v-model="charNameInput" :rows="6" class="w-full" variant="subtle" />
+          <UTextarea v-model="charNameInput" class="w-full" :rows="6" variant="subtle" />
         </UFormField>
         <div>
           <RiicSkill v-for="charId in charIdList" :key="charId" :char-id="charId" />

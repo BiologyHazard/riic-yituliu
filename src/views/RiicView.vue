@@ -63,15 +63,15 @@ const zoomRef = ref<number>(1);
 
       <UPageBody>
         <UAccordion
+          class="space-y-6"
+          :default-value="['0', '1', '2']"
           :items="[
             { label: '排班表预设', slot: 'presets' },
             { label: '排班表编辑器', slot: 'editor' },
             { label: '排班表预览', slot: 'preview' },
             { label: '调试区', slot: 'debug' },
           ]"
-          :default-value="['0', '1', '2']"
           type="multiple"
-          class="space-y-6"
           :ui="{
             label: 'text-2xl font-bold',
             content: 'overflow-visible',
@@ -80,9 +80,9 @@ const zoomRef = ref<number>(1);
           <template #presets>
             <div v-for="[name, content] in Object.entries(scheduleFiles)" :key="name">
               <UButton
-                variant="link"
-                color="primary"
                 class="justify-start"
+                color="primary"
+                variant="link"
                 @click="rawInput = content"
                 >{{ name }}</UButton
               >
@@ -99,10 +99,10 @@ const zoomRef = ref<number>(1);
             <UFormField label="在此粘贴排班文本：">
               <UTextarea
                 ref="textareaRef"
-                variant="subtle"
                 v-model="rawInput"
-                :rows="30"
                 class="w-full font-mono"
+                :rows="30"
+                variant="subtle"
               />
             </UFormField>
           </template>
@@ -111,34 +111,34 @@ const zoomRef = ref<number>(1);
             <div class="mbe-4 flex flex-wrap gap-2">
               <UTabs
                 v-model="overflowRef"
-                :content="false"
                 color="neutral"
-                variant="pill"
+                :content="false"
                 :items="[
                   { label: '滚动', value: 'auto' },
                   { label: '溢出', value: 'visible' },
                 ]"
                 :ui="{ list: 'ring ring-inset ring-accented' }"
+                variant="pill"
               />
 
               <UTabs
                 v-model="zoomRef"
-                :content="false"
                 color="neutral"
-                variant="pill"
+                :content="false"
                 :items="[
                   { label: '0.5x', value: 0.5 },
                   { label: '1x', value: 1 },
                   { label: '2x', value: 2 },
                 ]"
                 :ui="{ list: 'ring ring-inset ring-accented' }"
+                variant="pill"
               />
 
               <UButton
                 class="rounded-lg"
-                variant="subtle"
                 color="neutral"
                 leading-icon="i-lucide-maximize"
+                variant="subtle"
                 @click="
                   () => {
                     if (outputPanelRef) outputPanelRef.requestFullscreen();
@@ -155,11 +155,11 @@ const zoomRef = ref<number>(1);
 
           <template #debug>
             <UTextarea
-              readonly
-              variant="subtle"
-              :rows="30"
-              :model-value="JSON.stringify(data, null, 2)"
               class="w-full font-mono"
+              :model-value="JSON.stringify(data, null, 2)"
+              readonly
+              :rows="30"
+              variant="subtle"
             />
           </template>
         </UAccordion>

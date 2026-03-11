@@ -77,25 +77,25 @@ const avatarUrl = computed(
   <div class="operator-avatar">
     <img
       v-if="showBackgroundImage"
+      alt="干员头像底图"
       class="background-image"
       src="@/assets/images/riic/基建解析UI_干员头像底图_180x180_2510101215_BioHazard.webp"
-      alt="干员头像底图"
     />
-    <img class="avatar" :src="avatarUrl" :alt="`头像_${props.charId}`" />
+    <img :alt="`头像_${props.charId}`" class="avatar" :src="avatarUrl" />
     <div v-if="isTired" class="tired"></div>
     <img
       v-if="showProfession"
+      :alt="`图标_职业_${professionName}`"
       class="profession"
       :src="professionUrl"
-      :alt="`图标_职业_${professionName}`"
     />
     <img
       v-if="showEliteLevel"
+      :alt="`精英_${props.eliteLevel}_大图`"
       class="elite"
       :src="eliteUrl"
-      :alt="`精英_${props.eliteLevel}_大图`"
     />
-    <img v-if="showRarity" class="rarity" :src="rarityUrl" :alt="`稀有度_黄_${rarity}`" />
+    <img v-if="showRarity" :alt="`稀有度_黄_${rarity}`" class="rarity" :src="rarityUrl" />
   </div>
 </template>
 

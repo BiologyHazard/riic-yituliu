@@ -102,12 +102,12 @@ watch(
           </UFormField>
           <div class="mb-2">
             <UButton
-              variant="link"
               class="text-sm"
+              rel="noopener noreferrer"
               target="_blank"
               :to="arknightsIframeUrl"
-              rel="noopener noreferrer"
               trailing-icon="i-lucide-external-link"
+              variant="link"
             >
               {{ arknightsIframeUrl }}
             </UButton>
@@ -116,9 +116,9 @@ watch(
             v-for="url in cachedArknightsIframeUrls"
             v-show="url === arknightsIframeUrl"
             :key="url"
-            :src="url"
             allowfullscreen
             class="h-180 w-full border-0"
+            :src="url"
           />
         </div>
 
@@ -139,7 +139,7 @@ watch(
             />
           </UFormField>
           <div class="grid gap-4 lg:grid-cols-2">
-            <UFormField label="channel" help="“资讯速报”标签有所区别">
+            <UFormField help="“资讯速报”标签有所区别" label="channel">
               <UTabs
                 v-model="endfieldCurrentChannel"
                 :content="false"
@@ -163,12 +163,12 @@ watch(
           </UFormField>
           <div class="mb-2">
             <UButton
-              variant="link"
               class="text-sm"
+              rel="noopener noreferrer"
               target="_blank"
               :to="webviewIframeUrl"
-              rel="noopener noreferrer"
               trailing-icon="i-lucide-external-link"
+              variant="link"
             >
               {{ webviewIframeUrl }}
             </UButton>
@@ -177,9 +177,9 @@ watch(
             v-for="url in cachedEndfieldIframeUrls"
             v-show="url === webviewIframeUrl"
             :key="url"
-            :src="url"
             allowfullscreen
             class="h-180 w-full border-0"
+            :src="url"
           />
         </div>
       </UPageBody>

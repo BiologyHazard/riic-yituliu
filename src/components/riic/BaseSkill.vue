@@ -81,14 +81,14 @@ watch([props, operatorNameElement], () => {
 
 <template>
   <div v-if="buildingCharDataRef !== undefined" class="riic-skill">
-    <div class="operator-card">
+    <div>
       <OperatorAvatar
         :char-id="props.charId"
         :elite-level="0"
         :is-tired="false"
         show-background-image
-        show-rarity
         show-profession
+        show-rarity
       />
       <div class="operator-name-container">
         <span ref="operatorNameElement" class="operator-name">{{ getCharName(props.charId) }}</span>
@@ -163,7 +163,7 @@ watch([props, operatorNameElement], () => {
 
 .operator-name {
   color: white;
-  font-family: 'Alibaba PuHuiTi 3.0', var(--sans-font);
+  font-family: 'Alibaba PuHuiTi 3.0', var(--font-sans);
   font-weight: 700;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -179,7 +179,7 @@ watch([props, operatorNameElement], () => {
 
 .td-buff-index {
   width: 48px;
-  font-family: 'Outfit', var(--sans-font);
+  font-family: 'Outfit', var(--font-sans);
   font-weight: 900;
   font-size: 72px;
   text-align: center;
@@ -193,7 +193,7 @@ watch([props, operatorNameElement], () => {
   padding: 24px 28px;
   background-color: #e3e3e3;
   color: #222222;
-  font-family: 'HarmonyOS Sans SC', var(--sans-font);
+  font-family: 'HarmonyOS Sans SC', var(--font-sans);
   font-weight: 500;
   font-size: 36px;
   letter-spacing: -0.02em;

@@ -203,7 +203,7 @@ onMounted(() => {
       <UPageBody>
         <!-- 加载状态 -->
         <div v-if="loading" class="flex flex-col items-center justify-center gap-4 px-8 py-16">
-          <UIcon name="i-lucide-loader-circle" class="size-12 animate-spin" />
+          <UIcon class="size-12 animate-spin" name="i-lucide-loader-circle" />
           <p>加载中……</p>
         </div>
 
@@ -213,29 +213,29 @@ onMounted(() => {
           class="flex flex-col items-center justify-center gap-4 px-8 py-16 text-center"
         >
           <UAlert
-            icon="i-lucide-circle-x"
             color="error"
-            variant="soft"
+            icon="i-lucide-circle-x"
             :title="`加载失败：${error}`"
+            variant="soft"
           />
-          <UButton variant="outline" color="neutral" @click="fetchLinks"> 重试 </UButton>
+          <UButton color="neutral" variant="outline" @click="fetchLinks"> 重试 </UButton>
         </div>
 
         <!-- 正常状态 -->
         <div v-else class="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-6">
           <UCard
             v-for="link in links"
-            class="divide-accented rounded-xl ring-accented"
             :key="link.id"
+            class="divide-accented rounded-xl ring-accented"
             variant="subtle"
           >
             <template #header>
               <div class="flex items-center gap-4">
                 <img
                   v-if="link.icon_url"
-                  :src="link.icon_url"
                   :alt="`${link.localized_name.zh_CN}图标`"
                   class="size-12 shrink-0 rounded-lg object-cover"
+                  :src="link.icon_url"
                 />
                 <span class="flex-1 text-lg leading-snug font-bold break-all">
                   {{ link.localized_name.zh_CN }}
@@ -250,8 +250,8 @@ onMounted(() => {
                   v-for="(tag, index) in link.localized_tags.zh_CN"
                   :key="index"
                   class="rounded-full bg-accented/80"
-                  variant="soft"
                   color="neutral"
+                  variant="soft"
                 >
                   {{ tag }}
                 </UBadge>
@@ -273,13 +273,13 @@ onMounted(() => {
                 <UButton
                   v-for="(linkItem, index) in link.links"
                   :key="index"
-                  :href="linkItem.url"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  :variant="linkItem.primary ? 'solid' : 'outline'"
                   color="neutral"
-                  trailing-icon="i-lucide-external-link"
+                  :href="linkItem.url"
+                  rel="noopener noreferrer"
                   size="sm"
+                  target="_blank"
+                  trailing-icon="i-lucide-external-link"
+                  :variant="linkItem.primary ? 'solid' : 'outline'"
                   >{{ linkItem.localized_name.zh_CN }}</UButton
                 >
               </div>

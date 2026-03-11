@@ -320,7 +320,6 @@ const t3EliteMaterialDisplayInfo = {
         <h1>精英材料信息</h1>
 
         <UAccordion
-          multiple
           :default-value="['显示设置', '白材料信息', '绿材料信息', '蓝材料信息']"
           :items="[
             { label: '显示设置', slot: 'settings' },
@@ -328,6 +327,7 @@ const t3EliteMaterialDisplayInfo = {
             { label: '绿材料信息', slot: 't2' },
             { label: '蓝材料信息', slot: 't3' },
           ]"
+          multiple
         >
           <template #settings>
             <div class="decimal-control">
@@ -335,10 +335,10 @@ const t3EliteMaterialDisplayInfo = {
               <UInput
                 id="decimal-places"
                 v-model="decimalPlacesInputValue"
+                class="decimal-input"
                 min="0"
                 step="1"
                 type="number"
-                class="decimal-input"
               />
             </div>
           </template>
@@ -381,7 +381,7 @@ const t3EliteMaterialDisplayInfo = {
                     } in Object.values(t1EliteMaterialDisplayInfo)"
                     :key="itemId"
                   >
-                    <td class="table-td-icon"><img :src="iconUrl" :alt="itemName" /></td>
+                    <td class="table-td-icon"><img :alt="itemName" :src="iconUrl" /></td>
                     <td>{{ itemId }}</td>
                     <td>{{ itemName }}</td>
                     <td>{{ workshopByproductWeight }}</td>
@@ -436,7 +436,7 @@ const t3EliteMaterialDisplayInfo = {
                     } in Object.values(t2EliteMaterialDisplayInfo)"
                     :key="itemId"
                   >
-                    <td class="table-td-icon"><img :src="iconUrl" :alt="itemName" /></td>
+                    <td class="table-td-icon"><img :alt="itemName" :src="iconUrl" /></td>
                     <td>{{ itemId }}</td>
                     <td>{{ itemName }}</td>
                     <td>{{ workshopByproductWeight }}</td>
@@ -497,11 +497,11 @@ const t3EliteMaterialDisplayInfo = {
                   >
                     <td class="table-td-icon">
                       <a
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        :title="`在 PRTS Wiki 上查看 ${itemName}`"
                         :href="`https://prts.wiki/w/${itemName}`"
-                        ><img :src="iconUrl" :alt="itemName"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        :title="`在 PRTS Wiki 上查看 ${itemName}`"
+                        ><img :alt="itemName" :src="iconUrl"
                       /></a>
                     </td>
                     <td>{{ itemId }}</td>

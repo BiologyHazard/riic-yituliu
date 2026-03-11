@@ -30,7 +30,7 @@ export default defineConfigWithVueTs(
         'warn',
         {
           alphabetical: true,
-          sortLineLength: true,
+          sortLineLength: false,
         },
       ],
     },

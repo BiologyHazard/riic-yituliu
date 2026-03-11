@@ -19,14 +19,14 @@ const items = computed(() => [
     <UHeader>
       <template #left>
         <UButton
-          to="/"
-          class="p-1.5"
-          variant="ghost"
           :avatar="{ src: logoUrl, size: 'xs', alt: 'Logo', class: 'rounded-none bg-transparent' }"
+          class="p-1.5"
+          to="/"
+          variant="ghost"
         />
       </template>
 
-      <UNavigationMenu :items="items" variant="link" class="hidden lg:block" />
+      <UNavigationMenu class="hidden lg:block" :items="items" variant="link" />
 
       <template #right>
         <UColorModeButton />

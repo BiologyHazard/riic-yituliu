@@ -23,11 +23,11 @@ const zoneTable = await fetch(
           <h1>作战列表</h1>
 
           <UAccordion
-            multiple
             :items="[
               { label: '按活动分类', slot: 'by-activity' },
               { label: '按区域分类', slot: 'by-zone' },
             ]"
+            multiple
           >
             <template #by-activity>
               <ul>

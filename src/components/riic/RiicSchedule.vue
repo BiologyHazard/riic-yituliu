@@ -65,9 +65,9 @@ watch(props, () => {
   <div class="schedule">
     <!-- 背景图片 -->
     <img
+      alt="背景"
       class="background-image"
       src="@/assets/images/riic/基建解析UI_背景_2511111452_BioHazard.webp"
-      alt="背景"
     />
 
     <!-- 排班表标题 -->
@@ -95,7 +95,7 @@ watch(props, () => {
             <template v-if="stat.itemCount.includes(' + ')">
               {{ stat.itemCount.split(' + ')[0] }}
               +
-              <img class="base-ap-icon" src="@/assets/images/riic/icon_labor.webp" alt="无人机" />
+              <img alt="无人机" class="base-ap-icon" src="@/assets/images/riic/icon_labor.webp" />
               {{ stat.itemCount.split(' + ')[1] }}
             </template>
             <!-- 普通格式：例如 "5.239" -->
@@ -104,9 +104,9 @@ watch(props, () => {
             </template>
           </div>
           <img
+            :alt="stat.itemName"
             class="item-image"
             :src="itemInfoMap[stat.itemName]?.imageUrl"
-            :alt="stat.itemName"
           />
         </div>
       </div>
