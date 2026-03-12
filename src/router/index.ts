@@ -3,6 +3,7 @@ import GameBulletinView from '@/views/GameBulletinView.vue';
 import HomeView from '@/views/HomeView.vue';
 import LinksView from '@/views/LinksView.vue';
 import MaterialInfoView from '@/views/MaterialInfoView.vue';
+import MonsterSirenView from '@/views/MonsterSirenView.vue';
 import RiicView from '@/views/RiicView.vue';
 import StageList from '@/views/StageList.vue';
 import TierMakerView from '@/views/TierMakerView.vue';
@@ -47,6 +48,12 @@ const router = createRouter({
       name: 'game-bulletin',
       component: GameBulletinView,
       meta: { title: '游戏内公告' },
+    },
+    {
+      path: '/monster-siren',
+      name: 'monster-siren',
+      component: MonsterSirenView,
+      meta: { title: '塞壬唱片' },
     },
     {
       path: '/links',

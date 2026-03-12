@@ -10,6 +10,7 @@ const items = computed(() => [
   { label: '材料信息', to: '/material-info' },
   { label: '作战列表', to: '/stages' },
   { label: '游戏内公告', to: '/game-bulletin' },
+  { label: '塞壬唱片', to: '/monster-siren' },
   { label: '友情链接', to: '/links' },
 ]);
 </script>
@@ -26,7 +27,11 @@ const items = computed(() => [
         />
       </template>
 
-      <UNavigationMenu class="hidden lg:block" :items="items" variant="link" />
+      <UNavigationMenu :items="items" variant="link" />
+
+      <template #body>
+        <UNavigationMenu :items="items" orientation="vertical" />
+      </template>
 
       <template #right>
         <UColorModeButton />
