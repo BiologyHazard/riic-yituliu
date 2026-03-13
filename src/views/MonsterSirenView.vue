@@ -688,15 +688,21 @@ onMounted(loadData);
               </div>
 
               <!-- 搜索无结果 -->
-              <div v-if="paginatedSongs.length === 0" class="py-12 text-center text-gray-400">
-                <UIcon class="mb-2 text-4xl" name="i-lucide-search-x" />
-                <p>没有找到匹配的乐曲</p>
+              <div v-if="paginatedSongs.length === 0" class="py-12">
+                <div class="flex items-center justify-center gap-2 text-muted">
+                  <UIcon class="" name="i-lucide-search-x" />
+                  没有找到匹配的乐曲
+                </div>
               </div>
             </div>
 
             <!-- 分页 -->
             <div v-if="totalPages > 1" class="flex justify-center pt-2">
-              <UPagination v-model:page="currentPage" :page-count="PAGE_SIZE" :total="totalSongs" />
+              <UPagination
+                v-model:page="currentPage"
+                :items-per-page="PAGE_SIZE"
+                :total="totalSongs"
+              />
             </div>
           </template>
 
