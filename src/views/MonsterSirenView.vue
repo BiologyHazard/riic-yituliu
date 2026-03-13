@@ -78,7 +78,33 @@ const isPlaying = ref(false);
 const isLoadingPlayerDetail = ref(false);
 const audioCurrentTime = ref(0);
 const audioDuration = ref(0);
+const audioVolume = ref(1);
+const isMuted = ref(false);
+const prevVolume = ref(1);
 const audioError = ref(false);
+
+/** 播放模式 */
+type PlayMode = 'sequence' | 'loop' | 'single' | 'random';
+const playMode = ref<PlayMode>('loop');
+const isPlaylistOpen = ref(false);
+
+const playModeIcons: Record<PlayMode, string> = {
+  sequence: 'i-lucide-list-ordered',
+  loop: 'i-lucide-repeat',
+  single: 'i-lucide-repeat-1',
+  random: 'i-lucide-shuffle',
+};
+
+const playModeLabels: Record<PlayMode, string> = {
+  sequence: '顺序播放',
+  loop: '列表循环',
+  single: '单曲循环',
+  random: '随机播放',
+};
+
+// ─── 组件渲染 ─────────────────────────────────────────────────────────────────────
+type SongViewMode = 'grid' | 'list';
+const songViewMode = ref<SongViewMode>('list'); // 乐曲主列表展示模式
 
 // ─── 计算属性 ─────────────────────────────────────────────────────────────────────
 const albumMap = computed(() => new Map(albums.value.map((a) => [a.cid, a])));
@@ -127,9 +153,6 @@ const playerAlbum = computed(() =>
 const progressPercent = computed(() =>
   audioDuration.value > 0 ? (audioCurrentTime.value / audioDuration.value) * 100 : 0,
 );
-
-const canPrev = computed(() => playerIndex.value > 0);
-const canNext = computed(() => playerIndex.value < playerPlaylist.value.length - 1);
 
 // ─── 侦听器 ───────────────────────────────────────────────────────────────────────
 watch(searchQuery, () => {
@@ -206,6 +229,32 @@ async function getSongDetail(cid: string): Promise<SongDetail | null> {
 }
 
 // ─── 播放器控制 ───────────────────────────────────────────────────────────────────
+/** 切换播放模式 */
+function togglePlayMode() {
+  const modes: PlayMode[] = ['sequence', 'loop', 'single', 'random'];
+  const currentIndex = modes.indexOf(playMode.value);
+  playMode.value = modes[(currentIndex + 1) % modes.length]!;
+}
+
+/** 切换播放状态 */
+function togglePlay() {
+  if (!audioElement.value) return;
+  if (isPlaying.value) {
+    audioElement.value.pause();
+    isPlaying.value = false;
+  } else {
+    audioElement.value
+      .play()
+      .then(() => {
+        isPlaying.value = true;
+      })
+      .catch(() => {
+        isPlaying.value = false;
+      });
+  }
+}
+
+/** 播放指定歌曲 */
 async function playSong(song: Song, playlist: Song[], index: number) {
   // 同一首歌已加载时直接切换播放状态
   if (playerSong.value?.cid === song.cid && playerDetail.value && audioElement.value?.src) {
@@ -239,36 +288,83 @@ async function playSong(song: Song, playlist: Song[], index: number) {
   }
 }
 
-function togglePlay() {
-  if (!audioElement.value) return;
-  if (isPlaying.value) {
-    audioElement.value.pause();
-    isPlaying.value = false;
-  } else {
-    audioElement.value.play().then(() => {
-      isPlaying.value = true;
-    });
+/** 获取下一首索引 */
+function getNextIndex(current: number, total: number, mode: PlayMode, isManual: boolean): number {
+  if (total === 0) return -1;
+  if (mode === 'random') {
+    if (total === 1) return 0;
+    let next;
+    do {
+      next = Math.floor(Math.random() * total);
+    } while (next === current);
+    return next;
   }
+  if (mode === 'single' && !isManual) return current;
+  if (mode === 'sequence' && current === total - 1) return -1;
+  return (current + 1) % total;
+}
+
+/** 获取前一首索引 */
+function getPrevIndex(current: number, total: number, mode: PlayMode): number {
+  if (total === 0) return -1;
+  if (mode === 'random') {
+    if (total === 1) return 0;
+    let prev;
+    do {
+      prev = Math.floor(Math.random() * total);
+    } while (prev === current);
+    return prev;
+  }
+  return (current - 1 + total) % total;
 }
 
 async function playPrev() {
-  if (canPrev.value) {
-    await playSong(
-      playerPlaylist.value[playerIndex.value - 1]!,
-      playerPlaylist.value,
-      playerIndex.value - 1,
-    );
+  const total = playerPlaylist.value.length;
+  if (total === 0) return;
+  const prevIndex = getPrevIndex(playerIndex.value, total, playMode.value);
+  if (prevIndex !== -1) {
+    await playSong(playerPlaylist.value[prevIndex]!, playerPlaylist.value, prevIndex);
   }
 }
 
-async function playNext() {
-  if (canNext.value) {
-    await playSong(
-      playerPlaylist.value[playerIndex.value + 1]!,
-      playerPlaylist.value,
-      playerIndex.value + 1,
-    );
+async function playNext(isManual = true) {
+  const total = playerPlaylist.value.length;
+  if (total === 0) return;
+  const nextIndex = getNextIndex(playerIndex.value, total, playMode.value, isManual);
+  if (nextIndex !== -1) {
+    await playSong(playerPlaylist.value[nextIndex]!, playerPlaylist.value, nextIndex);
+  } else {
+    isPlaying.value = false;
   }
+}
+
+/** 从播放列表中移除 */
+function removeFromPlaylist(index: number) {
+  if (index < 0 || index >= playerPlaylist.value.length) return;
+  const isCurrent = playerIndex.value === index;
+  playerPlaylist.value.splice(index, 1);
+  if (isCurrent) {
+    if (playerPlaylist.value.length === 0) {
+      playerSong.value = null;
+      audioElement.value?.pause();
+      isPlaying.value = false;
+    } else {
+      const nextIdx = index % playerPlaylist.value.length;
+      playSong(playerPlaylist.value[nextIdx]!, playerPlaylist.value, nextIdx);
+    }
+  } else if (index < playerIndex.value) {
+    playerIndex.value--;
+  }
+}
+
+/** 清空播放列表 */
+function clearPlaylist() {
+  playerPlaylist.value = [];
+  playerSong.value = null;
+  playerIndex.value = -1;
+  audioElement.value?.pause();
+  isPlaying.value = false;
+  isPlaylistOpen.value = false;
 }
 
 async function downloadSong(song: Song) {
@@ -297,9 +393,22 @@ function onAudioDurationChange() {
   if (audioElement.value) audioDuration.value = audioElement.value.duration;
 }
 
+function onAudioVolumeChange() {
+  if (audioElement.value) {
+    audioVolume.value = audioElement.value.volume;
+    isMuted.value = audioElement.value.muted;
+  }
+}
+
 function onAudioEnded() {
-  isPlaying.value = false;
-  playNext();
+  if (playMode.value === 'single') {
+    if (audioElement.value) {
+      audioElement.value.currentTime = 0;
+      audioElement.value.play();
+    }
+  } else {
+    playNext(false);
+  }
 }
 
 function onAudioError() {
@@ -311,6 +420,36 @@ function seekAudio(event: Event) {
   const input = event.target as HTMLInputElement;
   if (audioElement.value) {
     audioElement.value.currentTime = Number(input.value);
+  }
+}
+
+function setVolume(val: number | undefined) {
+  if (val === undefined) return;
+  if (audioElement.value) {
+    audioElement.value.volume = val;
+    audioVolume.value = val;
+    if (val > 0) {
+      audioElement.value.muted = false;
+      isMuted.value = false;
+    }
+  }
+}
+
+function toggleMute() {
+  if (audioElement.value) {
+    if (isMuted.value) {
+      audioElement.value.muted = false;
+      isMuted.value = false;
+      if (audioVolume.value === 0) {
+        const nextVol = prevVolume.value > 0 ? prevVolume.value : 1;
+        audioElement.value.volume = nextVol;
+        audioVolume.value = nextVol;
+      }
+    } else {
+      prevVolume.value = audioVolume.value;
+      audioElement.value.muted = true;
+      isMuted.value = true;
+    }
   }
 }
 
@@ -349,6 +488,7 @@ onMounted(loadData);
     @ended="onAudioEnded"
     @error="onAudioError"
     @timeupdate="onAudioTimeUpdate"
+    @volumechange="onAudioVolumeChange"
   />
 
   <!-- 底部固定播放器 -->
@@ -358,7 +498,9 @@ onMounted(loadData);
       class="fixed bottom-0 left-0 z-50 w-full border-t border-t-default bg-default/95 shadow-2xl backdrop-blur-md"
     >
       <!-- 进度条 -->
-      <div class="relative h-1 w-full bg-gray-200 dark:bg-gray-700">
+      <div
+        class="group/progress relative h-1 w-full bg-gray-200 transition-all hover:h-1.5 dark:bg-gray-700"
+      >
         <div
           class="h-full bg-primary transition-all duration-100"
           :style="{ width: `${progressPercent}%` }"
@@ -374,9 +516,9 @@ onMounted(loadData);
         />
       </div>
 
-      <div class="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3">
+      <div class="mx-auto flex max-w-7xl items-center gap-2 px-3 py-2 sm:gap-4 sm:px-4 sm:py-3">
         <!-- 专辑封面 -->
-        <div class="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg shadow">
+        <div class="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg shadow sm:h-12 sm:w-12">
           <img
             v-if="playerAlbum"
             :alt="playerAlbum.name"
@@ -396,32 +538,40 @@ onMounted(loadData);
 
         <!-- 曲目信息 -->
         <div class="min-w-0 flex-1">
-          <div class="flex items-center gap-2">
-            <p class="truncate text-sm font-semibold text-highlighted">
+          <div class="flex items-center gap-1.5 sm:gap-2">
+            <p class="truncate text-xs font-semibold text-highlighted sm:text-sm">
               {{ playerSong.name }}
             </p>
             <UBadge v-if="audioError" color="error" size="xs" variant="soft"> 加载失败 </UBadge>
             <UBadge v-else-if="isLoadingPlayerDetail" size="xs" variant="soft">
               <UIcon class="animate-spin" name="i-lucide-loader-circle" />
-              加载中
+              <span class="hidden sm:inline">加载中</span>
             </UBadge>
           </div>
-          <p class="truncate text-xs text-muted">
+          <p class="truncate text-[10px] text-muted sm:text-xs">
             {{ playerAlbum?.name ?? `专辑 ${playerSong.albumCid}` }}
-            <span class="mx-1 opacity-50">·</span>
+            <span class="mx-0.5 opacity-50 sm:mx-1">·</span>
             {{ playerSong.artists.join(' / ') }}
           </p>
         </div>
 
         <!-- 时间显示 -->
-        <div class="hidden shrink-0 text-xs text-muted tabular-nums sm:block">
+        <div class="hidden shrink-0 text-xs text-muted tabular-nums md:block">
           {{ formatTime(audioCurrentTime) }} / {{ formatTime(audioDuration) }}
         </div>
 
         <!-- 播放控制按钮 -->
-        <div class="flex shrink-0 items-center gap-1">
+        <div class="flex shrink-0 items-center gap-0.5 sm:gap-1">
           <UButton
-            :disabled="!canPrev"
+            class="hidden sm:flex"
+            :icon="playModeIcons[playMode]"
+            size="sm"
+            :title="playModeLabels[playMode]"
+            variant="ghost"
+            @click="togglePlayMode"
+          />
+          <UButton
+            class="hidden sm:flex"
             icon="i-lucide-skip-back"
             size="sm"
             variant="ghost"
@@ -440,40 +590,152 @@ onMounted(loadData);
             size="md"
             @click="togglePlay"
           />
-          <UButton
-            :disabled="!canNext"
-            icon="i-lucide-skip-forward"
-            size="sm"
-            variant="ghost"
-            @click="playNext"
-          />
+          <UButton icon="i-lucide-skip-forward" size="sm" variant="ghost" @click="playNext()" />
         </div>
 
-        <!-- 下载当前曲目 -->
-        <UButton
-          v-if="playerDetail?.sourceUrl"
-          class="hidden shrink-0 sm:flex"
-          icon="i-lucide-download"
-          size="sm"
-          :title="`下载 ${playerSong.name}`"
-          variant="ghost"
-          @click="downloadSong(playerSong)"
-        />
+        <!-- 下载与播放列表 -->
+        <div class="flex shrink-0 items-center gap-0.5 sm:gap-1">
+          <!-- 音量控制 -->
+          <div class="group/volume relative hidden items-center sm:flex">
+            <UButton
+              :icon="
+                isMuted || audioVolume === 0
+                  ? 'i-lucide-volume-x'
+                  : audioVolume < 1 / 2
+                    ? 'i-lucide-volume-1'
+                    : 'i-lucide-volume-2'
+              "
+              size="sm"
+              title="音量"
+              variant="ghost"
+              @click="toggleMute"
+            />
+            <!-- 增加一个隐形的、稍微大一点的热区容器以确保 hover 的稳定性 -->
+            <div
+              class="pointer-events-none absolute bottom-full left-1/2 w-12 -translate-x-1/2 pb-2 opacity-0 transition-all group-hover/volume:pointer-events-auto group-hover/volume:opacity-100"
+            >
+              <div
+                class="flex h-48 flex-col items-center gap-3 rounded-lg border border-accented bg-default py-4 shadow-md"
+              >
+                <div class="text-center text-xs font-medium text-muted tabular-nums">
+                  {{ Math.round((isMuted ? 0 : audioVolume) * 100) }}%
+                </div>
+                <div class="flex-1">
+                  <USlider
+                    :max="1"
+                    :min="0"
+                    :model-value="isMuted ? 0 : audioVolume"
+                    orientation="vertical"
+                    size="xs"
+                    :step="0.01"
+                    @update:model-value="setVolume"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
 
-        <!-- 关闭播放器 -->
-        <UButton
-          class="shrink-0"
-          icon="i-lucide-x"
-          size="sm"
-          title="关闭播放器"
-          variant="ghost"
-          @click="
-            playerSong = null;
-            audioElement?.pause();
-            isPlaying = false;
-          "
-        />
+          <UButton
+            class="hidden shrink-0 sm:flex"
+            :disabled="!playerDetail?.sourceUrl"
+            icon="i-lucide-download"
+            size="sm"
+            :title="`下载 ${playerSong.name}`"
+            variant="ghost"
+            @click="downloadSong(playerSong)"
+          />
+
+          <UButton
+            :color="isPlaylistOpen ? 'primary' : 'neutral'"
+            icon="i-lucide-list-music"
+            size="sm"
+            title="播放列表"
+            variant="ghost"
+            @click="isPlaylistOpen = !isPlaylistOpen"
+          />
+
+          <!-- 关闭播放器 -->
+          <UButton
+            class="shrink-0"
+            icon="i-lucide-x"
+            size="sm"
+            title="关闭播放器"
+            variant="ghost"
+            @click="
+              playerSong = null;
+              audioElement?.pause();
+              isPlaying = false;
+              isPlaylistOpen = false;
+            "
+          />
+        </div>
       </div>
+
+      <!-- 播放列表面板 -->
+      <Transition name="playlist-slide">
+        <div
+          v-if="isPlaylistOpen"
+          class="absolute right-0 bottom-full h-[60vh] w-full border-t border-t-default bg-default shadow-2xl backdrop-blur-md sm:right-4 sm:mb-4 sm:w-80 sm:rounded-xl sm:border sm:border-default"
+        >
+          <div class="flex h-full flex-col">
+            <div class="flex items-center justify-between border-b border-b-default p-4">
+              <div class="flex items-center gap-2">
+                <span class="text-sm font-bold">播放列表</span>
+                <span class="text-xs text-muted">{{ playerPlaylist.length }} 首</span>
+              </div>
+              <UButton
+                color="neutral"
+                icon="i-lucide-trash-2"
+                label="清空"
+                size="xs"
+                variant="ghost"
+                @click="clearPlaylist"
+              />
+            </div>
+            <div class="flex-1 overflow-y-auto">
+              <div
+                v-for="(song, idx) in playerPlaylist"
+                :key="song.cid + idx"
+                class="group flex cursor-pointer items-center gap-3 px-4 py-2 transition-colors hover:bg-muted"
+                :class="{
+                  'bg-primary/5 text-primary': isCurrentSong(song.cid) && playerIndex === idx,
+                }"
+                @click="playSong(song, playerPlaylist, idx)"
+              >
+                <div class="relative h-10 w-10 shrink-0 overflow-hidden rounded">
+                  <img
+                    :alt="song.name"
+                    class="h-full w-full object-cover"
+                    referrerpolicy="no-referrer"
+                    :src="albumMap.get(song.albumCid)?.coverUrl"
+                  />
+                  <div
+                    v-if="isCurrentSong(song.cid) && playerIndex === idx"
+                    class="absolute inset-0 flex items-center justify-center bg-black/40"
+                  >
+                    <UIcon
+                      class="text-white"
+                      :name="isPlaying ? 'i-lucide-volume-2' : 'i-lucide-play'"
+                    />
+                  </div>
+                </div>
+                <div class="min-w-0 flex-1">
+                  <p class="truncate text-sm font-medium">{{ song.name }}</p>
+                  <p class="truncate text-xs text-muted">{{ song.artists.join(' / ') }}</p>
+                </div>
+                <UButton
+                  class="hidden group-hover:flex"
+                  color="neutral"
+                  icon="i-lucide-x"
+                  size="xs"
+                  variant="ghost"
+                  @click.stop="removeFromPlaylist(idx)"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </Transition>
     </div>
   </Transition>
 
@@ -530,14 +792,24 @@ onMounted(loadData);
         <div v-else class="space-y-4">
           <!-- 标签切换 -->
           <div class="flex flex-wrap items-center justify-between gap-3">
-            <UTabs
-              v-model="viewTab"
-              :content="false"
-              :items="[
-                { label: '全部乐曲', value: 'songs', icon: 'i-lucide-music-2' },
-                { label: '按专辑浏览', value: 'albums', icon: 'i-lucide-disc-3' },
-              ]"
-            />
+            <div class="flex items-center gap-4">
+              <UTabs
+                v-model="viewTab"
+                :content="false"
+                :items="[
+                  { label: '全部乐曲', value: 'songs', icon: 'i-lucide-music-2' },
+                  { label: '按专辑浏览', value: 'albums', icon: 'i-lucide-disc-3' },
+                ]"
+              />
+              <UButton
+                v-if="viewTab === 'songs'"
+                :icon="songViewMode === 'grid' ? 'i-lucide-grid' : 'i-lucide-list'"
+                size="sm"
+                :title="songViewMode === 'grid' ? '切换为列表视图' : '切换为网格视图'"
+                variant="ghost"
+                @click="songViewMode = songViewMode === 'grid' ? 'list' : 'grid'"
+              />
+            </div>
 
             <!-- 搜索框（仅全部乐曲视图显示）-->
             <div v-if="viewTab === 'songs'" class="w-full sm:w-72">
@@ -572,7 +844,10 @@ onMounted(loadData);
             </div>
 
             <!-- 乐曲列表 -->
-            <div class="divide-y divide-default overflow-hidden rounded-xl border">
+            <div
+              v-if="songViewMode === 'list'"
+              class="divide-y divide-default overflow-hidden rounded-xl border"
+            >
               <!-- 列表表头 -->
               <div
                 class="hidden grid-cols-[2rem_2.5rem_1fr_1fr_3rem] items-center gap-4 bg-muted/50 px-4 py-2 text-xs font-medium text-gray-500 lg:grid"
@@ -696,6 +971,58 @@ onMounted(loadData);
               </div>
             </div>
 
+            <!-- 网格视图 (移动友好) -->
+            <div
+              v-else
+              class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
+            >
+              <div
+                v-for="(song, idx) in paginatedSongs"
+                :key="song.cid + '-grid'"
+                class="group flex cursor-pointer flex-col gap-2 rounded-xl border border-transparent p-3 transition-all hover:bg-muted hover:shadow-md"
+                :class="{ 'bg-primary/5 ring-1 ring-primary/20': isCurrentSong(song.cid) }"
+                @click="playSong(song, filteredSongs, (currentPage - 1) * PAGE_SIZE + idx)"
+              >
+                <!-- 封面图 -->
+                <div
+                  class="relative aspect-square w-full overflow-hidden rounded-lg bg-muted shadow-sm"
+                >
+                  <img
+                    v-if="albumMap.get(song.albumCid)"
+                    :alt="song.name"
+                    class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    loading="lazy"
+                    referrerpolicy="no-referrer"
+                    :src="albumMap.get(song.albumCid)!.coverUrl"
+                  />
+                  <!-- 覆盖层 -->
+                  <div
+                    class="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors group-hover:bg-black/20"
+                  >
+                    <div
+                      class="flex scale-90 items-center justify-center rounded-full bg-primary p-2 text-white opacity-0 shadow-lg transition-all group-hover:scale-100 group-hover:opacity-100"
+                    >
+                      <UIcon
+                        :name="
+                          isCurrentSong(song.cid) && isPlaying ? 'i-lucide-pause' : 'i-lucide-play'
+                        "
+                        size="20"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <!-- 曲信息 -->
+                <div class="min-w-0">
+                  <p class="truncate text-sm font-semibold text-highlighted" :title="song.name">
+                    {{ song.name }}
+                  </p>
+                  <p class="truncate text-xs text-muted" :title="song.artists.join(' / ')">
+                    {{ song.artists.join(' / ') }}
+                  </p>
+                </div>
+              </div>
+            </div>
+
             <!-- 分页 -->
             <div v-if="totalPages > 1" class="flex justify-center pt-2">
               <UPagination
@@ -760,13 +1087,8 @@ onMounted(loadData);
                       :alt="selectedAlbum.name"
                       class="h-full w-full cursor-zoom-in rounded-2xl object-cover shadow-xl ring-2 ring-white/20"
                       referrerpolicy="no-referrer"
-                      :src="currentAlbumDetail?.coverDeUrl || selectedAlbum.coverUrl"
-                      @click="
-                        previewCover(
-                          currentAlbumDetail?.coverDeUrl || selectedAlbum.coverUrl,
-                          selectedAlbum.name,
-                        )
-                      "
+                      :src="selectedAlbum.coverUrl"
+                      @click="previewCover(selectedAlbum.coverUrl, selectedAlbum.name)"
                     />
                     <div
                       class="pointer-events-none absolute inset-0 flex items-center justify-center rounded-2xl bg-black/30 opacity-0 transition-opacity group-hover/album-cover:opacity-100"
@@ -981,7 +1303,7 @@ onMounted(loadData);
                 <div
                   v-for="album in albums"
                   :key="album.cid"
-                  class="group cursor-pointer rounded-2xl p-3 transition-all hover:bg-muted/50 hover:shadow-md"
+                  class="group cursor-pointer rounded-2xl p-3 transition-all hover:bg-muted hover:shadow-md"
                   @click="selectedAlbumCid = album.cid"
                 >
                   <div class="relative mb-3 overflow-hidden rounded-xl shadow-md">
@@ -994,19 +1316,30 @@ onMounted(loadData);
                     />
                     <!-- 悬停遮罩 -->
                     <div
-                      class="absolute inset-0 flex items-center justify-center gap-2 bg-black/30 opacity-0 transition-opacity group-hover:opacity-100"
+                      class="absolute inset-0 flex items-end justify-end gap-3 bg-black/40 p-3 opacity-0 backdrop-blur-[2px] transition-all group-hover:opacity-100"
                     >
-                      <div
-                        class="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 shadow-lg"
-                      >
-                        <UIcon class="text-lg text-gray-800" name="i-lucide-play" />
-                      </div>
-                      <div
-                        class="flex h-8 w-8 cursor-zoom-in items-center justify-center rounded-full bg-white/70 shadow"
+                      <UButton
+                        class="light rounded-full shadow-sm"
+                        color="neutral"
+                        icon="i-lucide-play"
+                        size="md"
+                        variant="soft"
+                        @click.stop="
+                          playSong(
+                            songs.find((s) => s.albumCid === album.cid)!,
+                            songs.filter((s) => s.albumCid === album.cid),
+                            0,
+                          )
+                        "
+                      />
+                      <UButton
+                        class="light cursor-zoom-in rounded-full shadow-sm"
+                        color="neutral"
+                        icon="i-lucide-zoom-in"
+                        size="md"
+                        variant="soft"
                         @click.stop="previewCover(album.coverUrl, album.name)"
-                      >
-                        <UIcon class="text-base text-gray-800" name="i-lucide-zoom-in" />
-                      </div>
+                      />
                     </div>
                   </div>
                   <p class="line-clamp-2 text-sm font-medium text-highlighted">{{ album.name }}</p>
@@ -1048,5 +1381,25 @@ onMounted(loadData);
 .player-slide-leave-to {
   transform: translateY(100%);
   opacity: 0;
+}
+
+.playlist-slide-enter-active,
+.playlist-slide-leave-active {
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.3s ease;
+}
+.playlist-slide-enter-from,
+.playlist-slide-leave-to {
+  transform: translateY(20px);
+  opacity: 0;
+}
+
+@media (min-width: 640px) {
+  .playlist-slide-enter-from,
+  .playlist-slide-leave-to {
+    transform: translateY(20px) scale(0.95);
+    opacity: 0;
+  }
 }
 </style>
