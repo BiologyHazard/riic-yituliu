@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref, useTemplateRef, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 // ─── 类型定义 ──────────────────────────────────────────────────────────────────
 
@@ -63,10 +64,18 @@ const isLoadingAlbumDetail = ref(false);
 const currentAlbumDetail = ref<AlbumDetail | null>(null);
 
 // ─── 界面状态 ─────────────────────────────────────────────────────────────────────
-const viewTab = ref<'songs' | 'albums'>('songs');
+const route = useRoute();
+const router = useRouter();
+
+const viewTab = computed(() => {
+  if (route.path.includes('/album/')) return 'albums';
+  return route.path.endsWith('/albums') ? 'albums' : 'songs';
+});
+
 const searchQuery = ref('');
 const currentPage = ref(1);
-const selectedAlbumCid = ref<string | null>(null);
+
+const selectedAlbumCid = computed(() => (route.params.cid as string) || null);
 
 // ─── 播放器状态 ───────────────────────────────────────────────────────────────────
 const audioElement = ref<HTMLAudioElement | null>(null);
@@ -159,34 +168,31 @@ watch(searchQuery, () => {
   currentPage.value = 1;
 });
 
-watch(viewTab, () => {
-  if (viewTab.value === 'albums') {
-    selectedAlbumCid.value = null;
+watch(
+  selectedAlbumCid,
+  async (cid) => {
+    if (!cid) {
+      currentAlbumDetail.value = null;
+      return;
+    }
+    if (albumDetailCache.value.has(cid)) {
+      currentAlbumDetail.value = albumDetailCache.value.get(cid)!;
+      return;
+    }
+    isLoadingAlbumDetail.value = true;
     currentAlbumDetail.value = null;
-  }
-});
-
-watch(selectedAlbumCid, async (cid) => {
-  if (!cid) {
-    currentAlbumDetail.value = null;
-    return;
-  }
-  if (albumDetailCache.value.has(cid)) {
-    currentAlbumDetail.value = albumDetailCache.value.get(cid)!;
-    return;
-  }
-  isLoadingAlbumDetail.value = true;
-  currentAlbumDetail.value = null;
-  try {
-    const data = await apiFetch<AlbumDetail>(`/api/album/${cid}/detail`);
-    albumDetailCache.value.set(cid, data);
-    currentAlbumDetail.value = data;
-  } catch {
-    // 获取失败时退回到基础专辑信息
-  } finally {
-    isLoadingAlbumDetail.value = false;
-  }
-});
+    try {
+      const data = await apiFetch<AlbumDetail>(`/api/album/${cid}/detail`);
+      albumDetailCache.value.set(cid, data);
+      currentAlbumDetail.value = data;
+    } catch {
+      // 获取失败时退回到基础专辑信息
+    } finally {
+      isLoadingAlbumDetail.value = false;
+    }
+  },
+  { immediate: true },
+);
 
 // ─── API 辅助函数 ─────────────────────────────────────────────────────────────────
 async function apiFetch<T>(path: string): Promise<T> {
@@ -794,12 +800,15 @@ onMounted(loadData);
           <div class="flex flex-wrap items-center justify-between gap-3">
             <div class="flex items-center gap-4">
               <UTabs
-                v-model="viewTab"
-                :content="false"
                 :items="[
                   { label: '全部乐曲', value: 'songs', icon: 'i-lucide-music-2' },
                   { label: '按专辑浏览', value: 'albums', icon: 'i-lucide-disc-3' },
                 ]"
+                :model-value="viewTab"
+                @update:model-value="
+                  (val) =>
+                    router.push(val === 'songs' ? '/monster-siren/musics' : '/monster-siren/albums')
+                "
               />
               <UButton
                 v-if="viewTab === 'songs'"
@@ -1044,7 +1053,7 @@ onMounted(loadData);
                 <UButton
                   icon="i-lucide-arrow-left"
                   variant="ghost"
-                  @click="selectedAlbumCid = null"
+                  @click="router.push('/monster-siren/albums')"
                 >
                   返回专辑列表
                 </UButton>
@@ -1306,7 +1315,7 @@ onMounted(loadData);
                   v-for="album in albums"
                   :key="album.cid"
                   class="group cursor-pointer rounded-2xl p-3 transition-all hover:bg-muted hover:shadow-md"
-                  @click="selectedAlbumCid = album.cid"
+                  @click="router.push(`/monster-siren/album/${album.cid}`)"
                 >
                   <div class="relative mb-3 overflow-hidden rounded-xl shadow-md">
                     <img

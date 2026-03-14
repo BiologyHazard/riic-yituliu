@@ -54,6 +54,27 @@ const router = createRouter({
       name: 'monster-siren',
       component: MonsterSirenView,
       meta: { title: '塞壬唱片' },
+      redirect: '/monster-siren/musics',
+      children: [
+        {
+          path: 'musics',
+          name: 'monster-siren-musics',
+          component: MonsterSirenView,
+          meta: { title: '塞壬唱片 - 乐曲' },
+        },
+        {
+          path: 'albums',
+          name: 'monster-siren-albums',
+          component: MonsterSirenView,
+          meta: { title: '塞壬唱片 - 专辑' },
+        },
+        {
+          path: 'album/:cid',
+          name: 'monster-siren-album-detail',
+          component: MonsterSirenView,
+          meta: { title: '塞壬唱片 - 专辑详情' },
+        },
+      ],
     },
     {
       path: '/links',
