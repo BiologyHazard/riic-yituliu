@@ -1051,12 +1051,14 @@ onMounted(loadData);
               </div>
 
               <!-- 专辑头图卡片 -->
-              <div class="dark relative mb-6 overflow-hidden rounded-2xl shadow-xl">
+              <div
+                class="dark group/album-header relative mb-6 overflow-hidden rounded-2xl shadow-xl transition-all duration-700 hover:shadow-2xl"
+              >
                 <!-- 底层：完整清晰原图 -->
                 <div class="absolute inset-0">
                   <img
                     :alt="selectedAlbum.name"
-                    class="h-full w-full scale-110 object-cover"
+                    class="h-full w-full scale-110 object-cover transition-transform duration-700 group-hover/album-header:scale-105"
                     referrerpolicy="no-referrer"
                     :src="currentAlbumDetail?.coverDeUrl || selectedAlbum.coverUrl"
                   />
@@ -1064,19 +1066,19 @@ onMounted(loadData);
 
                 <!-- 中层：模糊暗化层——小屏全覆盖；大屏仅覆盖左侧，向右渐退 -->
                 <div
-                  class="absolute inset-0 md:mask-[linear-gradient(to_right,black_40%,transparent_90%)]"
+                  class="absolute inset-0 transition-opacity duration-700 group-hover/album-header:opacity-80 md:mask-[linear-gradient(to_right,black_40%,transparent_90%)]"
                 >
                   <img
                     :alt="selectedAlbum.name"
-                    class="h-full w-full scale-110 object-cover blur-md brightness-40 saturate-60"
+                    class="h-full w-full scale-110 object-cover blur-md brightness-40 saturate-60 transition-transform duration-700 group-hover/album-header:scale-115"
                     referrerpolicy="no-referrer"
                     :src="currentAlbumDetail?.coverDeUrl || selectedAlbum.coverUrl"
                   />
                 </div>
 
-                <!-- 顶层渐变：小屏从上到下渐暗；大屏从左到右渐隐 -->
+                <!-- 顶层渐变：大屏从左到右渐隐 -->
                 <div
-                  class="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-black/50 md:bg-linear-to-r md:from-black/50 md:via-transparent md:to-transparent"
+                  class="absolute inset-0 transition-opacity duration-700 group-hover/album-header:opacity-0 md:bg-linear-to-r md:from-black/50 md:via-transparent md:to-transparent"
                 />
 
                 <!-- 头图正文内容 -->
@@ -1085,7 +1087,7 @@ onMounted(loadData);
                   <div class="group/album-cover relative h-36 w-36 shrink-0 sm:h-44 sm:w-44">
                     <img
                       :alt="selectedAlbum.name"
-                      class="h-full w-full cursor-zoom-in rounded-2xl object-cover shadow-xl ring-2 ring-white/20"
+                      class="h-full w-full cursor-zoom-in rounded-2xl object-cover shadow-xl ring-2 ring-white/20 transition-all duration-300 group-hover/album-cover:scale-105 group-hover/album-cover:ring-white/40"
                       referrerpolicy="no-referrer"
                       :src="selectedAlbum.coverUrl"
                       @click="previewCover(selectedAlbum.coverUrl, selectedAlbum.name)"
@@ -1159,7 +1161,7 @@ onMounted(loadData);
                 <Transition name="album-detail-fade">
                   <div
                     v-if="currentAlbumDetail?.intro"
-                    class="relative border-t border-white/10 bg-black/25 px-6 py-4 backdrop-blur-sm"
+                    class="relative bg-black/25 px-6 py-4 backdrop-blur-sm transition-all duration-700 group-hover/album-header:bg-black/50 group-hover/album-header:backdrop-blur-md"
                   >
                     <div
                       class="mb-1.5 flex items-center gap-1.5 text-xs font-semibold tracking-wider text-white/60 uppercase"
@@ -1309,7 +1311,7 @@ onMounted(loadData);
                   <div class="relative mb-3 overflow-hidden rounded-xl shadow-md">
                     <img
                       :alt="album.name"
-                      class="aspect-square w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      class="aspect-square w-full object-cover transition-transform group-hover:scale-105"
                       loading="lazy"
                       referrerpolicy="no-referrer"
                       :src="album.coverUrl"
