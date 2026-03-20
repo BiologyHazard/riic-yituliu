@@ -1,0 +1,40 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install Dependencies
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
+
+      - name: Lint
+        if: ${{ always() }}
+        run: npm run lint
+
+      - name: Format Check
+        if: ${{ always() }}
+        run: npm run format:check
+
+      - name: Type Check
+        if: ${{ always() }}
+        run: npm run type-check
