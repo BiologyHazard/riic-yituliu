@@ -1,22 +1,29 @@
 <script setup lang="ts">
+import ImagePreviewHelpMenu from '@/components/ImagePreviewHelpMenu.vue';
 import { useImagePreview } from '@/composables/useImagePreview';
+import { useTemplateRef } from 'vue';
+
+const overlayRef = useTemplateRef('overlayRef');
 
 const {
   preview,
   scale,
+  backgroundColor,
   imgStyle,
+  onImageLoad,
   open,
   close,
+  download,
   zoomIn,
   zoomOut,
-  resetZoom,
+  rotateClockwise,
+  resetView,
   onWheel,
   onMousedown,
   onMousemove,
   onMouseup,
   onKeydown,
-  download,
-} = useImagePreview();
+} = useImagePreview(overlayRef);
 
 defineExpose({ open });
 </script>
@@ -31,7 +38,9 @@ defineExpose({ open });
     >
       <div
         v-if="preview"
-        class="fixed inset-0 z-50 flex flex-col bg-black/92 outline-none"
+        ref="overlayRef"
+        class="fixed inset-0 flex flex-col outline-none"
+        :style="{ backgroundColor }"
         tabindex="0"
         @keydown="onKeydown"
         @mouseleave="onMouseup"
@@ -39,60 +48,70 @@ defineExpose({ open });
         @mouseup="onMouseup"
       >
         <!-- 顶部工具栏 -->
-        <div class="flex shrink-0 items-center justify-between gap-4 bg-black/40 px-4 py-2">
-          <p class="truncate text-sm text-white/70">{{ preview.name }}</p>
-          <ULink
-            v-if="preview.downloadName"
-            class="text-sm text-white/70 hover:text-white"
-            :download="preview.downloadName"
-            :href="preview.url"
-            >下载原图</ULink
-          >
+        <div class="flex shrink-0 items-center justify-between gap-4 bg-default px-4 py-2">
+          <p class="truncate text-toned">{{ preview.name }}</p>
           <div class="flex shrink-0 items-center gap-1">
-            <UTooltip text="缩小 (-)">
+            <UTooltip :kbds="['-']" text="缩小">
+              <UButton color="neutral" icon="i-lucide-minus" variant="ghost" @click="zoomOut" />
+            </UTooltip>
+            <UTooltip :kbds="['0']" text="重置视图">
               <UButton
-                class="text-white hover:bg-white/15"
+                class="min-w-16 justify-center text-sm"
                 color="neutral"
-                icon="i-lucide-zoom-out"
                 variant="ghost"
-                @click="zoomOut"
+                @click="resetView()"
+              >
+                {{ Math.round(scale * 100) }}%
+              </UButton>
+            </UTooltip>
+            <UTooltip :kbds="['=']" text="放大">
+              <UButton color="neutral" icon="i-lucide-plus" variant="ghost" @click="zoomIn" />
+            </UTooltip>
+            <UTooltip :kbds="['R']" text="顺时针旋转 90°">
+              <UButton
+                color="neutral"
+                icon="i-lucide-rotate-cw"
+                variant="ghost"
+                @click="rotateClockwise"
               />
             </UTooltip>
-            <UButton
-              class="min-w-16 text-sm text-white hover:bg-white/15"
-              color="neutral"
-              variant="ghost"
-              @click="resetZoom"
-            >
-              {{ Math.round(scale * 100) }}%
-            </UButton>
-            <UTooltip text="放大 (+)">
+            <div class="mx-1 h-5 w-px bg-accented" />
+            <UPopover mode="click" :ui="{ content: 'p-4' }">
+              <UTooltip text="更改背景颜色">
+                <UButton color="neutral" icon="i-lucide-palette" variant="ghost" />
+              </UTooltip>
+              <template #content>
+                <UColorPicker v-model="backgroundColor" />
+              </template>
+            </UPopover>
+            <UTooltip :kbds="['O']" text="在新标签页中打开图像">
               <UButton
-                class="text-white hover:bg-white/15"
                 color="neutral"
-                icon="i-lucide-zoom-in"
+                icon="i-lucide-external-link"
+                rel="noopener noreferrer"
+                target="_blank"
+                :to="preview.url"
                 variant="ghost"
-                @click="zoomIn"
               />
             </UTooltip>
-            <div class="mx-1 h-5 w-px bg-white/20" />
-            <UTooltip text="下载">
-              <UButton
-                class="text-white hover:bg-white/15"
-                color="neutral"
-                icon="i-lucide-download"
-                variant="ghost"
-                @click="download"
-              />
+            <UTooltip :kbds="['meta', 'S']" text="下载">
+              <UButton color="neutral" icon="i-lucide-download" variant="ghost" @click="download" />
             </UTooltip>
-            <UTooltip text="关闭 (Esc)">
-              <UButton
-                class="text-white hover:bg-white/15"
-                color="neutral"
-                icon="i-lucide-x"
-                variant="ghost"
-                @click="close"
-              />
+            <UPopover mode="click" :ui="{ content: 'p-4 w-80' }">
+              <UTooltip text="帮助">
+                <UButton
+                  color="neutral"
+                  icon="i-lucide-circle-question-mark"
+                  size="lg"
+                  variant="ghost"
+                />
+              </UTooltip>
+              <template #content>
+                <ImagePreviewHelpMenu />
+              </template>
+            </UPopover>
+            <UTooltip :kbds="['escape']" text="关闭">
+              <UButton color="neutral" icon="i-lucide-x" variant="ghost" @click="close" />
             </UTooltip>
           </div>
         </div>
@@ -105,18 +124,14 @@ defineExpose({ open });
         >
           <img
             :alt="preview.name"
-            class="max-h-full max-w-full object-contain"
+            class="max-w-none"
             draggable="false"
             referrerpolicy="no-referrer"
             :src="preview.url"
             :style="imgStyle"
+            @load="onImageLoad"
             @mousedown="onMousedown"
           />
-        </div>
-
-        <!-- 底部提示 -->
-        <div class="shrink-0 py-2 text-center text-xs text-white/30">
-          滚轮缩放 · 拖拽移动 · 单击百分比重置 · 点击背景或 Esc 关闭
         </div>
       </div>
     </Transition>
