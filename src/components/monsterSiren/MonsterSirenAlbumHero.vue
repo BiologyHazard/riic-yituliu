@@ -18,6 +18,7 @@ const emit = defineEmits<{
   <div
     class="dark group/album-header relative mb-6 overflow-hidden rounded-2xl shadow-xl transition-all duration-700 hover:shadow-2xl"
   >
+    <!-- 背景层：显示专辑封面，增强视觉沉浸感 -->
     <div class="absolute inset-0">
       <img
         :alt="props.album.name"
@@ -27,6 +28,7 @@ const emit = defineEmits<{
       />
     </div>
 
+    <!-- 模糊遮罩层：提供毛玻璃效果，提升文字可读性 -->
     <div
       class="absolute inset-0 transition-opacity duration-700 group-hover/album-header:opacity-80 md:mask-[linear-gradient(to_right,black_40%,transparent_90%)]"
     >
@@ -38,11 +40,13 @@ const emit = defineEmits<{
       />
     </div>
 
+    <!-- 渐变叠加：用于在不同屏幕尺寸下调整对比度 -->
     <div
       class="absolute inset-0 transition-opacity duration-700 group-hover/album-header:opacity-0 md:bg-linear-to-r md:from-black/50 md:via-transparent md:to-transparent"
     />
 
     <div class="relative flex flex-col gap-5 p-6 sm:flex-row sm:items-end">
+      <!-- 专辑封面预览：点击可触发大图预览 -->
       <ImagePreviewContainer
         class="h-36 w-36 shrink-0 rounded-2xl shadow-xl ring-2 ring-white/20 hover:ring-white/40 sm:h-44 sm:w-44"
         @click="emit('previewCover')"
@@ -55,7 +59,9 @@ const emit = defineEmits<{
         />
       </ImagePreviewContainer>
 
+      <!-- 专辑信息详情区域 -->
       <div class="flex min-w-0 flex-1 flex-col gap-2 text-default">
+        <!-- 标签展示：包含专辑类别、归属及加载状态 -->
         <div class="flex flex-wrap items-center gap-2">
           <UBadge class="rounded-full bg-inverted/20 px-2.5 py-0.5 text-default backdrop-blur-sm"
             >专辑</UBadge
@@ -76,20 +82,24 @@ const emit = defineEmits<{
           </UBadge>
         </div>
 
+        <!-- 专辑标题 -->
         <h2 class="mbs-2 text-2xl font-bold text-highlighted sm:text-4xl">
           {{ props.album.name }}
         </h2>
 
+        <!-- 艺术家列表 -->
         <p class="text-sm text-white/80">
           {{ props.album.artistes.join(' / ') }}
         </p>
 
+        <!-- 曲目统计与 CID 信息 -->
         <p class="text-xs text-white/60">
           {{ props.songCount }} 首曲目
           <span class="mx-1.5 opacity-40">·</span>
           CID: {{ props.album.cid }}
         </p>
 
+        <!-- 操作按钮：一键播放全部曲目 -->
         <div class="mt-1 flex flex-wrap gap-2">
           <UButton class="light" icon="i-lucide-play" size="sm" @click="emit('play')">
             播放全部
@@ -98,6 +108,7 @@ const emit = defineEmits<{
       </div>
     </div>
 
+    <!-- 专辑简介：支持动态展开的过渡效果 -->
     <Transition name="album-detail-fade">
       <div
         v-if="props.albumDetail?.intro"
