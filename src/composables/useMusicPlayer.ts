@@ -97,30 +97,42 @@ export function useMusicPlayer(
 
   function getNextIndex(current: number, total: number, mode: PlayMode, isManual: boolean): number {
     if (total === 0) return -1;
-    if (mode === 'random') {
-      if (total === 1) return 0;
-      let next;
-      do {
-        next = Math.floor(Math.random() * total);
-      } while (next === current);
-      return next;
+
+    switch (mode) {
+      case 'random': {
+        if (total === 1) return 0;
+        let next;
+        do {
+          next = Math.floor(Math.random() * total);
+        } while (next === current);
+        return next;
+      }
+      case 'single':
+      case 'sequence':
+        return isManual ? (current + 1) % total : current;
+      case 'loop':
+        return (current + 1) % total;
     }
-    if (mode === 'single' && !isManual) return current;
-    if (mode === 'sequence' && current === total - 1) return -1;
-    return (current + 1) % total;
   }
 
   function getPrevIndex(current: number, total: number, mode: PlayMode): number {
     if (total === 0) return -1;
-    if (mode === 'random') {
-      if (total === 1) return 0;
-      let prev;
-      do {
-        prev = Math.floor(Math.random() * total);
-      } while (prev === current);
-      return prev;
+
+    switch (mode) {
+      case 'random': {
+        if (total === 1) return 0;
+        let prev;
+        do {
+          prev = Math.floor(Math.random() * total);
+        } while (prev === current);
+        return prev;
+      }
+      case 'sequence':
+      case 'single':
+      case 'loop':
+      default:
+        return (current - 1 + total) % total;
     }
-    return (current - 1 + total) % total;
   }
 
   async function playPrev() {
@@ -132,7 +144,7 @@ export function useMusicPlayer(
     }
   }
 
-  async function playNext(isManual = true) {
+  async function playNext(isManual: boolean = true) {
     const total = playerPlaylist.value.length;
     if (total === 0) return;
     const nextIndex = getNextIndex(playerIndex.value, total, playMode.value, isManual);
