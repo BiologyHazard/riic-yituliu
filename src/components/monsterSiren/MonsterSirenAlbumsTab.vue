@@ -177,18 +177,3 @@ const props = defineProps<{
     </div>
   </template>
 </template>
-
-<style scoped>
-.album-detail-fade-enter-active,
-.album-detail-fade-leave-active {
-  transition:
-    opacity 0.4s ease,
-    transform 0.4s ease;
-}
-
-.album-detail-fade-enter-from,
-.album-detail-fade-leave-to {
-  opacity: 0;
-  transform: translateY(8px);
-}
-</style>
