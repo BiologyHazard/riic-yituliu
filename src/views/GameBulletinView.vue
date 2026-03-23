@@ -2,13 +2,28 @@
 import { computed, ref, watch } from 'vue';
 
 const arknightsGameBulletinWebviewUrl = 'https://ak-webview.hypergryph.com/gameBulletin';
-// ?target=Android
+// ?target=Windows&u8_token={}&platform=Windows&channel=2&subChannel=2&lang=zh-cn&server=
 const arknightsTargets = ['Android', 'IOS', 'Bilibili', 'Windows', 'BilibiliWindows'];
+const arknightsPlatforms = ['Android', 'IOS', 'Bilibili', 'Windows', 'BilibiliWindows'];
+const arknightsChannels = ['0', '1', '2'];
+const arknightsSubChannels = ['0', '1', '2'];
+const arknightsLangs = ['zh-cn', 'zh-tw', 'en-us', 'ja-jp', 'ko-kr'];
+const arknightsServers = ['', '0', '1', '2'];
 
 const arknightsCurrentTarget = ref('Android');
+const arknightsCurrentPlatform = ref('Android');
+const arknightsCurrentChannel = ref('0');
+const arknightsCurrentSubChannel = ref('0');
+const arknightsCurrentLang = ref('zh-cn');
+const arknightsCurrentServer = ref('');
 const arknightsIframeUrl = computed(() => {
   const url = new URL(arknightsGameBulletinWebviewUrl);
   url.searchParams.set('target', arknightsCurrentTarget.value);
+  url.searchParams.set('platform', arknightsCurrentPlatform.value);
+  url.searchParams.set('channel', arknightsCurrentChannel.value);
+  url.searchParams.set('subChannel', arknightsCurrentSubChannel.value);
+  url.searchParams.set('lang', arknightsCurrentLang.value);
+  url.searchParams.set('server', arknightsCurrentServer.value);
   return url.toString();
 });
 
@@ -20,8 +35,6 @@ const endfieldBulletinTypes = ['游戏内公告', '游戏外公告'];
 const endfieldPlatforms = ['Windows', 'Android', 'iOS', 'PlayStation'];
 const endfieldChannels = ['0', '1', '2'];
 const endfieldSubChannels = ['0', '1', '2'];
-const endfieldTypes = ['0', '1', '2'];
-const endfieldServers = ['0', '1', '2'];
 const endfieldLangs = [
   'zh-cn',
   'zh-tw',
@@ -38,15 +51,15 @@ const endfieldLangs = [
   'th-th',
   'vi-vn',
 ];
+const endfieldServers = ['0', '1', '2'];
 
 const endfieldCurrentBulletinType = ref('游戏内公告');
 const endfieldCurrentPlatform = ref('Windows');
 const endfieldCurrentChannel = ref('1');
 const endfieldCurrentSubChannel = ref('1');
-const endfieldCurrentType = ref('0');
 const endfieldCurrentLang = ref('zh-cn');
 const endfieldCurrentServer = ref('1');
-const webviewIframeUrl = computed(() => {
+const endfieldIframeUrl = computed(() => {
   const baseUrl =
     endfieldCurrentBulletinType.value === '游戏外公告'
       ? endfieldGateBulletinWebviewUrl
@@ -78,7 +91,7 @@ watch(
 );
 
 watch(
-  webviewIframeUrl,
+  endfieldIframeUrl,
   (url) => {
     cachedEndfieldIframeUrls.value.add(url);
   },
@@ -91,27 +104,60 @@ watch(
     <UPage>
       <UPageHeader title="游戏内公告" />
       <UPageBody>
-        <div class="mt-8 space-y-4">
+        <div class="space-y-4">
           <h2 class="text-2xl font-bold">明日方舟游戏内公告</h2>
-          <UFormField class="mb-4" label="target">
+          <UFormField label="target">
             <UTabs
               v-model="arknightsCurrentTarget"
               :content="false"
               :items="toTabItems(arknightsTargets)"
             />
           </UFormField>
-          <div class="mb-2">
-            <UButton
-              class="text-sm"
-              rel="noopener noreferrer"
-              target="_blank"
-              :to="arknightsIframeUrl"
-              trailing-icon="i-lucide-external-link"
-              variant="link"
-            >
-              {{ arknightsIframeUrl }}
-            </UButton>
-          </div>
+          <UFormField label="platform">
+            <UTabs
+              v-model="arknightsCurrentPlatform"
+              :content="false"
+              :items="toTabItems(arknightsPlatforms)"
+            />
+          </UFormField>
+          <UFormField label="channel">
+            <UTabs
+              v-model="arknightsCurrentChannel"
+              :content="false"
+              :items="toTabItems(arknightsChannels)"
+            />
+          </UFormField>
+          <UFormField label="subChannel">
+            <UTabs
+              v-model="arknightsCurrentSubChannel"
+              :content="false"
+              :items="toTabItems(arknightsSubChannels)"
+            />
+          </UFormField>
+          <UFormField label="lang">
+            <UTabs
+              v-model="arknightsCurrentLang"
+              :content="false"
+              :items="toTabItems(arknightsLangs)"
+            />
+          </UFormField>
+          <UFormField label="server">
+            <UTabs
+              v-model="arknightsCurrentServer"
+              :content="false"
+              :items="toTabItems(arknightsServers)"
+            />
+          </UFormField>
+          <UButton
+            class="text-sm"
+            rel="noopener noreferrer"
+            target="_blank"
+            :to="arknightsIframeUrl"
+            trailing-icon="i-lucide-external-link"
+            variant="link"
+          >
+            {{ arknightsIframeUrl }}
+          </UButton>
           <iframe
             v-for="url in cachedArknightsIframeUrls"
             v-show="url === arknightsIframeUrl"
@@ -122,7 +168,7 @@ watch(
           />
         </div>
 
-        <div class="mt-8 space-y-4">
+        <div class="space-y-4">
           <h2 class="text-2xl font-bold">明日方舟：终末地游戏内公告</h2>
           <UFormField label="公告类型">
             <UTabs
@@ -146,11 +192,11 @@ watch(
                 :items="toTabItems(endfieldChannels)"
               />
             </UFormField>
-            <UFormField label="type">
+            <UFormField label="subChannel">
               <UTabs
-                v-model="endfieldCurrentType"
+                v-model="endfieldCurrentSubChannel"
                 :content="false"
-                :items="toTabItems(endfieldTypes)"
+                :items="toTabItems(endfieldSubChannels)"
               />
             </UFormField>
           </div>
@@ -161,21 +207,26 @@ watch(
               :items="toTabItems(endfieldLangs)"
             />
           </UFormField>
-          <div class="mb-2">
-            <UButton
-              class="text-sm"
-              rel="noopener noreferrer"
-              target="_blank"
-              :to="webviewIframeUrl"
-              trailing-icon="i-lucide-external-link"
-              variant="link"
-            >
-              {{ webviewIframeUrl }}
-            </UButton>
-          </div>
+          <UFormField v-if="endfieldCurrentBulletinType === '游戏内公告'" label="server">
+            <UTabs
+              v-model="endfieldCurrentServer"
+              :content="false"
+              :items="toTabItems(endfieldServers)"
+            />
+          </UFormField>
+          <UButton
+            class="text-sm"
+            rel="noopener noreferrer"
+            target="_blank"
+            :to="endfieldIframeUrl"
+            trailing-icon="i-lucide-external-link"
+            variant="link"
+          >
+            {{ endfieldIframeUrl }}
+          </UButton>
           <iframe
             v-for="url in cachedEndfieldIframeUrls"
-            v-show="url === webviewIframeUrl"
+            v-show="url === endfieldIframeUrl"
             :key="url"
             allowfullscreen
             class="h-180 w-full border-0"
