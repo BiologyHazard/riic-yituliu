@@ -43,20 +43,17 @@ const emit = defineEmits<{
     />
 
     <div class="relative flex flex-col gap-5 p-6 sm:flex-row sm:items-end">
-      <div class="group/album-cover relative h-36 w-36 shrink-0 sm:h-44 sm:w-44">
+      <ImagePreviewContainer
+        class="h-36 w-36 shrink-0 rounded-2xl shadow-xl ring-2 ring-white/20 hover:ring-white/40 sm:h-44 sm:w-44"
+        @click="emit('previewCover')"
+      >
         <img
           :alt="props.album.name"
-          class="h-full w-full cursor-zoom-in rounded-2xl object-cover shadow-xl ring-2 ring-white/20 transition-all duration-300 group-hover/album-cover:scale-105 group-hover/album-cover:ring-white/40"
+          class="h-full w-full object-cover"
           referrerpolicy="no-referrer"
           :src="props.album.coverUrl"
-          @click="emit('previewCover')"
         />
-        <div
-          class="pointer-events-none absolute inset-0 flex items-center justify-center rounded-2xl bg-black/30 opacity-0 transition-opacity group-hover/album-cover:opacity-100"
-        >
-          <UIcon class="text-2xl text-white" name="i-lucide-zoom-in" />
-        </div>
-      </div>
+      </ImagePreviewContainer>
 
       <div class="flex min-w-0 flex-1 flex-col gap-2 text-default">
         <div class="flex flex-wrap items-center gap-2">

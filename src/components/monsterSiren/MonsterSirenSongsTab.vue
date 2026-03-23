@@ -94,28 +94,27 @@ const emit = defineEmits<{
           </template>
         </div>
 
-        <div class="group/cover relative h-10 w-10 shrink-0">
+        <ImagePreviewContainer
+          class="h-10 w-10 shrink-0 cursor-zoom-in rounded-md shadow-sm"
+          @click.stop="
+            props.onPreviewCover(
+              props.albumMap.get(song.albumCid)!.coverUrl,
+              props.albumMap.get(song.albumCid)!.name,
+            )
+          "
+        >
           <img
-            v-if="props.albumMap.get(song.albumCid)"
+            v-if="false && props.albumMap.get(song.albumCid)"
             :alt="props.albumMap.get(song.albumCid)!.name"
-            class="h-full w-full cursor-zoom-in rounded-md object-cover shadow-sm"
+            class="h-full w-full object-cover"
             loading="lazy"
             referrerpolicy="no-referrer"
             :src="props.albumMap.get(song.albumCid)!.coverUrl"
-            @click.stop="
-              props.onPreviewCover(
-                props.albumMap.get(song.albumCid)!.coverUrl,
-                props.albumMap.get(song.albumCid)!.name,
-              )
-            "
           />
-          <div
-            v-else
-            class="flex h-full w-full items-center justify-center rounded-md bg-muted text-gray-400"
-          >
-            <UIcon class="text-sm" name="i-lucide-disc" />
+          <div v-else class="flex h-full w-full items-center justify-center bg-muted text-muted">
+            <UIcon class="text-lg" name="i-lucide-disc" />
           </div>
-        </div>
+        </ImagePreviewContainer>
 
         <div class="min-w-0 flex-1">
           <p
