@@ -11,6 +11,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   play: [];
   previewCover: [];
+  previewCoverDe: [];
 }>();
 </script>
 
@@ -106,6 +107,15 @@ const emit = defineEmits<{
           </UButton>
         </div>
       </div>
+
+      <!-- 大图预览按钮：在专辑信息区域提供入口 -->
+      <UButton
+        class="light absolute right-6 bottom-6 cursor-zoom-in opacity-75"
+        color="neutral"
+        icon="i-lucide-zoom-in"
+        variant="soft"
+        @click="emit('previewCoverDe')"
+      />
     </div>
 
     <!-- 专辑简介：支持动态展开的过渡效果 -->

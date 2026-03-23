@@ -35,7 +35,6 @@ const props = defineProps<{
       :album-detail="currentAlbumDetail"
       :is-loading-album-detail="props.isLoadingAlbumDetail"
       :song-count="props.albumSongCount.get(props.selectedAlbumCid) ?? 0"
-      :songs="props.songs"
       @play="
         () => {
           if (props.selectedAlbumSongs.length > 0) {
@@ -44,6 +43,12 @@ const props = defineProps<{
         }
       "
       @preview-cover="props.onPreviewCover(props.selectedAlbum.coverUrl, props.selectedAlbum.name)"
+      @preview-cover-de="
+        props.onPreviewCover(
+          props.currentAlbumDetail?.coverDeUrl || props.selectedAlbum.coverUrl,
+          props.selectedAlbum.name,
+        )
+      "
     />
 
     <div class="divide-y divide-default overflow-hidden rounded-xl border">
