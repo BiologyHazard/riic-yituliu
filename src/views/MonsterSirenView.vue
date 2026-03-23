@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Tab } from '@/types/monsterSiren';
+
 import MonsterSirenAlbumsTab from '@/components/monsterSiren/MonsterSirenAlbumsTab.vue';
 import MonsterSirenPlayer from '@/components/monsterSiren/MonsterSirenPlayer.vue';
 import MonsterSirenSongsTab from '@/components/monsterSiren/MonsterSirenSongsTab.vue';
@@ -243,7 +245,7 @@ onMounted(loadData);
                   { label: '按专辑浏览', value: 'albums', icon: 'i-lucide-disc-3' },
                 ]"
                 :model-value="viewTab"
-                @update:model-value="(val) => switchTab(val as 'songs' | 'albums')"
+                @update:model-value="(val) => switchTab(val as Tab)"
               />
               <UButton
                 v-if="viewTab === 'songs'"

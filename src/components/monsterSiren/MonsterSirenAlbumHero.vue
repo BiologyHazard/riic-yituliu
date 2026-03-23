@@ -84,7 +84,7 @@ const emit = defineEmits<{
         </h2>
 
         <p class="text-sm text-white/80">
-          {{ (props.albumDetail?.artistes ?? props.album.artistes).join(' / ') }}
+          {{ props.album.artistes.join(' / ') }}
         </p>
 
         <p class="text-xs text-white/60">

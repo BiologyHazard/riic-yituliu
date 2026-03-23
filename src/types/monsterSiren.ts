@@ -1,7 +1,32 @@
+/**
+ * Base interface for Monster Siren API responses
+ */
+export interface MonsterSirenApiResponse<T> {
+  code: number;
+  msg: string;
+  data: T;
+}
+
 export interface Album {
   cid: string;
   name: string;
   coverUrl: string;
+  artistes: string[];
+}
+
+export interface AlbumData {
+  cid: string;
+  name: string;
+  intro: string;
+  belong: string;
+  coverUrl: string;
+  coverDeUrl: string;
+  artistes: string[];
+}
+
+export interface AlbumDetailSong {
+  cid: string;
+  name: string;
   artistes: string[];
 }
 
@@ -12,7 +37,7 @@ export interface AlbumDetail {
   belong: string;
   coverUrl: string;
   coverDeUrl: string;
-  artistes: string[];
+  songs: AlbumDetailSong[];
 }
 
 export interface Song {
@@ -33,6 +58,21 @@ export interface SongDetail {
   artists: string[];
 }
 
-export type PlayMode = 'sequence' | 'loop' | 'single' | 'random';
+/** GET https://monster-siren.hypergryph.com/api/albums */
+export type ApiAlbumsResponse = MonsterSirenApiResponse<Album[]>;
 
+/** GET https://monster-siren.hypergryph.com/api/album/{albumId}/data */
+export type ApiAlbumDataResponse = MonsterSirenApiResponse<AlbumData>;
+
+/** GET https://monster-siren.hypergryph.com/api/album/{albumId}/detail */
+export type ApiAlbumDetailResponse = MonsterSirenApiResponse<AlbumDetail>;
+
+/** GET https://monster-siren.hypergryph.com/api/songs */
+export type ApiSongsResponse = MonsterSirenApiResponse<{ list: Song[]; autoplay: string }>;
+
+/** GET https://monster-siren.hypergryph.com/api/song/{songId} */
+export type ApiSongDetailResponse = MonsterSirenApiResponse<SongDetail>;
+
+export type PlayMode = 'sequence' | 'loop' | 'single' | 'random';
 export type SongViewMode = 'grid' | 'list';
+export type Tab = 'songs' | 'albums';
