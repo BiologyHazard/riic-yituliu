@@ -10,7 +10,7 @@ export function useMusicPlayer(
   const playerSong = ref<Song | null>(null);
   const playerDetail = ref<SongDetail | null>(null);
   const playerPlaylist = ref<Song[]>([]);
-  const playerIndex = ref(-1);
+  const playerIndex = ref<number | null>(null);
   const isPlaying = ref(false);
   const isLoadingPlayerDetail = ref(false);
   const audioError = ref(false);
@@ -95,8 +95,14 @@ export function useMusicPlayer(
     }
   }
 
-  function getNextIndex(current: number, total: number, mode: PlayMode, isManual: boolean): number {
-    if (total === 0) return -1;
+  function getNextIndex(
+    current: number | null,
+    total: number,
+    mode: PlayMode,
+    isManual: boolean,
+  ): number | null {
+    if (total === 0) return null;
+    if (current === null) return 0;
 
     switch (mode) {
       case 'random': {
@@ -108,15 +114,21 @@ export function useMusicPlayer(
         return next;
       }
       case 'single':
-      case 'sequence':
         return isManual ? (current + 1) % total : current;
+      case 'sequence':
+        if (!isManual && current === total - 1) {
+          return null;
+        } else {
+          return (current + 1) % total;
+        }
       case 'loop':
         return (current + 1) % total;
     }
   }
 
-  function getPrevIndex(current: number, total: number, mode: PlayMode): number {
-    if (total === 0) return -1;
+  function getPrevIndex(current: number | null, total: number, mode: PlayMode): number | null {
+    if (total === 0) return null;
+    if (current === null) return 0;
 
     switch (mode) {
       case 'random': {
@@ -136,19 +148,22 @@ export function useMusicPlayer(
   }
 
   async function playPrev() {
-    const total = playerPlaylist.value.length;
-    if (total === 0) return;
-    const prevIndex = getPrevIndex(playerIndex.value, total, playMode.value);
-    if (prevIndex !== -1) {
+    const prevIndex = getPrevIndex(playerIndex.value, playerPlaylist.value.length, playMode.value);
+    if (prevIndex !== null) {
       await playSong(playerPlaylist.value[prevIndex]!, playerPlaylist.value, prevIndex);
+    } else {
+      isPlaying.value = false;
     }
   }
 
   async function playNext(isManual: boolean = true) {
-    const total = playerPlaylist.value.length;
-    if (total === 0) return;
-    const nextIndex = getNextIndex(playerIndex.value, total, playMode.value, isManual);
-    if (nextIndex !== -1) {
+    const nextIndex = getNextIndex(
+      playerIndex.value,
+      playerPlaylist.value.length,
+      playMode.value,
+      isManual,
+    );
+    if (nextIndex !== null) {
       await playSong(playerPlaylist.value[nextIndex]!, playerPlaylist.value, nextIndex);
     } else {
       isPlaying.value = false;
@@ -162,13 +177,14 @@ export function useMusicPlayer(
     if (isCurrent) {
       if (playerPlaylist.value.length === 0) {
         playerSong.value = null;
+        playerIndex.value = null;
         audioElement.value?.pause();
         isPlaying.value = false;
       } else {
         const nextIdx = index % playerPlaylist.value.length;
         playSong(playerPlaylist.value[nextIdx]!, playerPlaylist.value, nextIdx);
       }
-    } else if (index < playerIndex.value) {
+    } else if (playerIndex.value !== null && index < playerIndex.value) {
       playerIndex.value--;
     }
   }
@@ -176,7 +192,7 @@ export function useMusicPlayer(
   function clearPlaylist() {
     playerPlaylist.value = [];
     playerSong.value = null;
-    playerIndex.value = -1;
+    playerIndex.value = null;
     audioElement.value?.pause();
     isPlaying.value = false;
     isPlaylistOpen.value = false;

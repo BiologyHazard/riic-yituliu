@@ -5,7 +5,7 @@ const props = defineProps<{
   playerSong: Song | null;
   playerAlbum: Album | null;
   playerPlaylist: Song[];
-  playerIndex: number;
+  playerIndex: number | null;
   isPlaying: boolean;
   isLoadingPlayerDetail: boolean;
   audioError: boolean;
