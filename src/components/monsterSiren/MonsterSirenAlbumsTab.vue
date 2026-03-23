@@ -30,117 +30,21 @@ const props = defineProps<{
       </UButton>
     </div>
 
-    <div
-      class="dark group/album-header relative mb-6 overflow-hidden rounded-2xl shadow-xl transition-all duration-700 hover:shadow-2xl"
-    >
-      <div class="absolute inset-0">
-        <img
-          :alt="props.selectedAlbum.name"
-          class="h-full w-full scale-110 object-cover transition-transform duration-700 group-hover/album-header:scale-105"
-          referrerpolicy="no-referrer"
-          :src="props.currentAlbumDetail?.coverDeUrl || props.selectedAlbum.coverUrl"
-        />
-      </div>
-
-      <div
-        class="absolute inset-0 transition-opacity duration-700 group-hover/album-header:opacity-80 md:mask-[linear-gradient(to_right,black_40%,transparent_90%)]"
-      >
-        <img
-          :alt="props.selectedAlbum.name"
-          class="h-full w-full scale-110 object-cover blur-md brightness-40 saturate-60 transition-transform duration-700 group-hover/album-header:scale-115"
-          referrerpolicy="no-referrer"
-          :src="props.currentAlbumDetail?.coverDeUrl || props.selectedAlbum.coverUrl"
-        />
-      </div>
-
-      <div
-        class="absolute inset-0 transition-opacity duration-700 group-hover/album-header:opacity-0 md:bg-linear-to-r md:from-black/50 md:via-transparent md:to-transparent"
-      />
-
-      <div class="relative flex flex-col gap-5 p-6 sm:flex-row sm:items-end">
-        <div class="group/album-cover relative h-36 w-36 shrink-0 sm:h-44 sm:w-44">
-          <img
-            :alt="props.selectedAlbum.name"
-            class="h-full w-full cursor-zoom-in rounded-2xl object-cover shadow-xl ring-2 ring-white/20 transition-all duration-300 group-hover/album-cover:scale-105 group-hover/album-cover:ring-white/40"
-            referrerpolicy="no-referrer"
-            :src="props.selectedAlbum.coverUrl"
-            @click="props.onPreviewCover(props.selectedAlbum.coverUrl, props.selectedAlbum.name)"
-          />
-          <div
-            class="pointer-events-none absolute inset-0 flex items-center justify-center rounded-2xl bg-black/30 opacity-0 transition-opacity group-hover/album-cover:opacity-100"
-          >
-            <UIcon class="text-2xl text-white" name="i-lucide-zoom-in" />
-          </div>
-        </div>
-
-        <div class="flex min-w-0 flex-1 flex-col gap-2 text-default">
-          <div class="flex flex-wrap items-center gap-2">
-            <UBadge class="rounded-full bg-inverted/20 px-2.5 py-0.5 text-default backdrop-blur-sm"
-              >专辑</UBadge
-            >
-            <UBadge
-              v-if="props.currentAlbumDetail?.belong"
-              class="rounded-full bg-inverted/20 px-2.5 py-0.5 text-default backdrop-blur-sm"
-            >
-              <UIcon class="text-white/70" name="i-lucide-tag" />
-              {{ props.currentAlbumDetail.belong }}
-            </UBadge>
-            <UBadge
-              v-if="props.isLoadingAlbumDetail"
-              class="rounded-full bg-inverted/20 px-2.5 py-0.5 text-default backdrop-blur-sm"
-            >
-              <UIcon class="animate-spin text-white/70" name="i-lucide-loader-circle" />
-              加载详情中
-            </UBadge>
-          </div>
-
-          <h2 class="mbs-2 text-2xl font-bold text-highlighted sm:text-4xl">
-            {{ props.selectedAlbum.name }}
-          </h2>
-
-          <p class="text-sm text-white/80">
-            {{ (props.currentAlbumDetail?.artistes ?? props.selectedAlbum.artistes).join(' / ') }}
-          </p>
-
-          <p class="text-xs text-white/60">
-            {{ props.albumSongCount.get(props.selectedAlbumCid) ?? 0 }} 首曲目
-            <span class="mx-1.5 opacity-40">·</span>
-            CID: {{ props.selectedAlbumCid }}
-          </p>
-
-          <div class="mt-1 flex flex-wrap gap-2">
-            <UButton
-              class="light"
-              icon="i-lucide-play"
-              size="sm"
-              @click="
-                props.selectedAlbumSongs.length > 0 &&
-                props.onPlaySong(props.selectedAlbumSongs[0]!, props.selectedAlbumSongs, 0)
-              "
-            >
-              播放全部
-            </UButton>
-          </div>
-        </div>
-      </div>
-
-      <Transition name="album-detail-fade">
-        <div
-          v-if="props.currentAlbumDetail?.intro"
-          class="relative bg-black/25 px-6 py-4 backdrop-blur-sm transition-all duration-700 group-hover/album-header:bg-black/50 group-hover/album-header:backdrop-blur-md"
-        >
-          <div
-            class="mb-1.5 flex items-center gap-1.5 text-xs font-semibold tracking-wider text-white/60 uppercase"
-          >
-            <UIcon name="i-lucide-book-open" />
-            <span>专辑简介</span>
-          </div>
-          <p class="text-sm leading-relaxed text-white/80">
-            {{ props.currentAlbumDetail.intro }}
-          </p>
-        </div>
-      </Transition>
-    </div>
+    <MonsterSirenAlbumHero
+      :album="props.selectedAlbum"
+      :album-detail="currentAlbumDetail"
+      :is-loading-album-detail="props.isLoadingAlbumDetail"
+      :song-count="props.albumSongCount.get(props.selectedAlbumCid) ?? 0"
+      :songs="props.songs"
+      @play="
+        () => {
+          if (props.selectedAlbumSongs.length > 0) {
+            props.onPlaySong(props.selectedAlbumSongs[0]!, props.selectedAlbumSongs, 0);
+          }
+        }
+      "
+      @preview-cover="props.onPreviewCover(props.selectedAlbum.coverUrl, props.selectedAlbum.name)"
+    />
 
     <div class="divide-y divide-default overflow-hidden rounded-xl border">
       <div
@@ -256,53 +160,19 @@ const props = defineProps<{
 
   <template v-else>
     <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-      <div
-        v-for="album in props.albums"
-        :key="album.cid"
-        class="group cursor-pointer rounded-2xl p-3 transition-all hover:bg-muted hover:shadow-md"
-        @click="props.onOpenAlbumDetail(album.cid)"
-      >
-        <div class="relative mb-3 overflow-hidden rounded-xl shadow-md">
-          <img
-            :alt="album.name"
-            class="aspect-square w-full object-cover transition-transform group-hover:scale-105"
-            loading="lazy"
-            referrerpolicy="no-referrer"
-            :src="album.coverUrl"
-          />
-          <div
-            class="absolute inset-0 flex items-end justify-end gap-3 bg-black/40 p-3 opacity-0 backdrop-blur-[2px] transition-all group-hover:opacity-100"
-          >
-            <UButton
-              class="light rounded-full shadow-sm"
-              color="neutral"
-              icon="i-lucide-play"
-              size="md"
-              variant="soft"
-              @click.stop="
-                props.onPlaySong(
-                  props.songs.find((s) => s.albumCid === album.cid)!,
-                  props.songs.filter((s) => s.albumCid === album.cid),
-                  0,
-                )
-              "
-            />
-            <UButton
-              class="light cursor-zoom-in rounded-full shadow-sm"
-              color="neutral"
-              icon="i-lucide-zoom-in"
-              size="md"
-              variant="soft"
-              @click.stop="props.onPreviewCover(album.coverUrl, album.name)"
-            />
-          </div>
-        </div>
-        <p class="line-clamp-2 text-sm font-medium text-highlighted">{{ album.name }}</p>
-        <p class="mt-0.5 truncate text-xs text-muted">
-          {{ props.albumSongCount.get(album.cid) ?? 0 }} 首
-          <span class="mx-1 opacity-40">·</span>
-          {{ album.artistes.join(' / ') }}
-        </p>
+      <div v-for="album in props.albums" :key="album.cid">
+        <MonsterSirenAlbumCard
+          :album="album"
+          :song-count="props.albumSongCount.get(album.cid) ?? 0"
+          @click="props.onOpenAlbumDetail(album.cid)"
+          @play="
+            props.onPlaySong(
+              props.songs.find((s) => s.albumCid === album.cid)!,
+              props.songs.filter((s) => s.albumCid === album.cid),
+              0,
+            )
+          "
+        />
       </div>
     </div>
   </template>
