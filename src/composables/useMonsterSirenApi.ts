@@ -1,19 +1,27 @@
-import type { Album, AlbumDetail, Song, SongDetail } from '@/types/monsterSiren';
+import type {
+  Album,
+  AlbumDetail,
+  MonsterSirenApiResponse,
+  Song,
+  SongDetail,
+} from '@/types/monsterSiren';
 import { computed, ref } from 'vue';
 
 const PROXY_GET_URL = import.meta.env.VITE_PROXY_GET_URL ?? '/api/proxy/get';
 const UPSTREAM_ORIGIN = 'https://monster-siren.hypergryph.com';
 
-function proxyFetch(upstreamUrl: string, init?: RequestInit) {
-  return fetch(`${PROXY_GET_URL}?url=${encodeURIComponent(upstreamUrl)}`, init);
+function proxyFetch(upstreamUrl: string, init?: RequestInit): Promise<Response> {
+  const params = new URLSearchParams({ url: upstreamUrl });
+  const urlStr = `${PROXY_GET_URL}?${params.toString()}`;
+  return fetch(urlStr, init);
 }
 
 async function apiFetch<T>(path: string): Promise<T> {
   const res = await proxyFetch(`${UPSTREAM_ORIGIN}${path}`);
   if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
-  const json = await res.json();
+  const json: MonsterSirenApiResponse<T> = await res.json();
   if (json.code !== 0) throw new Error(`API 错误: ${json.msg || json.code}`);
-  return json.data as T;
+  return json.data;
 }
 
 export function useMonsterSirenApi() {
@@ -58,7 +66,9 @@ export function useMonsterSirenApi() {
   }
 
   async function getSongDetail(cid: string): Promise<SongDetail | null> {
-    if (songDetailCache.value.has(cid)) return songDetailCache.value.get(cid)!;
+    if (songDetailCache.value.has(cid)) {
+      return songDetailCache.value.get(cid)!;
+    }
     loadingDetailCids.value.add(cid);
     try {
       const data = await apiFetch<SongDetail>(`/api/song/${cid}`);
