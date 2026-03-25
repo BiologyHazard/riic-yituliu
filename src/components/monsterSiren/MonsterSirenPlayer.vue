@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import type { PreviewTarget } from '@/composables/useImagePreview';
 import type { Album, PlayMode, Song } from '@/types/monsterSiren';
+import { watch } from 'vue';
 
 const props = defineProps<{
   playerSong: Song | null;
@@ -17,25 +19,29 @@ const props = defineProps<{
   playMode: PlayMode;
   playModeIcons: Record<PlayMode, string>;
   playModeLabels: Record<PlayMode, string>;
-  isPlaylistOpen: boolean;
   canDownloadCurrent: boolean;
   albumMap: Map<string, Album>;
   isCurrentSong: (cid: string) => boolean;
   formatTime: (seconds: number) => string;
-  onSeekAudio: (event: Event) => void;
-  onTogglePlayMode: () => void;
-  onPlayPrev: () => void;
-  onTogglePlay: () => void;
-  onPlayNext: () => void;
-  onToggleMute: () => void;
-  onSetVolume: (val: number | undefined) => void;
-  onDownloadSong: (song: Song) => void;
-  onTogglePlaylist: () => void;
-  onClosePlayer: () => void;
-  onClearPlaylist: () => void;
-  onRemoveFromPlaylist: (index: number) => void;
-  onPlaySong: (song: Song, playlist: Song[], index: number) => void;
 }>();
+
+const emit = defineEmits<{
+  previewImage: [target: PreviewTarget];
+  seekAudio: [event: InputEvent];
+  togglePlayMode: [];
+  playPrev: [];
+  togglePlay: [];
+  playNext: [];
+  toggleMute: [];
+  setVolume: [val: number | undefined];
+  downloadSong: [song: Song];
+  closePlayer: [];
+  clearPlaylist: [];
+  removeFromPlaylist: [index: number];
+  playSong: [song: Song, playlist: Song[], index: number];
+}>();
+
+const isPlaylistOpen = defineModel<boolean>('isPlaylistOpen');
 </script>
 
 <template>
@@ -58,26 +64,33 @@ const props = defineProps<{
           step="1"
           type="range"
           :value="props.audioCurrentTime"
-          @input="props.onSeekAudio"
+          @input="(event) => emit('seekAudio', event)"
         />
       </div>
 
       <div class="mx-auto flex max-w-7xl items-center gap-2 px-3 py-2 sm:gap-4 sm:px-4 sm:py-3">
         <div class="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg shadow sm:h-12 sm:w-12">
-          <img
-            v-if="props.playerAlbum"
-            :alt="props.playerAlbum.name"
-            class="h-full w-full object-cover"
-            referrerpolicy="no-referrer"
-            :src="props.playerAlbum.coverUrl"
-          />
+          <ImagePreviewContainer
+            v-if="props.playerAlbum?.coverUrl"
+            @click="
+              emit('previewImage', {
+                url: props.playerAlbum.coverUrl,
+                name: props.playerAlbum.name,
+                downloadName: props.playerAlbum.name,
+              })
+            "
+          >
+            <img
+              v-if="props.playerAlbum"
+              :alt="props.playerAlbum.name"
+              class="h-full w-full object-cover"
+              referrerpolicy="no-referrer"
+              :src="props.playerAlbum.coverUrl"
+            />
+          </ImagePreviewContainer>
           <div v-else class="flex h-full w-full items-center justify-center bg-muted text-gray-400">
             <UIcon name="i-lucide-music" />
           </div>
-          <div
-            v-if="props.isPlaying"
-            class="pointer-events-none absolute inset-0 rounded-lg ring-2 ring-white/30"
-          />
         </div>
 
         <div class="min-w-0 flex-1">
@@ -112,7 +125,7 @@ const props = defineProps<{
               :icon="props.playModeIcons[props.playMode]"
               size="sm"
               variant="ghost"
-              @click="props.onTogglePlayMode"
+              @click="emit('togglePlayMode')"
             />
           </UTooltip>
           <UTooltip text="上一首">
@@ -121,7 +134,7 @@ const props = defineProps<{
               icon="i-lucide-skip-back"
               size="sm"
               variant="ghost"
-              @click="props.onPlayPrev"
+              @click="emit('playPrev')"
             />
           </UTooltip>
           <UTooltip :text="props.isPlaying ? '暂停' : '播放'">
@@ -136,7 +149,7 @@ const props = defineProps<{
                     : 'i-lucide-play'
               "
               size="md"
-              @click="props.onTogglePlay"
+              @click="emit('togglePlay')"
             />
           </UTooltip>
           <UTooltip text="下一首">
@@ -144,7 +157,7 @@ const props = defineProps<{
               icon="i-lucide-skip-forward"
               size="sm"
               variant="ghost"
-              @click="props.onPlayNext"
+              @click="emit('playNext')"
             />
           </UTooltip>
         </div>
@@ -162,7 +175,7 @@ const props = defineProps<{
                 "
                 size="sm"
                 variant="ghost"
-                @click="props.onToggleMute"
+                @click="emit('toggleMute')"
               />
             </UTooltip>
             <div
@@ -182,7 +195,7 @@ const props = defineProps<{
                     orientation="vertical"
                     size="xs"
                     :step="0.01"
-                    @update:model-value="props.onSetVolume"
+                    @update:model-value="(event) => emit('setVolume', event)"
                   />
                 </div>
               </div>
@@ -195,16 +208,16 @@ const props = defineProps<{
               icon="i-lucide-download"
               size="sm"
               variant="ghost"
-              @click="props.playerSong && props.onDownloadSong(props.playerSong)"
+              @click="emit('downloadSong', props.playerSong)"
             />
           </UTooltip>
           <UTooltip text="播放列表">
             <UButton
-              :color="props.isPlaylistOpen ? 'primary' : 'neutral'"
+              :color="isPlaylistOpen ? 'primary' : 'neutral'"
               icon="i-lucide-list-music"
               size="sm"
               variant="ghost"
-              @click="props.onTogglePlaylist"
+              @click="isPlaylistOpen = !isPlaylistOpen"
             />
           </UTooltip>
           <UTooltip text="关闭播放器">
@@ -213,22 +226,22 @@ const props = defineProps<{
               icon="i-lucide-x"
               size="sm"
               variant="ghost"
-              @click="props.onClosePlayer"
+              @click="emit('closePlayer')"
             />
           </UTooltip>
         </div>
       </div>
 
-      <MonsterSirenPlayList
+      <MonsterSirenPlaylist
         :album-map="props.albumMap"
         :is-playing="props.isPlaying"
-        :is-playlist-open="props.isPlaylistOpen"
-        :play-list="props.playerPlaylist"
+        :is-playlist-open="Boolean(isPlaylistOpen)"
         :player-index="props.playerIndex"
         :player-song="props.playerSong"
-        @clear-playlist="onClearPlaylist"
-        @play-song="onPlaySong"
-        @remove-from-play-list="onRemoveFromPlaylist"
+        :playlist="props.playerPlaylist"
+        @clear-playlist="emit('clearPlaylist')"
+        @play-song="(song, playlist, index) => emit('playSong', song, playlist, index)"
+        @remove-from-playlist="(index) => emit('removeFromPlaylist', index)"
       />
     </div>
   </Transition>

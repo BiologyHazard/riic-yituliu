@@ -3,7 +3,7 @@ import type { Album, Song } from '@/types/monsterSiren';
 
 const props = defineProps<{
   playerSong: Song | null;
-  playList: Song[];
+  playlist: Song[];
   playerIndex: number | null;
   isPlaying: boolean;
   isPlaylistOpen: boolean;
@@ -11,7 +11,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  removeFromPlayList: [index: number];
+  removeFromPlaylist: [index: number];
   playSong: [song: Song, playlist: Song[], index: number];
   clearPlaylist: [];
 }>();
@@ -27,7 +27,7 @@ const emit = defineEmits<{
         <div class="flex items-center justify-between border-b border-b-default p-4">
           <div class="flex items-center gap-2">
             <span class="text-sm font-bold">播放列表</span>
-            <span class="text-xs text-muted">{{ props.playList.length }} 首</span>
+            <span class="text-xs text-muted">{{ props.playlist.length }} 首</span>
           </div>
           <UButton
             color="neutral"
@@ -40,14 +40,14 @@ const emit = defineEmits<{
         </div>
         <div class="flex-1 overflow-y-auto">
           <div
-            v-for="(song, idx) in props.playList"
+            v-for="(song, idx) in props.playlist"
             :key="song.cid + idx"
             class="group flex cursor-pointer items-center gap-3 px-4 py-2 transition-colors hover:bg-muted"
             :class="{
               'bg-primary/5 text-primary':
                 props.playerSong?.cid === song.cid && props.playerIndex === idx,
             }"
-            @click="emit('playSong', song, props.playList, idx)"
+            @click="emit('playSong', song, props.playlist, idx)"
           >
             <div class="relative h-10 w-10 shrink-0 overflow-hidden rounded">
               <img
@@ -76,7 +76,7 @@ const emit = defineEmits<{
               icon="i-lucide-x"
               size="xs"
               variant="ghost"
-              @click.stop="emit('removeFromPlayList', idx)"
+              @click.stop="emit('removeFromPlaylist', idx)"
             />
           </div>
         </div>

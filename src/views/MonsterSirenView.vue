@@ -168,25 +168,25 @@ onMounted(loadData);
       playMode,
       playModeIcons,
       playModeLabels,
-      isPlaylistOpen,
       canDownloadCurrent: !!playerDetail?.sourceUrl,
       albumMap,
       isCurrentSong,
       formatTime,
-      onSeekAudio: seekAudio,
-      onTogglePlayMode: togglePlayMode,
-      onPlayPrev: playPrev,
-      onTogglePlay: togglePlay,
-      onPlayNext: () => playNext(),
-      onToggleMute: toggleMute,
-      onSetVolume: setVolume,
-      onDownloadSong: downloadSong,
-      onTogglePlaylist: () => (isPlaylistOpen = !isPlaylistOpen),
-      onClosePlayer: closePlayer,
-      onClearPlaylist: clearPlaylist,
-      onRemoveFromPlaylist: removeFromPlaylist,
-      onPlaySong: playSong,
     }"
+    v-model:is-playlist-open="isPlaylistOpen"
+    @clear-playlist="clearPlaylist"
+    @close-player="closePlayer"
+    @download-song="downloadSong"
+    @play-next="playNext"
+    @play-prev="playPrev"
+    @play-song="playSong"
+    @preview-image="imagePreview?.open"
+    @remove-from-playlist="removeFromPlaylist"
+    @seek-audio="seekAudio"
+    @set-volume="setVolume"
+    @toggle-mute="toggleMute"
+    @toggle-play="togglePlay"
+    @toggle-play-mode="togglePlayMode"
   />
 
   <UContainer :class="{ 'pb-28': playerSong }">
