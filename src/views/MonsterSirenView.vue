@@ -286,10 +286,10 @@ onMounted(loadData);
                 isPlaying,
                 loadingDetailCids,
                 isCurrentSong,
-                onPlaySong: playSong,
-                onDownloadSong: downloadSong,
-                onPreviewCover: previewCover,
               }"
+              @download-song="downloadSong"
+              @play-song="playSong"
+              @preview-cover="previewCover"
               @update:current-page="(page) => (currentPage = page)"
             />
           </template>
@@ -309,12 +309,12 @@ onMounted(loadData);
                 isPlaying,
                 loadingDetailCids,
                 isCurrentSong,
-                onBackToAlbums: backToAlbums,
-                onOpenAlbumDetail: openAlbumDetail,
-                onPlaySong: playSong,
-                onDownloadSong: downloadSong,
-                onPreviewCover: previewCover,
               }"
+              @back-to-albums="backToAlbums"
+              @download-song="downloadSong"
+              @open-album-detail="openAlbumDetail"
+              @play-song="playSong"
+              @preview-cover="previewCover"
             />
           </template>
         </div>

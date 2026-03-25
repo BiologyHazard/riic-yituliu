@@ -14,18 +14,21 @@ const props = defineProps<{
   isPlaying: boolean;
   loadingDetailCids: Set<string>;
   isCurrentSong: (cid: string) => boolean;
-  onBackToAlbums: () => void;
-  onOpenAlbumDetail: (cid: string) => void;
-  onPlaySong: (song: Song, playlist: Song[], index: number) => void;
-  onDownloadSong: (song: Song) => void;
-  onPreviewCover: (url: string, name: string) => void;
+}>();
+
+const emit = defineEmits<{
+  backToAlbums: [];
+  openAlbumDetail: [cid: string];
+  playSong: [song: Song, playlist: Song[], index: number];
+  downloadSong: [song: Song];
+  previewCover: [url: string, name: string];
 }>();
 </script>
 
 <template>
   <template v-if="props.selectedAlbumCid && props.selectedAlbum">
     <div class="mb-4">
-      <UButton icon="i-lucide-arrow-left" variant="ghost" @click="props.onBackToAlbums">
+      <UButton icon="i-lucide-arrow-left" variant="ghost" @click="emit('backToAlbums')">
         返回专辑列表
       </UButton>
     </div>
@@ -38,13 +41,14 @@ const props = defineProps<{
       @play="
         () => {
           if (props.selectedAlbumSongs.length > 0) {
-            props.onPlaySong(props.selectedAlbumSongs[0]!, props.selectedAlbumSongs, 0);
+            emit('playSong', props.selectedAlbumSongs[0]!, props.selectedAlbumSongs, 0);
           }
         }
       "
-      @preview-cover="props.onPreviewCover(props.selectedAlbum.coverUrl, props.selectedAlbum.name)"
+      @preview-cover="emit('previewCover', props.selectedAlbum.coverUrl, props.selectedAlbum.name)"
       @preview-cover-de="
-        props.onPreviewCover(
+        emit(
+          'previewCover',
           props.currentAlbumDetail?.coverDeUrl || props.selectedAlbum.coverUrl,
           props.selectedAlbum.name,
         )
@@ -67,7 +71,7 @@ const props = defineProps<{
         :key="song.cid"
         class="group flex cursor-pointer items-center gap-3 px-4 py-3 transition-colors hover:bg-muted lg:grid lg:grid-cols-[2rem_2.5rem_1fr_1fr_3rem]"
         :class="{ 'bg-primary/10': props.isCurrentSong(song.cid) }"
-        @click="props.onPlaySong(song, props.selectedAlbumSongs, idx)"
+        @click="emit('playSong', song, props.selectedAlbumSongs, idx)"
       >
         <div class="w-5 shrink-0 text-center">
           <template v-if="!props.isCurrentSong(song.cid)">
@@ -107,7 +111,8 @@ const props = defineProps<{
             referrerpolicy="no-referrer"
             :src="props.albumMap.get(song.albumCid)!.coverUrl"
             @click.stop="
-              props.onPreviewCover(
+              emit(
+                'previewCover',
                 props.albumMap.get(song.albumCid)!.coverUrl,
                 props.albumMap.get(song.albumCid)!.name,
               )
@@ -152,7 +157,7 @@ const props = defineProps<{
             size="xs"
             title="下载"
             variant="ghost"
-            @click.stop="props.onDownloadSong(song)"
+            @click.stop="emit('downloadSong', song)"
           />
         </div>
       </div>
@@ -169,9 +174,10 @@ const props = defineProps<{
         <MonsterSirenAlbumCard
           :album="album"
           :song-count="props.albumSongCount.get(album.cid) ?? 0"
-          @click="props.onOpenAlbumDetail(album.cid)"
+          @click="emit('openAlbumDetail', album.cid)"
           @play="
-            props.onPlaySong(
+            emit(
+              'playSong',
               props.songs.find((s) => s.albumCid === album.cid)!,
               props.songs.filter((s) => s.albumCid === album.cid),
               0,

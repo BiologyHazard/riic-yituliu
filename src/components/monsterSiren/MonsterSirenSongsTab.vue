@@ -14,13 +14,13 @@ const props = defineProps<{
   isPlaying: boolean;
   loadingDetailCids: Set<string>;
   isCurrentSong: (cid: string) => boolean;
-  onPlaySong: (song: Song, playlist: Song[], index: number) => void;
-  onDownloadSong: (song: Song) => void;
-  onPreviewCover: (url: string, name: string) => void;
 }>();
 
 const emit = defineEmits<{
   'update:currentPage': [page: number];
+  playSong: [song: Song, playlist: Song[], index: number];
+  downloadSong: [song: Song];
+  previewCover: [url: string, name: string];
 }>();
 </script>
 
@@ -58,7 +58,8 @@ const emit = defineEmits<{
         class="group flex cursor-pointer items-center gap-3 px-3 py-2.5 transition-colors hover:bg-muted sm:px-4 lg:grid lg:grid-cols-[2rem_2.5rem_1fr_1fr_3rem]"
         :class="{ 'bg-primary/10': props.isCurrentSong(song.cid) }"
         @click="
-          props.onPlaySong(
+          emit(
+            'playSong',
             song,
             props.filteredSongs,
             (props.currentPage - 1) * props.pageSize + idx,
@@ -97,7 +98,8 @@ const emit = defineEmits<{
         <ImagePreviewContainer
           class="h-10 w-10 shrink-0 cursor-zoom-in rounded-md shadow-sm"
           @click.stop="
-            props.onPreviewCover(
+            emit(
+              'previewCover',
               props.albumMap.get(song.albumCid)!.coverUrl,
               props.albumMap.get(song.albumCid)!.name,
             )
@@ -147,7 +149,7 @@ const emit = defineEmits<{
             size="xs"
             title="下载"
             variant="ghost"
-            @click.stop="props.onDownloadSong(song)"
+            @click.stop="emit('downloadSong', song)"
           />
         </div>
       </div>
@@ -170,7 +172,8 @@ const emit = defineEmits<{
         class="group flex cursor-pointer flex-col gap-2 rounded-xl border border-transparent p-3 transition-all hover:bg-muted hover:shadow-md"
         :class="{ 'bg-primary/5 ring-1 ring-primary/20': props.isCurrentSong(song.cid) }"
         @click="
-          props.onPlaySong(
+          emit(
+            'playSong',
             song,
             props.filteredSongs,
             (props.currentPage - 1) * props.pageSize + idx,
