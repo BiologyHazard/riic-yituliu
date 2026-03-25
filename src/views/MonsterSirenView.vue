@@ -9,14 +9,14 @@ import { useMonsterSirenApi } from '@/composables/monsterSiren/useMonsterSirenAp
 import { useMusicPlayer } from '@/composables/monsterSiren/useMusicPlayer';
 import { useSongFilterPagination } from '@/composables/monsterSiren/useSongFilterPagination';
 import { useViewMode } from '@/composables/monsterSiren/useViewMode';
-import { computed, onMounted, ref, useTemplateRef, watch } from 'vue';
+import { computed, onMounted, useTemplateRef, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 // ─── 界面状态 ─────────────────────────────────────────────────────────────────────
 const route = useRoute();
 const router = useRouter();
 
-const audioElement = ref<HTMLAudioElement | null>(null);
+const audioElement = useTemplateRef('audioElement');
 const {
   isLoading,
   loadError,
