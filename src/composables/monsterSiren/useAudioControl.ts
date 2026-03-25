@@ -1,7 +1,7 @@
 import type { Ref } from 'vue';
 import { computed, ref } from 'vue';
 
-export function useAudioControl(audioElement: Ref<HTMLAudioElement | null>, onEnded: () => void) {
+export function useAudioControl(audioRef: Ref<HTMLAudioElement | null>, onEnded: () => void) {
   const audioCurrentTime = ref(0);
   const audioDuration = ref(0);
   const audioVolume = ref(1);
@@ -13,17 +13,17 @@ export function useAudioControl(audioElement: Ref<HTMLAudioElement | null>, onEn
   );
 
   function onAudioTimeUpdate() {
-    if (audioElement.value) audioCurrentTime.value = audioElement.value.currentTime;
+    if (audioRef.value) audioCurrentTime.value = audioRef.value.currentTime;
   }
 
   function onAudioDurationChange() {
-    if (audioElement.value) audioDuration.value = audioElement.value.duration;
+    if (audioRef.value) audioDuration.value = audioRef.value.duration;
   }
 
   function onAudioVolumeChange() {
-    if (audioElement.value) {
-      audioVolume.value = audioElement.value.volume;
-      isMuted.value = audioElement.value.muted;
+    if (audioRef.value) {
+      audioVolume.value = audioRef.value.volume;
+      isMuted.value = audioRef.value.muted;
     }
   }
 
@@ -33,36 +33,36 @@ export function useAudioControl(audioElement: Ref<HTMLAudioElement | null>, onEn
 
   function seekAudio(event: Event) {
     const input = event.target as HTMLInputElement;
-    if (audioElement.value) {
-      audioElement.value.currentTime = Number(input.value);
+    if (audioRef.value) {
+      audioRef.value.currentTime = Number(input.value);
     }
   }
 
   function setVolume(val: number | undefined) {
     if (val === undefined) return;
-    if (audioElement.value) {
-      audioElement.value.volume = val;
+    if (audioRef.value) {
+      audioRef.value.volume = val;
       audioVolume.value = val;
       if (val > 0) {
-        audioElement.value.muted = false;
+        audioRef.value.muted = false;
         isMuted.value = false;
       }
     }
   }
 
   function toggleMute() {
-    if (audioElement.value) {
+    if (audioRef.value) {
       if (isMuted.value) {
-        audioElement.value.muted = false;
+        audioRef.value.muted = false;
         isMuted.value = false;
         if (audioVolume.value === 0) {
           const nextVol = prevVolume.value > 0 ? prevVolume.value : 1;
-          audioElement.value.volume = nextVol;
+          audioRef.value.volume = nextVol;
           audioVolume.value = nextVol;
         }
       } else {
         prevVolume.value = audioVolume.value;
-        audioElement.value.muted = true;
+        audioRef.value.muted = true;
         isMuted.value = true;
       }
     }

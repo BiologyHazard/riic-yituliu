@@ -3,7 +3,7 @@ import type { ComputedRef, Ref } from 'vue';
 import { computed, nextTick, ref } from 'vue';
 
 export function useMusicPlayer(
-  audioElement: Ref<HTMLAudioElement | null>,
+  audioRef: Ref<HTMLAudioElement | null>,
   albumMap: ComputedRef<Map<string, Album>>,
   getSongDetail: (cid: string) => Promise<SongDetail | null>,
 ) {
@@ -47,12 +47,12 @@ export function useMusicPlayer(
   }
 
   function togglePlay() {
-    if (!audioElement.value) return;
+    if (!audioRef.value) return;
     if (isPlaying.value) {
-      audioElement.value.pause();
+      audioRef.value.pause();
       isPlaying.value = false;
     } else {
-      audioElement.value
+      audioRef.value
         .play()
         .then(() => {
           isPlaying.value = true;
@@ -64,7 +64,7 @@ export function useMusicPlayer(
   }
 
   async function playSong(song: Song, playlist: Song[], index: number) {
-    if (playerSong.value?.cid === song.cid && playerDetail.value && audioElement.value?.src) {
+    if (playerSong.value?.cid === song.cid && playerDetail.value && audioRef.value?.src) {
       togglePlay();
       return;
     }
@@ -82,10 +82,10 @@ export function useMusicPlayer(
     playerDetail.value = detail;
 
     await nextTick();
-    if (audioElement.value && detail?.sourceUrl) {
-      audioElement.value.src = detail.sourceUrl;
+    if (audioRef.value && detail?.sourceUrl) {
+      audioRef.value.src = detail.sourceUrl;
       try {
-        await audioElement.value.play();
+        await audioRef.value.play();
         isPlaying.value = true;
       } catch {
         isPlaying.value = false;
@@ -178,7 +178,7 @@ export function useMusicPlayer(
       if (playerPlaylist.value.length === 0) {
         playerSong.value = null;
         playerIndex.value = null;
-        audioElement.value?.pause();
+        audioRef.value?.pause();
         isPlaying.value = false;
       } else {
         const nextIdx = index % playerPlaylist.value.length;
@@ -193,7 +193,7 @@ export function useMusicPlayer(
     playerPlaylist.value = [];
     playerSong.value = null;
     playerIndex.value = null;
-    audioElement.value?.pause();
+    audioRef.value?.pause();
     isPlaying.value = false;
     isPlaylistOpen.value = false;
   }
@@ -217,7 +217,7 @@ export function useMusicPlayer(
 
   function closePlayer() {
     playerSong.value = null;
-    audioElement.value?.pause();
+    audioRef.value?.pause();
     isPlaying.value = false;
     isPlaylistOpen.value = false;
   }

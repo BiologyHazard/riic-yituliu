@@ -16,7 +16,7 @@ import { useRoute, useRouter } from 'vue-router';
 const route = useRoute();
 const router = useRouter();
 
-const audioElement = useTemplateRef('audioElement');
+const audioRef = useTemplateRef('audioRef');
 const {
   isLoading,
   loadError,
@@ -76,7 +76,7 @@ const {
   downloadSong,
   closePlayer,
   onAudioError,
-} = useMusicPlayer(audioElement, albumMap, getSongDetail);
+} = useMusicPlayer(audioRef, albumMap, getSongDetail);
 
 const {
   audioCurrentTime,
@@ -92,11 +92,11 @@ const {
   setVolume,
   toggleMute,
   formatTime,
-} = useAudioControl(audioElement, () => {
+} = useAudioControl(audioRef, () => {
   if (playMode.value === 'single') {
-    if (audioElement.value) {
-      audioElement.value.currentTime = 0;
-      audioElement.value.play();
+    if (audioRef.value) {
+      audioRef.value.currentTime = 0;
+      audioRef.value.play();
     }
   } else {
     playNext(false);
@@ -142,7 +142,7 @@ onMounted(loadData);
   <AppImagePreview ref="imagePreview" />
 
   <audio
-    ref="audioElement"
+    ref="audioRef"
     class="hidden"
     @durationchange="onAudioDurationChange"
     @ended="onAudioEnded"
