@@ -106,57 +106,65 @@ const props = defineProps<{
         </div>
 
         <div class="flex shrink-0 items-center gap-0.5 sm:gap-1">
-          <UButton
-            class="hidden sm:flex"
-            :icon="props.playModeIcons[props.playMode]"
-            size="sm"
-            :title="props.playModeLabels[props.playMode]"
-            variant="ghost"
-            @click="props.onTogglePlayMode"
-          />
-          <UButton
-            class="hidden sm:flex"
-            icon="i-lucide-skip-back"
-            size="sm"
-            variant="ghost"
-            @click="props.onPlayPrev"
-          />
-          <UButton
-            :class="{ 'animate-spin': props.isLoadingPlayerDetail }"
-            :disabled="props.isLoadingPlayerDetail"
-            :icon="
-              props.isLoadingPlayerDetail
-                ? 'i-lucide-loader-circle'
-                : props.isPlaying
-                  ? 'i-lucide-pause'
-                  : 'i-lucide-play'
-            "
-            size="md"
-            @click="props.onTogglePlay"
-          />
-          <UButton
-            icon="i-lucide-skip-forward"
-            size="sm"
-            variant="ghost"
-            @click="props.onPlayNext"
-          />
+          <UTooltip :text="props.playModeLabels[props.playMode]">
+            <UButton
+              class="hidden sm:flex"
+              :icon="props.playModeIcons[props.playMode]"
+              size="sm"
+              variant="ghost"
+              @click="props.onTogglePlayMode"
+            />
+          </UTooltip>
+          <UTooltip text="上一首">
+            <UButton
+              class="hidden sm:flex"
+              icon="i-lucide-skip-back"
+              size="sm"
+              variant="ghost"
+              @click="props.onPlayPrev"
+            />
+          </UTooltip>
+          <UTooltip :text="props.isPlaying ? '暂停' : '播放'">
+            <UButton
+              :class="{ 'animate-spin': props.isLoadingPlayerDetail }"
+              :disabled="props.isLoadingPlayerDetail"
+              :icon="
+                props.isLoadingPlayerDetail
+                  ? 'i-lucide-loader-circle'
+                  : props.isPlaying
+                    ? 'i-lucide-pause'
+                    : 'i-lucide-play'
+              "
+              size="md"
+              @click="props.onTogglePlay"
+            />
+          </UTooltip>
+          <UTooltip text="下一首">
+            <UButton
+              icon="i-lucide-skip-forward"
+              size="sm"
+              variant="ghost"
+              @click="props.onPlayNext"
+            />
+          </UTooltip>
         </div>
 
         <div class="flex shrink-0 items-center gap-0.5 sm:gap-1">
           <div class="group/volume relative hidden items-center sm:flex">
-            <UButton
-              :icon="
-                props.isMuted || props.audioVolume === 0
-                  ? 'i-lucide-volume-x'
-                  : props.audioVolume < 1 / 2
-                    ? 'i-lucide-volume-1'
-                    : 'i-lucide-volume-2'
-              "
-              size="sm"
-              title="音量"
-              variant="ghost"
-              @click="props.onToggleMute"
-            />
+            <UTooltip text="音量">
+              <UButton
+                :icon="
+                  props.isMuted || props.audioVolume === 0
+                    ? 'i-lucide-volume-x'
+                    : props.audioVolume < 1 / 2
+                      ? 'i-lucide-volume-1'
+                      : 'i-lucide-volume-2'
+                "
+                size="sm"
+                variant="ghost"
+                @click="props.onToggleMute"
+              />
+            </UTooltip>
             <div
               class="pointer-events-none absolute bottom-full left-1/2 w-12 -translate-x-1/2 pb-2 opacity-0 transition-all group-hover/volume:pointer-events-auto group-hover/volume:opacity-100"
             >
@@ -181,33 +189,33 @@ const props = defineProps<{
             </div>
           </div>
 
-          <UButton
-            class="hidden shrink-0 sm:flex"
-            :disabled="!props.playerSong || !props.canDownloadCurrent"
-            icon="i-lucide-download"
-            size="sm"
-            :title="props.playerSong ? `下载 ${props.playerSong.name}` : '下载'"
-            variant="ghost"
-            @click="props.playerSong && props.onDownloadSong(props.playerSong)"
-          />
-
-          <UButton
-            :color="props.isPlaylistOpen ? 'primary' : 'neutral'"
-            icon="i-lucide-list-music"
-            size="sm"
-            title="播放列表"
-            variant="ghost"
-            @click="props.onTogglePlaylist"
-          />
-
-          <UButton
-            class="shrink-0"
-            icon="i-lucide-x"
-            size="sm"
-            title="关闭播放器"
-            variant="ghost"
-            @click="props.onClosePlayer"
-          />
+          <UTooltip :text="props.playerSong ? `下载 ${props.playerSong.name}` : '下载'">
+            <UButton
+              :disabled="!props.playerSong || !props.canDownloadCurrent"
+              icon="i-lucide-download"
+              size="sm"
+              variant="ghost"
+              @click="props.playerSong && props.onDownloadSong(props.playerSong)"
+            />
+          </UTooltip>
+          <UTooltip text="播放列表">
+            <UButton
+              :color="props.isPlaylistOpen ? 'primary' : 'neutral'"
+              icon="i-lucide-list-music"
+              size="sm"
+              variant="ghost"
+              @click="props.onTogglePlaylist"
+            />
+          </UTooltip>
+          <UTooltip text="关闭播放器">
+            <UButton
+              class="shrink-0"
+              icon="i-lucide-x"
+              size="sm"
+              variant="ghost"
+              @click="props.onClosePlayer"
+            />
+          </UTooltip>
         </div>
       </div>
 
