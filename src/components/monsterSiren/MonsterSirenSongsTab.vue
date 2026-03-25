@@ -104,7 +104,7 @@ const emit = defineEmits<{
           "
         >
           <img
-            v-if="false && props.albumMap.get(song.albumCid)"
+            v-if="props.albumMap.get(song.albumCid)"
             :alt="props.albumMap.get(song.albumCid)!.name"
             class="h-full w-full object-cover"
             loading="lazy"
