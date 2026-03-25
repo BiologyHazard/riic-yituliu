@@ -9,6 +9,8 @@ const {
   preview,
   scale,
   backgroundColor,
+  naturalWidth,
+  naturalHeight,
   imgStyle,
   onImageLoad,
   open,
@@ -49,7 +51,20 @@ defineExpose({ open });
       >
         <!-- 顶部工具栏 -->
         <div class="flex shrink-0 items-center justify-between gap-4 bg-default px-4 py-2">
-          <p class="truncate text-toned">{{ preview.name }}</p>
+          <div class="flex min-w-0 flex-col">
+            <p class="truncate text-sm font-medium text-highlighted">{{ preview.name }}</p>
+            <ULink
+              class="text-xs text-muted"
+              rel="noopener noreferrer"
+              target="_blank"
+              :to="preview.url"
+            >
+              {{ preview.url }}
+            </ULink>
+          </div>
+          <p v-if="naturalWidth && naturalHeight" class="text-sm text-muted">
+            {{ naturalWidth }} × {{ naturalHeight }}
+          </p>
           <div class="flex shrink-0 items-center gap-1">
             <UTooltip :kbds="['-']" text="缩小">
               <UButton color="neutral" icon="i-lucide-minus" variant="ghost" @click="zoomOut" />

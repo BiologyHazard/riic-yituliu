@@ -53,6 +53,10 @@ export function useImagePreview(overlayRef: Ref<HTMLElement | null>) {
   const initialScale = ref<number>(1);
   /** 背景色，默认为黑色 92% 不透明度 */
   const backgroundColor = ref<string>('rgba(0, 0, 0, 0.92)');
+  /** 图像原始宽度 */
+  const naturalWidth = ref<number>(0);
+  /** 图像原始高度 */
+  const naturalHeight = ref<number>(0);
 
   /** 设备像素比，即 1 CSS 像素与 1 屏幕像素的比值 */
   const pixelRatio = useDevicePixelRatio().pixelRatio;
@@ -180,17 +184,20 @@ export function useImagePreview(overlayRef: Ref<HTMLElement | null>) {
 
   /** 根据容器尺寸自动适应图像缩放 */
   function fitScaleToContainer(container: HTMLElement, image: HTMLImageElement): void {
-    const naturalWidth = image.naturalWidth;
-    const naturalHeight = image.naturalHeight;
+    naturalWidth.value = image.naturalWidth;
+    naturalHeight.value = image.naturalHeight;
 
-    if (!naturalWidth || !naturalHeight) return;
+    if (!naturalWidth.value || !naturalHeight.value) return;
 
     const containerWidth = container.clientWidth;
     const containerHeight = container.clientHeight;
 
     if (!containerWidth || !containerHeight) return;
 
-    const fitScale = Math.min(containerWidth / naturalWidth, containerHeight / naturalHeight);
+    const fitScale = Math.min(
+      containerWidth / naturalWidth.value,
+      containerHeight / naturalHeight.value,
+    );
     const defaultScale = Math.min(fitScale * pixelRatio.value, 1);
     const normalizedScale = clampScale(defaultScale);
 
@@ -467,6 +474,8 @@ export function useImagePreview(overlayRef: Ref<HTMLElement | null>) {
     preview,
     scale,
     backgroundColor,
+    naturalWidth,
+    naturalHeight,
     imgStyle,
     onImageLoad,
     open,
