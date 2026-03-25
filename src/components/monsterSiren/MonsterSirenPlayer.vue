@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { PreviewTarget } from '@/composables/useImagePreview';
 import type { Album, PlayMode, Song } from '@/types/monsterSiren';
-import { watch } from 'vue';
 
 const props = defineProps<{
   playerSong: Song | null;
@@ -213,10 +212,9 @@ const isPlaylistOpen = defineModel<boolean>('isPlaylistOpen');
           </UTooltip>
           <UTooltip text="播放列表">
             <UButton
-              :color="isPlaylistOpen ? 'primary' : 'neutral'"
               icon="i-lucide-list-music"
               size="sm"
-              variant="ghost"
+              :variant="isPlaylistOpen ? 'solid' : 'ghost'"
               @click="isPlaylistOpen = !isPlaylistOpen"
             />
           </UTooltip>
