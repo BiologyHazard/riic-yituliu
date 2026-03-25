@@ -4,11 +4,11 @@ import type { Tab } from '@/types/monsterSiren';
 import MonsterSirenAlbumsTab from '@/components/monsterSiren/MonsterSirenAlbumsTab.vue';
 import MonsterSirenPlayer from '@/components/monsterSiren/MonsterSirenPlayer.vue';
 import MonsterSirenSongsTab from '@/components/monsterSiren/MonsterSirenSongsTab.vue';
-import { useAudioControl } from '@/composables/useAudioControl';
-import { useMonsterSirenApi } from '@/composables/useMonsterSirenApi';
-import { useMusicPlayer } from '@/composables/useMusicPlayer';
-import { useSongFilterPagination } from '@/composables/useSongFilterPagination';
-import { useViewMode } from '@/composables/useViewMode';
+import { useAudioControl } from '@/composables/monsterSiren/useAudioControl';
+import { useMonsterSirenApi } from '@/composables/monsterSiren/useMonsterSirenApi';
+import { useMusicPlayer } from '@/composables/monsterSiren/useMusicPlayer';
+import { useSongFilterPagination } from '@/composables/monsterSiren/useSongFilterPagination';
+import { useViewMode } from '@/composables/monsterSiren/useViewMode';
 import { computed, onMounted, ref, useTemplateRef, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
