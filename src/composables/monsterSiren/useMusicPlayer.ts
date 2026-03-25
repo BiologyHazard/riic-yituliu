@@ -180,6 +180,7 @@ export function useMusicPlayer(
         playerIndex.value = null;
         audioRef.value?.pause();
         isPlaying.value = false;
+        isPlaylistOpen.value = false;
       } else {
         const nextIdx = index % playerPlaylist.value.length;
         playSong(playerPlaylist.value[nextIdx]!, playerPlaylist.value, nextIdx);
