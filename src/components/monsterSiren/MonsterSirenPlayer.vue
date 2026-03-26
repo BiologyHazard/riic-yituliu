@@ -138,7 +138,6 @@ const isPlaylistOpen = defineModel<boolean>('isPlaylistOpen');
           </UTooltip>
           <UTooltip :text="props.isPlaying ? '暂停' : '播放'">
             <UButton
-              :class="{ 'animate-spin': props.isLoadingPlayerDetail }"
               :disabled="props.isLoadingPlayerDetail"
               :icon="
                 props.isLoadingPlayerDetail
@@ -148,6 +147,9 @@ const isPlaylistOpen = defineModel<boolean>('isPlaylistOpen');
                     : 'i-lucide-play'
               "
               size="md"
+              :ui="{
+                leadingIcon: props.isLoadingPlayerDetail ? 'animate-spin' : '',
+              }"
               @click="emit('togglePlay')"
             />
           </UTooltip>

@@ -17,7 +17,7 @@ const emit = defineEmits<{
 
 const icon = computed(() => {
   if (props.isLoading) {
-    return 'i-lucide-loader-2 animate-spin';
+    return 'i-lucide-loader-circle';
   }
   if (props.isActive) {
     return props.isPlaying ? 'i-lucide-pause' : 'i-lucide-play';
@@ -45,6 +45,7 @@ const icon = computed(() => {
       >
         <UButton
           class="light rounded-full shadow-sm"
+          :class="{ 'animate-spin': props.isLoading }"
           color="neutral"
           :disabled="props.isLoading"
           :icon="icon"
