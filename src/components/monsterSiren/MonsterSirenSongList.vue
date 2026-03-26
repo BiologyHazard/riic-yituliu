@@ -2,7 +2,7 @@
 import type { Album, Song } from '@/types/monsterSiren';
 
 import { useWindowVirtualizer } from '@tanstack/vue-virtual';
-import { computed, useTemplateRef, watch } from 'vue';
+import { computed, useTemplateRef } from 'vue';
 
 const props = defineProps<{
   albumMap: Map<string, Album>;
@@ -24,18 +24,14 @@ const scrollMargin = computed(() => (containerRef.value ? containerRef.value.off
 
 // 使用 TanStack Virtual 进行窗口级虚拟化
 const virtualizer = useWindowVirtualizer({
-  count: props.songs.length,
+  get count(): number {
+    return props.songs.length;
+  },
   estimateSize: () => 72,
-  overscan: 10,
-  scrollMargin: scrollMargin.value,
-});
-
-// 监听 scrollMargin 变化并同步到 virtualizer
-watch(scrollMargin, (newMargin) => {
-  virtualizer.value.setOptions({
-    ...virtualizer.value.options,
-    scrollMargin: newMargin,
-  });
+  overscan: 16,
+  get scrollMargin(): number {
+    return scrollMargin.value;
+  },
 });
 
 /** 可见条目和 song 绑定 */
