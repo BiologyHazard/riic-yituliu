@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import type { Tab } from '@/types/monsterSiren';
 
-import MonsterSirenAlbumsTab from '@/components/monsterSiren/MonsterSirenAlbumsTab.vue';
-import MonsterSirenPlayer from '@/components/monsterSiren/MonsterSirenPlayer.vue';
-import MonsterSirenSongsTab from '@/components/monsterSiren/MonsterSirenSongsTab.vue';
 import { useAudioControl } from '@/composables/monsterSiren/useAudioControl';
 import { useMonsterSirenApi } from '@/composables/monsterSiren/useMonsterSirenApi';
 import { useMusicPlayer } from '@/composables/monsterSiren/useMusicPlayer';

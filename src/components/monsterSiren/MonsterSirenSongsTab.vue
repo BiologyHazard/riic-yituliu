@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Album, Song, SongViewMode } from '@/types/monsterSiren';
+
 import { computed, ref, watch } from 'vue';
 
 const props = defineProps<{

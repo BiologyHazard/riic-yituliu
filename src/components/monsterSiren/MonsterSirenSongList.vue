@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Album, Song } from '@/types/monsterSiren';
+
 import { computed } from 'vue';
 
 const props = defineProps<{
