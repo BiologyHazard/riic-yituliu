@@ -2,7 +2,7 @@ import type { Album, Song } from '@/types/monsterSiren';
 import type { Ref } from 'vue';
 import { computed, ref } from 'vue';
 
-export function useSongFilterPagination(songs: Ref<Song[]>, albumMap: Ref<Map<string, Album>>) {
+export function useSongFilter(songs: Ref<Song[]>, albumMap: Ref<Map<string, Album>>) {
   const searchQuery = ref('');
 
   const filteredSongs = computed(() => {
