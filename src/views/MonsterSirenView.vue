@@ -273,24 +273,16 @@ onMounted(loadData);
 
           <template v-if="viewTab === 'songs'">
             <MonsterSirenSongsTab
-              v-bind="{
-                searchQuery,
-                totalSongs,
-                totalPages,
-                currentPage,
-                paginatedSongs,
-                filteredSongs,
-                pageSize: PAGE_SIZE,
-                songViewMode,
-                albumMap,
-                isPlaying,
-                loadingDetailCids,
-                isCurrentSong,
-              }"
+              :album-map
+              :filtered-songs
+              :is-current-song
+              :is-playing
+              :loading-detail-cids
+              :search-query
+              :song-view-mode
               @download-song="downloadSong"
               @play-song="playSong"
               @preview-cover="previewCover"
-              @update:current-page="(page) => (currentPage = page)"
             />
           </template>
 

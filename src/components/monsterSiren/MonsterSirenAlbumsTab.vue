@@ -60,6 +60,7 @@ const emit = defineEmits<{
       :is-current-song="props.isCurrentSong"
       :is-playing="props.isPlaying"
       :loading-detail-cids="props.loadingDetailCids"
+      :page-size="32"
       :songs="props.selectedAlbumSongs"
       @download-song="(song) => emit('downloadSong', song)"
       @play-song="(song, playlist, index) => emit('playSong', song, playlist, index)"
