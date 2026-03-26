@@ -76,7 +76,7 @@ watch(
       :album="props.albumMap.get(song.albumCid)"
       :is-active="props.isCurrentSong(song.cid)"
       :is-loading="props.loadingDetailCids.has(song.cid)"
-      :is-playing="props.isPlaying"
+      :is-playing="props.isCurrentSong(song.cid) && props.isPlaying"
       :song
       @play="emit('playSong', song, props.filteredSongs, idx)"
     />
