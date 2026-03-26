@@ -20,10 +20,6 @@ const emit = defineEmits<{
   previewCover: [url: string, name: string];
 }>();
 
-const page = ref<number>(1);
-const pageSize = 32;
-const totalPages = computed(() => Math.ceil(props.filteredSongs.length / pageSize));
-
 // 增量加载逻辑（无限滚动）
 const displayLimit = ref(64);
 const displayingSongs = computed(() => props.filteredSongs.slice(0, displayLimit.value));
@@ -43,7 +39,6 @@ const {} = useInfiniteScroll(window, onLoadMore, { distance: 512, canLoadMore })
 watch(
   () => props.searchQuery,
   () => {
-    page.value = 1;
     displayLimit.value = 64;
   },
 );
@@ -52,22 +47,19 @@ watch(
 <template>
   <p class="text-sm text-muted">
     <span v-if="props.searchQuery">
-      找到 <strong class="text-default">{{ props.filteredSongs.length }}</strong> 首
+      找到 <strong class="text-default">{{ props.filteredSongs.length }}</strong> 首乐曲
     </span>
     <span v-else>
       共 <strong class="text-default">{{ props.filteredSongs.length }}</strong> 首乐曲
     </span>
-    <span v-if="totalPages > 1" class="text-dimmed"> · 第 {{ page }} / {{ totalPages }} 页 </span>
   </p>
 
   <MonsterSirenSongList
     v-if="props.songViewMode === 'list'"
-    v-model:page="page"
     :album-map="props.albumMap"
     :is-current-song="props.isCurrentSong"
     :is-playing="props.isPlaying"
     :loading-detail-cids="props.loadingDetailCids"
-    :page-size="pageSize"
     :songs="props.filteredSongs"
     @download-song="(song) => emit('downloadSong', song)"
     @play-song="(song, playlist, index) => emit('playSong', song, playlist, index)"
