@@ -7,7 +7,7 @@ import MonsterSirenSongsTab from '@/components/monsterSiren/MonsterSirenSongsTab
 import { useAudioControl } from '@/composables/monsterSiren/useAudioControl';
 import { useMonsterSirenApi } from '@/composables/monsterSiren/useMonsterSirenApi';
 import { useMusicPlayer } from '@/composables/monsterSiren/useMusicPlayer';
-import { useSongFilterPagination } from '@/composables/monsterSiren/useSongFilterPagination';
+import { useSongFilterPagination } from '@/composables/monsterSiren/useSongFilter';
 import { useViewMode } from '@/composables/monsterSiren/useViewMode';
 import { computed, onMounted, useTemplateRef, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
