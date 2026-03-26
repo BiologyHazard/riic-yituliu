@@ -70,7 +70,7 @@ export function useMusicPlayer(
     }
 
     playerSong.value = song;
-    playerPlaylist.value = playlist;
+    playerPlaylist.value = [...playlist];
     playerIndex.value = index;
     playerDetail.value = null;
     isPlaying.value = false;
