@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useVirtualizer } from '@tanstack/vue-virtual';
-import { useTemplateRef } from 'vue';
 import type { Album, Song } from '@/types/monsterSiren';
 
 const props = defineProps<{
@@ -17,17 +15,6 @@ const emit = defineEmits<{
   playSong: [song: Song, playlist: Song[], index: number];
   clearPlaylist: [];
 }>();
-
-const parentRef = useTemplateRef<HTMLElement>('parentRef');
-
-const rowVirtualizer = useVirtualizer({
-  get count(): number {
-    return props.playlist.length;
-  },
-  getScrollElement: () => parentRef.value,
-  estimateSize: () => 63,
-  overscan: 16,
-});
 </script>
 
 <template>
@@ -51,82 +38,55 @@ const rowVirtualizer = useVirtualizer({
             @click="emit('clearPlaylist')"
           />
         </div>
-        <div ref="parentRef" class="flex-1 overflow-y-auto">
+        <UScrollArea
+          v-slot="{ item: song, index }"
+          class="flex-1"
+          :items="props.playlist"
+          :virtualize="{
+            estimateSize: 63,
+            skipMeasurement: true,
+            overscan: 16,
+          }"
+        >
           <div
-            :style="{
-              height: `${rowVirtualizer.getTotalSize()}px`,
-              width: '100%',
-              position: 'relative',
+            class="group flex cursor-pointer items-center gap-3 px-4 py-2 transition-colors hover:bg-muted"
+            :class="{
+              'bg-primary/5 text-primary':
+                props.playerSong?.cid === song.cid && props.playerIndex === index,
             }"
+            @click="emit('playSong', song, props.playlist, index)"
           >
-            <div
-              v-for="virtualRow in rowVirtualizer.getVirtualItems()"
-              :key="String(virtualRow.key)"
-              class="group flex cursor-pointer items-center gap-3 px-4 py-2 transition-colors hover:bg-muted"
-              :class="{
-                'bg-primary/5 text-primary':
-                  props.playerSong?.cid === props.playlist[virtualRow.index]?.cid &&
-                  props.playerIndex === virtualRow.index,
-              }"
-              :style="{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: `${virtualRow.size}px`,
-                transform: `translateY(${virtualRow.start}px)`,
-              }"
-              @click="
-                props.playlist[virtualRow.index] &&
-                emit(
-                  'playSong',
-                  props.playlist[virtualRow.index]!,
-                  props.playlist,
-                  virtualRow.index,
-                )
-              "
-            >
-              <div class="relative h-10 w-10 shrink-0 overflow-hidden rounded">
-                <img
-                  :alt="props.playlist[virtualRow.index]?.name"
-                  class="h-full w-full object-cover"
-                  referrerpolicy="no-referrer"
-                  :src="
-                    props.albumMap.get(props.playlist[virtualRow.index]?.albumCid || '')?.coverUrl
-                  "
-                />
-                <div
-                  v-if="
-                    props.playerSong?.cid === props.playlist[virtualRow.index]?.cid &&
-                    props.playerIndex === virtualRow.index
-                  "
-                  class="absolute inset-0 flex items-center justify-center bg-black/40"
-                >
-                  <UIcon
-                    class="text-white"
-                    :name="props.isPlaying ? 'i-lucide-volume-2' : 'i-lucide-play'"
-                  />
-                </div>
-              </div>
-              <div class="min-w-0 flex-1">
-                <p class="truncate text-sm font-medium">
-                  {{ props.playlist[virtualRow.index]?.name || '' }}
-                </p>
-                <p class="truncate text-xs text-muted">
-                  {{ props.playlist[virtualRow.index]?.artists.join(' / ') }}
-                </p>
-              </div>
-              <UButton
-                class="hidden group-hover:flex"
-                color="neutral"
-                icon="i-lucide-x"
-                size="xs"
-                variant="ghost"
-                @click.stop="emit('removeFromPlaylist', virtualRow.index)"
+            <div class="relative h-10 w-10 shrink-0 overflow-hidden rounded">
+              <img
+                :alt="song.name"
+                class="h-full w-full object-cover"
+                referrerpolicy="no-referrer"
+                :src="props.albumMap.get(song.albumCid)?.coverUrl"
               />
+              <div
+                v-if="props.playerSong?.cid === song.cid && props.playerIndex === index"
+                class="absolute inset-0 flex items-center justify-center bg-black/40"
+              >
+                <UIcon
+                  class="text-white"
+                  :name="props.isPlaying ? 'i-lucide-volume-2' : 'i-lucide-play'"
+                />
+              </div>
             </div>
+            <div class="min-w-0 flex-1">
+              <p class="truncate text-sm font-medium">{{ song.name }}</p>
+              <p class="truncate text-xs text-muted">{{ song.artists.join(' / ') }}</p>
+            </div>
+            <UButton
+              class="hidden group-hover:flex"
+              color="neutral"
+              icon="i-lucide-x"
+              size="xs"
+              variant="ghost"
+              @click.stop="emit('removeFromPlaylist', index)"
+            />
           </div>
-        </div>
+        </UScrollArea>
       </div>
     </div>
   </Transition>
