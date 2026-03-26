@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { Album, Song, SongViewMode } from '@/types/monsterSiren';
 
-import { useInfiniteScroll } from '@vueuse/core';
-import { computed, ref, watch } from 'vue';
+import MonsterSirenSongGrid from '@/components/monsterSiren/MonsterSirenSongGrid.vue';
+import MonsterSirenSongList from '@/components/monsterSiren/MonsterSirenSongList.vue';
 
 const props = defineProps<{
   searchQuery: string;
@@ -19,29 +19,6 @@ const emit = defineEmits<{
   downloadSong: [song: Song];
   previewCover: [url: string, name: string];
 }>();
-
-// 增量加载逻辑（无限滚动）
-const displayLimit = ref(64);
-const displayingSongs = computed(() => props.filteredSongs.slice(0, displayLimit.value));
-
-function onLoadMore() {
-  displayLimit.value += 32;
-}
-
-function canLoadMore() {
-  return displayLimit.value < props.filteredSongs.length;
-}
-
-// 监听窗口滚动
-const {} = useInfiniteScroll(window, onLoadMore, { distance: 512, canLoadMore });
-
-// 当搜索内容或过滤结果变化时重置加载上限
-watch(
-  () => props.searchQuery,
-  () => {
-    displayLimit.value = 64;
-  },
-);
 </script>
 
 <template>
@@ -54,8 +31,8 @@ watch(
     </span>
   </p>
 
-  <MonsterSirenSongList
-    v-if="props.songViewMode === 'list'"
+  <component
+    :is="props.songViewMode === 'list' ? MonsterSirenSongList : MonsterSirenSongGrid"
     :album-map="props.albumMap"
     :is-current-song="props.isCurrentSong"
     :is-playing="props.isPlaying"
@@ -65,20 +42,4 @@ watch(
     @play-song="(song, playlist, index) => emit('playSong', song, playlist, index)"
     @preview-cover="(url, name) => emit('previewCover', url, name)"
   />
-
-  <div
-    v-else
-    class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
-  >
-    <MonsterSirenSongCard
-      v-for="(song, idx) in displayingSongs"
-      :key="song.cid"
-      :album="props.albumMap.get(song.albumCid)"
-      :is-active="props.isCurrentSong(song.cid)"
-      :is-loading="props.loadingDetailCids.has(song.cid)"
-      :is-playing="props.isCurrentSong(song.cid) && props.isPlaying"
-      :song
-      @play="emit('playSong', song, props.filteredSongs, idx)"
-    />
-  </div>
 </template>
