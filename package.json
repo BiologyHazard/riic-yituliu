@@ -19,6 +19,8 @@
   },
   "dependencies": {
     "@nuxt/ui": "^4.5.1",
+    "@tanstack/vue-virtual": "^3.13.23",
+    "@vueuse/core": "^14.2.1",
     "color": "^5.0.2",
     "crypto-js": "^4.2.0",
     "tailwindcss": "^4.2.1",
