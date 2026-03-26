@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { Tab } from '@/types/monsterSiren';
-
 import { useAudioControl } from '@/composables/monsterSiren/useAudioControl';
 import { useMonsterSirenApi } from '@/composables/monsterSiren/useMonsterSirenApi';
 import { useMusicPlayer } from '@/composables/monsterSiren/useMusicPlayer';
@@ -29,15 +27,7 @@ const {
   getAlbumDetail,
 } = useMonsterSirenApi();
 
-const {
-  songViewMode,
-  viewTab,
-  selectedAlbumCid,
-  switchTab,
-  openAlbumDetail,
-  backToAlbums,
-  toggleSongViewMode,
-} = useViewMode(route, router);
+const { songViewMode, viewTab, selectedAlbumCid } = useViewMode(route, router);
 
 const { searchQuery, filteredSongs } = useSongFilter(songs, albumMap);
 
@@ -228,25 +218,24 @@ onMounted(loadData);
           <div class="flex flex-wrap items-center justify-between gap-3">
             <div class="flex items-center gap-4">
               <UTabs
+                v-model="viewTab"
                 :content="false"
                 :items="[
-                  { label: '全部乐曲', value: 'songs', icon: 'i-lucide-music-2' },
+                  { label: '全部乐曲', value: 'musics', icon: 'i-lucide-music-2' },
                   { label: '按专辑浏览', value: 'albums', icon: 'i-lucide-disc-3' },
                 ]"
-                :model-value="viewTab"
-                @update:model-value="(val) => switchTab(val as Tab)"
               />
               <UButton
-                v-if="viewTab === 'songs'"
+                v-if="viewTab === 'musics'"
                 :icon="songViewMode === 'grid' ? 'i-lucide-grid' : 'i-lucide-list'"
                 size="sm"
                 :title="songViewMode === 'grid' ? '切换为列表视图' : '切换为网格视图'"
                 variant="ghost"
-                @click="toggleSongViewMode"
+                @click="songViewMode = songViewMode === 'grid' ? 'list' : 'grid'"
               />
             </div>
 
-            <div v-if="viewTab === 'songs'" class="w-full sm:w-72">
+            <div v-if="viewTab === 'musics'" class="w-full sm:w-72">
               <UInput
                 v-model="searchQuery"
                 class="w-full"
@@ -260,7 +249,7 @@ onMounted(loadData);
             </div>
           </div>
 
-          <template v-if="viewTab === 'songs'">
+          <template v-if="viewTab === 'musics'">
             <MonsterSirenSongsTab
               :album-map
               :filtered-songs
@@ -291,9 +280,9 @@ onMounted(loadData);
                 loadingDetailCids,
                 isCurrentSong,
               }"
-              @back-to-albums="backToAlbums"
+              @back-to-albums="selectedAlbumCid = null"
               @download-song="downloadSong"
-              @open-album-detail="openAlbumDetail"
+              @open-album-detail="(cid) => (selectedAlbumCid = cid)"
               @play-song="playSong"
               @preview-cover="previewCover"
             />

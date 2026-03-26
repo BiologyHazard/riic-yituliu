@@ -75,4 +75,4 @@ export type ApiSongDetailResponse = MonsterSirenApiResponse<SongDetail>;
 
 export type PlayMode = 'sequence' | 'loop' | 'single' | 'random';
 export type SongViewMode = 'grid' | 'list';
-export type Tab = 'songs' | 'albums';
+export type Tab = 'musics' | 'albums';
