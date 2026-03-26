@@ -1,15 +1,9 @@
 import type { Album, Song } from '@/types/monsterSiren';
-import type { ComputedRef, Ref } from 'vue';
-import { computed, ref, watch } from 'vue';
+import type { Ref } from 'vue';
+import { computed, ref } from 'vue';
 
-const PAGE_SIZE = 30;
-
-export function useSongFilterPagination(
-  songs: Ref<Song[]>,
-  albumMap: ComputedRef<Map<string, Album>>,
-) {
+export function useSongFilterPagination(songs: Ref<Song[]>, albumMap: Ref<Map<string, Album>>) {
   const searchQuery = ref('');
-  const currentPage = ref(1);
 
   const filteredSongs = computed(() => {
     const query = searchQuery.value.trim().toLowerCase();
@@ -23,25 +17,8 @@ export function useSongFilterPagination(
     );
   });
 
-  const totalSongs = computed(() => filteredSongs.value.length);
-  const totalPages = computed(() => Math.ceil(totalSongs.value / PAGE_SIZE));
-
-  const paginatedSongs = computed(() => {
-    const start = (currentPage.value - 1) * PAGE_SIZE;
-    return filteredSongs.value.slice(start, start + PAGE_SIZE);
-  });
-
-  watch(searchQuery, () => {
-    currentPage.value = 1;
-  });
-
   return {
-    PAGE_SIZE,
     searchQuery,
-    currentPage,
     filteredSongs,
-    totalSongs,
-    totalPages,
-    paginatedSongs,
   };
 }

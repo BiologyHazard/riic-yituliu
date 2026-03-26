@@ -22,6 +22,7 @@ const page = ref<number>(1);
 const pageSize = 32;
 const totalPages = computed(() => Math.ceil(props.filteredSongs.length / pageSize));
 
+// 当搜索内容变化时重置页码
 watch(
   () => props.searchQuery,
   () => {
@@ -43,6 +44,7 @@ watch(
 
   <MonsterSirenSongList
     v-if="props.songViewMode === 'list'"
+    v-model:page="page"
     :album-map="props.albumMap"
     :is-current-song="props.isCurrentSong"
     :is-playing="props.isPlaying"

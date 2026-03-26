@@ -42,15 +42,7 @@ const {
   toggleSongViewMode,
 } = useViewMode(route, router);
 
-const {
-  PAGE_SIZE,
-  searchQuery,
-  currentPage,
-  filteredSongs,
-  totalSongs,
-  totalPages,
-  paginatedSongs,
-} = useSongFilterPagination(songs, albumMap);
+const { searchQuery, filteredSongs } = useSongFilterPagination(songs, albumMap);
 
 const {
   playerSong,
