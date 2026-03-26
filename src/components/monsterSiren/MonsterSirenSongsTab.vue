@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Album, Song, SongViewMode } from '@/types/monsterSiren';
 
+import { useInfiniteScroll } from '@vueuse/core';
 import { computed, ref, watch } from 'vue';
 
 const props = defineProps<{
@@ -23,11 +24,27 @@ const page = ref<number>(1);
 const pageSize = 32;
 const totalPages = computed(() => Math.ceil(props.filteredSongs.length / pageSize));
 
-// 当搜索内容变化时重置页码
+// 增量加载逻辑（无限滚动）
+const displayLimit = ref(64);
+const displayingSongs = computed(() => props.filteredSongs.slice(0, displayLimit.value));
+
+function onLoadMore() {
+  displayLimit.value += 32;
+}
+
+function canLoadMore() {
+  return displayLimit.value < props.filteredSongs.length;
+}
+
+// 监听窗口滚动
+const {} = useInfiniteScroll(window, onLoadMore, { distance: 512, canLoadMore });
+
+// 当搜索内容或过滤结果变化时重置加载上限
 watch(
   () => props.searchQuery,
   () => {
     page.value = 1;
+    displayLimit.value = 64;
   },
 );
 </script>
@@ -62,7 +79,7 @@ watch(
     class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
   >
     <MonsterSirenSongCard
-      v-for="(song, idx) in props.filteredSongs"
+      v-for="(song, idx) in displayingSongs"
       :key="song.cid"
       :album="props.albumMap.get(song.albumCid)"
       :is-active="props.isCurrentSong(song.cid)"
