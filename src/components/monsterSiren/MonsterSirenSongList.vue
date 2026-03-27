@@ -45,7 +45,7 @@ const virtualItems = computed(() => {
 
 <template>
   <div class="space-y-4">
-    <div class="divide-y divide-default overflow-hidden rounded-xl border">
+    <div class="overflow-hidden rounded-xl border">
       <div
         class="hidden items-center gap-3 bg-muted px-4 py-2 text-xs font-medium text-muted lg:grid lg:grid-cols-[2rem_2.5rem_1fr_1fr_3rem]"
       >
@@ -67,7 +67,7 @@ const virtualItems = computed(() => {
           <template v-for="{ key, index, start, size, song } in virtualItems" :key="key">
             <div
               v-if="song"
-              class="group flex cursor-pointer items-center gap-3 px-3 py-2.5 transition-colors hover:bg-muted sm:px-4 sm:py-3 lg:grid lg:grid-cols-[2rem_2.5rem_1fr_1fr_3rem]"
+              class="group flex cursor-pointer items-center gap-3 border-t border-t-default px-3 py-2.5 transition-colors hover:bg-muted sm:px-4 sm:py-3 lg:grid lg:grid-cols-[2rem_2.5rem_1fr_1fr_3rem]"
               :class="{ 'bg-primary/10': props.isCurrentSong(song.cid) }"
               :style="{
                 position: 'absolute',
