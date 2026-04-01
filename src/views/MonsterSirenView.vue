@@ -4,12 +4,15 @@ import { useMonsterSirenApi } from '@/composables/monsterSiren/useMonsterSirenAp
 import { useMusicPlayer } from '@/composables/monsterSiren/useMusicPlayer';
 import { useSongFilter } from '@/composables/monsterSiren/useSongFilter';
 import { useViewMode } from '@/composables/monsterSiren/useViewMode';
-import { computed, onMounted, useTemplateRef, watch } from 'vue';
+import MonsterSirenSongDetail from '@/components/monsterSiren/MonsterSirenSongDetail.vue';
+import { computed, onMounted, useTemplateRef, watch, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 // ─── 界面状态 ─────────────────────────────────────────────────────────────────────
 const route = useRoute();
 const router = useRouter();
+
+const isSongDetailOpen = ref(false);
 
 const audioRef = useTemplateRef('audioRef');
 const {
@@ -153,6 +156,7 @@ onMounted(loadData);
       formatTime,
     }"
     v-model:is-playlist-open="isPlaylistOpen"
+    v-model:is-song-detail-open="isSongDetailOpen"
     @clear-playlist="clearPlaylist"
     @close-player="closePlayer"
     @download-song="downloadSong"
@@ -167,6 +171,19 @@ onMounted(loadData);
     @toggle-play="togglePlay"
     @toggle-play-mode="togglePlayMode"
   />
+
+  <Transition name="fade">
+    <MonsterSirenSongDetail
+      v-if="isSongDetailOpen && playerSong"
+      :album="playerAlbum ?? null"
+      :current-time="audioCurrentTime"
+      :detail="playerDetail"
+      :is-playing="isPlaying"
+      :song="playerSong"
+      @close="isSongDetailOpen = false"
+      @seek="(t) => seekAudio({ target: { value: t } } as any)"
+    />
+  </Transition>
 
   <UContainer :class="{ 'pb-28': playerSong }">
     <UPage>

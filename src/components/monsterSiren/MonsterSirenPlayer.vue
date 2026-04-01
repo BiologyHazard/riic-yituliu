@@ -41,6 +41,7 @@ const emit = defineEmits<{
 }>();
 
 const isPlaylistOpen = defineModel<boolean>('isPlaylistOpen');
+const isSongDetailOpen = defineModel<boolean>('isSongDetailOpen');
 </script>
 
 <template>
@@ -68,21 +69,19 @@ const isPlaylistOpen = defineModel<boolean>('isPlaylistOpen');
       </div>
 
       <div class="mx-auto flex max-w-7xl items-center gap-2 px-3 py-2 sm:gap-4 sm:px-4 sm:py-3">
-        <div class="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg shadow sm:h-12 sm:w-12">
+        <div
+          class="group relative h-10 w-10 shrink-0 cursor-pointer overflow-hidden rounded-lg shadow sm:h-12 sm:w-12"
+          @click="isSongDetailOpen = !isSongDetailOpen"
+        >
           <ImagePreviewContainer
             v-if="props.playerAlbum?.coverUrl"
-            @click="
-              emit('previewImage', {
-                url: props.playerAlbum.coverUrl,
-                name: props.playerAlbum.name,
-                downloadName: props.playerAlbum.name,
-              })
-            "
+            class="h-full w-full"
+            :disabled="true"
           >
             <img
               v-if="props.playerAlbum"
               :alt="props.playerAlbum.name"
-              class="h-full w-full object-cover"
+              class="h-full w-full object-cover transition-transform group-hover:scale-110"
               referrerpolicy="no-referrer"
               :src="props.playerAlbum.coverUrl"
             />
@@ -90,9 +89,14 @@ const isPlaylistOpen = defineModel<boolean>('isPlaylistOpen');
           <div v-else class="flex h-full w-full items-center justify-center bg-muted text-gray-400">
             <UIcon name="i-lucide-music" />
           </div>
+          <div
+            class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100"
+          >
+            <UIcon class="text-white" name="i-lucide-chevron-up" />
+          </div>
         </div>
 
-        <div class="min-w-0 flex-1">
+        <div class="min-w-0 flex-1 cursor-pointer" @click="isSongDetailOpen = !isSongDetailOpen">
           <div class="flex items-center gap-1.5 sm:gap-2">
             <p class="truncate text-xs font-semibold text-highlighted sm:text-sm">
               {{ props.playerSong.name }}
