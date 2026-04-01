@@ -50,8 +50,8 @@ function parseLyrics(lrc: string) {
     let match;
     timeReg.lastIndex = 0;
     while ((match = timeReg.exec(line)) !== null) {
-      const min = parseInt(match[1]);
-      const sec = parseInt(match[2]);
+      const min = parseInt(match[1]!);
+      const sec = parseInt(match[2]!);
       const ms = match[3] ? parseInt(match[3].padEnd(3, '0').slice(0, 3)) : 0;
       const time = min * 60 + sec + ms / 1000;
       result.push({ time, text });
@@ -114,84 +114,64 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col bg-default text-white lg:h-full lg:w-full lg:flex-row lg:items-center">
-    <!-- Mobile Header (Visible only on small screens) -->
-    <div class="flex items-center gap-4 p-4 lg:hidden">
-      <UButton icon="i-lucide-arrow-left" variant="ghost" @click="emit('back')" />
-      <div class="min-w-0">
-        <h2 class="truncate font-bold">{{ song.name }}</h2>
-        <p class="truncate text-xs opacity-60">{{ song.artists.join(' / ') }}</p>
+  <div class="flex h-full flex-1 flex-row items-center overflow-hidden">
+    <!-- Left Side: Cover & Info -->
+    <div class="flex flex-1 flex-col items-center justify-center p-8 text-center">
+      <div
+        class="relative mb-8 aspect-square w-full max-w-80 overflow-hidden rounded-2xl shadow-xl"
+      >
+        <img
+          v-if="album"
+          :alt="album.name"
+          class="h-full w-full object-cover"
+          referrerpolicy="no-referrer"
+          :src="album.coverUrl"
+        />
+        <div v-else class="flex h-full w-full items-center justify-center bg-white/5">
+          <UIcon class="h-20 w-20 opacity-20" name="i-lucide-music" />
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <div class="flex items-center justify-center gap-2">
+          <UButton icon="i-lucide-arrow-left" size="sm" variant="ghost" @click="emit('back')" />
+          <h1 class="text-4xl font-bold text-highlighted">{{ song.name }}</h1>
+        </div>
+        <p class="text-xl text-toned">{{ song.artists.join(' / ') }}</p>
+        <p v-if="album" class="text-sm text-muted">{{ album.name }}</p>
       </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="flex flex-1 flex-col overflow-hidden lg:h-full lg:flex-row lg:items-center">
-      <!-- Left Side: Cover & Info -->
-      <div class="flex flex-1 flex-col items-center justify-center p-8 text-center">
-        <div
-          class="relative mb-8 aspect-square w-full max-w-75 overflow-hidden rounded-2xl shadow-2xl lg:max-w-100"
-        >
-          <img
-            v-if="album"
-            :alt="album.name"
-            class="h-full w-full object-cover"
-            referrerpolicy="no-referrer"
-            :src="album.coverUrl"
-          />
-          <div v-else class="flex h-full w-full items-center justify-center bg-white/5">
-            <UIcon class="h-20 w-20 opacity-20" name="i-lucide-music" />
-          </div>
+    <!-- Right Side: Lyrics -->
+    <div class="flex h-full flex-1 flex-col overflow-hidden p-12">
+      <div
+        ref="lyricContainer"
+        class="no-scrollbar flex-1 overflow-y-auto"
+        @scroll="handleUserScroll"
+      >
+        <div v-if="isLoadingLyrics" class="flex h-full items-center justify-center">
+          <UIcon class="h-8 w-8 animate-spin opacity-40" name="i-lucide-loader-2" />
         </div>
-
-        <div class="space-y-2">
-          <div class="flex items-center justify-center gap-2">
-            <UButton
-              class="hidden lg:flex"
-              icon="i-lucide-arrow-left"
-              size="sm"
-              variant="ghost"
-              @click="emit('back')"
-            />
-            <h1 class="text-2xl font-bold text-highlighted lg:text-4xl">{{ song.name }}</h1>
-          </div>
-          <p class="text-lg text-default opacity-80 lg:text-xl">{{ song.artists.join(' / ') }}</p>
-          <p v-if="album" class="text-sm text-default opacity-40">{{ album.name }}</p>
-        </div>
-      </div>
-
-      <!-- Right Side: Lyrics -->
-      <div class="flex flex-1 flex-col overflow-hidden p-4 lg:h-full lg:p-12">
         <div
-          ref="lyricContainer"
-          class="no-scrollbar flex-1 overflow-y-auto"
-          @scroll="handleUserScroll"
+          v-else-if="lyrics.length > 0"
+          ref="lyricList"
+          class="relative space-y-6 pt-[40vh] pb-[40vh]"
         >
-          <div v-if="isLoadingLyrics" class="flex h-full items-center justify-center">
-            <UIcon class="h-8 w-8 animate-spin opacity-40" name="i-lucide-loader-2" />
-          </div>
           <div
-            v-else-if="lyrics.length > 0"
-            ref="lyricList"
-            class="relative space-y-6 pt-[20vh] pb-[20vh] lg:pt-[40vh] lg:pb-[40vh]"
+            v-for="(line, index) in lyrics"
+            :key="index"
+            class="origin-left cursor-pointer transition-all"
+            :class="[
+              activeIndex === index
+                ? 'scale-105 text-xl font-bold text-primary'
+                : 'text-lg text-muted hover:text-highlighted',
+            ]"
+            @click="emit('seek', line.time)"
           >
-            <div
-              v-for="(line, index) in lyrics"
-              :key="index"
-              class="origin-left cursor-pointer transition-all duration-500"
-              :class="[
-                activeIndex === index
-                  ? 'scale-105 text-xl font-bold text-primary opacity-100'
-                  : 'text-lg font-medium text-muted hover:text-highlighted',
-              ]"
-              @click="emit('seek', line.time)"
-            >
-              {{ line.text }}
-            </div>
-          </div>
-          <div v-else class="flex h-full items-center justify-center text-muted italic">
-            暂无歌词
+            {{ line.text }}
           </div>
         </div>
+        <div v-else class="flex h-full items-center justify-center text-muted italic">暂无歌词</div>
       </div>
     </div>
   </div>
