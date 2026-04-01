@@ -7,6 +7,7 @@ import { useViewMode } from '@/composables/monsterSiren/useViewMode';
 import MonsterSirenSongDetail from '@/components/monsterSiren/MonsterSirenSongDetail.vue';
 import { computed, onMounted, useTemplateRef, watch, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import type { SongDetail } from '@/types/monsterSiren';
 
 // ─── 界面状态 ─────────────────────────────────────────────────────────────────────
 const route = useRoute();
@@ -24,6 +25,7 @@ const {
   isLoadingAlbumDetail,
   currentAlbumDetail,
   albumMap,
+  songMap,
   albumSongCount,
   loadData,
   getSongDetail,
@@ -94,12 +96,6 @@ const selectedAlbumSongs = computed(() => {
   return songs.value.filter((s) => s.albumCid === selectedAlbumCid.value);
 });
 
-// 乐曲详情页所需数据
-const selectedSong = computed(() =>
-  selectedSongCid.value ? songs.value.find((s) => s.cid === selectedSongCid.value) : null,
-);
-
-const { songDetailCache } = useMonsterSirenApi();
 const selectedSongDetail = ref<SongDetail | null>(null);
 
 watch(
@@ -113,10 +109,6 @@ watch(
     if (data) selectedSongDetail.value = data;
   },
   { immediate: true },
-);
-
-const selectedSongAlbum = computed(() =>
-  selectedSong.value ? albumMap.value.get(selectedSong.value.albumCid) : null,
 );
 
 // ─── 侦听器 ───────────────────────────────────────────────────────────────────────
@@ -198,17 +190,17 @@ onMounted(loadData);
   />
 
   <div
-    v-if="selectedSongCid && selectedSong"
+    v-if="selectedSongCid !== null && songMap.has(selectedSongCid)"
     class="fixed inset-0 z-40 flex flex-col overflow-hidden bg-default pt-16"
   >
     <MonsterSirenSongDetail
-      :album="selectedSongAlbum ?? null"
-      :current-time="isCurrentSong(selectedSong.cid) ? audioCurrentTime : 0"
+      :album="albumMap.get(songMap.get(selectedSongCid)!.albumCid) ?? null"
+      :current-time="isCurrentSong(selectedSongCid) ? audioCurrentTime : 0"
       :detail="selectedSongDetail"
-      :is-playing="isCurrentSong(selectedSong.cid) && isPlaying"
-      :song="selectedSong"
+      :is-playing="isCurrentSong(selectedSongCid) && isPlaying"
+      :song="songMap.get(selectedSongCid)!"
       @back="selectedSongCid = null"
-      @seek="(t) => isCurrentSong(selectedSong!.cid) && seekAudio({ target: { value: t } } as any)"
+      @seek="(t) => isCurrentSong(selectedSongCid!) && seekAudio({ target: { value: t } } as any)"
     />
   </div>
 

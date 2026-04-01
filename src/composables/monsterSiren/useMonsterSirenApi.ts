@@ -39,6 +39,7 @@ export function useMonsterSirenApi() {
   const currentAlbumDetail = ref<AlbumDetail | null>(null);
 
   const albumMap = computed(() => new Map(albums.value.map((album) => [album.cid, album])));
+  const songMap = computed(() => new Map(songs.value.map((song) => [song.cid, song])));
 
   const albumSongCount = computed(() => {
     const map = new Map<string, number>();
@@ -108,6 +109,7 @@ export function useMonsterSirenApi() {
     isLoadingAlbumDetail,
     currentAlbumDetail,
     albumMap,
+    songMap,
     albumSongCount,
     loadData,
     getSongDetail,
