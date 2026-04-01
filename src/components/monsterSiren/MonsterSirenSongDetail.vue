@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch, onUnmounted } from 'vue';
-import { useElementSize } from '@vueuse/core';
-import type { Song, SongDetail, Album } from '@/types/monsterSiren';
+import type { Album, Song, SongDetail } from '@/types/monsterSiren';
+import { computed, onUnmounted, ref, watch } from 'vue';
 
 const props = defineProps<{
   song: Song;
@@ -12,7 +11,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  close: [];
+  back: [];
   seek: [time: number];
 }>();
 
@@ -115,28 +114,22 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div
-    class="fixed inset-0 z-[60] flex flex-col bg-black/90 text-white backdrop-blur-xl transition-all"
-  >
-    <!-- Header -->
-    <div class="flex items-center justify-between p-4 sm:p-6">
-      <button class="rounded-full p-2 transition-colors hover:bg-white/10" @click="emit('close')">
-        <UIcon class="h-6 w-6" name="i-lucide-chevron-down" />
-      </button>
-      <div class="text-center">
-        <h2 class="text-sm font-medium opacity-60">正在播放</h2>
-        <p class="font-bold">{{ song.name }}</p>
+  <div class="flex flex-col bg-default text-white lg:h-full lg:w-full lg:flex-row lg:items-center">
+    <!-- Mobile Header (Visible only on small screens) -->
+    <div class="flex items-center gap-4 p-4 lg:hidden">
+      <UButton icon="i-lucide-arrow-left" variant="ghost" @click="emit('back')" />
+      <div class="min-w-0">
+        <h2 class="truncate font-bold">{{ song.name }}</h2>
+        <p class="truncate text-xs opacity-60">{{ song.artists.join(' / ') }}</p>
       </div>
-      <div class="w-10" />
-      <!-- Spacer -->
     </div>
 
     <!-- Main Content -->
-    <div class="flex flex-1 flex-col overflow-hidden lg:flex-row lg:items-center">
+    <div class="flex flex-1 flex-col overflow-hidden lg:h-full lg:flex-row lg:items-center">
       <!-- Left Side: Cover & Info -->
       <div class="flex flex-1 flex-col items-center justify-center p-8 text-center">
         <div
-          class="relative mb-8 aspect-square w-full max-w-[300px] overflow-hidden rounded-2xl shadow-2xl lg:max-w-[400px]"
+          class="relative mb-8 aspect-square w-full max-w-75 overflow-hidden rounded-2xl shadow-2xl lg:max-w-100"
         >
           <img
             v-if="album"
@@ -151,9 +144,18 @@ onUnmounted(() => {
         </div>
 
         <div class="space-y-2">
-          <h1 class="text-2xl font-bold lg:text-4xl">{{ song.name }}</h1>
-          <p class="text-lg opacity-80 lg:text-xl">{{ song.artists.join(' / ') }}</p>
-          <p v-if="album" class="text-sm opacity-40">{{ album.name }}</p>
+          <div class="flex items-center justify-center gap-2">
+            <UButton
+              class="hidden lg:flex"
+              icon="i-lucide-arrow-left"
+              size="sm"
+              variant="ghost"
+              @click="emit('back')"
+            />
+            <h1 class="text-2xl font-bold text-highlighted lg:text-4xl">{{ song.name }}</h1>
+          </div>
+          <p class="text-lg text-default opacity-80 lg:text-xl">{{ song.artists.join(' / ') }}</p>
+          <p v-if="album" class="text-sm text-default opacity-40">{{ album.name }}</p>
         </div>
       </div>
 
@@ -170,23 +172,23 @@ onUnmounted(() => {
           <div
             v-else-if="lyrics.length > 0"
             ref="lyricList"
-            class="relative space-y-6 pt-[20vh] pt-[40vh] pb-[20vh] lg:pb-[40vh]"
+            class="relative space-y-6 pt-[20vh] pb-[20vh] lg:pt-[40vh] lg:pb-[40vh]"
           >
             <div
               v-for="(line, index) in lyrics"
               :key="index"
-              class="cursor-pointer transition-all duration-500"
+              class="origin-left cursor-pointer transition-all duration-500"
               :class="[
                 activeIndex === index
-                  ? 'scale-105 text-xl font-bold text-white opacity-100'
-                  : 'text-lg font-medium text-white/40 hover:text-white/60',
+                  ? 'scale-105 text-xl font-bold text-primary opacity-100'
+                  : 'text-lg font-medium text-muted hover:text-highlighted',
               ]"
               @click="emit('seek', line.time)"
             >
               {{ line.text }}
             </div>
           </div>
-          <div v-else class="flex h-full items-center justify-center text-white/20 italic">
+          <div v-else class="flex h-full items-center justify-center text-muted italic">
             暂无歌词
           </div>
         </div>

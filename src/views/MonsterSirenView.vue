@@ -30,7 +30,7 @@ const {
   getAlbumDetail,
 } = useMonsterSirenApi();
 
-const { songViewMode, viewTab, selectedAlbumCid } = useViewMode(route, router);
+const { songViewMode, viewTab, selectedAlbumCid, selectedSongCid } = useViewMode(route, router);
 
 const { searchQuery, filteredSongs } = useSongFilter(songs, albumMap);
 
@@ -93,6 +93,31 @@ const selectedAlbumSongs = computed(() => {
   if (!selectedAlbumCid.value) return [];
   return songs.value.filter((s) => s.albumCid === selectedAlbumCid.value);
 });
+
+// 乐曲详情页所需数据
+const selectedSong = computed(() =>
+  selectedSongCid.value ? songs.value.find((s) => s.cid === selectedSongCid.value) : null,
+);
+
+const { songDetailCache } = useMonsterSirenApi();
+const selectedSongDetail = ref<SongDetail | null>(null);
+
+watch(
+  selectedSongCid,
+  async (cid) => {
+    if (!cid) {
+      selectedSongDetail.value = null;
+      return;
+    }
+    const data = await getSongDetail(cid);
+    if (data) selectedSongDetail.value = data;
+  },
+  { immediate: true },
+);
+
+const selectedSongAlbum = computed(() =>
+  selectedSong.value ? albumMap.value.get(selectedSong.value.albumCid) : null,
+);
 
 // ─── 侦听器 ───────────────────────────────────────────────────────────────────────
 watch(
@@ -172,20 +197,22 @@ onMounted(loadData);
     @toggle-play-mode="togglePlayMode"
   />
 
-  <Transition name="fade">
+  <div
+    v-if="selectedSongCid && selectedSong"
+    class="fixed inset-0 z-40 flex flex-col overflow-hidden bg-default pt-16"
+  >
     <MonsterSirenSongDetail
-      v-if="isSongDetailOpen && playerSong"
-      :album="playerAlbum ?? null"
-      :current-time="audioCurrentTime"
-      :detail="playerDetail"
-      :is-playing="isPlaying"
-      :song="playerSong"
-      @close="isSongDetailOpen = false"
-      @seek="(t) => seekAudio({ target: { value: t } } as any)"
+      :album="selectedSongAlbum ?? null"
+      :current-time="isCurrentSong(selectedSong.cid) ? audioCurrentTime : 0"
+      :detail="selectedSongDetail"
+      :is-playing="isCurrentSong(selectedSong.cid) && isPlaying"
+      :song="selectedSong"
+      @back="selectedSongCid = null"
+      @seek="(t) => isCurrentSong(selectedSong!.cid) && seekAudio({ target: { value: t } } as any)"
     />
-  </Transition>
+  </div>
 
-  <UContainer :class="{ 'pb-28': playerSong }">
+  <UContainer v-else :class="{ 'pb-28': playerSong }">
     <UPage>
       <UPageHeader description="试听与下载塞壬唱片官网音乐" title="塞壬唱片">
         <template #headline>

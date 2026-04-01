@@ -110,7 +110,7 @@ const virtualItems = computed(() => {
 
               <ImagePreviewContainer
                 v-if="props.albumMap.get(song.albumCid)?.coverUrl"
-                class="h-10 w-10 shrink-0 cursor-zoom-in rounded-md shadow-sm"
+                class="h-10 w-10 shrink-0 rounded-md shadow-sm"
                 @click.stop="
                   emit(
                     'previewCover',

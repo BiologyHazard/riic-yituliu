@@ -14,6 +14,7 @@ export function useViewMode(route: RouteLocationNormalizedLoaded, router: Router
 
   const viewTab = computed<Tab>({
     get: () => {
+      if (route.path.startsWith(`${BASE_PATH}/song/`)) return 'musics';
       if (route.path.startsWith(`${BASE_PATH}/album/`)) return 'albums';
       return route.path.startsWith(`${BASE_PATH}/albums`) ? 'albums' : 'musics';
     },
@@ -23,7 +24,7 @@ export function useViewMode(route: RouteLocationNormalizedLoaded, router: Router
   });
 
   const selectedAlbumCid = computed<string | null>({
-    get: () => (route.params.cid as string) || null,
+    get: () => (route.name === 'monster-siren-album-detail' ? (route.params.cid as string) : null),
     set: (cid) => {
       if (cid !== null) {
         router.push(`${BASE_PATH}/album/${cid}`);
@@ -33,9 +34,21 @@ export function useViewMode(route: RouteLocationNormalizedLoaded, router: Router
     },
   });
 
+  const selectedSongCid = computed<string | null>({
+    get: () => (route.name === 'monster-siren-song-detail' ? (route.params.cid as string) : null),
+    set: (cid) => {
+      if (cid !== null) {
+        router.push(`${BASE_PATH}/song/${cid}`);
+      } else {
+        router.push(`${BASE_PATH}/musics`);
+      }
+    },
+  });
+
   return {
     songViewMode,
     viewTab,
     selectedAlbumCid,
+    selectedSongCid,
   };
 }

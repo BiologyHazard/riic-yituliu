@@ -74,6 +74,12 @@ const router = createRouter({
           component: MonsterSirenView,
           meta: { title: '塞壬唱片 - 专辑详情' },
         },
+        {
+          path: 'song/:cid',
+          name: 'monster-siren-song-detail',
+          component: MonsterSirenView,
+          meta: { title: '塞壬唱片 - 乐曲详情' },
+        },
       ],
     },
     {

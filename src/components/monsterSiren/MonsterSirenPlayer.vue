@@ -41,7 +41,6 @@ const emit = defineEmits<{
 }>();
 
 const isPlaylistOpen = defineModel<boolean>('isPlaylistOpen');
-const isSongDetailOpen = defineModel<boolean>('isSongDetailOpen');
 </script>
 
 <template>
@@ -69,34 +68,43 @@ const isSongDetailOpen = defineModel<boolean>('isSongDetailOpen');
       </div>
 
       <div class="mx-auto flex max-w-7xl items-center gap-2 px-3 py-2 sm:gap-4 sm:px-4 sm:py-3">
-        <div
-          class="group relative h-10 w-10 shrink-0 cursor-pointer overflow-hidden rounded-lg shadow sm:h-12 sm:w-12"
-          @click="isSongDetailOpen = !isSongDetailOpen"
-        >
-          <ImagePreviewContainer
-            v-if="props.playerAlbum?.coverUrl"
-            class="h-full w-full"
-            :disabled="true"
-          >
-            <img
-              v-if="props.playerAlbum"
-              :alt="props.playerAlbum.name"
-              class="h-full w-full object-cover transition-transform group-hover:scale-110"
-              referrerpolicy="no-referrer"
-              :src="props.playerAlbum.coverUrl"
-            />
-          </ImagePreviewContainer>
-          <div v-else class="flex h-full w-full items-center justify-center bg-muted text-gray-400">
-            <UIcon name="i-lucide-music" />
-          </div>
+        <div class="h-10 w-10 shrink-0 overflow-hidden rounded-lg shadow sm:h-12 sm:w-12">
           <div
-            class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100"
+            class="group/image-preview relative cursor-pointer overflow-hidden"
+            @click="$router.push(`/monster-siren/song/${props.playerSong.cid}`)"
           >
-            <UIcon class="text-white" name="i-lucide-chevron-up" />
+            <div
+              class="h-full w-full transition-all group-hover/image-preview:scale-105 group-hover/image-preview:blur-[2px] group-hover/image-preview:brightness-50"
+            >
+              <img
+                v-if="props.playerAlbum?.coverUrl"
+                :alt="props.playerAlbum.name"
+                class="h-full w-full object-cover"
+                referrerpolicy="no-referrer"
+                :src="props.playerAlbum.coverUrl"
+              />
+              <div
+                v-else
+                class="flex h-full w-full items-center justify-center bg-muted text-muted"
+              >
+                <UIcon class="text-lg" name="i-lucide-music" />
+              </div>
+            </div>
+            <div
+              class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover/image-preview:opacity-100"
+            >
+              <UIcon
+                class="dark size-1/5 min-h-4 min-w-4 text-default"
+                name="i-lucide-chevron-up"
+              />
+            </div>
           </div>
         </div>
 
-        <div class="min-w-0 flex-1 cursor-pointer" @click="isSongDetailOpen = !isSongDetailOpen">
+        <div
+          class="min-w-0 flex-1 cursor-pointer"
+          @click="$router.push(`/monster-siren/song/${props.playerSong.cid}`)"
+        >
           <div class="flex items-center gap-1.5 sm:gap-2">
             <p class="truncate text-xs font-semibold text-highlighted sm:text-sm">
               {{ props.playerSong.name }}
