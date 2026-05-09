@@ -5,65 +5,40 @@ import type {
   ItemTable,
   SkinTable,
 } from '@/types/gameData';
+import { reactive } from 'vue';
 
 /** `excel/character_table.json` */
-export const characterTable: CharacterTable = await fetch(
-  'https://torappu.prts.wiki/gamedata/latest/excel/character_table.json',
-).then((res) => res.json());
+export const characterTable = reactive<CharacterTable>({} as CharacterTable);
 
 /** `excel/skin_table.json` */
-export const skinTable: SkinTable = await fetch(
-  'https://torappu.prts.wiki/gamedata/latest/excel/skin_table.json',
-).then((res) => res.json());
+export const skinTable = reactive<SkinTable>({} as SkinTable);
 
 /** `excel/building_data.json` */
-export const buildingData: BuildingData = await fetch(
-  'https://torappu.prts.wiki/gamedata/latest/excel/building_data.json',
-).then((res) => res.json());
+export const buildingData = reactive<BuildingData>({} as BuildingData);
 
 /** `excel/gamedata_const.json` */
-export const gamedataConst: GameDataConst = await fetch(
-  'https://torappu.prts.wiki/gamedata/latest/excel/gamedata_const.json',
-).then((res) => res.json());
+export const gamedataConst = reactive<GameDataConst>({} as GameDataConst);
 
 /** `excel/item_table.json` */
-export const itemTable: ItemTable = await fetch(
-  'https://torappu.prts.wiki/gamedata/latest/excel/item_table.json',
-).then((res) => res.json());
+export const itemTable = reactive<ItemTable>({} as ItemTable);
 
-// export const stageTable = await fetch(
-//   'https://torappu.prts.wiki/gamedata/latest/excel/stage_table.json',
-// ).then((res) => res.json());
+/**
+ * 异步加载或刷新游戏数据
+ * @param baseUrl 数据源基础 URL
+ */
+export async function loadGameData(baseUrl: string) {
+  const [charRes, skinRes, buildingRes, constRes, itemRes] = await Promise.all([
+    fetch(`${baseUrl}/character_table.json`).then((res) => res.json()),
+    fetch(`${baseUrl}/skin_table.json`).then((res) => res.json()),
+    fetch(`${baseUrl}/building_data.json`).then((res) => res.json()),
+    fetch(`${baseUrl}/gamedata_const.json`).then((res) => res.json()),
+    fetch(`${baseUrl}/item_table.json`).then((res) => res.json()),
+  ]);
 
-// export const activityTable = await fetch(
-//   'https://torappu.prts.wiki/gamedata/latest/excel/activity_table.json',
-// ).then((res) => res.json());
-
-// export const zoneTable = await fetch(
-//   'https://torappu.prts.wiki/gamedata/latest/excel/zone_table.json',
-// ).then((res) => res.json());
-
-// /** `excel/character_table.json` */
-// export const characterTable: CharacterTable = await fetch(
-//   'https://raw.githubusercontent.com/ArknightsAssets/ArknightsGamedata/refs/heads/master/cn/gamedata/excel/character_table.json',
-// ).then((res) => res.json());
-
-// /** `excel/skin_table.json` */
-// export const skinTable: SkinTable = await fetch(
-//   'https://raw.githubusercontent.com/ArknightsAssets/ArknightsGamedata/refs/heads/master/cn/gamedata/excel/skin_table.json',
-// ).then((res) => res.json());
-
-// /** `excel/building_data.json` */
-// export const buildingData: BuildingData = await fetch(
-//   'https://raw.githubusercontent.com/ArknightsAssets/ArknightsGamedata/refs/heads/master/cn/gamedata/excel/building_data.json',
-// ).then((res) => res.json());
-
-// /** `excel/gamedata_const.json` */
-// export const gamedataConst: GameDataConst = await fetch(
-//   'https://raw.githubusercontent.com/ArknightsAssets/ArknightsGamedata/refs/heads/master/cn/gamedata/excel/gamedata_const.json',
-// ).then((res) => res.json());
-
-// /** `excel/item_table.json` */
-// export const itemTable: ItemTable = await fetch(
-//   'https://raw.githubusercontent.com/ArknightsAssets/ArknightsGamedata/refs/heads/master/cn/gamedata/excel/item_table.json',
-// ).then((res) => res.json());
+  // 使用 Object.assign 保持响应式对象的引用不变，但更新其内容
+  Object.assign(characterTable, charRes);
+  Object.assign(skinTable, skinRes);
+  Object.assign(buildingData, buildingRes);
+  Object.assign(gamedataConst, constRes);
+  Object.assign(itemTable, itemRes);
+}
