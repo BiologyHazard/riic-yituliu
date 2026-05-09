@@ -226,9 +226,9 @@ const t1EliteMaterialDisplayInfo = Object.fromEntries(
 
 const t2EliteMaterialDisplayInfo = {
   '30012': {
-    iconUrl: `https://torappu.prts.wiki/assets/item_icon/${itemTable.items['30012']!.iconId}.png`,
+    iconUrl: getRawItemIconUrl('30012'),
     itemId: '30012',
-    itemName: itemTable.items['30012']!.name,
+    itemName: itemTable.items['30012']?.name,
     workshopByproductWeight: 15,
     epgsShopPrice: 15,
     sideStoryMainDropRatePerSanity: 0.0693,
@@ -237,9 +237,9 @@ const t2EliteMaterialDisplayInfo = {
     expectedSanityPerSubDropItem: 28.8718,
   },
   '30022': {
-    iconUrl: `https://torappu.prts.wiki/assets/item_icon/${itemTable.items['30022']!.iconId}.png`,
+    iconUrl: getRawItemIconUrl('30022'),
     itemId: '30022',
-    itemName: itemTable.items['30022']!.name,
+    itemName: itemTable.items['30022']?.name,
     workshopByproductWeight: 15,
     epgsShopPrice: 15,
     sideStoryMainDropRatePerSanity: 0.0693,
@@ -251,9 +251,9 @@ const t2EliteMaterialDisplayInfo = {
 
 const t3EliteMaterialDisplayInfo = {
   '30013': {
-    iconUrl: `https://torappu.prts.wiki/assets/item_icon/${itemTable.items['30013']!.iconId}.png`,
+    iconUrl: getRawItemIconUrl('30013'),
     itemId: '30013',
-    itemName: itemTable.items['30013']!.name,
+    itemName: itemTable.items['30013']?.name,
     workshopByproductWeightBefore20231008: 10,
     workshopByproductWeightAfter20231008: 15,
     qualificationCertificatePrice: 40,
@@ -263,9 +263,9 @@ const t3EliteMaterialDisplayInfo = {
     expectedSanityPerItem: 28.9017,
   },
   '30023': {
-    iconUrl: `https://torappu.prts.wiki/assets/item_icon/${itemTable.items['30023']!.iconId}.png`,
+    iconUrl: getRawItemIconUrl('30023'),
     itemId: '30023',
-    itemName: itemTable.items['30023']!.name,
+    itemName: itemTable.items['30023']?.name,
     workshopByproductWeightBefore20231008: 10,
     workshopByproductWeightAfter20231008: 15,
     qualificationCertificatePrice: 40,
@@ -275,9 +275,9 @@ const t3EliteMaterialDisplayInfo = {
     expectedSanityPerItem: 28.9017,
   },
   '30033': {
-    iconUrl: `https://torappu.prts.wiki/assets/item_icon/${itemTable.items['30033']!.iconId}.png`,
+    iconUrl: getRawItemIconUrl('30033'),
     itemId: '30033',
-    itemName: itemTable.items['30033']!.name,
+    itemName: itemTable.items['30033']?.name,
     workshopByproductWeightBefore20231008: 10,
     workshopByproductWeightAfter20231008: 15,
     qualificationCertificatePrice: 40,
@@ -287,9 +287,9 @@ const t3EliteMaterialDisplayInfo = {
     expectedSanityPerItem: 28.9017,
   },
   '30043': {
-    iconUrl: `https://torappu.prts.wiki/assets/item_icon/${itemTable.items['30043']!.iconId}.png`,
+    iconUrl: getRawItemIconUrl('30043'),
     itemId: '30043',
-    itemName: itemTable.items['30043']!.name,
+    itemName: itemTable.items['30043']?.name,
     workshopByproductWeightBefore20231008: 10,
     workshopByproductWeightAfter20231008: 15,
     qualificationCertificatePrice: 40,
@@ -299,9 +299,9 @@ const t3EliteMaterialDisplayInfo = {
     expectedSanityPerItem: 28.9017,
   },
   '30053': {
-    iconUrl: `https://torappu.prts.wiki/assets/item_icon/${itemTable.items['30053']!.iconId}.png`,
+    iconUrl: getRawItemIconUrl('30053'),
     itemId: '30053',
-    itemName: itemTable.items['30053']!.name,
+    itemName: itemTable.items['30053']?.name,
     workshopByproductWeightBefore20231008: 10,
     workshopByproductWeightAfter20231008: 15,
     qualificationCertificatePrice: 40,
