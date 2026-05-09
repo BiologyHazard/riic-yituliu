@@ -1,25 +1,12 @@
 <script setup lang="ts">
-// import { activityTable, stageTable, zoneTable } from '@/utils/gameData';
-</script>
-<script lang="ts">
-const stageTable = await fetch(
-  'https://torappu.prts.wiki/gamedata/latest/excel/stage_table.json',
-).then((res) => res.json());
-
-const activityTable = await fetch(
-  'https://torappu.prts.wiki/gamedata/latest/excel/activity_table.json',
-).then((res) => res.json());
-
-const zoneTable = await fetch(
-  'https://torappu.prts.wiki/gamedata/latest/excel/zone_table.json',
-).then((res) => res.json());
+import { activityTable, stageTable, zoneTable } from '@/utils/gameData';
 </script>
 
 <template>
   <UContainer>
     <UPage>
       <UPageBody>
-        <div class="stage-list-view">
+        <div v-if="activityTable.basicInfo" class="stage-list-view">
           <h1>作战列表</h1>
 
           <UAccordion
@@ -92,6 +79,10 @@ const zoneTable = await fetch(
               </ul>
             </template>
           </UAccordion>
+        </div>
+        <div v-else class="flex h-64 items-center justify-center">
+          <UIcon class="h-8 w-8 animate-spin text-primary" name="i-lucide-loader-2" />
+          <span class="ml-2">正在加载作战数据...</span>
         </div>
       </UPageBody>
     </UPage>
