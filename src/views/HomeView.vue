@@ -1,11 +1,31 @@
 <script setup lang="ts">
+import { useDataSource } from '@/composables/useDataSource';
 import { getPrtsWikiMediaUrl } from '@/utils/prtsWiki';
+
+const { currentSourceId, dataSources, setSource } = useDataSource();
 </script>
 
 <template>
   <UContainer>
     <UPage>
       <UPageBody class="space-y-6">
+        <section
+          class="data-source-settings rounded-lg border border-gray-200 p-4 dark:border-gray-800"
+        >
+          <h2 class="mb-4 text-lg font-bold">数据源设置</h2>
+          <div class="flex items-center gap-4">
+            <span class="text-sm opacity-80">当前数据源:</span>
+            <USelectMenu
+              v-model="currentSourceId"
+              class="w-32"
+              :items="dataSources"
+              :search-input="false"
+              value-key="id"
+              @update:model-value="setSource"
+            />
+          </div>
+        </section>
+
         <div class="flex flex-col">
           <UButton
             rel="noopener noreferrer"
