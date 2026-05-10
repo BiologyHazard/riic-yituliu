@@ -8,6 +8,9 @@ import {
 import { dataSources, githubMirrors } from '@/config/dataSources';
 import { loadGameData } from '@/utils/gameData';
 import { getPrtsWikiMediaUrl } from '@/utils/prtsWiki';
+import { watch } from 'vue';
+
+watch(currentBaseUrl, loadGameData);
 </script>
 
 <template>
@@ -28,7 +31,6 @@ import { getPrtsWikiMediaUrl } from '@/utils/prtsWiki';
                     'group-data-[state=open]:rotate-180 transition-transform duration-200',
                 }"
                 value-key="id"
-                @update:model-value="loadGameData(currentBaseUrl)"
               />
             </UFormField>
             <UFormField v-if="currentSource.isGithub" label="GitHub 镜像">
@@ -42,7 +44,6 @@ import { getPrtsWikiMediaUrl } from '@/utils/prtsWiki';
                     'group-data-[state=open]:rotate-180 transition-transform duration-200',
                 }"
                 value-key="id"
-                @update:model-value="loadGameData(currentBaseUrl)"
               />
             </UFormField>
 
