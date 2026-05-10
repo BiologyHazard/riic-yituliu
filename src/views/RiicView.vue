@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import RiicSchedule from '@/components/riic/RiicSchedule.vue';
-import { type ScheduleType } from '@/types/riic';
 import { parseSchedule } from '@/utils/riic/parseScheduleInput';
-import { ref, useTemplateRef, watch } from 'vue';
+import { computed, ref, useTemplateRef } from 'vue';
 
 // 导入预设排班表
 /**
@@ -33,22 +32,7 @@ const rawInput = ref<string>(exampleInput);
 /**
  * 解析后的数据
  */
-const data = ref<ScheduleType>({
-  title: '',
-  description: '',
-  stats: [],
-  queueDescriptions: [],
-  lines: [],
-});
-
-// 输入框内容变化时，重新解析数据
-watch(
-  rawInput,
-  () => {
-    data.value = parseSchedule(rawInput.value || '');
-  },
-  { immediate: true },
-);
+const data = computed(() => parseSchedule(rawInput.value || ''));
 
 const textareaRef = useTemplateRef('textareaRef');
 const outputPanelRef = useTemplateRef('outputPanelRef');

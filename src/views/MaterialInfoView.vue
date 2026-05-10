@@ -316,9 +316,8 @@ const t3EliteMaterialDisplayInfo = {
 <template>
   <UContainer>
     <UPage>
+      <UPageHeader title="材料信息" />
       <UPageBody>
-        <h1>精英材料信息</h1>
-
         <UAccordion
           :default-value="['显示设置', '白材料信息', '绿材料信息', '蓝材料信息']"
           :items="[
