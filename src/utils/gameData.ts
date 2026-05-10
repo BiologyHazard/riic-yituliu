@@ -1,9 +1,12 @@
 import type {
+  ActivityTable,
   BuildingData,
   CharacterTable,
   GameDataConst,
   ItemTable,
   SkinTable,
+  StageTable,
+  ZoneTable,
 } from '@/types/gameData';
 import { reactive, ref } from 'vue';
 
@@ -38,13 +41,20 @@ export const itemTable = reactive<ItemTable>({
 });
 
 /** `excel/stage_table.json` */
-export const stageTable = reactive({});
+export const stageTable = reactive<StageTable>({
+  stages: {},
+});
 
 /** `excel/activity_table.json` */
-export const activityTable = reactive({});
+export const activityTable = reactive<ActivityTable>({
+  basicInfo: {},
+  zoneToActivity: {},
+});
 
 /** `excel/zone_table.json` */
-export const zoneTable = reactive({});
+export const zoneTable = reactive<ZoneTable>({
+  zones: {},
+});
 
 /**
  * 异步加载或刷新游戏数据
