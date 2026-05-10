@@ -7,7 +7,7 @@ import { activityTable, stageTable, zoneTable } from '@/utils/gameData';
     <UPage>
       <UPageHeader title="作战列表" />
       <UPageBody>
-        <div v-if="activityTable.basicInfo" class="stage-list-view">
+        <div v-if="Object.keys(activityTable.basicInfo).length > 0" class="stage-list-view">
           <UAccordion
             :items="[
               { label: '按活动分类', slot: 'by-activity' },
