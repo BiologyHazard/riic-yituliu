@@ -318,7 +318,7 @@ onMounted(loadData);
               }"
               @back-to-albums="selectedAlbumCid = null"
               @download-song="downloadSong"
-              @open-album-detail="(cid) => (selectedAlbumCid = cid)"
+              @open-album-detail="(cid: string) => (selectedAlbumCid = cid)"
               @play-song="playSong"
               @preview-cover="previewCover"
             />
