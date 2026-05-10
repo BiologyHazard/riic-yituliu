@@ -16,92 +16,116 @@ import { activityTable, stageTable, zoneTable } from '@/utils/gameData';
             multiple
           >
             <template #by-activity>
-              <ul>
-                <li
+              <div class="space-y-4 p-1">
+                <UCard
                   v-for="[activityId, activity] in Object.entries(activityTable.basicInfo)"
                   :key="activityId"
-                  class="activity-item"
+                  variant="subtle"
                 >
-                  {{ activity.name }}（{{ activityId }}）
-                  <ul>
+                  <template #header>
+                    <div class="flex items-center gap-2">
+                      <UIcon class="text-lg font-bold text-primary" name="i-lucide-calendar" />
+                      <div>
+                        <span class="text-lg font-bold text-primary">{{ activity.name }}</span>
+                        <span class="ms-2 font-mono text-xs text-muted">{{ activityId }}</span>
+                      </div>
+                    </div>
+                  </template>
+
+                  <ul class="space-y-3 border-s-2 border-muted ps-4">
                     <li
-                      v-for="[zoneId, zoneInfo] in Object.entries(zoneTable.zones).filter(
-                        ([zoneId, zoneInfo]) => activityTable.zoneToActivity[zoneId] === activityId,
+                      v-for="[zoneId, zone] in Object.entries(zoneTable.zones).filter(
+                        ([zoneId, _zone]) => activityTable.zoneToActivity[zoneId] === activityId,
                       )"
                       :key="zoneId"
-                      class="zone-item"
                     >
-                      {{ zoneInfo.zoneNameFirst }} {{ zoneInfo.zoneNameSecond }}（{{ zoneId }}）
-                      <ul>
-                        <li
-                          v-for="[stageId, stageInfo] in Object.entries(stageTable.stages).filter(
-                            ([stageId, stageInfo]) => stageInfo.zoneId === zoneId,
+                      <div class="mbe-2 flex items-center gap-2">
+                        <UIcon name="i-lucide-map-pin" />
+                        <div>
+                          <span class="font-semibold"
+                            >{{ zone.zoneNameFirst }} {{ zone.zoneNameSecond }}</span
+                          >
+                          <span class="ms-2 font-mono text-xs text-muted">{{ zoneId }}</span>
+                        </div>
+                      </div>
+
+                      <div class="ms-6 flex flex-wrap gap-2">
+                        <div
+                          v-for="[stageId, stage] in Object.entries(stageTable.stages).filter(
+                            ([_stageId, stage]) => stage.zoneId === zoneId,
                           )"
                           :key="stageId"
-                          class="stage-item"
+                          class="group relative flex items-center rounded border border-muted bg-default px-2 py-1 text-sm shadow-sm transition-all hover:border-primary hover:text-primary"
                         >
-                          {{ stageInfo.code }} {{ stageInfo.name
-                          }}{{ stageInfo.difficulty === 'FOUR_STAR' ? '（突袭）' : '' }}（{{
-                            stageId
-                          }}）
-                        </li>
-                      </ul>
+                          <span class="font-mono font-bold">{{ stage.code || '未知' }}</span>
+                          <span class="mx-1 h-3/4 border-x border-muted"></span>
+                          <span>{{ stage.name || '未知' }}</span>
+                          <UBadge
+                            v-if="stage.difficulty === 'FOUR_STAR'"
+                            class="ms-1 px-1 py-0.5"
+                            color="error"
+                            label="突袭"
+                            size="sm"
+                            variant="subtle"
+                          />
+                        </div>
+                      </div>
                     </li>
                   </ul>
-                </li>
-              </ul>
+                </UCard>
+              </div>
             </template>
 
             <template #by-zone>
-              <ul>
-                <li
-                  v-for="[zoneId, zoneInfo] in Object.entries(zoneTable.zones)"
+              <div class="space-y-4 p-1">
+                <UCard
+                  v-for="[zoneId, zone] in Object.entries(zoneTable.zones)"
                   :key="zoneId"
-                  class="zone-item"
+                  variant="subtle"
                 >
-                  {{ zoneInfo.zoneNameFirst }} {{ zoneInfo.zoneNameSecond }}（{{ zoneId }}）
-                  <ul>
-                    <li
-                      v-for="[stageId, stageInfo] in Object.entries(stageTable.stages).filter(
-                        ([stageId, stageInfo]) => stageInfo.zoneId === zoneId,
+                  <template #header>
+                    <div class="flex items-center gap-2">
+                      <UIcon class="text-lg font-bold text-primary" name="i-lucide-map" />
+                      <div>
+                        <span class="text-lg font-bold text-primary"
+                          >{{ zone.zoneNameFirst }} {{ zone.zoneNameSecond }}</span
+                        >
+                        <span class="ms-2 font-mono text-xs text-muted">{{ zoneId }}</span>
+                      </div>
+                    </div>
+                  </template>
+
+                  <div class="flex flex-wrap gap-2">
+                    <div
+                      v-for="[stageId, stage] in Object.entries(stageTable.stages).filter(
+                        ([_stageId, stage]) => stage.zoneId === zoneId,
                       )"
                       :key="stageId"
-                      class="stage-item"
+                      class="group relative flex items-center rounded border border-muted bg-default px-2 py-1 text-sm shadow-sm transition-all hover:border-primary hover:text-primary"
                     >
-                      {{ stageInfo.code }} {{ stageInfo.name
-                      }}{{ stageInfo.difficulty === 'FOUR_STAR' ? '（突袭）' : '' }}（{{
-                        stageId
-                      }}）
-                    </li>
-                  </ul>
-                </li>
-              </ul>
+                      <span class="font-mono font-bold">{{ stage.code || '未知' }}</span>
+                      <span class="mx-1 h-3/4 border-x border-muted"></span>
+                      <span>{{ stage.name || '未知' }}</span>
+                      <UBadge
+                        v-if="stage.difficulty === 'FOUR_STAR'"
+                        class="ms-1 px-1 py-0.5"
+                        color="error"
+                        label="突袭"
+                        size="sm"
+                        variant="subtle"
+                      />
+                    </div>
+                  </div>
+                </UCard>
+              </div>
             </template>
           </UAccordion>
         </div>
         <div v-else class="flex h-64 items-center justify-center">
           <UIcon class="h-8 w-8 animate-spin text-primary" name="i-lucide-loader-2" />
-          <span class="ml-2">正在加载作战数据...</span>
+          <span class="ms-2">正在加载作战数据...</span>
         </div>
       </UPageBody>
     </UPage>
   </UContainer>
 </template>
-
-<style scoped lang="scss">
-.activity-item {
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin-block: 0.5em;
-}
-
-.zone-item {
-  font-size: 1rem;
-  font-weight: 500;
-}
-
-.stage-item {
-  font-size: 0.8rem;
-  font-weight: 400;
-}
-</style>
