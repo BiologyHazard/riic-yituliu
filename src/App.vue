@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router';
-import { computed, onMounted } from 'vue';
 import logoUrl from '@/assets/images/白鸥.webp';
-import { useDataSource } from '@/composables/useDataSource';
-import { loadGameData, isGameDataLoading, gameDataError } from '@/utils/gameData';
-import { loadPenguinData, isPenguinDataLoading, penguinDataError } from '@/utils/penguinStats';
-
-const { currentSource } = useDataSource();
+import { currentBaseUrl } from '@/composables/useDataSource';
+import { gameDataError, isGameDataLoading, loadGameData } from '@/utils/gameData';
+import { isPenguinDataLoading, loadPenguinData, penguinDataError } from '@/utils/penguinStats';
+import { computed, onMounted } from 'vue';
+import { RouterView } from 'vue-router';
 
 const items = computed(() => [
   { label: '首页', to: '/' },
@@ -21,7 +19,7 @@ const items = computed(() => [
 
 // 在根组件挂载后通过非阻塞方式加载数据
 onMounted(() => {
-  loadGameData(currentSource.value.baseUrl);
+  loadGameData(currentBaseUrl.value);
   loadPenguinData();
 });
 </script>
@@ -61,7 +59,7 @@ onMounted(() => {
                   size="xs"
                   @click="
                     () => {
-                      loadGameData(currentSource.baseUrl);
+                      loadGameData(currentBaseUrl);
                       loadPenguinData();
                     }
                   "
