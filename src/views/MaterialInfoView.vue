@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { itemTable } from '@/utils/gameData';
-import { getWorkshopByProductRate, isEliteMaterial } from '@/utils/item';
+import { getItemRarity, getWorkshopByProductRate, isEliteMaterial } from '@/utils/item';
 import { items, resultMatrix, stages, zones } from '@/utils/penguinStats';
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 const t1EliteMaterialEpgsShopPrice: Record<string, number> = {
   '30011': 15,
@@ -113,17 +113,17 @@ function judgeStageType(stageId: string): 'SS_T1' | 'SS_T2' | 'SS_T3' | 'OTHERS'
   // console.log(stageId, stageInfo.code, zoneIdToZone.get(stageInfo.zoneId)!.zoneName, dropItemIds);
   if (
     dropItemIdListFiltered.length === 1 &&
-    dropItemIdListFiltered.every((itemId) => itemTable.value.items[itemId]?.rarity === 'TIER_3')
+    dropItemIdListFiltered.every((itemId) => getItemRarity(itemId) === 2)
   ) {
     return 'SS_T3';
   } else if (
     dropItemIdListFiltered.length === 2 &&
-    dropItemIdListFiltered.every((itemId) => itemTable.value.items[itemId]?.rarity === 'TIER_2')
+    dropItemIdListFiltered.every((itemId) => getItemRarity(itemId) === 1)
   ) {
     return 'SS_T2';
   } else if (
     dropItemIdListFiltered.length === 6 &&
-    dropItemIdListFiltered.every((itemId) => itemTable.value.items[itemId]?.rarity === 'TIER_1')
+    dropItemIdListFiltered.every((itemId) => getItemRarity(itemId) === 0)
   ) {
     return 'SS_T1';
   } else {
@@ -151,14 +151,14 @@ const _ssT3StageIds = computed(() =>
 
 // const t1EliteMaterialItems = Object.fromEntries(
 //   Object.entries(itemTable.value.items).filter(([itemId, item]) => {
-//     return isEliteMaterial(itemId) && item.rarity === 'TIER_1';
+//     return isEliteMaterial(itemId) && getItemRarity(itemId) === 0;
 //   }),
 // );
 
 const t1EliteMaterialIds = computed(() =>
-  Object.entries(itemTable.value.items)
-    .filter(([itemId, item]) => isEliteMaterial(itemId) && item.rarity === 'TIER_1')
-    .map(([itemId]) => itemId),
+  Object.keys(itemTable.value.items).filter(
+    (itemId) => isEliteMaterial(itemId) && getItemRarity(itemId) === 0,
+  ),
 );
 
 const t1EliteMaterialTotalDropCountMap = computed(() => {
@@ -212,6 +212,10 @@ const t1EliteMaterialDisplayInfo = computed(() =>
     }),
   ),
 );
+
+watch(t1EliteMaterialIds, () => {
+  console.log(t1EliteMaterialIds.value);
+});
 
 // const t1EliteMaterialDisplayInfo = {
 //   '30011': {

@@ -39,7 +39,7 @@ export type Phase = 'PHASE_0' | 'PHASE_1' | 'PHASE_2';
  */
 export interface BuffUnlockCondition {
   /** 精英化阶段 */
-  phase: Phase;
+  phase: Phase | number;
   /** 等级 */
   level: number;
 }
@@ -235,7 +235,7 @@ export interface GameDataConst {
 export interface Item {
   itemId: string;
   name: string;
-  rarity: string;
+  rarity: string | number;
   iconId: string;
   sortId: number;
   itemType: string;

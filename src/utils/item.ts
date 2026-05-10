@@ -1,5 +1,19 @@
 import { buildingData, itemTable } from '@/utils/gameData';
 
+export function getItemRarity(itemId: string): number | undefined {
+  const item = itemTable.value.items[itemId];
+  if (item === undefined) {
+    return undefined;
+  }
+  const rarity: number | string = item.rarity;
+  if (typeof rarity === 'number') {
+    return rarity;
+  } else {
+    const rarityNum = Number(rarity.slice(-1));
+    return !isNaN(rarityNum) ? rarityNum - 1 : undefined;
+  }
+}
+
 export function isEliteMaterial(itemId: string): boolean | undefined {
   const item = itemTable.value.items[itemId];
   if (item === undefined) {

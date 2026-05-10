@@ -16,12 +16,12 @@ function getSkillIconUrl(skillIcon: string): string {
 }
 
 function getCondText({ phase, level }: BuffUnlockCondition): string {
-  if (phase === 'PHASE_0' && level === 1) {
+  const eliteLevel = typeof phase === 'number' ? phase : Number(phase.replace(/^PHASE_/, ''));
+  if (eliteLevel === 0 && level === 1) {
     return '初始';
-  } else if (phase === 'PHASE_0' && level === 30) {
+  } else if (eliteLevel === 0 && level === 30) {
     return '30级';
   } else {
-    const eliteLevel = Number(phase.slice(-1));
     return `精${eliteLevel}`;
   }
 }
