@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import OperatorAvatar from '@/components/riic/OperatorAvatar.vue';
+import { currentBaseSkillIconBaseUrl } from '@/composables/useDataSource';
 import type { BuffUnlockCondition } from '@/types/gameData';
 import { updateText } from '@/utils/autoFontSizing';
 import { getCharName } from '@/utils/character';
@@ -11,8 +12,7 @@ const buildingCharDataRef = computed(() => buildingData.value.chars[props.charId
 const operatorNameElement = useTemplateRef('operatorNameElement');
 
 function getSkillIconUrl(skillIcon: string): string {
-  // return `https://torappu.prts.wiki/assets/build_skill_icon/${skillIcon}.png`;
-  return `https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/refs/heads/main/building_skill/${skillIcon}.png`;
+  return `${currentBaseSkillIconBaseUrl.value}/${skillIcon}.png`;
 }
 
 function getCondText({ phase, level }: BuffUnlockCondition): string {
@@ -115,7 +115,9 @@ watch([props, operatorNameElement], () => {
             <td class="td-buff-cond">{{ getCondText(buffDataItem.cond) }}</td>
             <td class="td-buff-name">
               <img
+                :alt="buildingData.buffs[buffDataItem.buffId]!.buffName"
                 class="skill-icon"
+                referrerpolicy="no-referrer"
                 :src="getSkillIconUrl(buildingData.buffs[buffDataItem.buffId]!.skillIcon)"
               />
               <span class="buff-name-text">{{

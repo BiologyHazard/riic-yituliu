@@ -394,7 +394,9 @@ const t3EliteMaterialDisplayInfo = computed(() => ({
                     } in Object.values(t1EliteMaterialDisplayInfo)"
                     :key="itemId"
                   >
-                    <td class="table-td-icon"><img :alt="itemName" :src="iconUrl" /></td>
+                    <td class="table-td-icon">
+                      <img :alt="itemName" referrerpolicy="no-referrer" :src="iconUrl" />
+                    </td>
                     <td>{{ itemId }}</td>
                     <td>{{ itemName }}</td>
                     <td>{{ workshopByproductWeight }}</td>
@@ -449,7 +451,9 @@ const t3EliteMaterialDisplayInfo = computed(() => ({
                     } in Object.values(t2EliteMaterialDisplayInfo)"
                     :key="itemId"
                   >
-                    <td class="table-td-icon"><img :alt="itemName" :src="iconUrl" /></td>
+                    <td class="table-td-icon">
+                      <img :alt="itemName" referrerpolicy="no-referrer" :src="iconUrl" />
+                    </td>
                     <td>{{ itemId }}</td>
                     <td>{{ itemName }}</td>
                     <td>{{ workshopByproductWeight }}</td>
@@ -514,7 +518,7 @@ const t3EliteMaterialDisplayInfo = computed(() => ({
                         rel="noopener noreferrer"
                         target="_blank"
                         :title="`在 PRTS Wiki 上查看 ${itemName}`"
-                        ><img :alt="itemName" :src="iconUrl"
+                        ><img :alt="itemName" referrerpolicy="no-referrer" :src="iconUrl"
                       /></a>
                     </td>
                     <td>{{ itemId }}</td>

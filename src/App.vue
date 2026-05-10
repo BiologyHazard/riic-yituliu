@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import logoUrl from '@/assets/images/白鸥.webp';
-import { currentBaseUrl } from '@/composables/useDataSource';
+import { currentGameDataBaseUrl } from '@/composables/useDataSource';
 import { gameDataError, isGameDataLoading, loadGameData } from '@/utils/gameData';
 import { isPenguinDataLoading, loadPenguinData, penguinDataError } from '@/utils/penguinStats';
 import { computed, onMounted } from 'vue';
@@ -19,7 +19,7 @@ const items = computed(() => [
 
 // 在根组件挂载后通过非阻塞方式加载数据
 onMounted(() => {
-  loadGameData(currentBaseUrl.value);
+  loadGameData(currentGameDataBaseUrl.value);
   loadPenguinData();
 });
 </script>
@@ -78,7 +78,7 @@ onMounted(() => {
                   size="md"
                   @click="
                     () => {
-                      loadGameData(currentBaseUrl);
+                      loadGameData(currentGameDataBaseUrl);
                       loadPenguinData();
                     }
                   "

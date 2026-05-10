@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { currentAvatarBaseUrl } from '@/composables/useDataSource';
 import {
   getCharAvatar,
   getCharProfessionId,
@@ -65,13 +66,9 @@ const avatarId = computed(() => {
 });
 
 /** 头像 URL */
-const avatarUrl = computed(
-  // () => `https://torappu.prts.wiki/assets/char_avatar/${avatarId.value}.png`,
-  () =>
-    `https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/refs/heads/main/avatar/${avatarId.value}.png`,
-  // 森空岛的 CDN 不允许跨域
-  // `https://web.hycdn.cn/arknights/game/assets/char_skin/avatar/${encodeURIComponent(getCharSkinId(props.charId, props.eliteLevel))}.png`,
-);
+const avatarUrl = computed(() => {
+  return `${currentAvatarBaseUrl.value}/${avatarId.value}.png`;
+});
 </script>
 
 <template>
@@ -80,23 +77,37 @@ const avatarUrl = computed(
       v-if="showBackgroundImage"
       alt="干员头像底图"
       class="background-image"
+      referrerpolicy="no-referrer"
       src="@/assets/images/riic/基建解析UI_干员头像底图_180x180_2510101215_BioHazard.webp"
     />
-    <img :alt="`头像_${props.charId}`" class="avatar" :src="avatarUrl" />
+    <img
+      :alt="`头像_${props.charId}`"
+      class="avatar"
+      referrerpolicy="no-referrer"
+      :src="avatarUrl"
+    />
     <div v-if="isTired" class="tired"></div>
     <img
       v-if="showProfession"
       :alt="`图标_职业_${professionName}`"
       class="profession"
+      referrerpolicy="no-referrer"
       :src="professionUrl"
     />
     <img
       v-if="showEliteLevel"
       :alt="`精英_${props.eliteLevel}_大图`"
       class="elite"
+      referrerpolicy="no-referrer"
       :src="eliteUrl"
     />
-    <img v-if="showRarity" :alt="`稀有度_黄_${rarity}`" class="rarity" :src="rarityUrl" />
+    <img
+      v-if="showRarity"
+      :alt="`稀有度_黄_${rarity}`"
+      class="rarity"
+      referrerpolicy="no-referrer"
+      :src="rarityUrl"
+    />
   </div>
 </template>
 

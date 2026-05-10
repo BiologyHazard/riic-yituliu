@@ -1,16 +1,25 @@
 <script setup lang="ts">
 import {
-  currentBaseUrl,
+  currentAvatarSource,
+  currentAvatarSourceId,
+  currentGameDataBaseUrl,
+  currentGameDataSource,
+  currentGameDataSourceId,
   currentMirrorId,
-  currentSource,
-  currentSourceId,
+  currentBaseSkillIconSource,
+  currentBaseSkillIconSourceId,
 } from '@/composables/useDataSource';
-import { dataSources, githubMirrors } from '@/config/dataSources';
+import {
+  avatarSources,
+  gameDataSources,
+  githubMirrors,
+  baseSkillIconSources,
+} from '@/config/dataSources';
 import { loadGameData } from '@/utils/gameData';
 import { getPrtsWikiMediaUrl } from '@/utils/prtsWiki';
 import { watch } from 'vue';
 
-watch(currentBaseUrl, loadGameData);
+watch(currentGameDataBaseUrl, loadGameData);
 </script>
 
 <template>
@@ -20,11 +29,11 @@ watch(currentBaseUrl, loadGameData);
         <section class="data-source-settings rounded-lg p-4">
           <h2 class="mb-4 text-lg font-bold">数据源设置</h2>
           <div class="flex flex-col gap-4">
-            <UFormField label="数据源">
+            <UFormField label="游戏数据源">
               <USelectMenu
-                v-model="currentSourceId"
+                v-model="currentGameDataSourceId"
                 class="w-xs"
-                :items="dataSources"
+                :items="gameDataSources"
                 :search-input="false"
                 :ui="{
                   trailingIcon:
@@ -33,7 +42,40 @@ watch(currentBaseUrl, loadGameData);
                 value-key="id"
               />
             </UFormField>
-            <UFormField v-if="currentSource.isGithub" label="GitHub 镜像">
+            <UFormField label="干员头像源">
+              <USelectMenu
+                v-model="currentAvatarSourceId"
+                class="w-xs"
+                :items="avatarSources"
+                :search-input="false"
+                :ui="{
+                  trailingIcon:
+                    'group-data-[state=open]:rotate-180 transition-transform duration-200',
+                }"
+                value-key="id"
+              />
+            </UFormField>
+            <UFormField label="技能图标源">
+              <USelectMenu
+                v-model="currentBaseSkillIconSourceId"
+                class="w-xs"
+                :items="baseSkillIconSources"
+                :search-input="false"
+                :ui="{
+                  trailingIcon:
+                    'group-data-[state=open]:rotate-180 transition-transform duration-200',
+                }"
+                value-key="id"
+              />
+            </UFormField>
+            <UFormField
+              v-if="
+                currentGameDataSource.isGithub ||
+                currentAvatarSource.isGithub ||
+                currentBaseSkillIconSource.isGithub
+              "
+              label="GitHub 镜像"
+            >
               <USelectMenu
                 v-model="currentMirrorId"
                 class="w-xs"
@@ -48,7 +90,7 @@ watch(currentBaseUrl, loadGameData);
             </UFormField>
 
             <div class="text-xs break-all text-muted">
-              当前 Base URL：<span class="font-mono">{{ currentBaseUrl }}</span>
+              当前 Base URL：<span class="font-mono">{{ currentGameDataBaseUrl }}</span>
             </div>
           </div>
         </section>
@@ -101,6 +143,7 @@ watch(currentBaseUrl, loadGameData);
             <img
               alt="2025-09-30-「众生行记」版本之后基建房间slot_id和清理提供的无人机 by bilibili@Bio-Hazard"
               class="theme-dark-darken"
+              referrerpolicy="no-referrer"
               :src="
                 getPrtsWikiMediaUrl(
                   '2025-09-30-「众生行记」版本之后基建房间slot_id和清理提供的无人机_by_bilibili@Bio-Hazard.png',

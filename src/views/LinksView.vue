@@ -235,6 +235,7 @@ onMounted(() => {
                   v-if="link.icon_url"
                   :alt="`${link.localized_name.zh_CN}图标`"
                   class="size-12 shrink-0 rounded-lg object-cover"
+                  referrerpolicy="no-referrer"
                   :src="link.icon_url"
                 />
                 <span class="flex-1 text-lg leading-snug font-bold break-all">

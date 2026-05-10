@@ -11,7 +11,7 @@ export interface GithubMirror {
   prefix: string;
 }
 
-export const dataSources: DataSource[] = [
+export const gameDataSources: DataSource[] = [
   {
     id: 'torappu',
     label: 'Torappu',
@@ -55,7 +55,37 @@ export const dataSources: DataSource[] = [
   },
 ];
 
-export const defaultDataSourceId = 'torappu';
+export const avatarSources: DataSource[] = [
+  {
+    id: 'torappu',
+    label: 'Torappu',
+    baseUrl: 'https://torappu.prts.wiki/assets/char_avatar',
+    isGithub: false,
+  },
+  {
+    id: 'yuanyan3060/ArknightsGameResource',
+    label: 'yuanyan3060/ArknightsGameResource',
+    baseUrl:
+      'https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/refs/heads/main/avatar',
+    isGithub: true,
+  },
+];
+
+export const baseSkillIconSources: DataSource[] = [
+  {
+    id: 'torappu',
+    label: 'Torappu',
+    baseUrl: 'https://torappu.prts.wiki/assets/build_skill_icon',
+    isGithub: false,
+  },
+  {
+    id: 'yuanyan3060/ArknightsGameResource',
+    label: 'yuanyan3060/ArknightsGameResource',
+    baseUrl:
+      'https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/refs/heads/main/building_skill',
+    isGithub: true,
+  },
+];
 
 export const githubMirrors: GithubMirror[] = [
   {
@@ -85,4 +115,7 @@ export const githubMirrors: GithubMirror[] = [
   },
 ];
 
+export const defaultGameDataSourceId = 'torappu';
+export const defaultAvatarSourceId = 'torappu';
+export const defaultBaseSkillIconSourceId = 'torappu';
 export const defaultGithubMirrorId = 'none';
