@@ -24,6 +24,7 @@ const charIdList = computed(
 <template>
   <UContainer>
     <UPage>
+      <UPageHeader title="基建技能" />
       <UPageBody class="space-y-6">
         <UFormField label="输入干员名称">
           <UTextarea v-model="charNameInput" class="w-full" :rows="6" variant="subtle" />

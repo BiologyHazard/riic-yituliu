@@ -5,10 +5,9 @@ import { activityTable, stageTable, zoneTable } from '@/utils/gameData';
 <template>
   <UContainer>
     <UPage>
+      <UPageHeader title="作战列表" />
       <UPageBody>
         <div v-if="activityTable.basicInfo" class="stage-list-view">
-          <h1>作战列表</h1>
-
           <UAccordion
             :items="[
               { label: '按活动分类', slot: 'by-activity' },
@@ -90,11 +89,6 @@ import { activityTable, stageTable, zoneTable } from '@/utils/gameData';
 </template>
 
 <style scoped lang="scss">
-h1 {
-  text-align: center;
-  margin-bottom: 1em;
-}
-
 .activity-item {
   font-size: 1.2rem;
   font-weight: 700;
