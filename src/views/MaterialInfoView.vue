@@ -56,24 +56,27 @@ function getRawItemIconUrl(itemId: string): string | undefined {
 }
 
 // 稀疏矩阵改为按作战存储
-const resultMatrixByStage: Map<string, Map<string, { times: number; quantity: number }>> = new Map(
-  stages.map((stage) => [stage.stageId, new Map()]),
+const resultMatrixByStage = computed<Map<string, Map<string, { times: number; quantity: number }>>>(
+  () => {
+    const map = new Map(stages.map((stage) => [stage.stageId, new Map()]));
+    for (const { stageId, itemId, times, quantity } of resultMatrix.matrix) {
+      if (!map.has(stageId)) {
+        throw new Error(`Stage ID ${stageId} not found in stages`);
+      }
+      const stageMap = map.get(stageId)!;
+      if (stageMap.has(itemId)) {
+        throw new Error(`Item ID ${itemId} already exists in stage ${stageId}`);
+      }
+      stageMap.set(itemId, { times, quantity });
+    }
+    return map;
+  },
 );
-for (const { stageId, itemId, times, quantity } of resultMatrix.matrix) {
-  if (!resultMatrixByStage.has(stageId)) {
-    throw new Error(`Stage ID ${stageId} not found in stages`);
-  }
-  const stageMap = resultMatrixByStage.get(stageId)!;
-  if (stageMap.has(itemId)) {
-    throw new Error(`Item ID ${itemId} already exists in stage ${stageId}`);
-  }
-  stageMap.set(itemId, { times, quantity });
-}
 
 // 把 Array 转换为 Map，方便按 ID 查询
-const itemIdToItem = new Map(items.map((item) => [item.itemId, item]));
-const stageIdToStage = new Map(stages.map((stage) => [stage.stageId, stage]));
-const zoneIdToZone = new Map(zones.map((zone) => [zone.zoneId, zone]));
+const itemIdToItem = computed(() => new Map(items.map((item) => [item.itemId, item])));
+const stageIdToStage = computed(() => new Map(stages.map((stage) => [stage.stageId, stage])));
+const zoneIdToZone = computed(() => new Map(zones.map((zone) => [zone.zoneId, zone])));
 
 /**
  * 通过掉落判断作战类型
@@ -83,15 +86,15 @@ const zoneIdToZone = new Map(zones.map((zone) => [zone.zoneId, zone]));
  * 如果一个作战除了家具外仅掉落全部 6 种白材料，或者掉落 2 种绿材料，或者掉落 1 种蓝材料，则认为是 SideStory 作战
  */
 function judgeStageType(stageId: string): 'SS_T1' | 'SS_T2' | 'SS_T3' | 'OTHERS' {
-  const stageInfo = stageIdToStage.get(stageId);
+  const stageInfo = stageIdToStage.value.get(stageId);
   if (stageInfo === undefined) {
     throw new Error(`Stage ID ${stageId} not found in stages`);
   }
-  const zoneInfo = zoneIdToZone.get(stageInfo.zoneId);
+  const zoneInfo = zoneIdToZone.value.get(stageInfo.zoneId);
   if (zoneInfo === undefined) {
     throw new Error(`Zone ID ${stageInfo.zoneId} not found in zones`);
   }
-  const dropInfo = resultMatrixByStage.get(stageId);
+  const dropInfo = resultMatrixByStage.value.get(stageId);
   if (dropInfo === undefined) {
     throw new Error(`Drop info for stage ID ${stageId} not found in resultMatrixByStage`);
   }
@@ -105,7 +108,7 @@ function judgeStageType(stageId: string): 'SS_T1' | 'SS_T2' | 'SS_T3' | 'OTHERS'
 
   // 把家具排除掉
   const dropItemIdListFiltered = Array.from(dropInfo.keys()).filter(
-    (itemId) => itemIdToItem.get(itemId)?.itemType === 'MATERIAL',
+    (itemId) => itemIdToItem.value.get(itemId)?.itemType === 'MATERIAL',
   );
   // console.log(stageId, stageInfo.code, zoneIdToZone.get(stageInfo.zoneId)!.zoneName, dropItemIds);
   if (
@@ -129,15 +132,22 @@ function judgeStageType(stageId: string): 'SS_T1' | 'SS_T2' | 'SS_T3' | 'OTHERS'
 }
 
 // 计算每一个作战的类型
-const stageTypeMap = new Map(
-  Array.from(stageIdToStage.keys()).map((stageId) => [stageId, judgeStageType(stageId)]),
+const stageTypeMap = computed(
+  () =>
+    new Map(
+      Array.from(stageIdToStage.value.keys()).map((stageId) => [stageId, judgeStageType(stageId)]),
+    ),
 );
-const _ssT2StageIds = Array.from(stageTypeMap.entries())
-  .filter(([, type]) => type === 'SS_T2')
-  .map(([stageId]) => stageId);
-const _ssT3StageIds = Array.from(stageTypeMap.entries())
-  .filter(([, type]) => type === 'SS_T3')
-  .map(([stageId]) => stageId);
+const _ssT2StageIds = computed(() =>
+  Array.from(stageTypeMap.value.entries())
+    .filter(([, type]) => type === 'SS_T2')
+    .map(([stageId]) => stageId),
+);
+const _ssT3StageIds = computed(() =>
+  Array.from(stageTypeMap.value.entries())
+    .filter(([, type]) => type === 'SS_T3')
+    .map(([stageId]) => stageId),
+);
 
 // const t1EliteMaterialItems = Object.fromEntries(
 //   Object.entries(itemTable.items).filter(([itemId, item]) => {
@@ -145,62 +155,62 @@ const _ssT3StageIds = Array.from(stageTypeMap.entries())
 //   }),
 // );
 
-const t1EliteMaterialIds = Object.entries(itemTable.items)
-  .filter(([itemId, item]) => isEliteMaterial(itemId) && item.rarity === 'TIER_1')
-  .map(([itemId]) => itemId);
+const t1EliteMaterialIds = computed(() =>
+  Object.entries(itemTable.items)
+    .filter(([itemId, item]) => isEliteMaterial(itemId) && item.rarity === 'TIER_1')
+    .map(([itemId]) => itemId),
+);
 
-const t1EliteMaterialTotalDropCountMap = new Map(t1EliteMaterialIds.map((itemId) => [itemId, 0]));
-const t1EliteMaterialTotalApCostMap = new Map(t1EliteMaterialIds.map((itemId) => [itemId, 0]));
-for (const [stageId, stage] of stageIdToStage.entries()) {
-  const dropInfo = resultMatrixByStage.get(stageId)!;
-  switch (judgeStageType(stageId)) {
-    case 'SS_T1':
-      for (const [itemId, { times, quantity }] of dropInfo.entries()) {
-        if (t1EliteMaterialTotalDropCountMap.has(itemId)) {
-          t1EliteMaterialTotalDropCountMap.set(
-            itemId,
-            t1EliteMaterialTotalDropCountMap.get(itemId)! + quantity,
-          );
-          t1EliteMaterialTotalApCostMap.set(
-            itemId,
-            t1EliteMaterialTotalApCostMap.get(itemId)! + times * stage.apCost,
-          );
+const t1EliteMaterialTotalDropCountMap = computed(() => {
+  const map = new Map(t1EliteMaterialIds.value.map((itemId) => [itemId, 0]));
+  const apMap = new Map(t1EliteMaterialIds.value.map((itemId) => [itemId, 0]));
+
+  for (const [stageId, stage] of stageIdToStage.value.entries()) {
+    const dropInfo = resultMatrixByStage.value.get(stageId)!;
+    switch (judgeStageType(stageId)) {
+      case 'SS_T1':
+        for (const [itemId, { quantity }] of dropInfo.entries()) {
+          if (map.has(itemId)) {
+            map.set(itemId, map.get(itemId)! + quantity);
+            apMap.set(itemId, apMap.get(itemId)! + dropInfo.get(itemId)!.times * stage.apCost);
+          }
         }
+        break;
+      case 'SS_T2': {
+        const dropInfoFiltered = new Map(
+          Array.from(dropInfo.entries()).filter(
+            ([itemId]) => itemIdToItem.value.get(itemId)?.itemType === 'MATERIAL',
+          ),
+        );
+        const _dropItemIds = Array.from(dropInfoFiltered.keys());
+
+        break;
       }
-      break;
-    case 'SS_T2':
-      const dropInfoFiltered = new Map(
-        Array.from(dropInfo.entries()).filter(
-          ([itemId]) => itemIdToItem.get(itemId)?.itemType === 'MATERIAL',
-        ),
-      );
-      const _dropItemIds = Array.from(dropInfoFiltered.keys());
-
-      break;
-    case 'SS_T3':
-      break;
+      case 'SS_T3':
+        break;
+    }
   }
-}
+  return { dropCountMap: map, apCostMap: apMap };
+});
 
-const t1EliteMaterialDisplayInfo = Object.fromEntries(
-  t1EliteMaterialIds.map((itemId) => {
-    return [
-      itemId,
-      {
-        iconUrl: getRawItemIconUrl(itemId),
-        itemId: itemId,
-        itemName: itemTable.items[itemId]!.name,
-        workshopByproductWeight: getWorkshopByProductRate(itemId),
-        epgsShopPrice: t1EliteMaterialEpgsShopPrice[itemId],
-        sideStoryDropRatePerSanity:
-          t1EliteMaterialTotalDropCountMap.get(itemId)! /
-          t1EliteMaterialTotalApCostMap.get(itemId)!,
-        expectedSanityPerItem:
-          t1EliteMaterialTotalApCostMap.get(itemId)! /
-          t1EliteMaterialTotalDropCountMap.get(itemId)!,
-      },
-    ];
-  }),
+const t1EliteMaterialDisplayInfo = computed(() =>
+  Object.fromEntries(
+    t1EliteMaterialIds.value.map((itemId) => {
+      const { dropCountMap, apCostMap } = t1EliteMaterialTotalDropCountMap.value;
+      return [
+        itemId,
+        {
+          iconUrl: getRawItemIconUrl(itemId),
+          itemId: itemId,
+          itemName: itemTable.items[itemId]!.name,
+          workshopByproductWeight: getWorkshopByProductRate(itemId),
+          epgsShopPrice: t1EliteMaterialEpgsShopPrice[itemId],
+          sideStoryDropRatePerSanity: dropCountMap.get(itemId)! / apCostMap.get(itemId)!,
+          expectedSanityPerItem: apCostMap.get(itemId)! / dropCountMap.get(itemId)!,
+        },
+      ];
+    }),
+  ),
 );
 
 // const t1EliteMaterialDisplayInfo = {
@@ -224,7 +234,7 @@ const t1EliteMaterialDisplayInfo = Object.fromEntries(
 //   },
 // };
 
-const t2EliteMaterialDisplayInfo = {
+const t2EliteMaterialDisplayInfo = computed(() => ({
   '30012': {
     iconUrl: getRawItemIconUrl('30012'),
     itemId: '30012',
@@ -247,9 +257,9 @@ const t2EliteMaterialDisplayInfo = {
     sideStorySubDropRatePerSanity: 0.03465,
     expectedSanityPerSubDropItem: 28.8718,
   },
-};
+}));
 
-const t3EliteMaterialDisplayInfo = {
+const t3EliteMaterialDisplayInfo = computed(() => ({
   '30013': {
     iconUrl: getRawItemIconUrl('30013'),
     itemId: '30013',
@@ -310,7 +320,7 @@ const t3EliteMaterialDisplayInfo = {
     sideStoryDropRatePerSanity: 0.0346,
     expectedSanityPerItem: 28.9017,
   },
-};
+}));
 </script>
 
 <template>
