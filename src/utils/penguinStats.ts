@@ -1,6 +1,5 @@
-import { reactive, ref } from 'vue';
-
 import type { Items, ResultMatrix, Stages, Zones } from '@/types/penguinStats';
+import { ref } from 'vue';
 
 export const itemsUrl = 'https://penguin-stats.io/PenguinStats/api/v2/items';
 export const resultMatrixUrl =
@@ -8,10 +7,10 @@ export const resultMatrixUrl =
 export const stagesUrl = 'https://penguin-stats.io/PenguinStats/api/v2/stages';
 export const zonesUrl = 'https://penguin-stats.io/PenguinStats/api/v2/zones';
 
-export const items = reactive<Items>([]);
-export const resultMatrix = reactive<ResultMatrix>({ matrix: [] });
-export const stages = reactive<Stages>([]);
-export const zones = reactive<Zones>([]);
+export const items = ref<Items>([]);
+export const resultMatrix = ref<ResultMatrix>({ matrix: [] });
+export const stages = ref<Stages>([]);
+export const zones = ref<Zones>([]);
 
 export const isPenguinDataLoading = ref(false);
 export const penguinDataError = ref<unknown | null>(null);
@@ -54,10 +53,10 @@ export async function loadPenguinData() {
       }),
     ]);
 
-    Object.assign(items, itemsRes);
-    Object.assign(resultMatrix, matrixRes);
-    Object.assign(stages, stagesRes);
-    Object.assign(zones, zonesRes);
+    items.value = itemsRes;
+    resultMatrix.value = matrixRes;
+    stages.value = stagesRes;
+    zones.value = zonesRes;
   } catch (err) {
     if (err instanceof Error && err.name === 'AbortError') {
       return;

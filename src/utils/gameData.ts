@@ -8,48 +8,48 @@ import type {
   StageTable,
   ZoneTable,
 } from '@/types/gameData';
-import { reactive, ref } from 'vue';
+import { ref } from 'vue';
 
 /** `excel/character_table.json` */
-export const characterTable = reactive<CharacterTable>({});
+export const characterTable = ref<CharacterTable>({});
 
 /** `excel/skin_table.json` */
-export const skinTable = reactive<SkinTable>({
+export const skinTable = ref<SkinTable>({
   charSkins: {},
   buildinEvolveMap: {},
 });
 
 /** `excel/building_data.json` */
-export const buildingData = reactive<BuildingData>({
+export const buildingData = ref<BuildingData>({
   chars: {},
   buffs: {},
   workshopFormulas: {},
 });
 
 /** `excel/gamedata_const.json` */
-export const gamedataConst = reactive<GameDataConst>({
+export const gamedataConst = ref<GameDataConst>({
   richTextStyles: {},
   termDescriptionDict: {},
 });
 
 /** `excel/item_table.json` */
-export const itemTable = reactive<ItemTable>({
+export const itemTable = ref<ItemTable>({
   items: {},
 });
 
 /** `excel/stage_table.json` */
-export const stageTable = reactive<StageTable>({
+export const stageTable = ref<StageTable>({
   stages: {},
 });
 
 /** `excel/activity_table.json` */
-export const activityTable = reactive<ActivityTable>({
+export const activityTable = ref<ActivityTable>({
   basicInfo: {},
   zoneToActivity: {},
 });
 
 /** `excel/zone_table.json` */
-export const zoneTable = reactive<ZoneTable>({
+export const zoneTable = ref<ZoneTable>({
   zones: {},
 });
 
@@ -108,14 +108,14 @@ export async function loadGameData(baseUrl: string) {
         }),
       ]);
 
-    Object.assign(characterTable, charRes);
-    Object.assign(skinTable, skinRes);
-    Object.assign(buildingData, buildingRes);
-    Object.assign(gamedataConst, constRes);
-    Object.assign(itemTable, itemRes);
-    Object.assign(stageTable, stageRes);
-    Object.assign(activityTable, activityRes);
-    Object.assign(zoneTable, zoneRes);
+    characterTable.value = charRes;
+    skinTable.value = skinRes;
+    buildingData.value = buildingRes;
+    gamedataConst.value = constRes;
+    itemTable.value = itemRes;
+    stageTable.value = stageRes;
+    activityTable.value = activityRes;
+    zoneTable.value = zoneRes;
   } catch (err) {
     if (err instanceof Error && err.name === 'AbortError') {
       return;

@@ -22,8 +22,8 @@ export const professionMap: Map<string, string> = new Map(
  * getCharIdbyName('Unknown') // => undefined
  */
 export function getCharIdByName(name: string): string | undefined {
-  for (const charId in characterTable) {
-    if (characterTable[charId]?.name === name) {
+  for (const charId in characterTable.value) {
+    if (characterTable.value[charId]?.name === name) {
       return charId;
     }
   }
@@ -38,7 +38,7 @@ export function getCharIdByName(name: string): string | undefined {
  * getCharName('unknown') // => undefined
  */
 export function getCharName(charId: string): string | undefined {
-  return characterTable[charId]?.name;
+  return characterTable.value[charId]?.name;
 }
 
 /**
@@ -50,7 +50,7 @@ export function getCharName(charId: string): string | undefined {
  * getCharRarity('unknown') // => undefined
  */
 export function getCharRarity(charId: string): number | undefined {
-  const rarity: number | string | undefined = characterTable[charId]?.rarity;
+  const rarity: number | string | undefined = characterTable.value[charId]?.rarity;
   if (rarity === undefined) {
     return undefined;
   } else if (typeof rarity === 'number') {
@@ -70,7 +70,7 @@ export function getCharRarity(charId: string): number | undefined {
  * getCharProfessionId('unknown') // => undefined
  */
 export function getCharProfessionId(charId: string): string | undefined {
-  return characterTable[charId]?.profession;
+  return characterTable.value[charId]?.profession;
 }
 
 /**
@@ -82,7 +82,7 @@ export function getCharProfessionId(charId: string): string | undefined {
  * getCharSkinId('char_103_angel', 2) // => 'char_103_angel#2'
  */
 export function getCharSkinId(charId: string, eliteLevel: number): string {
-  const evolveMap = skinTable.buildinEvolveMap[charId] ?? {};
+  const evolveMap = skinTable.value.buildinEvolveMap[charId] ?? {};
   for (let level = eliteLevel; level >= 0; level--) {
     const skinId = evolveMap[String(level)];
     if (skinId !== undefined) {
@@ -106,17 +106,17 @@ export function getCharSkinId(charId: string, eliteLevel: number): string {
  * getCharAvatar('char_103_angel', 2) // => 'char_103_angel_2'
  */
 export function getCharAvatar(charId: string, eliteLevel: number): string {
-  // const evolveMap = skinTable.buildinEvolveMap[charId] ?? {}
+  // const evolveMap = skinTable.value.buildinEvolveMap[charId] ?? {}
   // for (let level = eliteLevel; level >= 0; level--) {
   //   if (String(level) in evolveMap) {
-  //     const avatarId = skinTable.charSkins[evolveMap[String(level)] ?? '']?.avatarId
+  //     const avatarId = skinTable.value.charSkins[evolveMap[String(level)] ?? '']?.avatarId
   //     if (avatarId !== undefined) {
   //       return avatarId
   //     }
   //   }
   // }
   const skinId = getCharSkinId(charId, eliteLevel);
-  const avatarId = skinTable.charSkins[skinId]?.avatarId;
+  const avatarId = skinTable.value.charSkins[skinId]?.avatarId;
   if (avatarId !== undefined) {
     return avatarId;
   }

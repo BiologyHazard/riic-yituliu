@@ -48,7 +48,7 @@ function formatNumber(num: number, decimalPlaces: number | null): string {
 }
 
 function getRawItemIconUrl(itemId: string): string | undefined {
-  const item = itemTable.items[itemId];
+  const item = itemTable.value.items[itemId];
   if (item === undefined) {
     return undefined;
   }
@@ -58,8 +58,8 @@ function getRawItemIconUrl(itemId: string): string | undefined {
 // 稀疏矩阵改为按作战存储
 const resultMatrixByStage = computed<Map<string, Map<string, { times: number; quantity: number }>>>(
   () => {
-    const map = new Map(stages.map((stage) => [stage.stageId, new Map()]));
-    for (const { stageId, itemId, times, quantity } of resultMatrix.matrix) {
+    const map = new Map(stages.value.map((stage) => [stage.stageId, new Map()]));
+    for (const { stageId, itemId, times, quantity } of resultMatrix.value.matrix) {
       if (!map.has(stageId)) {
         throw new Error(`Stage ID ${stageId} not found in stages`);
       }
@@ -74,9 +74,9 @@ const resultMatrixByStage = computed<Map<string, Map<string, { times: number; qu
 );
 
 // 把 Array 转换为 Map，方便按 ID 查询
-const itemIdToItem = computed(() => new Map(items.map((item) => [item.itemId, item])));
-const stageIdToStage = computed(() => new Map(stages.map((stage) => [stage.stageId, stage])));
-const zoneIdToZone = computed(() => new Map(zones.map((zone) => [zone.zoneId, zone])));
+const itemIdToItem = computed(() => new Map(items.value.map((item) => [item.itemId, item])));
+const stageIdToStage = computed(() => new Map(stages.value.map((stage) => [stage.stageId, stage])));
+const zoneIdToZone = computed(() => new Map(zones.value.map((zone) => [zone.zoneId, zone])));
 
 /**
  * 通过掉落判断作战类型
@@ -113,17 +113,17 @@ function judgeStageType(stageId: string): 'SS_T1' | 'SS_T2' | 'SS_T3' | 'OTHERS'
   // console.log(stageId, stageInfo.code, zoneIdToZone.get(stageInfo.zoneId)!.zoneName, dropItemIds);
   if (
     dropItemIdListFiltered.length === 1 &&
-    dropItemIdListFiltered.every((itemId) => itemTable.items[itemId]?.rarity === 'TIER_3')
+    dropItemIdListFiltered.every((itemId) => itemTable.value.items[itemId]?.rarity === 'TIER_3')
   ) {
     return 'SS_T3';
   } else if (
     dropItemIdListFiltered.length === 2 &&
-    dropItemIdListFiltered.every((itemId) => itemTable.items[itemId]?.rarity === 'TIER_2')
+    dropItemIdListFiltered.every((itemId) => itemTable.value.items[itemId]?.rarity === 'TIER_2')
   ) {
     return 'SS_T2';
   } else if (
     dropItemIdListFiltered.length === 6 &&
-    dropItemIdListFiltered.every((itemId) => itemTable.items[itemId]?.rarity === 'TIER_1')
+    dropItemIdListFiltered.every((itemId) => itemTable.value.items[itemId]?.rarity === 'TIER_1')
   ) {
     return 'SS_T1';
   } else {
@@ -150,13 +150,13 @@ const _ssT3StageIds = computed(() =>
 );
 
 // const t1EliteMaterialItems = Object.fromEntries(
-//   Object.entries(itemTable.items).filter(([itemId, item]) => {
+//   Object.entries(itemTable.value.items).filter(([itemId, item]) => {
 //     return isEliteMaterial(itemId) && item.rarity === 'TIER_1';
 //   }),
 // );
 
 const t1EliteMaterialIds = computed(() =>
-  Object.entries(itemTable.items)
+  Object.entries(itemTable.value.items)
     .filter(([itemId, item]) => isEliteMaterial(itemId) && item.rarity === 'TIER_1')
     .map(([itemId]) => itemId),
 );
@@ -202,7 +202,7 @@ const t1EliteMaterialDisplayInfo = computed(() =>
         {
           iconUrl: getRawItemIconUrl(itemId),
           itemId: itemId,
-          itemName: itemTable.items[itemId]!.name,
+          itemName: itemTable.value.items[itemId]!.name,
           workshopByproductWeight: getWorkshopByProductRate(itemId),
           epgsShopPrice: t1EliteMaterialEpgsShopPrice[itemId],
           sideStoryDropRatePerSanity: dropCountMap.get(itemId)! / apCostMap.get(itemId)!,
@@ -238,7 +238,7 @@ const t2EliteMaterialDisplayInfo = computed(() => ({
   '30012': {
     iconUrl: getRawItemIconUrl('30012'),
     itemId: '30012',
-    itemName: itemTable.items['30012']?.name,
+    itemName: itemTable.value.items['30012']?.name,
     workshopByproductWeight: 15,
     epgsShopPrice: 15,
     sideStoryMainDropRatePerSanity: 0.0693,
@@ -249,7 +249,7 @@ const t2EliteMaterialDisplayInfo = computed(() => ({
   '30022': {
     iconUrl: getRawItemIconUrl('30022'),
     itemId: '30022',
-    itemName: itemTable.items['30022']?.name,
+    itemName: itemTable.value.items['30022']?.name,
     workshopByproductWeight: 15,
     epgsShopPrice: 15,
     sideStoryMainDropRatePerSanity: 0.0693,
@@ -263,7 +263,7 @@ const t3EliteMaterialDisplayInfo = computed(() => ({
   '30013': {
     iconUrl: getRawItemIconUrl('30013'),
     itemId: '30013',
-    itemName: itemTable.items['30013']?.name,
+    itemName: itemTable.value.items['30013']?.name,
     workshopByproductWeightBefore20231008: 10,
     workshopByproductWeightAfter20231008: 15,
     qualificationCertificatePrice: 40,
@@ -275,7 +275,7 @@ const t3EliteMaterialDisplayInfo = computed(() => ({
   '30023': {
     iconUrl: getRawItemIconUrl('30023'),
     itemId: '30023',
-    itemName: itemTable.items['30023']?.name,
+    itemName: itemTable.value.items['30023']?.name,
     workshopByproductWeightBefore20231008: 10,
     workshopByproductWeightAfter20231008: 15,
     qualificationCertificatePrice: 40,
@@ -287,7 +287,7 @@ const t3EliteMaterialDisplayInfo = computed(() => ({
   '30033': {
     iconUrl: getRawItemIconUrl('30033'),
     itemId: '30033',
-    itemName: itemTable.items['30033']?.name,
+    itemName: itemTable.value.items['30033']?.name,
     workshopByproductWeightBefore20231008: 10,
     workshopByproductWeightAfter20231008: 15,
     qualificationCertificatePrice: 40,
@@ -299,7 +299,7 @@ const t3EliteMaterialDisplayInfo = computed(() => ({
   '30043': {
     iconUrl: getRawItemIconUrl('30043'),
     itemId: '30043',
-    itemName: itemTable.items['30043']?.name,
+    itemName: itemTable.value.items['30043']?.name,
     workshopByproductWeightBefore20231008: 10,
     workshopByproductWeightAfter20231008: 15,
     qualificationCertificatePrice: 40,
@@ -311,7 +311,7 @@ const t3EliteMaterialDisplayInfo = computed(() => ({
   '30053': {
     iconUrl: getRawItemIconUrl('30053'),
     itemId: '30053',
-    itemName: itemTable.items['30053']?.name,
+    itemName: itemTable.value.items['30053']?.name,
     workshopByproductWeightBefore20231008: 10,
     workshopByproductWeightAfter20231008: 15,
     qualificationCertificatePrice: 40,

@@ -7,7 +7,7 @@ import { buildingData, gamedataConst } from '@/utils/gameData';
 import { computed, useTemplateRef, watch } from 'vue';
 
 const props = defineProps<{ charId: string }>();
-const buildingCharDataRef = computed(() => buildingData.chars[props.charId]);
+const buildingCharDataRef = computed(() => buildingData.value.chars[props.charId]);
 const operatorNameElement = useTemplateRef('operatorNameElement');
 
 function getSkillIconUrl(skillIcon: string): string {
@@ -47,7 +47,7 @@ function parseRichTextDescription(description: string): string {
 
     if (isStyleTag) {
       const styleKey = content.substring(1);
-      const styleTemplate = gamedataConst.richTextStyles[styleKey];
+      const styleTemplate = gamedataConst.value.richTextStyles[styleKey];
 
       if (styleTemplate) {
         // 提取颜色值

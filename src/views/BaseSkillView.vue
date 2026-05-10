@@ -16,7 +16,7 @@ const charIdList = computed(
     charNameList.value
       .map((name) => getCharIdByName(name))
       .filter(
-        (charId) => charId !== undefined && buildingData.chars[charId] !== undefined,
+        (charId) => charId !== undefined && buildingData.value.chars[charId] !== undefined,
       ) as string[],
 );
 </script>

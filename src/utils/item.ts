@@ -1,7 +1,7 @@
 import { buildingData, itemTable } from '@/utils/gameData';
 
 export function isEliteMaterial(itemId: string): boolean | undefined {
-  const item = itemTable.items[itemId];
+  const item = itemTable.value.items[itemId];
   if (item === undefined) {
     return undefined;
   }
@@ -9,12 +9,12 @@ export function isEliteMaterial(itemId: string): boolean | undefined {
 }
 
 export function getWorkshopByProductRate(itemId: string): number | undefined {
-  const item = itemTable.items[itemId];
+  const item = itemTable.value.items[itemId];
   if (item === undefined) {
     return undefined;
   }
   const resultSet: Set<number> = new Set();
-  for (const workshopFormula of Object.values(buildingData.workshopFormulas)) {
+  for (const workshopFormula of Object.values(buildingData.value.workshopFormulas)) {
     for (const extraOutcome of workshopFormula.extraOutcomeGroup) {
       if (extraOutcome.itemId === itemId) {
         resultSet.add(extraOutcome.weight);
