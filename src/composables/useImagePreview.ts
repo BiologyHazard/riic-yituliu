@@ -253,6 +253,8 @@ export function useImagePreview(overlayRef: Ref<HTMLElement | null>) {
     scale.value = 1;
     rotation.value = 0;
     offset.value = { x: 0, y: 0 };
+    naturalWidth.value = 0;
+    naturalHeight.value = 0;
   }
 
   /** 关闭图像预览 */
@@ -283,9 +285,9 @@ export function useImagePreview(overlayRef: Ref<HTMLElement | null>) {
     // 同源 URL：直接设置 download 属性即可，浏览器会处理下载
     const isSameOrigin = (() => {
       try {
-        return new URL(url).origin === location.origin;
+        return new URL(url, location.href).origin === location.origin;
       } catch {
-        return true; // 相对路径视为同源
+        return true; // URL 构造失败时认为是同源，交由浏览器处理，浏览器会根据实际情况决定是否允许下载
       }
     })();
 
@@ -297,13 +299,18 @@ export function useImagePreview(overlayRef: Ref<HTMLElement | null>) {
     // 跨域：download 属性会被浏览器忽略，需 fetch 转为 blob URL 再触发
     try {
       const res = await fetch(url, { referrerPolicy: 'no-referrer' });
+      if (!res.ok) {
+        throw new Error(`Failed to fetch image for download: ${res.status} ${res.statusText}`);
+      }
       const blob = await res.blob();
       const objectUrl = URL.createObjectURL(blob);
       triggerDownload(objectUrl);
-      URL.revokeObjectURL(objectUrl);
+      setTimeout(() => {
+        URL.revokeObjectURL(objectUrl);
+      }, 0);
     } catch {
       // fetch 失败时回退到新标签页打开
-      window.open(url, '_blank', 'noopener noreferrer');
+      window.open(url, '_blank', 'noopener,noreferrer');
     }
   }
 

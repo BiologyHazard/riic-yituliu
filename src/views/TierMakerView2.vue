@@ -466,7 +466,7 @@ function shouldShowPreviewBefore(tierIndex: number, currentCharId: string): bool
     const indexInTier = tier.indexOf(currentCharId);
     if (indexInTier > 0) {
       const prevCharId = tier[indexInTier - 1];
-      const prevIndex = charIds.indexOf(prevCharId);
+      const prevIndex = charIds.indexOf(prevCharId!);
       // 如果前一个也大于拖拽头像，则不显示
       if (prevIndex > draggedIndex) return false;
     }
@@ -486,7 +486,7 @@ function shouldShowPreviewAtEnd(tierIndex: number): boolean {
   if (tier.length === 0) return true;
 
   const draggedIndex = charIds.indexOf(draggedChar.value);
-  const lastIndex = charIds.indexOf(tier[tier.length - 1]);
+  const lastIndex = charIds.indexOf(tier[tier.length - 1]!);
 
   return draggedIndex > lastIndex;
 }
@@ -617,7 +617,7 @@ function shouldShowPreviewAtEnd(tierIndex: number): boolean {
               draggedChar &&
               !state.pool.includes(draggedChar) &&
               charIds.indexOf(charId) > charIds.indexOf(draggedChar) &&
-              (idx === 0 || charIds.indexOf(state.pool[idx - 1]) <= charIds.indexOf(draggedChar))
+              (idx === 0 || charIds.indexOf(state.pool[idx - 1]!) <= charIds.indexOf(draggedChar))
             "
             :key="`preview-before-${charId}`"
             class="tile preview"
@@ -645,7 +645,7 @@ function shouldShowPreviewAtEnd(tierIndex: number): boolean {
             draggedChar &&
             !state.pool.includes(draggedChar) &&
             (state.pool.length === 0 ||
-              charIds.indexOf(draggedChar) > charIds.indexOf(state.pool[state.pool.length - 1]))
+              charIds.indexOf(draggedChar) > charIds.indexOf(state.pool[state.pool.length - 1]!))
           "
           class="tile preview"
         >
