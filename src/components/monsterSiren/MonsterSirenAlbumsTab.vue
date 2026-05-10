@@ -37,10 +37,12 @@ const emit = defineEmits<{
     :is-playing="props.isPlaying"
     :loading-detail-cids="props.loadingDetailCids"
     @back-to-albums="emit('backToAlbums')"
-    @download-song="(song) => emit('downloadSong', song)"
-    @open-album-detail="(cid) => emit('openAlbumDetail', cid)"
-    @play-song="(song, playlist, index) => emit('playSong', song, playlist, index)"
-    @preview-cover="(url, name) => emit('previewCover', url, name)"
+    @download-song="(song: Song) => emit('downloadSong', song)"
+    @open-album-detail="(cid: string) => emit('openAlbumDetail', cid)"
+    @play-song="
+      (song: Song, playlist: Song[], index: number) => emit('playSong', song, playlist, index)
+    "
+    @preview-cover="(url: string, name: string) => emit('previewCover', url, name)"
   />
 
   <MonsterSirenAlbumsGrid
@@ -48,7 +50,9 @@ const emit = defineEmits<{
     :album-song-count="props.albumSongCount"
     :albums="props.albums"
     :songs="props.songs"
-    @open-album-detail="(cid) => emit('openAlbumDetail', cid)"
-    @play-song="(song, playlist, index) => emit('playSong', song, playlist, index)"
+    @open-album-detail="(cid: string) => emit('openAlbumDetail', cid)"
+    @play-song="
+      (song: Song, playlist: Song[], index: number) => emit('playSong', song, playlist, index)
+    "
   />
 </template>

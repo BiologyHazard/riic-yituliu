@@ -252,8 +252,10 @@ const isPlaylistOpen = defineModel<boolean>('isPlaylistOpen');
         :player-song="props.playerSong"
         :playlist="props.playerPlaylist"
         @clear-playlist="emit('clearPlaylist')"
-        @play-song="(song, playlist, index) => emit('playSong', song, playlist, index)"
-        @remove-from-playlist="(index) => emit('removeFromPlaylist', index)"
+        @play-song="
+          (song: Song, playlist: Song[], index: number) => emit('playSong', song, playlist, index)
+        "
+        @remove-from-playlist="(index: number) => emit('removeFromPlaylist', index)"
       />
     </div>
   </Transition>

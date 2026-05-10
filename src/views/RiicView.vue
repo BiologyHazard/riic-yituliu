@@ -123,11 +123,7 @@ const zoomRef = ref<number>(1);
                 color="neutral"
                 leading-icon="i-lucide-maximize"
                 variant="subtle"
-                @click="
-                  () => {
-                    if (outputPanelRef) outputPanelRef.requestFullscreen();
-                  }
-                "
+                @click="outputPanelRef?.requestFullscreen()"
                 >全屏预览排班表</UButton
               >
             </div>

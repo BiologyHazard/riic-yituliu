@@ -52,8 +52,10 @@ const emit = defineEmits<{
     :is-playing="props.isPlaying"
     :loading-detail-cids="props.loadingDetailCids"
     :songs="props.albumSongs"
-    @download-song="(song) => emit('downloadSong', song)"
-    @play-song="(song, playlist, index) => emit('playSong', song, playlist, index)"
-    @preview-cover="(url, name) => emit('previewCover', url, name)"
+    @download-song="(song: Song) => emit('downloadSong', song)"
+    @play-song="
+      (song: Song, playlist: Song[], index: number) => emit('playSong', song, playlist, index)
+    "
+    @preview-cover="(url: string, name: string) => emit('previewCover', url, name)"
   />
 </template>
