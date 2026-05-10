@@ -43,20 +43,39 @@ onMounted(() => {
       </template>
 
       <template #right>
-        <div class="flex items-center gap-2">
-          <div v-if="isGameDataLoading || isPenguinDataLoading" class="flex items-center">
-            <UIcon class="h-4 w-4 animate-spin text-primary" name="i-lucide-loader-2" />
-          </div>
-          <UPopover v-if="gameDataError || penguinDataError">
-            <UButton color="error" icon="i-lucide-triangle-alert" size="xs" variant="ghost" />
+        <div class="flex items-center gap-1">
+          <UPopover
+            v-if="isGameDataLoading || isPenguinDataLoading || gameDataError || penguinDataError"
+          >
+            <div>
+              <UButton
+                v-if="gameDataError || penguinDataError"
+                color="error"
+                icon="i-lucide-triangle-alert"
+                size="md"
+                variant="ghost"
+              />
+              <UButton
+                v-else-if="isGameDataLoading || isPenguinDataLoading"
+                color="primary"
+                icon="i-lucide-loader-circle"
+                size="md"
+                :ui="{ leadingIcon: 'animate-spin' }"
+                variant="ghost"
+              />
+            </div>
             <template #content>
-              <div class="max-w-xs p-3 text-xs">
-                <p v-if="gameDataError" class="mb-1 text-error">游戏数据加载失败</p>
-                <p v-if="penguinDataError" class="text-error">企鹅物流加载失败</p>
+              <div class="max-w-xs p-3">
+                <div class="space-y-1 text-sm">
+                  <p v-if="isGameDataLoading">正在加载游戏数据...</p>
+                  <p v-if="gameDataError" class="text-error">游戏数据加载失败</p>
+                  <p v-if="isPenguinDataLoading">正在加载企鹅物流数据...</p>
+                  <p v-if="penguinDataError" class="text-error">企鹅物流加载失败</p>
+                </div>
                 <UButton
                   block
-                  class="mt-2"
-                  size="xs"
+                  class="mbs-2"
+                  size="md"
                   @click="
                     () => {
                       loadGameData(currentBaseUrl);
