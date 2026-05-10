@@ -10,9 +10,6 @@ import type {
 } from '@/types/gameData';
 import { reactive, ref } from 'vue';
 
-export const isGameDataLoading = ref(false);
-export const gameDataError = ref<Error | null>(null);
-
 /** `excel/character_table.json` */
 export const characterTable = reactive<CharacterTable>({});
 
@@ -56,45 +53,56 @@ export const zoneTable = reactive<ZoneTable>({
   zones: {},
 });
 
-/**
- * 异步加载或刷新游戏数据
- * @param baseUrl 数据源基础 URL
- */
+export const isGameDataLoading = ref(false);
+export const gameDataError = ref<unknown | null>(null);
+
+let abortController: AbortController | null = null;
+
+export async function abortGameDataLoading() {
+  if (abortController) {
+    abortController.abort();
+  }
+}
+
 export async function loadGameData(baseUrl: string) {
+  abortGameDataLoading();
+  abortController = new AbortController();
+  const { signal } = abortController;
+
   isGameDataLoading.value = true;
   gameDataError.value = null;
   try {
     const [charRes, skinRes, buildingRes, constRes, itemRes, stageRes, activityRes, zoneRes] =
       await Promise.all([
-        fetch(`${baseUrl}/character_table.json`).then((res) => {
+        fetch(`${baseUrl}/character_table.json`, { signal }).then((res) => {
           if (!res.ok) throw new Error(`Failed to fetch character_table: ${res.statusText}`);
           return res.json();
         }),
-        fetch(`${baseUrl}/skin_table.json`).then((res) => {
+        fetch(`${baseUrl}/skin_table.json`, { signal }).then((res) => {
           if (!res.ok) throw new Error(`Failed to fetch skin_table: ${res.statusText}`);
           return res.json();
         }),
-        fetch(`${baseUrl}/building_data.json`).then((res) => {
+        fetch(`${baseUrl}/building_data.json`, { signal }).then((res) => {
           if (!res.ok) throw new Error(`Failed to fetch building_data: ${res.statusText}`);
           return res.json();
         }),
-        fetch(`${baseUrl}/gamedata_const.json`).then((res) => {
+        fetch(`${baseUrl}/gamedata_const.json`, { signal }).then((res) => {
           if (!res.ok) throw new Error(`Failed to fetch gamedata_const: ${res.statusText}`);
           return res.json();
         }),
-        fetch(`${baseUrl}/item_table.json`).then((res) => {
+        fetch(`${baseUrl}/item_table.json`, { signal }).then((res) => {
           if (!res.ok) throw new Error(`Failed to fetch item_table: ${res.statusText}`);
           return res.json();
         }),
-        fetch(`${baseUrl}/stage_table.json`).then((res) => {
+        fetch(`${baseUrl}/stage_table.json`, { signal }).then((res) => {
           if (!res.ok) throw new Error(`Failed to fetch stage_table: ${res.statusText}`);
           return res.json();
         }),
-        fetch(`${baseUrl}/activity_table.json`).then((res) => {
+        fetch(`${baseUrl}/activity_table.json`, { signal }).then((res) => {
           if (!res.ok) throw new Error(`Failed to fetch activity_table: ${res.statusText}`);
           return res.json();
         }),
-        fetch(`${baseUrl}/zone_table.json`).then((res) => {
+        fetch(`${baseUrl}/zone_table.json`, { signal }).then((res) => {
           if (!res.ok) throw new Error(`Failed to fetch zone_table: ${res.statusText}`);
           return res.json();
         }),
@@ -109,9 +117,15 @@ export async function loadGameData(baseUrl: string) {
     Object.assign(activityTable, activityRes);
     Object.assign(zoneTable, zoneRes);
   } catch (err) {
+    if (err instanceof Error && err.name === 'AbortError') {
+      return;
+    }
     console.error('Game data loading failed:', err);
-    gameDataError.value = err instanceof Error ? err : new Error(String(err));
+    gameDataError.value = err;
   } finally {
-    isGameDataLoading.value = false;
+    if (abortController?.signal === signal) {
+      isGameDataLoading.value = false;
+      abortController = null;
+    }
   }
 }
