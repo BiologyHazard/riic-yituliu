@@ -444,7 +444,7 @@ export function useImagePreview(overlayRef: Ref<HTMLElement | null>) {
           }
           break;
         case 'o': // 在新标签页中打开图像
-          if (preview.value) window.open(preview.value.url, '_blank', 'noopener noreferrer');
+          if (preview.value) window.open(preview.value.url, '_blank', 'noopener,noreferrer');
           break;
       }
     } else {
