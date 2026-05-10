@@ -1,28 +1,54 @@
 <script setup lang="ts">
-import { useDataSource } from '@/composables/useDataSource';
+import {
+  currentBaseUrl,
+  currentMirrorId,
+  currentSource,
+  currentSourceId,
+} from '@/composables/useDataSource';
+import { dataSources, githubMirrors } from '@/config/dataSources';
+import { loadGameData } from '@/utils/gameData';
 import { getPrtsWikiMediaUrl } from '@/utils/prtsWiki';
-
-const { currentSourceId, dataSources, setSource } = useDataSource();
 </script>
 
 <template>
   <UContainer>
     <UPage>
       <UPageBody class="space-y-6">
-        <section
-          class="data-source-settings rounded-lg border border-gray-200 p-4 dark:border-gray-800"
-        >
+        <section class="data-source-settings rounded-lg p-4">
           <h2 class="mb-4 text-lg font-bold">数据源设置</h2>
-          <div class="flex items-center gap-4">
-            <span class="text-sm opacity-80">当前数据源:</span>
-            <USelectMenu
-              v-model="currentSourceId"
-              class="w-32"
-              :items="dataSources"
-              :search-input="false"
-              value-key="id"
-              @update:model-value="setSource"
-            />
+          <div class="flex flex-col gap-4">
+            <UFormField label="数据源">
+              <USelectMenu
+                v-model="currentSourceId"
+                class="w-xs"
+                :items="dataSources"
+                :search-input="false"
+                :ui="{
+                  trailingIcon:
+                    'group-data-[state=open]:rotate-180 transition-transform duration-200',
+                }"
+                value-key="id"
+                @update:model-value="loadGameData(currentBaseUrl)"
+              />
+            </UFormField>
+            <UFormField v-if="currentSource.isGithub" label="GitHub 镜像">
+              <USelectMenu
+                v-model="currentMirrorId"
+                class="w-xs"
+                :items="githubMirrors"
+                :search-input="false"
+                :ui="{
+                  trailingIcon:
+                    'group-data-[state=open]:rotate-180 transition-transform duration-200',
+                }"
+                value-key="id"
+                @update:model-value="loadGameData(currentBaseUrl)"
+              />
+            </UFormField>
+
+            <div class="text-xs break-all text-muted">
+              当前 Base URL：<span class="font-mono">{{ currentBaseUrl }}</span>
+            </div>
           </div>
         </section>
 
@@ -97,5 +123,3 @@ const { currentSourceId, dataSources, setSource } = useDataSource();
     </UPage>
   </UContainer>
 </template>
-
-<style scoped lang="scss"></style>

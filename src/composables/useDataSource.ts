@@ -1,39 +1,40 @@
+import {
+  dataSources,
+  defaultDataSourceId,
+  defaultGithubMirrorId,
+  githubMirrors,
+} from '@/config/dataSources';
 import { useLocalStorage } from '@vueuse/core';
-import { DATA_SOURCES, DEFAULT_SOURCE_ID } from '@/config/dataSources';
-import { loadGameData } from '@/utils/gameData';
 import { computed } from 'vue';
 
-const STORAGE_KEY = 'riic_data_source_id';
+const DATA_SOURCE_STORAGE_KEY = 'riic_data_source_id';
+const GITHUB_MIRROR_STORAGE_KEY = 'riic_github_mirror_id';
 
 /**
  * 全局共享的数据源状态
  */
-const currentSourceId = useLocalStorage(STORAGE_KEY, DEFAULT_SOURCE_ID);
+export const currentSourceId = useLocalStorage(DATA_SOURCE_STORAGE_KEY, defaultDataSourceId);
+/**
+ * 全局共享的 GitHub 镜像状态
+ */
+export const currentMirrorId = useLocalStorage(GITHUB_MIRROR_STORAGE_KEY, defaultGithubMirrorId);
 
-export function useDataSource() {
-  /**
-   * 获取当前激活的数据源对象
-   */
-  const currentSource = computed(
-    () => DATA_SOURCES.find((s) => s.id === currentSourceId.value) || DATA_SOURCES[0]!,
-  );
+export const currentMirror = computed(() => {
+  return githubMirrors.find((m) => m.id === currentMirrorId.value) || githubMirrors[0]!;
+});
 
-  /**
-   * 变更数据源
-   * @param id 数据源 ID
-   */
-  const setSource = async (id: string) => {
-    if (DATA_SOURCES.some((s) => s.id === id)) {
-      currentSourceId.value = id;
-      // 切换时不 reload，而是直接调用加载函数刷新响应式数据
-      await loadGameData(currentSource.value.baseUrl);
-    }
-  };
+export const currentSource = computed(() => {
+  return dataSources.find((s) => s.id === currentSourceId.value) || dataSources[0]!;
+});
 
-  return {
-    currentSourceId,
-    currentSource,
-    dataSources: DATA_SOURCES,
-    setSource,
-  };
-}
+/**
+ * 根据当前选择的数据源和 GitHub 镜像计算最终的 baseUrl
+ */
+export const currentBaseUrl = computed(() => {
+  // 如果是 GitHub 仓库且设置了镜像，则给 baseUrl 加上前缀
+  if (currentSource.value.isGithub) {
+    return `${currentMirror.value.prefix}${currentSource.value.baseUrl}`;
+  } else {
+    return currentSource.value.baseUrl;
+  }
+});
