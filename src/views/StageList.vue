@@ -26,9 +26,9 @@ import { activityTable, stageTable, zoneTable } from '@/utils/gameData';
                   {{ activity.name }}（{{ activityId }}）
                   <ul>
                     <li
-                      v-for="[zoneId, zoneInfo] in Object.entries(activityTable.zoneToActivity)
-                        .filter(([zoneId, activityIdInMap]) => activityIdInMap === activityId)
-                        .map(([zoneId, activityId]) => [zoneId, zoneTable.zones[zoneId]])"
+                      v-for="[zoneId, zoneInfo] in Object.entries(zoneTable.zones).filter(
+                        ([zoneId, zoneInfo]) => activityTable.zoneToActivity[zoneId] === activityId,
+                      )"
                       :key="zoneId"
                       class="zone-item"
                     >
