@@ -2,7 +2,7 @@
 import { itemTable } from '@/utils/gameData';
 import { getItemRarity, getWorkshopByProductRate, isEliteMaterial } from '@/utils/item';
 import { items, resultMatrix, stages, zones } from '@/utils/penguinStats';
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 
 const t1EliteMaterialEpgsShopPrice: Record<string, number> = {
   '30011': 15,
@@ -212,10 +212,6 @@ const t1EliteMaterialDisplayInfo = computed(() =>
     }),
   ),
 );
-
-watch(t1EliteMaterialIds, () => {
-  console.log(t1EliteMaterialIds.value);
-});
 
 // const t1EliteMaterialDisplayInfo = {
 //   '30011': {
