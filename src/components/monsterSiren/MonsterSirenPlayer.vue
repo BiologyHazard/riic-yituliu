@@ -208,7 +208,7 @@ const isPlaylistOpen = defineModel<boolean>('isPlaylistOpen');
                     orientation="vertical"
                     size="xs"
                     :step="0.01"
-                    @update:model-value="(event) => emit('setVolume', event)"
+                    @update:model-value="(volume?: number) => emit('setVolume', volume)"
                   />
                 </div>
               </div>
