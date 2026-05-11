@@ -17,10 +17,10 @@ const props = defineProps<{
         :src="getItemIconUrl(props.itemId)"
       />
       <div
-        v-if="count !== null"
+        v-if="props.count !== null"
         class="text-md absolute inset-e-0 inset-be-0 rounded bg-default/75 px-0.5 leading-tight font-semibold text-default backdrop-blur-xs"
       >
-        {{ count }}
+        {{ props.count }}
       </div>
     </div>
   </UTooltip>
