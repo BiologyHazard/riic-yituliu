@@ -1,7 +1,7 @@
 import { buildingData, itemTable } from '@/utils/gameData';
 
-export function getItemName(itemId: string): string | undefined {
-  return itemTable.value.items[itemId]?.name;
+export function getItemName(itemId: string): string {
+  return itemTable.value.items[itemId]?.name ?? itemId;
 }
 
 export function getItemRarity(itemId: string): number | undefined {

@@ -49,7 +49,7 @@ export function combine(itemInfoList: ItemInfo[]): ItemInfo[] {
 export function display(itemInfo: ItemInfo | ItemInfo[]): string {
   if (Array.isArray(itemInfo)) {
     return itemInfo.map(display).join(' ');
+  } else {
+    return `${getItemName(itemInfo.itemId)}×${itemInfo.count}`;
   }
-  const itemName = getItemName(itemInfo.itemId) ?? itemInfo.itemId;
-  return `${itemName}×${itemInfo.count}`;
 }
