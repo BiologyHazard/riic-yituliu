@@ -4,7 +4,6 @@ import { getItemIconUrl, getItemName } from '@/utils/item';
 const props = defineProps<{
   itemId: string;
   count: number | null;
-  iconSize?: number;
 }>();
 </script>
 
@@ -13,13 +12,9 @@ const props = defineProps<{
     <div class="relative inline-block">
       <img
         :alt="getItemName(props.itemId)"
-        class="object-contain"
+        class="h-full w-full object-contain"
         referrerpolicy="no-referrer"
         :src="getItemIconUrl(props.itemId)"
-        :style="{
-          width: `${props.iconSize ?? 64}px`,
-          height: `${props.iconSize ?? 64}px`,
-        }"
       />
       <div
         v-if="count !== null"
