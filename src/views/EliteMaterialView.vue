@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import ItemWithCount from '@/components/riic/ItemWithCount.vue';
 import OperatorAvatar from '@/components/riic/OperatorAvatar.vue';
-import { charDevelopItemCost, getCharName, isCharInGame } from '@/utils/character';
-import { characterTable } from '@/utils/gameData';
+import {
+  charDevelopItemCost,
+  getCharName,
+  isCharInGame,
+  patchedCharacterTable,
+} from '@/utils/character';
 import type { ItemInfo } from '@/utils/itemInfo';
 import { combine, sortBySortId } from '@/utils/itemInfo';
 import { computed, ref, watch } from 'vue';
@@ -11,7 +15,7 @@ const page = ref(1);
 const itemsPerPage = 8;
 
 const allCharsIdsInGame = computed(() => {
-  return Object.keys(characterTable.value).filter(isCharInGame);
+  return Object.keys(patchedCharacterTable.value).filter(isCharInGame);
 });
 
 const totalItems = computed(() => allCharsIdsInGame.value.length);
@@ -51,7 +55,7 @@ async function preloadCosts(charIds: string[]) {
   }
 }
 
-watch(characterTable, () => {
+watch(patchedCharacterTable, () => {
   costCache.value.clear();
 });
 watch(paginatedCharIds, preloadCosts, { immediate: true });
