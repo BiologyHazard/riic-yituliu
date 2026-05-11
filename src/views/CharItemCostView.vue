@@ -64,10 +64,10 @@ watch(paginatedCharIds, preloadCosts, { immediate: true });
 <template>
   <UContainer>
     <UPage>
+      <UPageHeader title="干员拉满材料消耗" />
       <UPageBody>
         <div class="space-y-4">
-          <div class="flex items-center justify-between">
-            <h1 class="text-2xl font-bold">干员精英化材料消耗</h1>
+          <div class="flex justify-center">
             <UPagination
               v-model:page="page"
               :items-per-page="itemsPerPage"
