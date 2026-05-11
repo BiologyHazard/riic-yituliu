@@ -1,4 +1,6 @@
-import { characterTable, skinTable } from '@/utils/gameData';
+import { buildingData, characterTable, gamedataConst, skinTable } from '@/utils/gameData';
+import { fromItemBundleArray, type ItemInfo } from '@/utils/itemInfo';
+import { computed, watch } from 'vue';
 
 export const professionMap: Map<string, string> = new Map(
   Object.entries({
@@ -138,4 +140,164 @@ export function getCharAvatar(charId: string, eliteLevel: number): string {
  */
 export function getProfessionName(professionIdOrName: string): string {
   return professionMap.get(professionIdOrName) ?? professionIdOrName;
+}
+
+/**
+ * 判断是否为实装干员，有这么几种方法：
+ * 1. 在 `building_data` 的 `chars` 对象的 key 中（判断是否有基建技能）
+ * 2. `char.itemObtainApproach` 不为 `null`
+ */
+export function isCharInGame(charId: string): boolean {
+  const char = characterTable.value[charId];
+  if (char === undefined) {
+    return false;
+  }
+  const criterion1 = buildingData.value.chars.hasOwnProperty(charId);
+  const criterion2 = char.itemObtainApproach !== null;
+  if (criterion1 !== criterion2) {
+    console.warn(
+      `干员 ${charId} (${char.name}) 的实装状态不一致：根据基建技能判断为 ${criterion1}，根据获取途径判断为 ${criterion2}。`,
+    );
+  }
+  return criterion1 || criterion2;
+}
+
+export function getCharMaxEliteLevel(charId: string): number {
+  const char = characterTable.value[charId];
+  if (char === undefined) {
+    return 0;
+  }
+  return char.phases.length - 1;
+}
+
+export function getCharMaxLevel(charId: string, eliteLevel: number): number {
+  const char = characterTable.value[charId];
+  if (char === undefined) {
+    return 0;
+  }
+
+  return char.phases[eliteLevel]?.maxLevel ?? 0;
+}
+
+export function charEliteOnceItemCost(charId: string, originalEliteLevel: number): ItemInfo[] {
+  const char = characterTable.value[charId];
+  if (char === undefined) {
+    return [];
+  }
+  const goldCost =
+    gamedataConst.value.evolveGoldCost[getCharRarity(charId)!]?.[originalEliteLevel] ?? 0;
+  const evolveCost = fromItemBundleArray(char.phases[originalEliteLevel + 1]?.evolveCost ?? []);
+  const totalCost = [{ itemId: '4001', count: goldCost }, ...evolveCost];
+  return totalCost;
+}
+
+export function charEliteItemCost(
+  charId: string,
+  originalEliteLevel: number | null = null,
+  targetEliteLevel: number | null = null,
+): ItemInfo[] {
+  if (originalEliteLevel === null) {
+    originalEliteLevel = 0;
+  }
+  if (targetEliteLevel === null) {
+    targetEliteLevel = getCharMaxEliteLevel(charId);
+  }
+
+  const totalCost = [];
+  for (let eliteLevel = originalEliteLevel; eliteLevel < targetEliteLevel; eliteLevel++) {
+    totalCost.push(...charEliteOnceItemCost(charId, eliteLevel));
+  }
+  return totalCost;
+}
+
+function calculateAccumulatedCost(costArray: number[][]): number[][] {
+  return costArray.map((rarityData) => {
+    let sum = 0;
+    return [0, ...rarityData.filter((x) => x > 0).map((cost) => (sum += cost))]; // 前面加一个 0 代表升到 1 级的成本为 0
+  });
+}
+
+export const accumulatedExpCost = computed(() =>
+  calculateAccumulatedCost(gamedataConst.value.characterExpMap),
+);
+
+export const accumulatedGoldCost = computed(() =>
+  calculateAccumulatedCost(gamedataConst.value.characterUpgradeCostMap),
+);
+
+watch([accumulatedExpCost, accumulatedGoldCost], ([newExpCost, newGoldCost]) => {
+  console.log(newExpCost);
+  console.log(newGoldCost);
+});
+
+export function charLevelUpOnceItemCost(
+  charId: string,
+  eliteLevel: number,
+  originalLevel: number | null = null,
+  targetLevel: number | null = null,
+): ItemInfo[] {
+  if (originalLevel === null) {
+    originalLevel = 1;
+  }
+  if (targetLevel === null) {
+    targetLevel = getCharMaxLevel(charId, eliteLevel);
+  }
+
+  if (originalLevel >= targetLevel) {
+    return [];
+  }
+
+  const expCost =
+    (accumulatedExpCost.value[eliteLevel]?.[targetLevel - 1] ?? 0) -
+    (accumulatedExpCost.value[eliteLevel]?.[originalLevel - 1] ?? 0);
+  const goldCost =
+    (accumulatedGoldCost.value[eliteLevel]?.[targetLevel - 1] ?? 0) -
+    (accumulatedGoldCost.value[eliteLevel]?.[originalLevel - 1] ?? 0);
+  return [
+    { itemId: 'exp', count: expCost },
+    { itemId: '4001', count: goldCost },
+  ];
+}
+
+export function charLevelUpItemCost(
+  charId: string,
+  originalEliteLevel: number | null = null,
+  originalLevel: number | null = null,
+  targetEliteLevel: number | null = null,
+  targetLevel: number | null = null,
+): ItemInfo[] {
+  if (originalEliteLevel === null) {
+    originalEliteLevel = 0;
+  }
+  if (targetEliteLevel === null) {
+    targetEliteLevel = getCharMaxEliteLevel(charId);
+  }
+
+  const totalCost = [];
+  for (let eliteLevel = originalEliteLevel; eliteLevel <= targetEliteLevel; eliteLevel++) {
+    const levelUpOriginalLevel = eliteLevel === originalEliteLevel ? originalLevel : null;
+    const levelUpTargetLevel = eliteLevel === targetEliteLevel ? targetLevel : null;
+    totalCost.push(
+      ...charLevelUpOnceItemCost(charId, eliteLevel, levelUpOriginalLevel, levelUpTargetLevel),
+    );
+  }
+  return totalCost;
+}
+
+export function charEliteAndLevelUpItemCost(
+  charId: string,
+  originalEliteLevel: number | null = null,
+  originalLevel: number | null = null,
+  targetEliteLevel: number | null = null,
+  targetLevel: number | null = null,
+): ItemInfo[] {
+  const eliteAndLevelUpCost = charEliteItemCost(charId, originalEliteLevel, targetEliteLevel);
+  const levelUpCost = charLevelUpItemCost(
+    charId,
+    originalEliteLevel,
+    originalLevel,
+    targetEliteLevel,
+    targetLevel,
+  );
+  return [...eliteAndLevelUpCost, ...levelUpCost];
 }

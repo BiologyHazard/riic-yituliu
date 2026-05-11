@@ -4,10 +4,17 @@ export interface ItemBundle {
   type: string;
 }
 
+export interface Phase {
+  maxLevel: number;
+  evolveCost: ItemBundle[];
+}
+
 export interface Character {
   name: string;
+  itemObtainApproach: string | null;
   rarity: number | string;
   profession: string;
+  phases: Phase[];
 }
 
 /**
@@ -27,7 +34,7 @@ export interface SkinTable {
   buildinEvolveMap: Record<string, Record<string, string>>;
 }
 
-export type Phase = 'PHASE_0' | 'PHASE_1' | 'PHASE_2';
+export type PhaseEnum = 'PHASE_0' | 'PHASE_1' | 'PHASE_2';
 
 /**
  * 基建技能解锁条件
@@ -39,7 +46,7 @@ export type Phase = 'PHASE_0' | 'PHASE_1' | 'PHASE_2';
  */
 export interface BuffUnlockCondition {
   /** 精英化阶段 */
-  phase: Phase | number;
+  phase: PhaseEnum | number;
   /** 等级 */
   level: number;
 }
@@ -223,6 +230,9 @@ export interface TermDescription {
  * `excel/gamedata_const.json` 数据格式
  */
 export interface GameDataConst {
+  characterExpMap: number[][];
+  characterUpgradeCostMap: number[][];
+  evolveGoldCost: number[][];
   /**
    * 富文本标签与样式映射表
    * 将游戏中的富文本标签映射为对应的颜色样式

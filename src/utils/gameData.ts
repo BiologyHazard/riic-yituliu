@@ -28,6 +28,9 @@ export const buildingData = ref<BuildingData>({
 
 /** `excel/gamedata_const.json` */
 export const gamedataConst = ref<GameDataConst>({
+  characterExpMap: [],
+  characterUpgradeCostMap: [],
+  evolveGoldCost: [],
   richTextStyles: {},
   termDescriptionDict: {},
 });
@@ -116,6 +119,16 @@ export async function loadGameData(baseUrl: string) {
     stageTable.value = stageRes;
     activityTable.value = activityRes;
     zoneTable.value = zoneRes;
+
+    // 加一个 exp 虚拟物品
+    itemTable.value.items['exp'] = {
+      itemId: 'exp',
+      name: 'EXP',
+      rarity: 0,
+      iconId: 'EXP_PLAYER',
+      sortId: 0,
+      itemType: 'EXP',
+    };
   } catch (err) {
     if (err instanceof Error && err.name === 'AbortError') {
       return;

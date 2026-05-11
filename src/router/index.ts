@@ -1,4 +1,5 @@
 import BaseSkillView from '@/views/BaseSkillView.vue';
+import EliteMaterialView from '@/views/EliteMaterialView.vue';
 import GameBulletinView from '@/views/GameBulletinView.vue';
 import HomeView from '@/views/HomeView.vue';
 import LinksView from '@/views/LinksView.vue';
@@ -30,6 +31,12 @@ const router = createRouter({
       name: 'base-skill',
       component: BaseSkillView,
       meta: { title: '基建技能' },
+    },
+    {
+      path: '/elite-material',
+      name: 'elite-material',
+      component: EliteMaterialView,
+      meta: { title: '精英化材料' },
     },
     {
       path: '/material-info',

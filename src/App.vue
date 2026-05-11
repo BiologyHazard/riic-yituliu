@@ -10,6 +10,7 @@ const items = computed(() => [
   { label: '首页', to: '/' },
   { label: '排班表生成器', to: '/riic' },
   { label: '基建技能', to: '/base-skill' },
+  { label: '精英化材料', to: '/elite-material' },
   { label: '材料信息', to: '/material-info' },
   { label: '作战列表', to: '/stages' },
   { label: '游戏内公告', to: '/game-bulletin' },

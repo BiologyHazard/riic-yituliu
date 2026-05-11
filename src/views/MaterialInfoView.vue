@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { itemTable } from '@/utils/gameData';
-import { getItemRarity, getWorkshopByProductRate, isEliteMaterial } from '@/utils/item';
+import {
+  getItemRarity,
+  getItemIconUrl,
+  getWorkshopByProductRate,
+  isEliteMaterial,
+} from '@/utils/item';
 import { items, resultMatrix, stages, zones } from '@/utils/penguinStats';
 import { computed, ref } from 'vue';
 
@@ -45,14 +50,6 @@ function formatNumber(num: number, decimalPlaces: number | null): string {
   } else {
     return num.toFixed(decimalPlaces);
   }
-}
-
-function getRawItemIconUrl(itemId: string): string | undefined {
-  const item = itemTable.value.items[itemId];
-  if (item === undefined) {
-    return undefined;
-  }
-  return `https://torappu.prts.wiki/assets/item_icon/${item.iconId}.png`;
 }
 
 // 稀疏矩阵改为按作战存储
@@ -200,7 +197,7 @@ const t1EliteMaterialDisplayInfo = computed(() =>
       return [
         itemId,
         {
-          iconUrl: getRawItemIconUrl(itemId),
+          iconUrl: getItemIconUrl(itemId),
           itemId: itemId,
           itemName: itemTable.value.items[itemId]!.name,
           workshopByproductWeight: getWorkshopByProductRate(itemId),
@@ -236,7 +233,7 @@ const t1EliteMaterialDisplayInfo = computed(() =>
 
 const t2EliteMaterialDisplayInfo = computed(() => ({
   '30012': {
-    iconUrl: getRawItemIconUrl('30012'),
+    iconUrl: getItemIconUrl('30012'),
     itemId: '30012',
     itemName: itemTable.value.items['30012']?.name,
     workshopByproductWeight: 15,
@@ -247,7 +244,7 @@ const t2EliteMaterialDisplayInfo = computed(() => ({
     expectedSanityPerSubDropItem: 28.8718,
   },
   '30022': {
-    iconUrl: getRawItemIconUrl('30022'),
+    iconUrl: getItemIconUrl('30022'),
     itemId: '30022',
     itemName: itemTable.value.items['30022']?.name,
     workshopByproductWeight: 15,
@@ -261,7 +258,7 @@ const t2EliteMaterialDisplayInfo = computed(() => ({
 
 const t3EliteMaterialDisplayInfo = computed(() => ({
   '30013': {
-    iconUrl: getRawItemIconUrl('30013'),
+    iconUrl: getItemIconUrl('30013'),
     itemId: '30013',
     itemName: itemTable.value.items['30013']?.name,
     workshopByproductWeightBefore20231008: 10,
@@ -273,7 +270,7 @@ const t3EliteMaterialDisplayInfo = computed(() => ({
     expectedSanityPerItem: 28.9017,
   },
   '30023': {
-    iconUrl: getRawItemIconUrl('30023'),
+    iconUrl: getItemIconUrl('30023'),
     itemId: '30023',
     itemName: itemTable.value.items['30023']?.name,
     workshopByproductWeightBefore20231008: 10,
@@ -285,7 +282,7 @@ const t3EliteMaterialDisplayInfo = computed(() => ({
     expectedSanityPerItem: 28.9017,
   },
   '30033': {
-    iconUrl: getRawItemIconUrl('30033'),
+    iconUrl: getItemIconUrl('30033'),
     itemId: '30033',
     itemName: itemTable.value.items['30033']?.name,
     workshopByproductWeightBefore20231008: 10,
@@ -297,7 +294,7 @@ const t3EliteMaterialDisplayInfo = computed(() => ({
     expectedSanityPerItem: 28.9017,
   },
   '30043': {
-    iconUrl: getRawItemIconUrl('30043'),
+    iconUrl: getItemIconUrl('30043'),
     itemId: '30043',
     itemName: itemTable.value.items['30043']?.name,
     workshopByproductWeightBefore20231008: 10,
@@ -309,7 +306,7 @@ const t3EliteMaterialDisplayInfo = computed(() => ({
     expectedSanityPerItem: 28.9017,
   },
   '30053': {
-    iconUrl: getRawItemIconUrl('30053'),
+    iconUrl: getItemIconUrl('30053'),
     itemId: '30053',
     itemName: itemTable.value.items['30053']?.name,
     workshopByproductWeightBefore20231008: 10,

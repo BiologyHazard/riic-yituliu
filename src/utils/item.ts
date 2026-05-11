@@ -1,5 +1,9 @@
 import { buildingData, itemTable } from '@/utils/gameData';
 
+export function getItemName(itemId: string): string | undefined {
+  return itemTable.value.items[itemId]?.name;
+}
+
 export function getItemRarity(itemId: string): number | undefined {
   const item = itemTable.value.items[itemId];
   if (item === undefined) {
@@ -12,6 +16,14 @@ export function getItemRarity(itemId: string): number | undefined {
     const rarityNum = Number(rarity.slice(-1));
     return !isNaN(rarityNum) ? rarityNum - 1 : undefined;
   }
+}
+
+export function getItemIconUrl(itemId: string): string | undefined {
+  const item = itemTable.value.items[itemId];
+  if (item === undefined) {
+    return undefined;
+  }
+  return `https://torappu.prts.wiki/assets/item_icon/${item.iconId}.png`;
 }
 
 export function isEliteMaterial(itemId: string): boolean | undefined {
