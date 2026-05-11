@@ -1,7 +1,9 @@
 import BaseSkillView from '@/views/BaseSkillView.vue';
+import CharCostRankingView from '@/views/CharCostRankingView.vue';
 import CharItemCostView from '@/views/CharItemCostView.vue';
 import GameBulletinView from '@/views/GameBulletinView.vue';
 import HomeView from '@/views/HomeView.vue';
+import ItemValueView from '@/views/ItemValueView.vue';
 import LinksView from '@/views/LinksView.vue';
 import MaterialInfoView from '@/views/MaterialInfoView.vue';
 import MonsterSirenView from '@/views/MonsterSirenView.vue';
@@ -39,10 +41,22 @@ const router = createRouter({
       meta: { title: '干员材料消耗' },
     },
     {
+      path: '/char-cost-ranking',
+      name: 'char-cost-ranking',
+      component: CharCostRankingView,
+      meta: { title: '养成成本排行' },
+    },
+    {
       path: '/material-info',
       name: 'material-info',
       component: MaterialInfoView,
       meta: { title: '材料信息' },
+    },
+    {
+      path: '/item-value',
+      name: 'item-value',
+      component: ItemValueView,
+      meta: { title: '物品价值' },
     },
     {
       path: '/stages',

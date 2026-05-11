@@ -59,6 +59,15 @@ watch(patchedCharacterTable, () => {
   costCache.value.clear();
 });
 watch(paginatedCharIds, preloadCosts, { immediate: true });
+
+const totalCost = computed(() => {
+  const cost = [];
+  for (const charId of allCharsIdsInGame.value) {
+    const costList = charDevelopItemCost(charId);
+    cost.push(...costList);
+  }
+  return sortBySortId(combine(cost));
+});
 </script>
 
 <template>
@@ -67,6 +76,15 @@ watch(paginatedCharIds, preloadCosts, { immediate: true });
       <UPageHeader title="干员拉满材料消耗" />
       <UPageBody>
         <div class="space-y-4">
+          <div class="flex flex-wrap gap-2">
+            <ItemWithCount
+              v-for="item in totalCost"
+              :key="item.itemId"
+              class="h-14 w-14"
+              :count="item.count"
+              :item-id="item.itemId"
+            />
+          </div>
           <div class="flex justify-center">
             <UPagination
               v-model:page="page"
