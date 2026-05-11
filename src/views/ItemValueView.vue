@@ -75,20 +75,19 @@ function resetToDefault(): void {
     <h1 class="mb-6 text-2xl font-bold">物品价值管理</h1>
 
     <!-- 顶部操作栏 -->
-    <div class="mbe-6 flex flex-wrap items-end gap-4 border-be pb-6">
-      <div class="min-w-64 flex-1">
-        <label class="mbe-1 block text-sm font-medium">搜索物品</label>
+    <div class="mbe-6 flex flex-wrap items-end gap-4 pb-6">
+      <UFormField class="min-w-64 flex-1" label="搜索物品">
         <UInput v-model="searchQuery" icon="i-lucide-search" placeholder="名称或 ID..." />
-      </div>
+      </UFormField>
 
       <div class="flex gap-2">
-        <UButton color="neutral" variant="soft" @click="exportJson">
+        <UButton color="neutral" variant="subtle" @click="exportJson">
           <template #leading>
             <UIcon name="i-lucide-download" />
           </template>
           导出 JSON
         </UButton>
-        <UButton color="error" variant="soft" @click="resetToDefault">重置默认</UButton>
+        <UButton color="error" variant="subtle" @click="resetToDefault">重置默认</UButton>
       </div>
     </div>
 
@@ -106,7 +105,6 @@ function resetToDefault(): void {
             type="file"
             @change="handleFileUpload"
           />
-          <p class="text-xs text-muted">选择与 item.json 格式相同的 JSON 文件</p>
         </div>
       </UCard>
 
