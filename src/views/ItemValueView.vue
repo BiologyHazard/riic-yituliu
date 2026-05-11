@@ -15,6 +15,43 @@ const filteredItems = computed<ItemValue[]>(() => {
   );
 });
 
+/**
+ * 验证并清洗导入的数据，确保其符合 ItemValue 的结构和类型要求
+ */
+function validateAndCleanData(data: unknown): ItemValue[] {
+  if (!Array.isArray(data)) {
+    throw new Error('导入数据必须是数组');
+  }
+
+  return data.map((item, index) => {
+    if (typeof item !== 'object' || item === null) {
+      throw new Error(`第 ${index + 1} 项数据格式错误`);
+    }
+
+    const { id, name, apValue, rarity } = item;
+
+    if (typeof id !== 'string' || !id) {
+      throw new Error(`第 ${index + 1} 项缺失或无效的 id`);
+    }
+    if (typeof name !== 'string' || !name) {
+      throw new Error(`物品 ${id} 缺失或无效的名称`);
+    }
+    if (typeof apValue !== 'number' || isNaN(apValue)) {
+      throw new Error(`物品 ${name} (${id}) 的 apValue 必须是数字`);
+    }
+    if (typeof rarity !== 'number' || !Number.isInteger(rarity)) {
+      throw new Error(`物品 ${name} (${id}) 的 rarity 必须是整数`);
+    }
+
+    return {
+      id,
+      name,
+      apValue,
+      rarity,
+    };
+  });
+}
+
 // 处理文件上传
 async function handleFileUpload(event: Event): Promise<void> {
   const file = (event.target as HTMLInputElement).files?.[0];
@@ -23,14 +60,11 @@ async function handleFileUpload(event: Event): Promise<void> {
   try {
     const text = await file.text();
     const importedData = JSON.parse(text);
-    if (Array.isArray(importedData)) {
-      itemValues.value = importedData;
-      alert('导入成功！');
-    } else {
-      alert('JSON 格式错误：应为数组。');
-    }
+    const cleanedData = validateAndCleanData(importedData);
+    itemValues.value = cleanedData;
+    alert('导入成功！');
   } catch (err) {
-    alert('解析失败：' + err);
+    alert('解析失败：' + (err instanceof Error ? err.message : err));
   }
 }
 
@@ -38,15 +72,12 @@ async function handleFileUpload(event: Event): Promise<void> {
 function handlePasteImport() {
   try {
     const importedData = JSON.parse(pasteInput.value);
-    if (Array.isArray(importedData)) {
-      itemValues.value = importedData;
-      pasteInput.value = '';
-      alert('导入成功！');
-    } else {
-      alert('JSON 格式错误：应为数组。');
-    }
+    const cleanedData = validateAndCleanData(importedData);
+    itemValues.value = cleanedData;
+    pasteInput.value = '';
+    alert('导入成功！');
   } catch (err) {
-    alert('解析失败：' + err);
+    alert('解析失败：' + (err instanceof Error ? err.message : err));
   }
 }
 
