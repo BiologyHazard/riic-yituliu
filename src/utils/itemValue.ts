@@ -1,6 +1,7 @@
 import { useLocalStorage } from '@vueuse/core';
 import type { ItemInfo } from '@/utils/itemInfo';
 import defaultItems from '@/assets/json/item.json';
+import { computed } from 'vue';
 
 export interface ItemValue {
   id: string;
@@ -12,11 +13,21 @@ export interface ItemValue {
 export const itemValues = useLocalStorage<ItemValue[]>('arknights-item-values', defaultItems);
 
 /**
+ * 物品 ID 到其 AP 价值的映射索引
+ */
+const itemValueMap = computed<Map<string, number>>(() => {
+  const map = new Map<string, number>();
+  for (const item of itemValues.value) {
+    map.set(item.id, item.apValue);
+  }
+  return map;
+});
+
+/**
  * 获取指定物品的 AP 价值
  */
 export function getItemApValue(itemId: string): number {
-  const item = itemValues.value.find((i) => i.id === itemId);
-  return item?.apValue ?? 0;
+  return itemValueMap.value.get(itemId) ?? 0;
 }
 
 /**
