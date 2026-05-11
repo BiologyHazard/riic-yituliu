@@ -3,6 +3,7 @@ import OperatorAvatar from '@/components/riic/OperatorAvatar.vue';
 import {
   charEliteAndLevelUpItemCost,
   charSkillSpecializationItemCost,
+  getCharName,
   getCharRarity,
   isCharInGame,
   patchedCharacterTable,
@@ -30,86 +31,93 @@ interface RankedCostInfo extends CostInfo {
 const searchQuery = ref('');
 const selectedRarity = ref<number | null>(null);
 
+const allCharsIdsInGame = computed(() => {
+  return Object.keys(patchedCharacterTable.value).filter(isCharInGame);
+});
+
 // 计算所有干员的各项成本
-const allCosts = computed(() => {
-  const result: CostInfo[] = [];
-  for (const charId in patchedCharacterTable.value) {
-    if (!isCharInGame(charId)) continue;
-    const char = patchedCharacterTable.value[charId]!;
-
-    // 精2成本 (从初始 0阶1级 升到 2阶1级)
+const allCosts = computed(() =>
+  allCharsIdsInGame.value.map((charId) => {
     const elite2Cost = calculateMaterialValue(charEliteAndLevelUpItemCost(charId, 0, 1, 2, 1));
+    const skill1Cost = calculateMaterialValue(charSkillSpecializationItemCost(charId, 0));
+    const skill2Cost = calculateMaterialValue(charSkillSpecializationItemCost(charId, 1));
+    const skill3Cost = calculateMaterialValue(charSkillSpecializationItemCost(charId, 2));
 
-    // 技能专三成本 (分别针对 1, 2, 3 技能从 专精0 升到 专精3)
-    const skill1Cost = calculateMaterialValue(charSkillSpecializationItemCost(charId, 0, 0, 3));
-    const skill2Cost = calculateMaterialValue(charSkillSpecializationItemCost(charId, 1, 0, 3));
-    const skill3Cost = calculateMaterialValue(charSkillSpecializationItemCost(charId, 2, 0, 3));
-
-    result.push({
+    return {
       charId,
-      name: char.name,
+      name: getCharName(charId) ?? charId,
       rarity: getCharRarity(charId) ?? 0,
       elite2Cost,
       skill1Cost,
       skill2Cost,
       skill3Cost,
-    });
-  }
-  return result;
-});
-
-type CostField = 'elite2Cost' | 'skill1Cost' | 'skill2Cost' | 'skill3Cost';
-
-// 辅助函数：获取特定养成维度的排名
-function getRank(list: CostInfo[], charId: string, rarity: number, field: CostField): string {
-  // 如果是精2消耗，则保留原来的逻辑：只在同星级的精2消耗中排名
-  if (field === 'elite2Cost') {
-    const sameRarity = list.filter(
-      (item: CostInfo) => item.rarity === rarity && item.elite2Cost > 0,
-    );
-    const target = list.find((item: CostInfo) => item.charId === charId);
-    if (!target || target.elite2Cost <= 0) return '-';
-
-    const sorted = [...sameRarity].sort((a, b) => b.elite2Cost - a.elite2Cost);
-    const rank = sorted.findIndex((item) => item.charId === charId) + 1;
-    return rank > 0 ? `${rank}/${sameRarity.length}` : '-';
-  }
-
-  // 如果是技能专三，则逻辑改为：在同星级的所有技能专三消耗中进行大排行
-  // 收集同星级所有干员的所有非零技能消耗
-  const allSkillCostsInRarity: number[] = [];
-  list
-    .filter((item: CostInfo) => item.rarity === rarity)
-    .forEach((item: CostInfo) => {
-      if (item.skill1Cost > 0) allSkillCostsInRarity.push(item.skill1Cost);
-      if (item.skill2Cost > 0) allSkillCostsInRarity.push(item.skill2Cost);
-      if (item.skill3Cost > 0) allSkillCostsInRarity.push(item.skill3Cost);
-    });
-
-  if (!allSkillCostsInRarity.length) return '-';
-
-  const target = list.find((item: CostInfo) => item.charId === charId);
-  if (!target || target[field] <= 0) return '-';
-
-  const currentValue = target[field];
-  // 降序排序
-  const sortedCosts = [...allSkillCostsInRarity].sort((a, b) => b - a);
-  // 查找当前分数的排名（处理并列情况：找到第一个出现该分数的位置）
-  const rank = sortedCosts.indexOf(currentValue) + 1;
-
-  return rank > 0 ? `${rank}/${allSkillCostsInRarity.length}` : '-';
-}
+    };
+  }),
+);
 
 const rankedCosts = computed<RankedCostInfo[]>(() => {
-  const data = allCosts.value;
+  // 按星级分组预计算排名映射
+  // Map<rarity, Map<costValue, rank>>
+  const elite2RankMap = new Map<number, Map<number, string>>();
+  const skillRankMap = new Map<number, Map<number, string>>();
 
-  return data.map((item: CostInfo) => ({
-    ...item,
-    elite2Rank: getRank(data, item.charId, item.rarity, 'elite2Cost'),
-    skill1Rank: getRank(data, item.charId, item.rarity, 'skill1Cost'),
-    skill2Rank: getRank(data, item.charId, item.rarity, 'skill2Cost'),
-    skill3Rank: getRank(data, item.charId, item.rarity, 'skill3Cost'),
-  }));
+  // 1. 按星级分组收集数据
+  const costsByRarity: Map<number, CostInfo[]> = new Map();
+  allCosts.value.forEach((item) => {
+    if (!costsByRarity.has(item.rarity)) {
+      costsByRarity.set(item.rarity, []);
+    }
+    costsByRarity.get(item.rarity)!.push(item);
+  });
+
+  // 2. 为每个星级预计算排名
+  costsByRarity.forEach((list, rarity) => {
+    // 精2排名预计算
+    const validElite2Costs = list
+      .map((item) => item.elite2Cost)
+      .filter((cost) => cost > 0)
+      .sort((a, b) => b - a);
+
+    const eliteMap = new Map<number, string>();
+    validElite2Costs.forEach((cost, index) => {
+      if (!eliteMap.has(cost)) {
+        // 处理并列：第一个出现的位置 + 1
+        eliteMap.set(cost, `${index + 1}/${validElite2Costs.length}`);
+      }
+    });
+    elite2RankMap.set(rarity, eliteMap);
+
+    // 技能排名预计算 (大排行：同星级所有干员的所有非零技能消耗)
+    const allSkillCosts: number[] = [];
+    list.forEach((item) => {
+      if (item.skill1Cost > 0) allSkillCosts.push(item.skill1Cost);
+      if (item.skill2Cost > 0) allSkillCosts.push(item.skill2Cost);
+      if (item.skill3Cost > 0) allSkillCosts.push(item.skill3Cost);
+    });
+    allSkillCosts.sort((a, b) => b - a);
+
+    const skillMap = new Map<number, string>();
+    allSkillCosts.forEach((cost, index) => {
+      if (!skillMap.has(cost)) {
+        skillMap.set(cost, `${index + 1}/${allSkillCosts.length}`);
+      }
+    });
+    skillRankMap.set(rarity, skillMap);
+  });
+
+  // 3. 填充排名数据
+  return allCosts.value.map((item: CostInfo) => {
+    const eliteMap = elite2RankMap.get(item.rarity);
+    const skillMap = skillRankMap.get(item.rarity);
+
+    return {
+      ...item,
+      elite2Rank: (item.elite2Cost > 0 && eliteMap?.get(item.elite2Cost)) || '-',
+      skill1Rank: (item.skill1Cost > 0 && skillMap?.get(item.skill1Cost)) || '-',
+      skill2Rank: (item.skill2Cost > 0 && skillMap?.get(item.skill2Cost)) || '-',
+      skill3Rank: (item.skill3Cost > 0 && skillMap?.get(item.skill3Cost)) || '-',
+    };
+  });
 });
 
 const filteredRankedCosts = computed<RankedCostInfo[]>(() => {
@@ -145,14 +153,14 @@ const rarities = [
       <USelectMenu
         v-model="selectedRarity"
         class="w-40"
-        option-attribute="label"
-        :options="rarities"
+        :items="rarities"
+        label-key="label"
         placeholder="筛选星级"
-        value-attribute="value"
+        value-key="value"
       />
     </div>
 
-    <UCard :ui="{ body: 'p-0' }">
+    <UCard :ui="{ body: 'p-0 sm:p-0' }">
       <div class="overflow-x-auto">
         <table class="w-full text-start text-sm whitespace-nowrap">
           <thead>
