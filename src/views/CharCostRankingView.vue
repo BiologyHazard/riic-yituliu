@@ -58,8 +58,10 @@ const allCosts = computed(() => {
   return result;
 });
 
+type CostField = 'elite2Cost' | 'skill1Cost' | 'skill2Cost' | 'skill3Cost';
+
 // 辅助函数：获取特定养成维度的排名
-function getRank(list: CostInfo[], charId: string, rarity: number, field: keyof CostInfo): string {
+function getRank(list: CostInfo[], charId: string, rarity: number, field: CostField): string {
   // 如果是精2消耗，则保留原来的逻辑：只在同星级的精2消耗中排名
   if (field === 'elite2Cost') {
     const sameRarity = list.filter(
@@ -87,9 +89,9 @@ function getRank(list: CostInfo[], charId: string, rarity: number, field: keyof 
   if (!allSkillCostsInRarity.length) return '-';
 
   const target = list.find((item: CostInfo) => item.charId === charId);
-  if (!target || (target[field] as number) <= 0) return '-';
+  if (!target || target[field] <= 0) return '-';
 
-  const currentValue = target[field] as number;
+  const currentValue = target[field];
   // 降序排序
   const sortedCosts = [...allSkillCostsInRarity].sort((a, b) => b - a);
   // 查找当前分数的排名（处理并列情况：找到第一个出现该分数的位置）
