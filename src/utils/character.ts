@@ -1,6 +1,14 @@
-import { buildingData, characterTable, gamedataConst, skinTable } from '@/utils/gameData';
+import type { UniEquipData } from '@/types/gameData';
+import {
+  buildingData,
+  characterTable,
+  charPatchTable,
+  gamedataConst,
+  skinTable,
+  uniequipTable,
+} from '@/utils/gameData';
 import { fromItemBundleArray, type ItemInfo } from '@/utils/itemInfo';
-import { computed, watch } from 'vue';
+import { computed } from 'vue';
 
 export const professionMap: Map<string, string> = new Map(
   Object.entries({
@@ -15,6 +23,11 @@ export const professionMap: Map<string, string> = new Map(
   }),
 );
 
+export const patchedCharacterTable = computed(() => ({
+  ...characterTable.value,
+  ...charPatchTable.value.patchChars,
+}));
+
 /**
  * 根据干员名称获取干员 ID
  * @param name 干员名称（如："能天使"）
@@ -24,8 +37,8 @@ export const professionMap: Map<string, string> = new Map(
  * getCharIdbyName('Unknown') // => undefined
  */
 export function getCharIdByName(name: string): string | undefined {
-  for (const charId in characterTable.value) {
-    if (characterTable.value[charId]?.name === name) {
+  for (const charId in patchedCharacterTable.value) {
+    if (patchedCharacterTable.value[charId]?.name === name) {
       return charId;
     }
   }
@@ -40,7 +53,7 @@ export function getCharIdByName(name: string): string | undefined {
  * getCharName('unknown') // => undefined
  */
 export function getCharName(charId: string): string | undefined {
-  return characterTable.value[charId]?.name;
+  return patchedCharacterTable.value[charId]?.name;
 }
 
 /**
@@ -52,7 +65,7 @@ export function getCharName(charId: string): string | undefined {
  * getCharRarity('unknown') // => undefined
  */
 export function getCharRarity(charId: string): number | undefined {
-  const rarity: number | string | undefined = characterTable.value[charId]?.rarity;
+  const rarity: number | string | undefined = patchedCharacterTable.value[charId]?.rarity;
   if (rarity === undefined) {
     return undefined;
   } else if (typeof rarity === 'number') {
@@ -72,7 +85,7 @@ export function getCharRarity(charId: string): number | undefined {
  * getCharProfessionId('unknown') // => undefined
  */
 export function getCharProfessionId(charId: string): string | undefined {
-  return characterTable.value[charId]?.profession;
+  return patchedCharacterTable.value[charId]?.profession;
 }
 
 /**
@@ -142,17 +155,30 @@ export function getProfessionName(professionIdOrName: string): string {
   return professionMap.get(professionIdOrName) ?? professionIdOrName;
 }
 
+export function isPatchChar(charId: string): boolean {
+  return charId in charPatchTable.value.patchChars;
+}
+
+export function isRogueSpChar(charId: string): boolean {
+  const char = patchedCharacterTable.value[charId];
+  return char?.spTargetType === 'ROGUE' || char?.spTargetType === 1;
+}
+
 /**
  * 判断是否为实装干员，有这么几种方法：
  * 1. 在 `building_data` 的 `chars` 对象的 key 中（判断是否有基建技能）
  * 2. `char.itemObtainApproach` 不为 `null`
  */
 export function isCharInGame(charId: string): boolean {
-  const char = characterTable.value[charId];
+  // 升变干员直接判断为实装干员
+  if (isPatchChar(charId)) {
+    return true;
+  }
+  const char = patchedCharacterTable.value[charId];
   if (char === undefined) {
     return false;
   }
-  const criterion1 = buildingData.value.chars.hasOwnProperty(charId);
+  const criterion1 = charId in buildingData.value.chars;
   const criterion2 = char.itemObtainApproach !== null;
   if (criterion1 !== criterion2) {
     console.warn(
@@ -163,7 +189,7 @@ export function isCharInGame(charId: string): boolean {
 }
 
 export function getCharMaxEliteLevel(charId: string): number {
-  const char = characterTable.value[charId];
+  const char = patchedCharacterTable.value[charId];
   if (char === undefined) {
     return 0;
   }
@@ -171,16 +197,78 @@ export function getCharMaxEliteLevel(charId: string): number {
 }
 
 export function getCharMaxLevel(charId: string, eliteLevel: number): number {
-  const char = characterTable.value[charId];
+  const char = patchedCharacterTable.value[charId];
   if (char === undefined) {
     return 0;
   }
-
   return char.phases[eliteLevel]?.maxLevel ?? 0;
 }
 
+export function getCharAllSkillMaxLevel(charId: string): number {
+  const char = patchedCharacterTable.value[charId];
+  if (char === undefined) {
+    return 0;
+  }
+  return char.allSkillLvlup.length + 1;
+}
+
+export function getCharUniequipIds(charId: string): string[] {
+  return uniequipTable.value.charEquip[charId] ?? [];
+}
+
+export function getCharUniequips(charId: string): Map<string, UniEquipData> {
+  const uniequipIds = getCharUniequipIds(charId);
+  const uniequips = new Map<string, UniEquipData>();
+  for (const uniequipId of uniequipIds) {
+    const uniequip = uniequipTable.value.equipDict[uniequipId];
+    if (uniequip !== undefined) {
+      uniequips.set(uniequipId, uniequip);
+    }
+  }
+  return uniequips;
+}
+
+export function getCharUniequipByType(
+  charId: string,
+  uniequipTypeName: string,
+): UniEquipData | undefined {
+  const typeName =
+    new Map([
+      ['Δ', 'D'],
+      ['α', 'A'],
+      ['β', 'B'],
+    ]).get(uniequipTypeName) ?? uniequipTypeName;
+  const upperTypeName = typeName.toUpperCase();
+  for (const uniequip of getCharUniequips(charId).values()) {
+    if (upperTypeName === uniequip.typeName1 || upperTypeName === uniequip.typeName2) {
+      return uniequip;
+    }
+  }
+}
+
+export function getCharUniequip(
+  charId: string,
+  uniequipIdOrType: string,
+): UniEquipData | undefined {
+  // 优先尝试直接通过 ID 获取，如果找不到再通过类型获取
+  const uniequip = uniequipTable.value.equipDict[uniequipIdOrType];
+  if (uniequip !== undefined) {
+    return uniequip;
+  } else {
+    return getCharUniequipByType(charId, uniequipIdOrType);
+  }
+}
+
+export function isOriginalUniequip(uniequip: UniEquipData): boolean {
+  return uniequip.typeName1 === 'ORIGINAL';
+}
+
 export function charEliteOnceItemCost(charId: string, originalEliteLevel: number): ItemInfo[] {
-  const char = characterTable.value[charId];
+  // 升变干员和特勤干员不计算精英化消耗
+  if (isPatchChar(charId) || isRogueSpChar(charId)) {
+    return [];
+  }
+  const char = patchedCharacterTable.value[charId];
   if (char === undefined) {
     return [];
   }
@@ -225,17 +313,16 @@ export const accumulatedGoldCost = computed(() =>
   calculateAccumulatedCost(gamedataConst.value.characterUpgradeCostMap),
 );
 
-watch([accumulatedExpCost, accumulatedGoldCost], ([newExpCost, newGoldCost]) => {
-  console.log(newExpCost);
-  console.log(newGoldCost);
-});
-
 export function charLevelUpOnceItemCost(
   charId: string,
   eliteLevel: number,
   originalLevel: number | null = null,
   targetLevel: number | null = null,
 ): ItemInfo[] {
+  // 升变干员和特勤干员不计算等级升级消耗
+  if (isPatchChar(charId) || isRogueSpChar(charId)) {
+    return [];
+  }
   if (originalLevel === null) {
     originalLevel = 1;
   }
@@ -291,7 +378,7 @@ export function charEliteAndLevelUpItemCost(
   targetEliteLevel: number | null = null,
   targetLevel: number | null = null,
 ): ItemInfo[] {
-  const eliteAndLevelUpCost = charEliteItemCost(charId, originalEliteLevel, targetEliteLevel);
+  const eliteCost = charEliteItemCost(charId, originalEliteLevel, targetEliteLevel);
   const levelUpCost = charLevelUpItemCost(
     charId,
     originalEliteLevel,
@@ -299,5 +386,233 @@ export function charEliteAndLevelUpItemCost(
     targetEliteLevel,
     targetLevel,
   );
-  return [...eliteAndLevelUpCost, ...levelUpCost];
+  return [...eliteCost, ...levelUpCost];
+}
+
+export function charAllSkillLevelUpOnceItemCost(
+  charId: string,
+  targetSkillLevel: number,
+): ItemInfo[] {
+  // 升变干员不计算通用技能升级消耗
+  if (isPatchChar(charId)) {
+    return [];
+  }
+  const char = patchedCharacterTable.value[charId];
+  if (char === undefined || char.allSkillLvlup.length === 0) {
+    return [];
+  }
+  if (targetSkillLevel < 2 || targetSkillLevel > getCharAllSkillMaxLevel(charId)) {
+    return [];
+  }
+
+  return fromItemBundleArray(char.allSkillLvlup[targetSkillLevel - 2]?.lvlUpCost ?? []);
+}
+
+export function charAllSkillLevelUpItemCost(
+  charId: string,
+  originalSkillLevel: number | null = null,
+  targetSkillLevel: number | null = null,
+): ItemInfo[] {
+  if (originalSkillLevel === null) {
+    originalSkillLevel = 1;
+  }
+  if (targetSkillLevel === null) {
+    targetSkillLevel = getCharAllSkillMaxLevel(charId);
+  }
+
+  const totalCost: ItemInfo[] = [];
+  for (let skillLevel = originalSkillLevel; skillLevel < targetSkillLevel; skillLevel++) {
+    totalCost.push(...charAllSkillLevelUpOnceItemCost(charId, skillLevel + 1));
+  }
+  return totalCost;
+}
+
+export function charSkillSpecializationOnceItemCost(
+  charId: string,
+  skillIndex: number, // 0-based index
+  targetSpecializationLevel: number, // 1, 2, 3
+): ItemInfo[] {
+  const char = patchedCharacterTable.value[charId];
+  if (char === undefined) {
+    return [];
+  }
+  const skill = char.skills[skillIndex];
+  if (skill === undefined) {
+    return [];
+  }
+
+  return fromItemBundleArray(
+    skill.levelUpCostCond[targetSpecializationLevel - 1]?.levelUpCost ?? [],
+  );
+}
+
+export function charSkillSpecializationItemCost(
+  charId: string,
+  skillIndex: number, // 0-based index
+  originalSpecializationLevel: number | null = null, // 0-3
+  targetSpecializationLevel: number | null = null, // 0-3
+): ItemInfo[] {
+  const char = patchedCharacterTable.value[charId];
+  if (char === undefined) {
+    return [];
+  }
+  const skill = char.skills[skillIndex];
+  if (skill === undefined) {
+    return [];
+  }
+
+  if (originalSpecializationLevel === null) {
+    originalSpecializationLevel = 0;
+  }
+  if (targetSpecializationLevel === null) {
+    targetSpecializationLevel = skill.levelUpCostCond.length;
+  }
+
+  const totalCost: ItemInfo[] = [];
+  for (
+    let specializationLevel = originalSpecializationLevel;
+    specializationLevel < targetSpecializationLevel;
+    specializationLevel++
+  ) {
+    totalCost.push(
+      ...charSkillSpecializationOnceItemCost(charId, skillIndex, specializationLevel + 1),
+    );
+  }
+  return totalCost;
+}
+
+export function charUniequipLevelUpOnceItemCost(
+  charId: string,
+  uniequipIdOrType: string,
+  originalLevel: number, // 0, 1, 2
+): ItemInfo[] {
+  const uniequip = getCharUniequip(charId, uniequipIdOrType);
+  return fromItemBundleArray(uniequip?.itemCost?.[originalLevel + 1] ?? []);
+}
+
+export function charUniequipLevelUpItemCost(
+  charId: string,
+  uniequipIdOrType: string,
+  originalLevel: number | null = null, // 0-3
+  targetLevel: number | null = null, // 0-3
+): ItemInfo[] {
+  const uniequip = getCharUniequip(charId, uniequipIdOrType);
+  if (uniequip === undefined) {
+    return [];
+  }
+  if (originalLevel === null) {
+    originalLevel = 0;
+  }
+  if (targetLevel === null) {
+    targetLevel = Object.keys(uniequip.itemCost ?? {}).length;
+  }
+
+  const totalCost = [];
+  for (let level = originalLevel; level < targetLevel; level++) {
+    totalCost.push(...charUniequipLevelUpOnceItemCost(charId, uniequipIdOrType, level));
+  }
+  return totalCost;
+}
+
+export function charDevelopItemCost(
+  charId: string,
+  options: {
+    originalEliteLevel?: number | null;
+    originalLevel?: number | null;
+    originalSkillLevel?: number | null;
+    originalSpecializationLevels?: (number | null)[] | null;
+    originalUniequipLevels?: Map<string, number | null> | null;
+    targetEliteLevel?: number | null;
+    targetLevel?: number | null;
+    targetSkillLevel?: number | null;
+    targetSpecializationLevels?: (number | null)[] | null;
+    targetUniequipLevels?: Map<string, number | null> | null;
+  } = {},
+): ItemInfo[] {
+  const char = patchedCharacterTable.value[charId];
+  if (char === undefined) {
+    return [];
+  }
+
+  const totalCost: ItemInfo[] = [];
+
+  // 精英化和等级
+  totalCost.push(
+    ...charEliteAndLevelUpItemCost(
+      charId,
+      options.originalEliteLevel ?? null,
+      options.originalLevel ?? null,
+      options.targetEliteLevel ?? null,
+      options.targetLevel ?? null,
+    ),
+  );
+
+  // 通用技能
+  totalCost.push(
+    ...charAllSkillLevelUpItemCost(
+      charId,
+      options.originalSkillLevel ?? null,
+      options.targetSkillLevel ?? null,
+    ),
+  );
+
+  // 技能专精
+  const skillCount = char.skills.length;
+  for (let i = 0; i < skillCount; i++) {
+    const originalSpecializationLevel = options.originalSpecializationLevels?.[i] ?? null;
+    const targetSpecializationLevel = options.targetSpecializationLevels?.[i] ?? null;
+    totalCost.push(
+      ...charSkillSpecializationItemCost(
+        charId,
+        i,
+        originalSpecializationLevel,
+        targetSpecializationLevel,
+      ),
+    );
+  }
+
+  // 模组
+  const uniequips = getCharUniequips(charId);
+  const originalUniequipLevels = options.originalUniequipLevels ?? null;
+  const targetUniequipLevels = options.targetUniequipLevels ?? null;
+
+  for (const [uniequipId, uniequip] of uniequips.entries()) {
+    if (isOriginalUniequip(uniequip)) {
+      continue;
+    }
+
+    const inOriginal =
+      originalUniequipLevels === null ||
+      originalUniequipLevels?.has(uniequipId) ||
+      (uniequip.typeName2 !== null && originalUniequipLevels?.has(uniequip.typeName2));
+    const inTarget =
+      targetUniequipLevels === null ||
+      targetUniequipLevels?.has(uniequipId) ||
+      (uniequip.typeName2 !== null && targetUniequipLevels?.has(uniequip.typeName2));
+
+    if (inOriginal && inTarget) {
+      const originalLevel =
+        originalUniequipLevels === null
+          ? null
+          : originalUniequipLevels.has(uniequipId)
+            ? originalUniequipLevels.get(uniequipId)!
+            : originalUniequipLevels.get(uniequip.typeName2!)!;
+      const targetLevel =
+        targetUniequipLevels === null
+          ? null
+          : targetUniequipLevels.has(uniequipId)
+            ? targetUniequipLevels.get(uniequipId)!
+            : targetUniequipLevels.get(uniequip.typeName2!)!;
+
+      totalCost.push(
+        ...charUniequipLevelUpItemCost(charId, uniequipId, originalLevel, targetLevel),
+      );
+    } else if (inOriginal || inTarget) {
+      console.warn(
+        `干员 ${charId} 的模组 ${uniequipId} 在原始配置中${inOriginal ? '存在' : '不存在'}，在目标配置中${inTarget ? '存在' : '不存在'}，无法计算升级成本。`,
+      );
+    }
+  }
+
+  return totalCost;
 }

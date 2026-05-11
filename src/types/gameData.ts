@@ -9,12 +9,28 @@ export interface Phase {
   evolveCost: ItemBundle[];
 }
 
+export interface SpecializeLevelData {
+  levelUpCost: ItemBundle[] | null;
+}
+
+export interface MainSkill {
+  skillId: string | null;
+  levelUpCostCond: SpecializeLevelData[];
+}
+
+export interface AllSkillLvlup {
+  lvlUpCost: ItemBundle[] | null;
+}
+
 export interface Character {
   name: string;
+  spTargetType: string | number;
   itemObtainApproach: string | null;
   rarity: number | string;
   profession: string;
   phases: Phase[];
+  skills: MainSkill[];
+  allSkillLvlup: AllSkillLvlup[];
 }
 
 /**
@@ -24,6 +40,10 @@ export type CharacterTable = Record<string, Character>;
 
 export interface CharSkin {
   avatarId: string;
+}
+
+export interface CharPatchTable {
+  patchChars: Record<string, Character>;
 }
 
 /**
@@ -295,4 +315,15 @@ export interface Zone {
  */
 export interface ZoneTable {
   zones: Record<string, Zone>;
+}
+
+export interface UniEquipData {
+  typeName1: string;
+  typeName2: string | null;
+  itemCost: Record<number, ItemBundle[]> | null;
+}
+
+export interface UniequipTable {
+  equipDict: Record<string, UniEquipData>;
+  charEquip: Record<string, string[]>;
 }

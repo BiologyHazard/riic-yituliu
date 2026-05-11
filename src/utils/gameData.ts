@@ -2,11 +2,13 @@ import type {
   ActivityTable,
   BuildingData,
   CharacterTable,
+  CharPatchTable,
   GameDataConst,
   ItemTable,
   SkinTable,
   StageTable,
   ZoneTable,
+  UniequipTable,
 } from '@/types/gameData';
 import { ref } from 'vue';
 
@@ -17,6 +19,11 @@ export const characterTable = ref<CharacterTable>({});
 export const skinTable = ref<SkinTable>({
   charSkins: {},
   buildinEvolveMap: {},
+});
+
+/** `excel/char_patch_table.json` */
+export const charPatchTable = ref<CharPatchTable>({
+  patchChars: {},
 });
 
 /** `excel/building_data.json` */
@@ -56,6 +63,11 @@ export const zoneTable = ref<ZoneTable>({
   zones: {},
 });
 
+export const uniequipTable = ref<UniequipTable>({
+  equipDict: {},
+  charEquip: {},
+});
+
 export const isGameDataLoading = ref(false);
 export const gameDataError = ref<unknown | null>(null);
 
@@ -75,43 +87,62 @@ export async function loadGameData(baseUrl: string) {
   isGameDataLoading.value = true;
   gameDataError.value = null;
   try {
-    const [charRes, skinRes, buildingRes, constRes, itemRes, stageRes, activityRes, zoneRes] =
-      await Promise.all([
-        fetch(`${baseUrl}/character_table.json`, { signal }).then((res) => {
-          if (!res.ok) throw new Error(`Failed to fetch character_table: ${res.statusText}`);
-          return res.json();
-        }),
-        fetch(`${baseUrl}/skin_table.json`, { signal }).then((res) => {
-          if (!res.ok) throw new Error(`Failed to fetch skin_table: ${res.statusText}`);
-          return res.json();
-        }),
-        fetch(`${baseUrl}/building_data.json`, { signal }).then((res) => {
-          if (!res.ok) throw new Error(`Failed to fetch building_data: ${res.statusText}`);
-          return res.json();
-        }),
-        fetch(`${baseUrl}/gamedata_const.json`, { signal }).then((res) => {
-          if (!res.ok) throw new Error(`Failed to fetch gamedata_const: ${res.statusText}`);
-          return res.json();
-        }),
-        fetch(`${baseUrl}/item_table.json`, { signal }).then((res) => {
-          if (!res.ok) throw new Error(`Failed to fetch item_table: ${res.statusText}`);
-          return res.json();
-        }),
-        fetch(`${baseUrl}/stage_table.json`, { signal }).then((res) => {
-          if (!res.ok) throw new Error(`Failed to fetch stage_table: ${res.statusText}`);
-          return res.json();
-        }),
-        fetch(`${baseUrl}/activity_table.json`, { signal }).then((res) => {
-          if (!res.ok) throw new Error(`Failed to fetch activity_table: ${res.statusText}`);
-          return res.json();
-        }),
-        fetch(`${baseUrl}/zone_table.json`, { signal }).then((res) => {
-          if (!res.ok) throw new Error(`Failed to fetch zone_table: ${res.statusText}`);
-          return res.json();
-        }),
-      ]);
+    const [
+      charRes,
+      charPatchTableRes,
+      skinRes,
+      buildingRes,
+      constRes,
+      itemRes,
+      stageRes,
+      activityRes,
+      zoneRes,
+      uniequipRes,
+    ] = await Promise.all([
+      fetch(`${baseUrl}/character_table.json`, { signal }).then((res) => {
+        if (!res.ok) throw new Error(`Failed to fetch character_table: ${res.statusText}`);
+        return res.json();
+      }),
+      fetch(`${baseUrl}/char_patch_table.json`, { signal }).then((res) => {
+        if (!res.ok) throw new Error(`Failed to fetch char_patch_table: ${res.statusText}`);
+        return res.json();
+      }),
+      fetch(`${baseUrl}/skin_table.json`, { signal }).then((res) => {
+        if (!res.ok) throw new Error(`Failed to fetch skin_table: ${res.statusText}`);
+        return res.json();
+      }),
+      fetch(`${baseUrl}/building_data.json`, { signal }).then((res) => {
+        if (!res.ok) throw new Error(`Failed to fetch building_data: ${res.statusText}`);
+        return res.json();
+      }),
+      fetch(`${baseUrl}/gamedata_const.json`, { signal }).then((res) => {
+        if (!res.ok) throw new Error(`Failed to fetch gamedata_const: ${res.statusText}`);
+        return res.json();
+      }),
+      fetch(`${baseUrl}/item_table.json`, { signal }).then((res) => {
+        if (!res.ok) throw new Error(`Failed to fetch item_table: ${res.statusText}`);
+        return res.json();
+      }),
+      fetch(`${baseUrl}/stage_table.json`, { signal }).then((res) => {
+        if (!res.ok) throw new Error(`Failed to fetch stage_table: ${res.statusText}`);
+        return res.json();
+      }),
+      fetch(`${baseUrl}/activity_table.json`, { signal }).then((res) => {
+        if (!res.ok) throw new Error(`Failed to fetch activity_table: ${res.statusText}`);
+        return res.json();
+      }),
+      fetch(`${baseUrl}/zone_table.json`, { signal }).then((res) => {
+        if (!res.ok) throw new Error(`Failed to fetch zone_table: ${res.statusText}`);
+        return res.json();
+      }),
+      fetch(`${baseUrl}/uniequip_table.json`, { signal }).then((res) => {
+        if (!res.ok) throw new Error(`Failed to fetch uniequip_table: ${res.statusText}`);
+        return res.json();
+      }),
+    ]);
 
     characterTable.value = charRes;
+    charPatchTable.value = charPatchTableRes;
     skinTable.value = skinRes;
     buildingData.value = buildingRes;
     gamedataConst.value = constRes;
@@ -119,6 +150,7 @@ export async function loadGameData(baseUrl: string) {
     stageTable.value = stageRes;
     activityTable.value = activityRes;
     zoneTable.value = zoneRes;
+    uniequipTable.value = uniequipRes;
 
     // 加一个 exp 虚拟物品
     itemTable.value.items['exp'] = {

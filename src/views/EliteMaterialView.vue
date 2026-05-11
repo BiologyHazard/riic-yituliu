@@ -1,9 +1,60 @@
 <script setup lang="ts">
 import ItemWithCount from '@/components/riic/ItemWithCount.vue';
 import OperatorAvatar from '@/components/riic/OperatorAvatar.vue';
-import { charEliteAndLevelUpItemCost, isCharInGame } from '@/utils/character';
+import { charDevelopItemCost, getCharName, isCharInGame } from '@/utils/character';
 import { characterTable } from '@/utils/gameData';
+import type { ItemInfo } from '@/utils/itemInfo';
 import { combine, sortBySortId } from '@/utils/itemInfo';
+import { computed, ref, watch } from 'vue';
+
+const page = ref(1);
+const itemsPerPage = 8;
+
+const allCharsIdsInGame = computed(() => {
+  return Object.keys(characterTable.value).filter(isCharInGame);
+});
+
+const totalItems = computed(() => allCharsIdsInGame.value.length);
+
+const paginatedCharIds = computed(() => {
+  const start = (page.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return allCharsIdsInGame.value.slice(start, end);
+});
+
+// 缓存计算结果
+const costCache = ref(new Map<string, ItemInfo[]>());
+
+function getOperatorCost(charId: string): ItemInfo[] | undefined {
+  return costCache.value.get(charId);
+}
+
+// 异步预计算当前页的消耗
+async function preloadCosts(charIds: string[]) {
+  for (const charId of charIds) {
+    if (!costCache.value.has(charId)) {
+      // 使用 requestIdleCallback 或 setTimeout 拆分计算任务，避免阻塞 UI
+      await new Promise((resolve) => {
+        const calculate = () => {
+          const cost = sortBySortId(combine(charDevelopItemCost(charId)));
+          costCache.value.set(charId, cost);
+          resolve(null);
+        };
+
+        if ('requestIdleCallback' in window) {
+          window.requestIdleCallback(calculate);
+        } else {
+          setTimeout(calculate, 0);
+        }
+      });
+    }
+  }
+}
+
+watch(characterTable, () => {
+  costCache.value.clear();
+});
+watch(paginatedCharIds, preloadCosts, { immediate: true });
 </script>
 
 <template>
@@ -11,33 +62,37 @@ import { combine, sortBySortId } from '@/utils/itemInfo';
     <UPage>
       <UPageBody>
         <div class="space-y-4">
-          <h1 class="text-2xl font-bold">干员精英化材料消耗</h1>
+          <div class="flex items-center justify-between">
+            <h1 class="text-2xl font-bold">干员精英化材料消耗</h1>
+            <UPagination
+              v-model:page="page"
+              :items-per-page="itemsPerPage"
+              show-edges
+              :total="totalItems"
+            />
+          </div>
           <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3">
-            <UCard
-              v-for="[charId, char] in Object.entries(characterTable)
-                .filter(([charId, _char]) => isCharInGame(charId))
-                .slice(0, 30)"
-              :key="charId"
-              class="flex flex-col"
-            >
+            <UCard v-for="charId in paginatedCharIds" :key="charId" class="flex flex-col">
               <template #header>
                 <div class="flex items-center gap-3">
                   <div class="h-10 w-10">
                     <OperatorAvatar :char-id="charId" />
                   </div>
-                  <span class="text-lg font-medium">{{ char.name }}</span>
+                  <span class="text-lg font-medium">{{ getCharName(charId) }}</span>
                 </div>
               </template>
 
-              <div class="flex flex-wrap gap-2">
+              <div v-if="getOperatorCost(charId) !== undefined" class="flex flex-wrap gap-2">
                 <ItemWithCount
-                  v-for="(item, index) in sortBySortId(
-                    combine(charEliteAndLevelUpItemCost(charId)),
-                  )"
+                  v-for="(item, index) in getOperatorCost(charId)"
                   :key="`${charId}-${item.itemId}-${index}`"
+                  class="h-14 w-14"
                   :count="item.count"
                   :item-id="item.itemId"
                 />
+              </div>
+              <div v-else class="flex flex-wrap gap-2">
+                <USkeleton v-for="i in 10" :key="i" class="h-14 w-14 rounded-full" />
               </div>
             </UCard>
           </div>
