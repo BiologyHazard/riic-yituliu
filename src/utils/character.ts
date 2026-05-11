@@ -17,6 +17,7 @@ export const professionMap: Map<string, string> = new Map(
   }),
 );
 
+// TODO: patchedCharacterTable 通过对象展开把 characterTable 全量拷贝一份再覆盖 patch（O(n) 且额外占用内存）。在数据表较大时会影响首屏与内存占用。建议改为按需读取（例如提供 getCharacter(charId)：优先 patch，否则原表），或用惰性合并结构而不是每次构造完整新对象。
 export const patchedCharacterTable = computed(() => ({
   ...gameData.value?.characterTable,
   ...gameData.value?.charPatchTable.patchChars,
