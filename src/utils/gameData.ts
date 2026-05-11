@@ -27,31 +27,31 @@ export async function loadGameData(baseUrl: string) {
   gameDataError.value = null;
   try {
     const [
-      charRes,
+      activityTableRes,
+      buildingDataRes,
       charPatchTableRes,
-      skinRes,
-      buildingRes,
-      constRes,
-      itemRes,
-      stageRes,
-      activityRes,
-      zoneRes,
-      uniequipRes,
+      characterTableRes,
+      gameDataConstRes,
+      itemTableRes,
+      skinTableRes,
+      stageTableRes,
+      uniequipTableRes,
+      zoneTableRes,
     ] = await Promise.all([
-      fetch(`${baseUrl}/character_table.json`, { signal }).then((res) => {
-        if (!res.ok) throw new Error(`Failed to fetch character_table: ${res.statusText}`);
+      fetch(`${baseUrl}/activity_table.json`, { signal }).then((res) => {
+        if (!res.ok) throw new Error(`Failed to fetch activity_table: ${res.statusText}`);
+        return res.json();
+      }),
+      fetch(`${baseUrl}/building_data.json`, { signal }).then((res) => {
+        if (!res.ok) throw new Error(`Failed to fetch building_data: ${res.statusText}`);
         return res.json();
       }),
       fetch(`${baseUrl}/char_patch_table.json`, { signal }).then((res) => {
         if (!res.ok) throw new Error(`Failed to fetch char_patch_table: ${res.statusText}`);
         return res.json();
       }),
-      fetch(`${baseUrl}/skin_table.json`, { signal }).then((res) => {
-        if (!res.ok) throw new Error(`Failed to fetch skin_table: ${res.statusText}`);
-        return res.json();
-      }),
-      fetch(`${baseUrl}/building_data.json`, { signal }).then((res) => {
-        if (!res.ok) throw new Error(`Failed to fetch building_data: ${res.statusText}`);
+      fetch(`${baseUrl}/character_table.json`, { signal }).then((res) => {
+        if (!res.ok) throw new Error(`Failed to fetch character_table: ${res.statusText}`);
         return res.json();
       }),
       fetch(`${baseUrl}/gamedata_const.json`, { signal }).then((res) => {
@@ -62,36 +62,36 @@ export async function loadGameData(baseUrl: string) {
         if (!res.ok) throw new Error(`Failed to fetch item_table: ${res.statusText}`);
         return res.json();
       }),
+      fetch(`${baseUrl}/skin_table.json`, { signal }).then((res) => {
+        if (!res.ok) throw new Error(`Failed to fetch skin_table: ${res.statusText}`);
+        return res.json();
+      }),
       fetch(`${baseUrl}/stage_table.json`, { signal }).then((res) => {
         if (!res.ok) throw new Error(`Failed to fetch stage_table: ${res.statusText}`);
-        return res.json();
-      }),
-      fetch(`${baseUrl}/activity_table.json`, { signal }).then((res) => {
-        if (!res.ok) throw new Error(`Failed to fetch activity_table: ${res.statusText}`);
-        return res.json();
-      }),
-      fetch(`${baseUrl}/zone_table.json`, { signal }).then((res) => {
-        if (!res.ok) throw new Error(`Failed to fetch zone_table: ${res.statusText}`);
         return res.json();
       }),
       fetch(`${baseUrl}/uniequip_table.json`, { signal }).then((res) => {
         if (!res.ok) throw new Error(`Failed to fetch uniequip_table: ${res.statusText}`);
         return res.json();
       }),
+      fetch(`${baseUrl}/zone_table.json`, { signal }).then((res) => {
+        if (!res.ok) throw new Error(`Failed to fetch zone_table: ${res.statusText}`);
+        return res.json();
+      }),
     ]);
 
     // 构造聚合后的数据对象
     const allData: ArknightsGameData = {
-      characterTable: charRes,
+      activityTable: activityTableRes,
+      buildingData: buildingDataRes,
       charPatchTable: charPatchTableRes,
-      skinTable: skinRes,
-      buildingData: buildingRes,
-      gameDataConst: constRes,
-      itemTable: itemRes,
-      stageTable: stageRes,
-      activityTable: activityRes,
-      zoneTable: zoneRes,
-      uniequipTable: uniequipRes,
+      characterTable: characterTableRes,
+      gameDataConst: gameDataConstRes,
+      itemTable: itemTableRes,
+      skinTable: skinTableRes,
+      stageTable: stageTableRes,
+      uniequipTable: uniequipTableRes,
+      zoneTable: zoneTableRes,
     };
 
     // 加一个 exp 虚拟物品

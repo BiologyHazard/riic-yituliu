@@ -332,14 +332,14 @@ export interface UniequipTable {
  * 聚合游戏数据接口
  */
 export interface ArknightsGameData {
-  characterTable: CharacterTable;
-  skinTable: SkinTable;
-  charPatchTable: CharPatchTable;
-  buildingData: BuildingData;
-  itemTable: ItemTable;
-  stageTable: StageTable;
-  zoneTable: ZoneTable;
   activityTable: ActivityTable;
-  uniequipTable: UniequipTable;
+  buildingData: BuildingData;
+  charPatchTable: CharPatchTable;
+  characterTable: CharacterTable;
   gameDataConst: GameDataConst;
+  itemTable: ItemTable;
+  skinTable: SkinTable;
+  stageTable: StageTable;
+  uniequipTable: UniequipTable;
+  zoneTable: ZoneTable;
 }
