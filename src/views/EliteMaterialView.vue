@@ -88,8 +88,8 @@ watch(paginatedCharIds, preloadCosts, { immediate: true });
 
               <div v-if="getOperatorCost(charId) !== undefined" class="flex flex-wrap gap-2">
                 <ItemWithCount
-                  v-for="(item, index) in getOperatorCost(charId)"
-                  :key="`${charId}-${item.itemId}-${index}`"
+                  v-for="item in getOperatorCost(charId)"
+                  :key="`${charId}-${item.itemId}`"
                   class="h-14 w-14"
                   :count="item.count"
                   :item-id="item.itemId"
