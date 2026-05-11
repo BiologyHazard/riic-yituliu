@@ -4,11 +4,11 @@ import { currentBaseSkillIconBaseUrl } from '@/composables/useDataSource';
 import type { BuffUnlockCondition } from '@/types/gameData';
 import { updateText } from '@/utils/autoFontSizing';
 import { getCharName } from '@/utils/character';
-import { buildingData, gamedataConst } from '@/utils/gameData';
+import { gameData } from '@/utils/gameData';
 import { computed, useTemplateRef, watch } from 'vue';
 
 const props = defineProps<{ charId: string }>();
-const buildingCharDataRef = computed(() => buildingData.value.chars[props.charId]);
+const buildingCharDataRef = computed(() => gameData.value?.buildingData.chars[props.charId]);
 const operatorNameElement = useTemplateRef('operatorNameElement');
 
 function getSkillIconUrl(skillIcon: string): string {
@@ -47,7 +47,7 @@ function parseRichTextDescription(description: string): string {
 
     if (isStyleTag) {
       const styleKey = content.substring(1);
-      const styleTemplate = gamedataConst.value.richTextStyles[styleKey];
+      const styleTemplate = gameData.value?.gameDataConst.richTextStyles[styleKey];
 
       if (styleTemplate) {
         // 提取颜色值
@@ -106,8 +106,8 @@ watch([props, operatorNameElement], () => {
               class="td-buff-index"
               :rowspan="buffCharItem.buffData.length"
               :style="{
-                color: buildingData.buffs[buffDataItem.buffId]!.textColor,
-                backgroundColor: buildingData.buffs[buffDataItem.buffId]!.buffColor,
+                color: gameData?.buildingData.buffs[buffDataItem.buffId]!.textColor,
+                backgroundColor: gameData?.buildingData.buffs[buffDataItem.buffId]!.buffColor,
               }"
             >
               {{ buffCharIndex + 1 }}
@@ -115,19 +115,25 @@ watch([props, operatorNameElement], () => {
             <td class="td-buff-cond">{{ getCondText(buffDataItem.cond) }}</td>
             <td class="td-buff-name">
               <img
-                :alt="buildingData.buffs[buffDataItem.buffId]!.buffName"
+                :alt="gameData?.buildingData.buffs[buffDataItem.buffId]!.buffName"
                 class="skill-icon"
                 referrerpolicy="no-referrer"
-                :src="getSkillIconUrl(buildingData.buffs[buffDataItem.buffId]!.skillIcon)"
+                :src="
+                  getSkillIconUrl(
+                    gameData?.buildingData.buffs[buffDataItem.buffId]!.skillIcon ?? '',
+                  )
+                "
               />
               <span class="buff-name-text">{{
-                buildingData.buffs[buffDataItem.buffId]!.buffName
+                gameData?.buildingData.buffs[buffDataItem.buffId]!.buffName
               }}</span>
             </td>
             <td
               class="td-buff-description"
               v-html="
-                parseRichTextDescription(buildingData.buffs[buffDataItem.buffId]!.description)
+                parseRichTextDescription(
+                  gameData?.buildingData.buffs[buffDataItem.buffId]!.description ?? '',
+                )
               "
             ></td>
           </tr>

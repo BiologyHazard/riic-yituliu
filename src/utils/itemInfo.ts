@@ -1,5 +1,5 @@
 import type { ItemBundle } from '@/types/gameData';
-import { itemTable } from '@/utils/gameData';
+import { gameData } from '@/utils/gameData';
 import { getItemName } from './item';
 
 export interface ItemInfo {
@@ -28,8 +28,8 @@ export function toCounter(itemInfoList: ItemInfo[]): Map<string, number> {
 
 export function sortBySortId(itemInfoList: ItemInfo[]): ItemInfo[] {
   return [...itemInfoList].sort((a, b) => {
-    const itemA = itemTable.value.items[a.itemId];
-    const itemB = itemTable.value.items[b.itemId];
+    const itemA = gameData.value?.itemTable.items[a.itemId];
+    const itemB = gameData.value?.itemTable.items[b.itemId];
     if (itemA === undefined || itemB === undefined) {
       return 0;
     }

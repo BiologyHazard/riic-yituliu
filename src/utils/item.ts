@@ -1,11 +1,11 @@
-import { buildingData, itemTable } from '@/utils/gameData';
+import { gameData } from '@/utils/gameData';
 
 export function getItemName(itemId: string): string {
-  return itemTable.value.items[itemId]?.name ?? itemId;
+  return gameData.value?.itemTable.items[itemId]?.name ?? itemId;
 }
 
 export function getItemRarity(itemId: string): number | undefined {
-  const item = itemTable.value.items[itemId];
+  const item = gameData.value?.itemTable.items[itemId];
   if (item === undefined) {
     return undefined;
   }
@@ -19,7 +19,7 @@ export function getItemRarity(itemId: string): number | undefined {
 }
 
 export function getItemIconUrl(itemId: string): string | undefined {
-  const item = itemTable.value.items[itemId];
+  const item = gameData.value?.itemTable.items[itemId];
   if (item === undefined) {
     return undefined;
   }
@@ -27,7 +27,7 @@ export function getItemIconUrl(itemId: string): string | undefined {
 }
 
 export function isEliteMaterial(itemId: string): boolean | undefined {
-  const item = itemTable.value.items[itemId];
+  const item = gameData.value?.itemTable.items[itemId];
   if (item === undefined) {
     return undefined;
   }
@@ -35,12 +35,13 @@ export function isEliteMaterial(itemId: string): boolean | undefined {
 }
 
 export function getWorkshopByProductRate(itemId: string): number | undefined {
-  const item = itemTable.value.items[itemId];
+  const item = gameData.value?.itemTable.items[itemId];
   if (item === undefined) {
     return undefined;
   }
   const resultSet: Set<number> = new Set();
-  for (const workshopFormula of Object.values(buildingData.value.workshopFormulas)) {
+  const formulas = gameData.value?.buildingData.workshopFormulas ?? {};
+  for (const workshopFormula of Object.values(formulas)) {
     for (const extraOutcome of workshopFormula.extraOutcomeGroup) {
       if (extraOutcome.itemId === itemId) {
         resultSet.add(extraOutcome.weight);

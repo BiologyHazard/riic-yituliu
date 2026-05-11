@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import OperatorAvatar from '@/components/riic/OperatorAvatar.vue';
-import type { CharacterTable } from '@/types/gameData';
-import { characterTable } from '@/utils/gameData';
+import { gameData } from '@/utils/gameData';
 import Color from 'color';
 import { nextTick, onMounted, reactive, ref, watch } from 'vue';
 
@@ -532,7 +531,7 @@ function shouldShowPreviewAtEnd(tierIndex: number): boolean {
               :data-char-id="charId"
               :data-location="index"
               draggable="true"
-              :title="characterTable[charId]?.name"
+              :title="gameData?.characterTable[charId]?.name"
               @dragend="onDragEnd"
               @dragstart="(e) => onDragStart(e, { charId, from: index })"
             >
@@ -631,7 +630,7 @@ function shouldShowPreviewAtEnd(tierIndex: number): boolean {
             :data-char-id="charId"
             :data-location="'POOL'"
             draggable="true"
-            :title="(characterTable as unknown as CharacterTable)[charId]?.name"
+            :title="gameData?.characterTable[charId]?.name"
             @dragend="onDragEnd"
             @dragstart="(e) => onDragStart(e, { charId, from: 'POOL' })"
           >

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import RiicSkill from '@/components/riic/BaseSkill.vue';
 import { getCharIdByName } from '@/utils/character';
-import { buildingData } from '@/utils/gameData';
+import { gameData } from '@/utils/gameData';
 import { computed, ref } from 'vue';
 
 const charNameInput = ref<string>('Lancet-2\nCastle-3\nTHRM-EX\n正义骑士号');
@@ -16,7 +16,8 @@ const charIdList = computed(
     charNameList.value
       .map((name) => getCharIdByName(name))
       .filter(
-        (charId) => charId !== undefined && buildingData.value.chars[charId] !== undefined,
+        (charId) =>
+          charId !== undefined && gameData.value?.buildingData.chars[charId] !== undefined,
       ) as string[],
 );
 </script>

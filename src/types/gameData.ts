@@ -327,3 +327,19 @@ export interface UniequipTable {
   equipDict: Record<string, UniEquipData>;
   charEquip: Record<string, string[]>;
 }
+
+/**
+ * 聚合游戏数据接口
+ */
+export interface ArknightsGameData {
+  characterTable: CharacterTable;
+  skinTable: SkinTable;
+  charPatchTable: CharPatchTable;
+  buildingData: BuildingData;
+  itemTable: ItemTable;
+  stageTable: StageTable;
+  zoneTable: ZoneTable;
+  activityTable: ActivityTable;
+  uniequipTable: UniequipTable;
+  gameDataConst: GameDataConst;
+}

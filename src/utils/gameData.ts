@@ -1,72 +1,11 @@
-import type {
-  ActivityTable,
-  BuildingData,
-  CharacterTable,
-  CharPatchTable,
-  GameDataConst,
-  ItemTable,
-  SkinTable,
-  StageTable,
-  ZoneTable,
-  UniequipTable,
-} from '@/types/gameData';
-import { ref } from 'vue';
+import type { ArknightsGameData } from '@/types/gameData';
+import { ref, shallowRef } from 'vue';
 
-/** `excel/character_table.json` */
-export const characterTable = ref<CharacterTable>({});
-
-/** `excel/skin_table.json` */
-export const skinTable = ref<SkinTable>({
-  charSkins: {},
-  buildinEvolveMap: {},
-});
-
-/** `excel/char_patch_table.json` */
-export const charPatchTable = ref<CharPatchTable>({
-  patchChars: {},
-});
-
-/** `excel/building_data.json` */
-export const buildingData = ref<BuildingData>({
-  chars: {},
-  buffs: {},
-  workshopFormulas: {},
-});
-
-/** `excel/gamedata_const.json` */
-export const gamedataConst = ref<GameDataConst>({
-  characterExpMap: [],
-  characterUpgradeCostMap: [],
-  evolveGoldCost: [],
-  richTextStyles: {},
-  termDescriptionDict: {},
-});
-
-/** `excel/item_table.json` */
-export const itemTable = ref<ItemTable>({
-  items: {},
-});
-
-/** `excel/stage_table.json` */
-export const stageTable = ref<StageTable>({
-  stages: {},
-});
-
-/** `excel/activity_table.json` */
-export const activityTable = ref<ActivityTable>({
-  basicInfo: {},
-  zoneToActivity: {},
-});
-
-/** `excel/zone_table.json` */
-export const zoneTable = ref<ZoneTable>({
-  zones: {},
-});
-
-export const uniequipTable = ref<UniequipTable>({
-  equipDict: {},
-  charEquip: {},
-});
+/**
+ * 聚合游戏数据状态
+ * 使用 shallowRef 以优化大型 JSON 对象的响应式性能
+ */
+export const gameData = shallowRef<ArknightsGameData | null>(null);
 
 export const isGameDataLoading = ref(false);
 export const gameDataError = ref<unknown | null>(null);
@@ -141,19 +80,22 @@ export async function loadGameData(baseUrl: string) {
       }),
     ]);
 
-    characterTable.value = charRes;
-    charPatchTable.value = charPatchTableRes;
-    skinTable.value = skinRes;
-    buildingData.value = buildingRes;
-    gamedataConst.value = constRes;
-    itemTable.value = itemRes;
-    stageTable.value = stageRes;
-    activityTable.value = activityRes;
-    zoneTable.value = zoneRes;
-    uniequipTable.value = uniequipRes;
+    // 构造聚合后的数据对象
+    const allData: ArknightsGameData = {
+      characterTable: charRes,
+      charPatchTable: charPatchTableRes,
+      skinTable: skinRes,
+      buildingData: buildingRes,
+      gameDataConst: constRes,
+      itemTable: itemRes,
+      stageTable: stageRes,
+      activityTable: activityRes,
+      zoneTable: zoneRes,
+      uniequipTable: uniequipRes,
+    };
 
     // 加一个 exp 虚拟物品
-    itemTable.value.items['exp'] = {
+    allData.itemTable.items['exp'] = {
       itemId: 'exp',
       name: 'EXP',
       rarity: 0,
@@ -161,6 +103,8 @@ export async function loadGameData(baseUrl: string) {
       sortId: 0,
       itemType: 'EXP',
     };
+
+    gameData.value = allData;
   } catch (err) {
     if (err instanceof Error && err.name === 'AbortError') {
       return;

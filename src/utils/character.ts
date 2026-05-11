@@ -1,13 +1,7 @@
 import type { UniEquipData } from '@/types/gameData';
-import {
-  buildingData,
-  characterTable,
-  charPatchTable,
-  gamedataConst,
-  skinTable,
-  uniequipTable,
-} from '@/utils/gameData';
-import { fromItemBundleArray, type ItemInfo } from '@/utils/itemInfo';
+import { gameData } from '@/utils/gameData';
+import type { ItemInfo } from '@/utils/itemInfo';
+import { fromItemBundleArray } from '@/utils/itemInfo';
 import { computed } from 'vue';
 
 export const professionMap: Map<string, string> = new Map(
@@ -24,8 +18,8 @@ export const professionMap: Map<string, string> = new Map(
 );
 
 export const patchedCharacterTable = computed(() => ({
-  ...characterTable.value,
-  ...charPatchTable.value.patchChars,
+  ...gameData.value?.characterTable,
+  ...gameData.value?.charPatchTable.patchChars,
 }));
 
 /**
@@ -97,7 +91,7 @@ export function getCharProfessionId(charId: string): string | undefined {
  * getCharSkinId('char_103_angel', 2) // => 'char_103_angel#2'
  */
 export function getCharSkinId(charId: string, eliteLevel: number): string {
-  const evolveMap = skinTable.value.buildinEvolveMap[charId] ?? {};
+  const evolveMap = gameData.value?.skinTable.buildinEvolveMap[charId] ?? {};
   for (let level = eliteLevel; level >= 0; level--) {
     const skinId = evolveMap[String(level)];
     if (skinId !== undefined) {
@@ -121,17 +115,17 @@ export function getCharSkinId(charId: string, eliteLevel: number): string {
  * getCharAvatar('char_103_angel', 2) // => 'char_103_angel_2'
  */
 export function getCharAvatar(charId: string, eliteLevel: number): string {
-  // const evolveMap = skinTable.value.buildinEvolveMap[charId] ?? {}
+  // const evolveMap = gameData.value?.skinTable.buildinEvolveMap[charId] ?? {}
   // for (let level = eliteLevel; level >= 0; level--) {
   //   if (String(level) in evolveMap) {
-  //     const avatarId = skinTable.value.charSkins[evolveMap[String(level)] ?? '']?.avatarId
+  //     const avatarId = gameData.value?.skinTable.charSkins[evolveMap[String(level)] ?? '']?.avatarId
   //     if (avatarId !== undefined) {
   //       return avatarId
   //     }
   //   }
   // }
   const skinId = getCharSkinId(charId, eliteLevel);
-  const avatarId = skinTable.value.charSkins[skinId]?.avatarId;
+  const avatarId = gameData.value?.skinTable.charSkins[skinId]?.avatarId;
   if (avatarId !== undefined) {
     return avatarId;
   }
@@ -156,7 +150,7 @@ export function getProfessionName(professionIdOrName: string): string {
 }
 
 export function isPatchChar(charId: string): boolean {
-  return charId in charPatchTable.value.patchChars;
+  return !!gameData.value && charId in gameData.value.charPatchTable.patchChars;
 }
 
 export function isRogueSpChar(charId: string): boolean {
@@ -178,7 +172,7 @@ export function isCharInGame(charId: string): boolean {
   if (char === undefined) {
     return false;
   }
-  const criterion1 = charId in buildingData.value.chars;
+  const criterion1 = charId in (gameData.value?.buildingData.chars ?? {});
   const criterion2 = char.itemObtainApproach !== null;
   if (criterion1 !== criterion2) {
     console.warn(
@@ -213,14 +207,14 @@ export function getCharAllSkillMaxLevel(charId: string): number {
 }
 
 export function getCharUniequipIds(charId: string): string[] {
-  return uniequipTable.value.charEquip[charId] ?? [];
+  return gameData.value?.uniequipTable.charEquip[charId] ?? [];
 }
 
 export function getCharUniequips(charId: string): Map<string, UniEquipData> {
   const uniequipIds = getCharUniequipIds(charId);
   const uniequips = new Map<string, UniEquipData>();
   for (const uniequipId of uniequipIds) {
-    const uniequip = uniequipTable.value.equipDict[uniequipId];
+    const uniequip = gameData.value?.uniequipTable.equipDict[uniequipId];
     if (uniequip !== undefined) {
       uniequips.set(uniequipId, uniequip);
     }
@@ -251,7 +245,7 @@ export function getCharUniequip(
   uniequipIdOrType: string,
 ): UniEquipData | undefined {
   // 优先尝试直接通过 ID 获取，如果找不到再通过类型获取
-  const uniequip = uniequipTable.value.equipDict[uniequipIdOrType];
+  const uniequip = gameData.value?.uniequipTable.equipDict[uniequipIdOrType];
   if (uniequip !== undefined) {
     return uniequip;
   } else {
@@ -273,7 +267,7 @@ export function charEliteOnceItemCost(charId: string, originalEliteLevel: number
     return [];
   }
   const goldCost =
-    gamedataConst.value.evolveGoldCost[getCharRarity(charId)!]?.[originalEliteLevel] ?? 0;
+    gameData.value?.gameDataConst.evolveGoldCost[getCharRarity(charId)!]?.[originalEliteLevel] ?? 0;
   const evolveCost = fromItemBundleArray(char.phases[originalEliteLevel + 1]?.evolveCost ?? []);
   const totalCost = [{ itemId: '4001', count: goldCost }, ...evolveCost];
   return totalCost;
@@ -306,11 +300,11 @@ function calculateAccumulatedCost(costArray: number[][]): number[][] {
 }
 
 export const accumulatedExpCost = computed(() =>
-  calculateAccumulatedCost(gamedataConst.value.characterExpMap),
+  calculateAccumulatedCost(gameData.value?.gameDataConst.characterExpMap ?? []),
 );
 
 export const accumulatedGoldCost = computed(() =>
-  calculateAccumulatedCost(gamedataConst.value.characterUpgradeCostMap),
+  calculateAccumulatedCost(gameData.value?.gameDataConst.characterUpgradeCostMap ?? []),
 );
 
 export function charLevelUpOnceItemCost(

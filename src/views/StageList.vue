@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { activityTable, stageTable, zoneTable } from '@/utils/gameData';
+import { gameData } from '@/utils/gameData';
 </script>
 
 <template>
@@ -7,7 +7,10 @@ import { activityTable, stageTable, zoneTable } from '@/utils/gameData';
     <UPage>
       <UPageHeader title="作战列表" />
       <UPageBody>
-        <div v-if="Object.keys(activityTable.basicInfo).length > 0" class="stage-list-view">
+        <div
+          v-if="gameData && Object.keys(gameData.activityTable.basicInfo).length > 0"
+          class="stage-list-view"
+        >
           <UAccordion
             :items="[
               { label: '按活动分类', slot: 'by-activity' },
@@ -18,7 +21,7 @@ import { activityTable, stageTable, zoneTable } from '@/utils/gameData';
             <template #by-activity>
               <div class="space-y-4 p-1">
                 <UCard
-                  v-for="[activityId, activity] in Object.entries(activityTable.basicInfo)"
+                  v-for="[activityId, activity] in Object.entries(gameData.activityTable.basicInfo)"
                   :key="activityId"
                   variant="subtle"
                 >
@@ -34,8 +37,11 @@ import { activityTable, stageTable, zoneTable } from '@/utils/gameData';
 
                   <ul class="space-y-3 border-s-2 border-muted ps-4">
                     <li
-                      v-for="[zoneId, zone] in Object.entries(zoneTable.zones).filter(
-                        ([zoneId, _zone]) => activityTable.zoneToActivity[zoneId] === activityId,
+                      v-for="[zoneId, zone] in Object.entries(
+                        gameData?.zoneTable.zones ?? {},
+                      ).filter(
+                        ([zoneId, _zone]) =>
+                          gameData?.activityTable.zoneToActivity[zoneId] === activityId,
                       )"
                       :key="zoneId"
                     >
@@ -51,9 +57,9 @@ import { activityTable, stageTable, zoneTable } from '@/utils/gameData';
 
                       <div class="ms-6 flex flex-wrap gap-2">
                         <div
-                          v-for="[stageId, stage] in Object.entries(stageTable.stages).filter(
-                            ([_stageId, stage]) => stage.zoneId === zoneId,
-                          )"
+                          v-for="[stageId, stage] in Object.entries(
+                            gameData?.stageTable.stages ?? {},
+                          ).filter(([_stageId, stage]) => stage.zoneId === zoneId)"
                           :key="stageId"
                           class="group relative flex items-center rounded border border-muted bg-default px-2 py-1 text-sm shadow-sm transition-all hover:border-primary hover:text-primary"
                         >
@@ -79,7 +85,7 @@ import { activityTable, stageTable, zoneTable } from '@/utils/gameData';
             <template #by-zone>
               <div class="space-y-4 p-1">
                 <UCard
-                  v-for="[zoneId, zone] in Object.entries(zoneTable.zones)"
+                  v-for="[zoneId, zone] in Object.entries(gameData?.zoneTable.zones ?? {})"
                   :key="zoneId"
                   variant="subtle"
                 >
@@ -97,9 +103,9 @@ import { activityTable, stageTable, zoneTable } from '@/utils/gameData';
 
                   <div class="flex flex-wrap gap-2">
                     <div
-                      v-for="[stageId, stage] in Object.entries(stageTable.stages).filter(
-                        ([_stageId, stage]) => stage.zoneId === zoneId,
-                      )"
+                      v-for="[stageId, stage] in Object.entries(
+                        gameData?.stageTable.stages ?? {},
+                      ).filter(([_stageId, stage]) => stage.zoneId === zoneId)"
                       :key="stageId"
                       class="group relative flex items-center rounded border border-muted bg-default px-2 py-1 text-sm shadow-sm transition-all hover:border-primary hover:text-primary"
                     >

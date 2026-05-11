@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { itemTable } from '@/utils/gameData';
+import { gameData } from '@/utils/gameData';
 import {
   getItemRarity,
   getItemIconUrl,
@@ -147,13 +147,13 @@ const _ssT3StageIds = computed(() =>
 );
 
 // const t1EliteMaterialItems = Object.fromEntries(
-//   Object.entries(itemTable.value.items).filter(([itemId, item]) => {
+//   Object.entries(gameData.value?.itemTable.items ?? {}).filter(([itemId, item]) => {
 //     return isEliteMaterial(itemId) && getItemRarity(itemId) === 0;
 //   }),
 // );
 
 const t1EliteMaterialIds = computed(() =>
-  Object.keys(itemTable.value.items).filter(
+  Object.keys(gameData.value?.itemTable.items ?? {}).filter(
     (itemId) => isEliteMaterial(itemId) && getItemRarity(itemId) === 0,
   ),
 );
@@ -199,7 +199,7 @@ const t1EliteMaterialDisplayInfo = computed(() =>
         {
           iconUrl: getItemIconUrl(itemId),
           itemId: itemId,
-          itemName: itemTable.value.items[itemId]!.name,
+          itemName: gameData.value?.itemTable.items[itemId]?.name,
           workshopByproductWeight: getWorkshopByProductRate(itemId),
           epgsShopPrice: t1EliteMaterialEpgsShopPrice[itemId],
           sideStoryDropRatePerSanity: dropCountMap.get(itemId)! / apCostMap.get(itemId)!,
@@ -235,7 +235,7 @@ const t2EliteMaterialDisplayInfo = computed(() => ({
   '30012': {
     iconUrl: getItemIconUrl('30012'),
     itemId: '30012',
-    itemName: itemTable.value.items['30012']?.name,
+    itemName: gameData.value?.itemTable.items['30012']?.name,
     workshopByproductWeight: 15,
     epgsShopPrice: 15,
     sideStoryMainDropRatePerSanity: 0.0693,
@@ -246,7 +246,7 @@ const t2EliteMaterialDisplayInfo = computed(() => ({
   '30022': {
     iconUrl: getItemIconUrl('30022'),
     itemId: '30022',
-    itemName: itemTable.value.items['30022']?.name,
+    itemName: gameData.value?.itemTable.items['30022']?.name,
     workshopByproductWeight: 15,
     epgsShopPrice: 15,
     sideStoryMainDropRatePerSanity: 0.0693,
@@ -260,7 +260,7 @@ const t3EliteMaterialDisplayInfo = computed(() => ({
   '30013': {
     iconUrl: getItemIconUrl('30013'),
     itemId: '30013',
-    itemName: itemTable.value.items['30013']?.name,
+    itemName: gameData.value?.itemTable.items['30013']?.name,
     workshopByproductWeightBefore20231008: 10,
     workshopByproductWeightAfter20231008: 15,
     qualificationCertificatePrice: 40,
@@ -272,7 +272,7 @@ const t3EliteMaterialDisplayInfo = computed(() => ({
   '30023': {
     iconUrl: getItemIconUrl('30023'),
     itemId: '30023',
-    itemName: itemTable.value.items['30023']?.name,
+    itemName: gameData.value?.itemTable.items['30023']?.name,
     workshopByproductWeightBefore20231008: 10,
     workshopByproductWeightAfter20231008: 15,
     qualificationCertificatePrice: 40,
@@ -284,7 +284,7 @@ const t3EliteMaterialDisplayInfo = computed(() => ({
   '30033': {
     iconUrl: getItemIconUrl('30033'),
     itemId: '30033',
-    itemName: itemTable.value.items['30033']?.name,
+    itemName: gameData.value?.itemTable.items['30033']?.name,
     workshopByproductWeightBefore20231008: 10,
     workshopByproductWeightAfter20231008: 15,
     qualificationCertificatePrice: 40,
@@ -296,7 +296,7 @@ const t3EliteMaterialDisplayInfo = computed(() => ({
   '30043': {
     iconUrl: getItemIconUrl('30043'),
     itemId: '30043',
-    itemName: itemTable.value.items['30043']?.name,
+    itemName: gameData.value?.itemTable.items['30043']?.name,
     workshopByproductWeightBefore20231008: 10,
     workshopByproductWeightAfter20231008: 15,
     qualificationCertificatePrice: 40,
@@ -308,7 +308,7 @@ const t3EliteMaterialDisplayInfo = computed(() => ({
   '30053': {
     iconUrl: getItemIconUrl('30053'),
     itemId: '30053',
-    itemName: itemTable.value.items['30053']?.name,
+    itemName: gameData.value?.itemTable.items['30053']?.name,
     workshopByproductWeightBefore20231008: 10,
     workshopByproductWeightAfter20231008: 15,
     qualificationCertificatePrice: 40,
