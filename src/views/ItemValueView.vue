@@ -35,7 +35,7 @@ async function handleFileUpload(event: Event): Promise<void> {
 }
 
 // 粘贴 JSON
-function handlePasteImport(): void {
+function handlePasteImport() {
   try {
     const importedData = JSON.parse(pasteInput.value);
     if (Array.isArray(importedData)) {
@@ -51,19 +51,23 @@ function handlePasteImport(): void {
 }
 
 // 导出 JSON
-function exportJson(): void {
+function exportJson() {
   const data = JSON.stringify(itemValues.value, null, 2);
   const blob = new Blob([data], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
   a.download = 'item.json';
+  document.body.appendChild(a);
   a.click();
-  URL.revokeObjectURL(url);
+  document.body.removeChild(a);
+  setTimeout(() => {
+    URL.revokeObjectURL(url);
+  }, 0);
 }
 
 // 重置到默认
-function resetToDefault(): void {
+function resetToDefault() {
   if (confirm('确定要重置所有物品价值到默认值吗？')) {
     itemValues.value = JSON.parse(JSON.stringify(defaultItems));
   }
