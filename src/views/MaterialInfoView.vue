@@ -1,11 +1,7 @@
 <script setup lang="ts">
+import { getItemIconUrl } from '@/composables/useDataSource';
 import { gameData } from '@/utils/gameData';
-import {
-  getItemRarity,
-  getItemIconUrl,
-  getWorkshopByProductRate,
-  isEliteMaterial,
-} from '@/utils/item';
+import { getItemRarity, getWorkshopByProductRate, isEliteMaterial } from '@/utils/item';
 import { items, resultMatrix, stages, zones } from '@/utils/penguinStats';
 import { computed, ref } from 'vue';
 

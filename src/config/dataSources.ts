@@ -1,8 +1,32 @@
+import { getCharAvatar, getCharSkinId } from '@/utils/character';
+import { gameData } from '@/utils/gameData';
+
 export interface DataSource {
   label: string;
   id: string;
   baseUrl: string;
   isGithub: boolean;
+}
+
+export interface AvatarSource {
+  label: string;
+  id: string;
+  isGithub: boolean;
+  getUrl: (charId: string, eliteLevel: number) => string;
+}
+
+export interface ItemIconSource {
+  label: string;
+  id: string;
+  isGithub: boolean;
+  getUrl: (itemId: string) => string;
+}
+
+export interface BaseSkillIconSource {
+  label: string;
+  id: string;
+  isGithub: boolean;
+  getUrl: (skillIcon: string) => string;
 }
 
 export interface GithubMirror {
@@ -55,35 +79,84 @@ export const gameDataSources: DataSource[] = [
   },
 ];
 
-export const avatarSources: DataSource[] = [
+export const avatarSources: AvatarSource[] = [
   {
     id: 'torappu',
     label: 'Torappu',
-    baseUrl: 'https://torappu.prts.wiki/assets/char_avatar',
     isGithub: false,
+    getUrl(charId: string, eliteLevel: number): string {
+      return `https://torappu.prts.wiki/assets/char_avatar/${getCharAvatar(charId, eliteLevel)}.png`;
+    },
   },
   {
     id: 'yuanyan3060/ArknightsGameResource',
     label: 'yuanyan3060/ArknightsGameResource',
-    baseUrl:
-      'https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/refs/heads/main/avatar',
     isGithub: true,
+    getUrl(charId: string, eliteLevel: number): string {
+      return `https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/refs/heads/main/avatar/${getCharAvatar(charId, eliteLevel)}.png`;
+    },
+  },
+  {
+    id: 'skland',
+    label: 'Skland',
+    isGithub: false,
+    getUrl(charId: string, eliteLevel: number): string {
+      return `https://web.hycdn.cn/arknights/game/assets/char_skin/avatar/${encodeURIComponent(getCharSkinId(charId, eliteLevel))}.png`;
+    },
+  },
+  {
+    id: 'skland-simple',
+    label: 'Skland（简易）',
+    isGithub: false,
+    getUrl(charId: string, _eliteLevel: number): string {
+      return `https://web.hycdn.cn/arknights/game/assets/char/avatar/${charId}.png`;
+    },
   },
 ];
 
-export const baseSkillIconSources: DataSource[] = [
+export const itemIconSources: ItemIconSource[] = [
   {
     id: 'torappu',
     label: 'Torappu',
-    baseUrl: 'https://torappu.prts.wiki/assets/build_skill_icon',
     isGithub: false,
+    getUrl(itemId: string): string {
+      return `https://torappu.prts.wiki/assets/item_icon/${gameData.value?.itemTable.items[itemId]?.iconId ?? itemId}.png`;
+    },
   },
   {
     id: 'yuanyan3060/ArknightsGameResource',
     label: 'yuanyan3060/ArknightsGameResource',
-    baseUrl:
-      'https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/refs/heads/main/building_skill',
     isGithub: true,
+    getUrl(itemId: string): string {
+      return `https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/refs/heads/main/item/${gameData.value?.itemTable.items[itemId]?.iconId ?? itemId}.png`;
+    },
+  },
+  {
+    id: 'skland',
+    label: 'Skland',
+    isGithub: false,
+    getUrl(itemId: string): string {
+      return `https://web.hycdn.cn/arknights/game/assets/item/${itemId}.png`;
+    },
+  },
+];
+
+export const baseSkillIconSources: BaseSkillIconSource[] = [
+  {
+    id: 'torappu',
+    label: 'Torappu',
+    isGithub: false,
+    getUrl(skillIcon: string): string {
+      return `https://torappu.prts.wiki/assets/build_skill_icon/${skillIcon}.png`;
+    },
+  },
+  {
+    id: 'yuanyan3060/ArknightsGameResource',
+    label: 'yuanyan3060/ArknightsGameResource',
+    isGithub: true,
+    getUrl(skillIcon: string): string {
+      return `https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/refs/heads/main/building_skill/${skillIcon}.png`;
+    },
   },
 ];
 
@@ -117,5 +190,6 @@ export const githubMirrors: GithubMirror[] = [
 
 export const defaultGameDataSourceId = 'torappu';
 export const defaultAvatarSourceId = 'torappu';
+export const defaultItemIconSourceId = 'torappu';
 export const defaultBaseSkillIconSourceId = 'torappu';
 export const defaultGithubMirrorId = 'none';

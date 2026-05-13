@@ -1,11 +1,6 @@
 <script setup lang="ts">
-import { currentAvatarBaseUrl } from '@/composables/useDataSource';
-import {
-  getCharAvatar,
-  getCharProfessionId,
-  getCharRarity,
-  getProfessionName,
-} from '@/utils/character';
+import { getAvatarUrl } from '@/composables/useDataSource';
+import { getCharProfessionId, getCharRarity, getProfessionName } from '@/utils/character';
 import { getPrtsWikiMediaUrl } from '@/utils/prtsWiki';
 import { computed } from 'vue';
 
@@ -60,14 +55,9 @@ const rarityUrl = computed(
   () => `https://torappu.prts.wiki/assets/rarity_icon/rarity_yellow_${rarity.value}.png`,
 );
 
-/** 头像 ID */
-const avatarId = computed(() => {
-  return getCharAvatar(props.charId, props.eliteLevel);
-});
-
 /** 头像 URL */
 const avatarUrl = computed(() => {
-  return `${currentAvatarBaseUrl.value}/${avatarId.value}.png`;
+  return getAvatarUrl(props.charId, props.eliteLevel);
 });
 </script>
 

@@ -18,14 +18,6 @@ export function getItemRarity(itemId: string): number | undefined {
   }
 }
 
-export function getItemIconUrl(itemId: string): string | undefined {
-  const item = gameData.value?.itemTable.items[itemId];
-  if (item === undefined) {
-    return undefined;
-  }
-  return `https://torappu.prts.wiki/assets/item_icon/${item.iconId}.png`;
-}
-
 export function isEliteMaterial(itemId: string): boolean | undefined {
   const item = gameData.value?.itemTable.items[itemId];
   if (item === undefined) {

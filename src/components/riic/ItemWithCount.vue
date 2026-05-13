@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { getItemIconUrl, getItemName } from '@/utils/item';
+import { getItemIconUrl } from '@/composables/useDataSource';
+import { getItemName } from '@/utils/item';
 import { computed } from 'vue';
 
 const props = defineProps<{
