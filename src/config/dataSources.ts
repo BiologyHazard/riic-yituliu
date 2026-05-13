@@ -105,8 +105,8 @@ export const avatarSources: AvatarSource[] = [
     },
   },
   {
-    id: 'skland-simple',
-    label: 'Skland（简易）',
+    id: 'skland-avatar',
+    label: 'Skland（仅初始立绘）',
     isGithub: false,
     getUrl(charId: string, _eliteLevel: number): string {
       return `https://web.hycdn.cn/arknights/game/assets/char/avatar/${charId}.png`;
@@ -133,7 +133,7 @@ export const itemIconSources: ItemIconSource[] = [
   },
   {
     id: 'skland',
-    label: 'Skland',
+    label: 'Skland（无框）',
     isGithub: false,
     getUrl(itemId: string): string {
       return `https://web.hycdn.cn/arknights/game/assets/item/${itemId}.png`;
