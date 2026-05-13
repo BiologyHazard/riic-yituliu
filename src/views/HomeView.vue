@@ -5,6 +5,8 @@ import {
   currentGameDataBaseUrl,
   currentGameDataSource,
   currentGameDataSourceId,
+  currentItemIconSource,
+  currentItemIconSourceId,
   currentMirrorId,
   currentBaseSkillIconSource,
   currentBaseSkillIconSourceId,
@@ -13,6 +15,7 @@ import {
   avatarSources,
   gameDataSources,
   githubMirrors,
+  itemIconSources,
   baseSkillIconSources,
 } from '@/config/dataSources';
 import { loadGameData } from '@/utils/gameData';
@@ -68,10 +71,24 @@ watch(currentGameDataBaseUrl, loadGameData);
                 value-key="id"
               />
             </UFormField>
+            <UFormField label="物品图标源">
+              <USelectMenu
+                v-model="currentItemIconSourceId"
+                class="w-xs"
+                :items="itemIconSources"
+                :search-input="false"
+                :ui="{
+                  trailingIcon:
+                    'group-data-[state=open]:rotate-180 transition-transform duration-200',
+                }"
+                value-key="id"
+              />
+            </UFormField>
             <UFormField
               v-if="
                 currentGameDataSource.isGithub ||
                 currentAvatarSource.isGithub ||
+                currentItemIconSource.isGithub ||
                 currentBaseSkillIconSource.isGithub
               "
               label="GitHub 镜像"

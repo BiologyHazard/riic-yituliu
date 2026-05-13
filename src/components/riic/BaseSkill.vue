@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import OperatorAvatar from '@/components/riic/OperatorAvatar.vue';
-import { currentBaseSkillIconBaseUrl } from '@/composables/useDataSource';
+import { getBaseSkillIconUrl } from '@/composables/useDataSource';
 import type { BuffUnlockCondition } from '@/types/gameData';
 import { updateText } from '@/utils/autoFontSizing';
 import { getCharName } from '@/utils/character';
@@ -10,10 +10,6 @@ import { computed, useTemplateRef, watch } from 'vue';
 const props = defineProps<{ charId: string }>();
 const buildingCharDataRef = computed(() => gameData.value?.buildingData.chars[props.charId]);
 const operatorNameElement = useTemplateRef('operatorNameElement');
-
-function getSkillIconUrl(skillIcon: string): string {
-  return `${currentBaseSkillIconBaseUrl.value}/${skillIcon}.png`;
-}
 
 function getCondText({ phase, level }: BuffUnlockCondition): string {
   const eliteLevel = typeof phase === 'number' ? phase : Number(phase.replace(/^PHASE_/, ''));
@@ -119,7 +115,7 @@ watch([props, operatorNameElement], () => {
                 class="skill-icon"
                 referrerpolicy="no-referrer"
                 :src="
-                  getSkillIconUrl(
+                  getBaseSkillIconUrl(
                     gameData?.buildingData.buffs[buffDataItem.buffId]!.skillIcon ?? '',
                   )
                 "
