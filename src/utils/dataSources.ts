@@ -231,22 +231,39 @@ export const currentMirrorId = useLocalStorage(GITHUB_MIRROR_STORAGE_KEY, defaul
 // ─── current source computeds ─────────────────────────────────
 
 export const currentGameDataSource = computed(() => {
-  return gameDataSources.find((s) => s.id === currentGameDataSourceId.value) || gameDataSources[0]!;
+  return (
+    gameDataSources.find((s) => s.id === currentGameDataSourceId.value) ??
+    gameDataSources.find((s) => s.id === defaultGameDataSourceId) ??
+    gameDataSources[0]!
+  );
 });
 export const currentAvatarSource = computed(() => {
-  return avatarSources.find((s) => s.id === currentAvatarSourceId.value) || avatarSources[0]!;
+  return (
+    avatarSources.find((s) => s.id === currentAvatarSourceId.value) ??
+    avatarSources.find((s) => s.id === defaultAvatarSourceId) ??
+    avatarSources[0]!
+  );
 });
 export const currentItemIconSource = computed(() => {
-  return itemIconSources.find((s) => s.id === currentItemIconSourceId.value) || itemIconSources[0]!;
+  return (
+    itemIconSources.find((s) => s.id === currentItemIconSourceId.value) ??
+    itemIconSources.find((s) => s.id === defaultItemIconSourceId) ??
+    itemIconSources[0]!
+  );
 });
 export const currentBaseSkillIconSource = computed(() => {
   return (
-    baseSkillIconSources.find((s) => s.id === currentBaseSkillIconSourceId.value) ||
+    baseSkillIconSources.find((s) => s.id === currentBaseSkillIconSourceId.value) ??
+    baseSkillIconSources.find((s) => s.id === defaultBaseSkillIconSourceId) ??
     baseSkillIconSources[0]!
   );
 });
 export const currentMirror = computed(() => {
-  return githubMirrors.find((m) => m.id === currentMirrorId.value) || githubMirrors[0]!;
+  return (
+    githubMirrors.find((m) => m.id === currentMirrorId.value) ??
+    githubMirrors.find((m) => m.id === defaultGithubMirrorId) ??
+    githubMirrors[0]!
+  );
 });
 
 function applyGithubMirror(url: string, isGithub: boolean): string {
