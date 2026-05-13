@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import OperatorAvatar from '@/components/riic/OperatorAvatar.vue';
-import { getBaseSkillIconUrl } from '@/composables/useDataSource';
 import type { BuffUnlockCondition } from '@/types/gameData';
 import { updateText } from '@/utils/autoFontSizing';
 import { getCharName } from '@/utils/character';
+import { getBaseSkillIconUrl } from '@/utils/dataSources';
 import { gameData } from '@/utils/gameData';
 import { computed, useTemplateRef, watch } from 'vue';
 

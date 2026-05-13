@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import logoUrl from '@/assets/images/白鸥.webp';
-import { currentGameDataBaseUrl } from '@/composables/useDataSource';
+import { currentGameDataBaseUrl } from '@/utils/dataSources';
 import { gameDataError, isGameDataLoading, loadGameData } from '@/utils/gameData';
 import { isPenguinDataLoading, loadPenguinData, penguinDataError } from '@/utils/penguinStats';
 import { computed, onMounted } from 'vue';

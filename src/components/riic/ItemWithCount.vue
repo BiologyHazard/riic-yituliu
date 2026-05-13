@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getItemIconUrl } from '@/composables/useDataSource';
+import { getItemIconUrl } from '@/utils/dataSources';
 import { getItemName } from '@/utils/item';
 import { computed } from 'vue';
 

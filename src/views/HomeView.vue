@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import {
+  avatarSources,
+  gameDataSources,
+  githubMirrors,
+  itemIconSources,
+  baseSkillIconSources,
   currentAvatarSource,
   currentAvatarSourceId,
   currentGameDataBaseUrl,
@@ -10,14 +15,7 @@ import {
   currentMirrorId,
   currentBaseSkillIconSource,
   currentBaseSkillIconSourceId,
-} from '@/composables/useDataSource';
-import {
-  avatarSources,
-  gameDataSources,
-  githubMirrors,
-  itemIconSources,
-  baseSkillIconSources,
-} from '@/config/dataSources';
+} from '@/utils/dataSources';
 import { loadGameData } from '@/utils/gameData';
 import { getPrtsWikiMediaUrl } from '@/utils/prtsWiki';
 import { watch } from 'vue';

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getAvatarUrl } from '@/composables/useDataSource';
+import { getAvatarUrl } from '@/utils/dataSources';
 import { getCharProfessionId, getCharRarity, getProfessionName } from '@/utils/character';
 import { getPrtsWikiMediaUrl } from '@/utils/prtsWiki';
 import { computed } from 'vue';

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getItemIconUrl } from '@/composables/useDataSource';
+import { getItemIconUrl } from '@/utils/dataSources';
 import { gameData } from '@/utils/gameData';
 import { getItemRarity, getWorkshopByProductRate, isEliteMaterial } from '@/utils/item';
 import { items, resultMatrix, stages, zones } from '@/utils/penguinStats';
