@@ -249,29 +249,32 @@ export const currentMirror = computed(() => {
   return githubMirrors.find((m) => m.id === currentMirrorId.value) || githubMirrors[0]!;
 });
 
+function applyGithubMirror(url: string, isGithub: boolean): string {
+  return isGithub ? `${currentMirror.value.prefix}${url}` : url;
+}
+
 // ─── game data URL (baseUrl pattern) ──────────────────────────
 
 export const currentGameDataBaseUrl = computed(() => {
-  if (currentGameDataSource.value.isGithub) {
-    return `${currentMirror.value.prefix}${currentGameDataSource.value.baseUrl}`;
-  } else {
-    return currentGameDataSource.value.baseUrl;
-  }
+  return applyGithubMirror(
+    currentGameDataSource.value.baseUrl,
+    currentGameDataSource.value.isGithub,
+  );
 });
 
 // ─── image URL builders ───────────────────────────────────────
 
 export function getAvatarUrl(charId: string, eliteLevel: number): string {
   const url = currentAvatarSource.value.getUrl(charId, eliteLevel);
-  return currentAvatarSource.value.isGithub ? `${currentMirror.value.prefix}${url}` : url;
+  return applyGithubMirror(url, currentAvatarSource.value.isGithub);
 }
 
 export function getItemIconUrl(itemId: string): string {
   const url = currentItemIconSource.value.getUrl(itemId);
-  return currentItemIconSource.value.isGithub ? `${currentMirror.value.prefix}${url}` : url;
+  return applyGithubMirror(url, currentItemIconSource.value.isGithub);
 }
 
 export function getBaseSkillIconUrl(skillIcon: string): string {
   const url = currentBaseSkillIconSource.value.getUrl(skillIcon);
-  return currentBaseSkillIconSource.value.isGithub ? `${currentMirror.value.prefix}${url}` : url;
+  return applyGithubMirror(url, currentBaseSkillIconSource.value.isGithub);
 }
