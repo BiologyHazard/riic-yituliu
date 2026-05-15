@@ -6,42 +6,36 @@ import { computed } from 'vue';
 // ─── interfaces ───────────────────────────────────────────────
 
 export interface DataSource {
-  label: string;
   id: string;
-  baseUrl: string;
+  label: string;
   isGithub: boolean;
 }
 
-export interface AvatarSource {
-  label: string;
-  id: string;
-  isGithub: boolean;
+export interface GameDataSource extends DataSource {
+  baseUrl: string;
+}
+
+export interface AvatarSource extends DataSource {
   getUrl: (charId: string, eliteLevel: number) => string;
 }
 
-export interface ItemIconSource {
-  label: string;
-  id: string;
-  isGithub: boolean;
+export interface ItemIconSource extends DataSource {
   getUrl: (itemId: string) => string;
 }
 
-export interface BaseSkillIconSource {
-  label: string;
-  id: string;
-  isGithub: boolean;
+export interface BaseSkillIconSource extends DataSource {
   getUrl: (skillIcon: string) => string;
 }
 
 export interface GithubMirror {
-  label: string;
   id: string;
+  label: string;
   prefix: string;
 }
 
 // ─── source definitions ───────────────────────────────────────
 
-export const gameDataSources: DataSource[] = [
+export const gameDataSources: GameDataSource[] = [
   {
     id: 'torappu',
     label: 'Torappu',
