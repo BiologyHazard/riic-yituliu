@@ -56,7 +56,7 @@ watch(currentGameDataBaseUrl, loadGameData);
                 value-key="id"
               />
             </UFormField>
-            <UFormField label="技能图标源">
+            <UFormField label="基建技能图标源">
               <USelectMenu
                 v-model="currentBaseSkillIconSourceId"
                 class="w-xs"
