@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { getItemIconUrl } from '@/utils/dataSources';
 import { gameData } from '@/utils/gameData';
-import { getItemRarity, getWorkshopByProductRate, isEliteMaterial } from '@/utils/item';
+import {
+  getItemName,
+  getItemRarity,
+  getWorkshopByProductRate,
+  isEliteMaterial,
+} from '@/utils/item';
 import { items, resultMatrix, stages, zones } from '@/utils/penguinStats';
 import { computed, ref } from 'vue';
 
@@ -195,7 +200,7 @@ const t1EliteMaterialDisplayInfo = computed(() =>
         {
           iconUrl: getItemIconUrl(itemId),
           itemId: itemId,
-          itemName: gameData.value?.itemTable.items[itemId]?.name,
+          itemName: getItemName(itemId),
           workshopByproductWeight: getWorkshopByProductRate(itemId),
           epgsShopPrice: t1EliteMaterialEpgsShopPrice[itemId],
           sideStoryDropRatePerSanity: dropCountMap.get(itemId)! / apCostMap.get(itemId)!,
@@ -208,18 +213,18 @@ const t1EliteMaterialDisplayInfo = computed(() =>
 
 // const t1EliteMaterialDisplayInfo = {
 //   '30011': {
-//     iconUrl: `https://torappu.prts.wiki/assets/item_icon/${itemTable.items['30011']!.iconId}.png`,
+//     iconUrl: getItemIconUrl('30011'),
 //     itemId: '30011',
-//     itemName: itemTable.items['30011']!.name,
+//     itemName: getItemName('30011'),
 //     workshopByproductWeight: 15,
 //     epgsShopPrice: 15,
 //     sideStoryDropRatePerSanity: 0.0693,
 //     expectedSanityPerItem: 14.4359,
 //   },
 //   '30021': {
-//     iconUrl: `https://torappu.prts.wiki/assets/item_icon/${itemTable.items['30021']!.iconId}.png`,
+//     iconUrl: getItemIconUrl('30021'),
 //     itemId: '30021',
-//     itemName: itemTable.items['30021']!.name,
+//     itemName: getItemName('30021'),
 //     workshopByproductWeight: 15,
 //     epgsShopPrice: 15,
 //     sideStoryDropRatePerSanity: 0.0693,
@@ -231,7 +236,7 @@ const t2EliteMaterialDisplayInfo = computed(() => ({
   '30012': {
     iconUrl: getItemIconUrl('30012'),
     itemId: '30012',
-    itemName: gameData.value?.itemTable.items['30012']?.name,
+    itemName: getItemName('30012'),
     workshopByproductWeight: 15,
     epgsShopPrice: 15,
     sideStoryMainDropRatePerSanity: 0.0693,
@@ -242,7 +247,7 @@ const t2EliteMaterialDisplayInfo = computed(() => ({
   '30022': {
     iconUrl: getItemIconUrl('30022'),
     itemId: '30022',
-    itemName: gameData.value?.itemTable.items['30022']?.name,
+    itemName: getItemName('30022'),
     workshopByproductWeight: 15,
     epgsShopPrice: 15,
     sideStoryMainDropRatePerSanity: 0.0693,
@@ -256,7 +261,7 @@ const t3EliteMaterialDisplayInfo = computed(() => ({
   '30013': {
     iconUrl: getItemIconUrl('30013'),
     itemId: '30013',
-    itemName: gameData.value?.itemTable.items['30013']?.name,
+    itemName: getItemName('30013'),
     workshopByproductWeightBefore20231008: 10,
     workshopByproductWeightAfter20231008: 15,
     qualificationCertificatePrice: 40,
@@ -268,7 +273,7 @@ const t3EliteMaterialDisplayInfo = computed(() => ({
   '30023': {
     iconUrl: getItemIconUrl('30023'),
     itemId: '30023',
-    itemName: gameData.value?.itemTable.items['30023']?.name,
+    itemName: getItemName('30023'),
     workshopByproductWeightBefore20231008: 10,
     workshopByproductWeightAfter20231008: 15,
     qualificationCertificatePrice: 40,
@@ -280,7 +285,7 @@ const t3EliteMaterialDisplayInfo = computed(() => ({
   '30033': {
     iconUrl: getItemIconUrl('30033'),
     itemId: '30033',
-    itemName: gameData.value?.itemTable.items['30033']?.name,
+    itemName: getItemName('30033'),
     workshopByproductWeightBefore20231008: 10,
     workshopByproductWeightAfter20231008: 15,
     qualificationCertificatePrice: 40,
@@ -292,7 +297,7 @@ const t3EliteMaterialDisplayInfo = computed(() => ({
   '30043': {
     iconUrl: getItemIconUrl('30043'),
     itemId: '30043',
-    itemName: gameData.value?.itemTable.items['30043']?.name,
+    itemName: getItemName('30043'),
     workshopByproductWeightBefore20231008: 10,
     workshopByproductWeightAfter20231008: 15,
     qualificationCertificatePrice: 40,
@@ -304,7 +309,7 @@ const t3EliteMaterialDisplayInfo = computed(() => ({
   '30053': {
     iconUrl: getItemIconUrl('30053'),
     itemId: '30053',
-    itemName: gameData.value?.itemTable.items['30053']?.name,
+    itemName: getItemName('30053'),
     workshopByproductWeightBefore20231008: 10,
     workshopByproductWeightAfter20231008: 15,
     qualificationCertificatePrice: 40,
