@@ -204,55 +204,58 @@ const ITEM_ICON_SOURCE_STORAGE_KEY = 'riic_item_icon_source_id';
 const BASE_SKILL_ICON_SOURCE_STORAGE_KEY = 'riic_base_skill_icon_source_id';
 const GITHUB_MIRROR_STORAGE_KEY = 'riic_github_mirror_id';
 
-export const currentGameDataSourceId = useLocalStorage(
+export const currentGameDataSourceId = useLocalStorage<string>(
   GAME_DATA_SOURCE_STORAGE_KEY,
   defaultGameDataSourceId,
 );
-export const currentAvatarSourceId = useLocalStorage(
+export const currentAvatarSourceId = useLocalStorage<string>(
   AVATAR_SOURCE_STORAGE_KEY,
   defaultAvatarSourceId,
 );
-export const currentItemIconSourceId = useLocalStorage(
+export const currentItemIconSourceId = useLocalStorage<string>(
   ITEM_ICON_SOURCE_STORAGE_KEY,
   defaultItemIconSourceId,
 );
-export const currentBaseSkillIconSourceId = useLocalStorage(
+export const currentBaseSkillIconSourceId = useLocalStorage<string>(
   BASE_SKILL_ICON_SOURCE_STORAGE_KEY,
   defaultBaseSkillIconSourceId,
 );
-export const currentMirrorId = useLocalStorage(GITHUB_MIRROR_STORAGE_KEY, defaultGithubMirrorId);
+export const currentMirrorId = useLocalStorage<string>(
+  GITHUB_MIRROR_STORAGE_KEY,
+  defaultGithubMirrorId,
+);
 
 // ─── current source computeds ─────────────────────────────────
 
-export const currentGameDataSource = computed(() => {
+export const currentGameDataSource = computed<GameDataSource>(() => {
   return (
     gameDataSources.find((s) => s.id === currentGameDataSourceId.value) ??
     gameDataSources.find((s) => s.id === defaultGameDataSourceId) ??
     gameDataSources[0]!
   );
 });
-export const currentAvatarSource = computed(() => {
+export const currentAvatarSource = computed<AvatarSource>(() => {
   return (
     avatarSources.find((s) => s.id === currentAvatarSourceId.value) ??
     avatarSources.find((s) => s.id === defaultAvatarSourceId) ??
     avatarSources[0]!
   );
 });
-export const currentItemIconSource = computed(() => {
+export const currentItemIconSource = computed<ItemIconSource>(() => {
   return (
     itemIconSources.find((s) => s.id === currentItemIconSourceId.value) ??
     itemIconSources.find((s) => s.id === defaultItemIconSourceId) ??
     itemIconSources[0]!
   );
 });
-export const currentBaseSkillIconSource = computed(() => {
+export const currentBaseSkillIconSource = computed<BaseSkillIconSource>(() => {
   return (
     baseSkillIconSources.find((s) => s.id === currentBaseSkillIconSourceId.value) ??
     baseSkillIconSources.find((s) => s.id === defaultBaseSkillIconSourceId) ??
     baseSkillIconSources[0]!
   );
 });
-export const currentMirror = computed(() => {
+export const currentGithubMirror = computed<GithubMirror>(() => {
   return (
     githubMirrors.find((m) => m.id === currentMirrorId.value) ??
     githubMirrors.find((m) => m.id === defaultGithubMirrorId) ??
@@ -261,12 +264,12 @@ export const currentMirror = computed(() => {
 });
 
 function applyGithubMirror(url: string, isGithub: boolean): string {
-  return isGithub ? `${currentMirror.value.prefix}${url}` : url;
+  return isGithub ? `${currentGithubMirror.value.prefix}${url}` : url;
 }
 
 // ─── game data URL (baseUrl pattern) ──────────────────────────
 
-export const currentGameDataBaseUrl = computed(() => {
+export const currentGameDataBaseUrl = computed<string>(() => {
   return applyGithubMirror(
     currentGameDataSource.value.baseUrl,
     currentGameDataSource.value.isGithub,
