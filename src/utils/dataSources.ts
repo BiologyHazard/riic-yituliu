@@ -1,5 +1,5 @@
 import { getCharAvatar, getCharSkinId } from '@/utils/character';
-import { gameData } from '@/utils/gameData';
+import { getItemIconId } from '@/utils/item';
 import { useLocalStorage } from '@vueuse/core';
 import { computed } from 'vue';
 
@@ -120,7 +120,7 @@ export const itemIconSources: ItemIconSource[] = [
     label: 'Torappu',
     isGithub: false,
     getUrl(itemId: string): string {
-      return `https://torappu.prts.wiki/assets/item_icon/${gameData.value?.itemTable.items[itemId]?.iconId ?? itemId}.png`;
+      return `https://torappu.prts.wiki/assets/item_icon/${getItemIconId(itemId)}.png`;
     },
   },
   {
@@ -128,7 +128,7 @@ export const itemIconSources: ItemIconSource[] = [
     label: 'yuanyan3060/ArknightsGameResource',
     isGithub: true,
     getUrl(itemId: string): string {
-      return `https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/refs/heads/main/item/${gameData.value?.itemTable.items[itemId]?.iconId ?? itemId}.png`;
+      return `https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/refs/heads/main/item/${getItemIconId(itemId)}.png`;
     },
   },
   {

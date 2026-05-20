@@ -4,6 +4,10 @@ export function getItemName(itemId: string): string {
   return gameData.value?.itemTable.items[itemId]?.name ?? itemId;
 }
 
+export function getItemIconId(itemId: string): string {
+  return gameData.value?.itemTable.items[itemId]?.iconId ?? itemId;
+}
+
 export function getItemRarity(itemId: string): number | undefined {
   const item = gameData.value?.itemTable.items[itemId];
   if (item === undefined) {
