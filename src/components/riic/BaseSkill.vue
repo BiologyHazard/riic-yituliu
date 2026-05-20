@@ -124,6 +124,7 @@ watch([props, operatorNameElement], () => {
                 gameData?.buildingData.buffs[buffDataItem.buffId]!.buffName
               }}</span>
             </td>
+            <!-- eslint-disable vue/no-v-html -->
             <td
               class="td-buff-description"
               v-html="
