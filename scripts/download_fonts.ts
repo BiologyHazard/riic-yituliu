@@ -3,7 +3,7 @@
 import { createWriteStream, existsSync } from 'node:fs';
 import { copyFile, mkdir, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { basename, dirname, join, resolve } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 import { Readable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 import { fileURLToPath } from 'node:url';
@@ -20,10 +20,12 @@ interface FontConfig {
   name: string;
   /** 字体下载 URL */
   url: string;
-  /** ZIP 压缩包内需要提取的文件列表 */
-  srcFileList: string[];
-  /** 本地目标目录（相对于项目根目录） */
-  dstDir: string;
+  /**
+   * 需要提取的字体文件列表
+   * source: ZIP 压缩包内的文件路径
+   * destination: 相对于项目根目录的目标文件路径
+   */
+  files: { source: string; destination: string }[];
   /** 可选的 HTTP 请求头 */
   headers?: Record<string, string>;
 }
@@ -32,32 +34,79 @@ const FONTS: FontConfig[] = [
   {
     name: '鸿蒙黑体',
     url: 'https://alliance-communityfile-drcn.dbankcdn.com/FileServer/getFile/cmtyManage/011/111/111/0000000000011111111.20250923104318.11664078982054632530113858317517:50001231000000:2800:C0DB7AC2067D28B96607BC0D598A48EAF74CA1B7D936B819A36F67CB6E071F30.zip?needInitFileName=true',
-    srcFileList: [
-      'HarmonyOS Sans 字体/HarmonyOS_SansSC/HarmonyOS_SansSC_Thin.ttf',
-      'HarmonyOS Sans 字体/HarmonyOS_SansSC/HarmonyOS_SansSC_Light.ttf',
-      'HarmonyOS Sans 字体/HarmonyOS_SansSC/HarmonyOS_SansSC_Regular.ttf',
-      'HarmonyOS Sans 字体/HarmonyOS_SansSC/HarmonyOS_SansSC_Medium.ttf',
-      'HarmonyOS Sans 字体/HarmonyOS_SansSC/HarmonyOS_SansSC_Semibold.ttf',
-      'HarmonyOS Sans 字体/HarmonyOS_SansSC/HarmonyOS_SansSC_Bold.ttf',
-      'HarmonyOS Sans 字体/HarmonyOS_SansSC/HarmonyOS_SansSC_Black.ttf',
+    files: [
+      {
+        source: 'HarmonyOS Sans 字体/HarmonyOS_SansSC/HarmonyOS_SansSC_Thin.ttf',
+        destination: 'public/fonts/HarmonyOS_Sans_SC/HarmonyOS_SansSC_Thin.ttf',
+      },
+      {
+        source: 'HarmonyOS Sans 字体/HarmonyOS_SansSC/HarmonyOS_SansSC_Light.ttf',
+        destination: 'public/fonts/HarmonyOS_Sans_SC/HarmonyOS_SansSC_Light.ttf',
+      },
+      {
+        source: 'HarmonyOS Sans 字体/HarmonyOS_SansSC/HarmonyOS_SansSC_Regular.ttf',
+        destination: 'public/fonts/HarmonyOS_Sans_SC/HarmonyOS_SansSC_Regular.ttf',
+      },
+      {
+        source: 'HarmonyOS Sans 字体/HarmonyOS_SansSC/HarmonyOS_SansSC_Medium.ttf',
+        destination: 'public/fonts/HarmonyOS_Sans_SC/HarmonyOS_SansSC_Medium.ttf',
+      },
+      {
+        source: 'HarmonyOS Sans 字体/HarmonyOS_SansSC/HarmonyOS_SansSC_Semibold.ttf',
+        destination: 'public/fonts/HarmonyOS_Sans_SC/HarmonyOS_SansSC_Semibold.ttf',
+      },
+      {
+        source: 'HarmonyOS Sans 字体/HarmonyOS_SansSC/HarmonyOS_SansSC_Bold.ttf',
+        destination: 'public/fonts/HarmonyOS_Sans_SC/HarmonyOS_SansSC_Bold.ttf',
+      },
+      {
+        source: 'HarmonyOS Sans 字体/HarmonyOS_SansSC/HarmonyOS_SansSC_Black.ttf',
+        destination: 'public/fonts/HarmonyOS_Sans_SC/HarmonyOS_SansSC_Black.ttf',
+      },
     ],
-    dstDir: 'public/fonts/HarmonyOS_Sans_SC',
   },
   {
     name: '阿里巴巴普惠体 3.0',
     url: 'https://fonts.alibabadesign.com/AlibabaPuHuiTi-3.zip',
-    srcFileList: [
-      'AlibabaPuHuiTi-3/AlibabaPuHuiTi-3-35-Thin/AlibabaPuHuiTi-3-35-Thin.woff2',
-      'AlibabaPuHuiTi-3/AlibabaPuHuiTi-3-45-Light/AlibabaPuHuiTi-3-45-Light.woff2',
-      'AlibabaPuHuiTi-3/AlibabaPuHuiTi-3-55-Regular/AlibabaPuHuiTi-3-55-Regular.woff2',
-      'AlibabaPuHuiTi-3/AlibabaPuHuiTi-3-65-Medium/AlibabaPuHuiTi-3-65-Medium.woff2',
-      'AlibabaPuHuiTi-3/AlibabaPuHuiTi-3-75-SemiBold/AlibabaPuHuiTi-3-75-SemiBold.woff2',
-      'AlibabaPuHuiTi-3/AlibabaPuHuiTi-3-85-Bold/AlibabaPuHuiTi-3-85-Bold.woff2',
-      'AlibabaPuHuiTi-3/AlibabaPuHuiTi-3-95-ExtraBold/AlibabaPuHuiTi-3-95-ExtraBold.woff2',
-      'AlibabaPuHuiTi-3/AlibabaPuHuiTi-3-105-Heavy/AlibabaPuHuiTi-3-105-Heavy.woff2',
-      'AlibabaPuHuiTi-3/AlibabaPuHuiTi-3-115-Black/AlibabaPuHuiTi-3-115-Black.woff2',
+    files: [
+      {
+        source: 'AlibabaPuHuiTi-3/AlibabaPuHuiTi-3-35-Thin/AlibabaPuHuiTi-3-35-Thin.woff2',
+        destination: 'public/fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-35-Thin.woff2',
+      },
+      {
+        source: 'AlibabaPuHuiTi-3/AlibabaPuHuiTi-3-45-Light/AlibabaPuHuiTi-3-45-Light.woff2',
+        destination: 'public/fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-45-Light.woff2',
+      },
+      {
+        source: 'AlibabaPuHuiTi-3/AlibabaPuHuiTi-3-55-Regular/AlibabaPuHuiTi-3-55-Regular.woff2',
+        destination: 'public/fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-55-Regular.woff2',
+      },
+      {
+        source: 'AlibabaPuHuiTi-3/AlibabaPuHuiTi-3-65-Medium/AlibabaPuHuiTi-3-65-Medium.woff2',
+        destination: 'public/fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-65-Medium.woff2',
+      },
+      {
+        source: 'AlibabaPuHuiTi-3/AlibabaPuHuiTi-3-75-SemiBold/AlibabaPuHuiTi-3-75-SemiBold.woff2',
+        destination: 'public/fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-75-SemiBold.woff2',
+      },
+      {
+        source: 'AlibabaPuHuiTi-3/AlibabaPuHuiTi-3-85-Bold/AlibabaPuHuiTi-3-85-Bold.woff2',
+        destination: 'public/fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-85-Bold.woff2',
+      },
+      {
+        source:
+          'AlibabaPuHuiTi-3/AlibabaPuHuiTi-3-95-ExtraBold/AlibabaPuHuiTi-3-95-ExtraBold.woff2',
+        destination: 'public/fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-95-ExtraBold.woff2',
+      },
+      {
+        source: 'AlibabaPuHuiTi-3/AlibabaPuHuiTi-3-105-Heavy/AlibabaPuHuiTi-3-105-Heavy.woff2',
+        destination: 'public/fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-105-Heavy.woff2',
+      },
+      {
+        source: 'AlibabaPuHuiTi-3/AlibabaPuHuiTi-3-115-Black/AlibabaPuHuiTi-3-115-Black.woff2',
+        destination: 'public/fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-115-Black.woff2',
+      },
     ],
-    dstDir: 'public/fonts/Alibaba_PuHuiTi_3.0',
     headers: {
       Referer: 'https://fonts.alibabadesign.com',
     },
@@ -65,17 +114,26 @@ const FONTS: FontConfig[] = [
   {
     name: 'JetBrains Mono',
     url: 'https://download.jetbrains.com/fonts/JetBrainsMono-2.304.zip',
-    srcFileList: [
-      'fonts/variable/JetBrainsMono[wght].ttf',
-      'fonts/variable/JetBrainsMono-Italic[wght].ttf',
+    files: [
+      {
+        source: 'fonts/variable/JetBrainsMono[wght].ttf',
+        destination: 'public/fonts/JetBrains_Mono/JetBrainsMono-wght.ttf',
+      },
+      {
+        source: 'fonts/variable/JetBrainsMono-Italic[wght].ttf',
+        destination: 'public/fonts/JetBrains_Mono/JetBrainsMono-Italic-wght.ttf',
+      },
     ],
-    dstDir: 'public/fonts/JetBrains_Mono',
   },
   {
     name: 'Outfit',
     url: 'https://github.com/Outfitio/Outfit-Fonts/archive/refs/tags/1.1.zip',
-    srcFileList: ['Outfit-Fonts-1.1/fonts/variable/Outfit[wght].ttf'],
-    dstDir: 'public/fonts/Outfit',
+    files: [
+      {
+        source: 'Outfit-Fonts-1.1/fonts/variable/Outfit[wght].ttf',
+        destination: 'public/fonts/Outfit/Outfit-wght.ttf',
+      },
+    ],
   },
 ];
 
@@ -138,15 +196,15 @@ async function extractZip(zipPath: string, destDir: string): Promise<void> {
 }
 
 /**
- * 解压 ZIP 文件并复制指定文件到目标目录
+ * 解压 ZIP 文件并复制指定文件到目标位置
  * @param zipFile - ZIP 文件路径
- * @param srcFileList - 需要从 ZIP 中提取的文件列表（相对于 ZIP 内的路径）
- * @param dstDir - 目标目录
+ * @param files - 需要从 ZIP 中提取的文件映射列表
+ *                   source: ZIP 内的文件路径
+ *                   destination: 相对于项目根目录的目标文件路径
  */
 async function extractAndCopy(
   zipFile: string,
-  srcFileList: string[],
-  dstDir: string,
+  files: { source: string; destination: string }[],
 ): Promise<void> {
   // 创建临时目录
   const tmpDir = join(tmpdir(), `fonts-${Date.now()}`);
@@ -156,21 +214,21 @@ async function extractAndCopy(
     // 解压文件
     await extractZip(zipFile, tmpDir);
 
-    // 确保目标目录存在
-    await mkdir(dstDir, { recursive: true });
-
     // 复制文件
-    for (const srcFile of srcFileList) {
-      const srcPath = join(tmpDir, srcFile);
-      const fileName = basename(srcFile);
-      const dstPath = join(dstDir, fileName);
+    for (const { source, destination } of files) {
+      const srcPath = join(tmpDir, source);
+      const dstPath = resolve(ROOT_DIR, destination);
 
-      if (existsSync(srcPath)) {
-        log(`开始复制: ${srcPath} -> ${dstPath}`);
-        await copyFile(srcPath, dstPath);
-      } else {
+      if (!existsSync(srcPath)) {
         console.error(`未找到文件: ${srcPath}`);
+        continue;
       }
+
+      // 确保目标目录存在
+      await mkdir(dirname(dstPath), { recursive: true });
+
+      log(`开始复制: ${srcPath} -> ${dstPath}`);
+      await copyFile(srcPath, dstPath);
     }
   } finally {
     // 清理临时目录
@@ -186,9 +244,6 @@ async function extractAndCopy(
 async function fetchFont(config: FontConfig): Promise<void> {
   log(`开始处理: ${config.name}`);
 
-  // 将相对路径转换为绝对路径
-  const absoluteDstDir = resolve(ROOT_DIR, config.dstDir);
-
   // 创建临时文件
   const tmpZip = join(tmpdir(), `font-${Date.now()}.zip`);
 
@@ -197,9 +252,9 @@ async function fetchFont(config: FontConfig): Promise<void> {
     await downloadFile(config.url, tmpZip, config.headers);
 
     // 解压并复制
-    await extractAndCopy(tmpZip, config.srcFileList, absoluteDstDir);
+    await extractAndCopy(tmpZip, config.files);
 
-    log(`完成: ${config.name} -> ${absoluteDstDir}`);
+    log(`完成: ${config.name}`);
   } finally {
     // 清理临时文件
     log(`开始删除临时文件: ${tmpZip}`);
