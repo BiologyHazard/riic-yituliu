@@ -33,7 +33,6 @@ async function exportAsImage(): Promise<void> {
     isExporting.value = true;
     const dataUrl = await toPng(exportContainer.value, {
       cacheBust: true,
-      backgroundColor: 'rgb(var(--color-neutral-50))',
     });
 
     await downloadFile(dataUrl, `arknights-riic-skills-${new Date().getTime()}.png`);
