@@ -7,8 +7,10 @@ import { toPng } from 'html-to-image';
 import { computed, ref, useTemplateRef } from 'vue';
 
 const charNameInput = ref<string>('Lancet-2\nCastle-3\nTHRM-EX\n正义骑士号');
-const isExporting = ref<boolean>(false);
+const isExportingAll = ref<boolean>(false);
+const exportIndividualProgress = ref<number | null>(null);
 const exportContainer = useTemplateRef<HTMLElement>('exportContainer');
+const individualContainers = useTemplateRef<HTMLElement[]>('individualContainers');
 
 const charNameList = computed(() =>
   charNameInput.value
@@ -27,10 +29,11 @@ const charIdList = computed(
 );
 
 async function exportAsImage(): Promise<void> {
-  if (!exportContainer.value || isExporting.value) return;
+  if (!exportContainer.value || isExportingAll.value || exportIndividualProgress.value !== null)
+    return;
 
   try {
-    isExporting.value = true;
+    isExportingAll.value = true;
     const dataUrl = await toPng(exportContainer.value, {
       cacheBust: true,
     });
@@ -39,7 +42,38 @@ async function exportAsImage(): Promise<void> {
   } catch (error) {
     console.error('Failed to export image:', error);
   } finally {
-    isExporting.value = false;
+    isExportingAll.value = false;
+  }
+}
+
+async function exportEachAsImage(): Promise<void> {
+  if (
+    !individualContainers.value ||
+    isExportingAll.value ||
+    exportIndividualProgress.value !== null
+  )
+    return;
+
+  try {
+    const total = individualContainers.value.length;
+    const timestamp = new Date().getTime();
+
+    for (let i = 0; i < total; i++) {
+      exportIndividualProgress.value = i + 1;
+      const container = individualContainers.value[i];
+      const charId = charIdList.value[i];
+      if (!container || !charId) continue;
+
+      const dataUrl = await toPng(container, {
+        cacheBust: true,
+      });
+
+      await downloadFile(dataUrl, `arknights-skill-${charId}-${timestamp}.png`);
+    }
+  } catch (error) {
+    console.error('Failed to export individual images:', error);
+  } finally {
+    exportIndividualProgress.value = null;
   }
 }
 </script>
@@ -52,15 +86,30 @@ async function exportAsImage(): Promise<void> {
         <UFormField label="输入干员名称">
           <UTextarea v-model="charNameInput" class="w-full" :rows="6" variant="subtle" />
         </UFormField>
-        <UButton
-          icon="i-lucide-download"
-          label="导出图片"
-          :loading="isExporting"
-          variant="subtle"
-          @click="exportAsImage"
-        />
+        <div class="flex flex-wrap gap-2">
+          <UButton
+            icon="i-lucide-download"
+            label="合并导出"
+            :loading="isExportingAll"
+            variant="subtle"
+            @click="exportAsImage"
+          />
+          <UButton
+            icon="i-lucide-layers"
+            :label="
+              exportIndividualProgress !== null
+                ? `导出中（${exportIndividualProgress}/${charIdList.length}）`
+                : '分别导出'
+            "
+            :loading="exportIndividualProgress !== null"
+            variant="subtle"
+            @click="exportEachAsImage"
+          />
+        </div>
         <div ref="exportContainer" class="w-fit">
-          <RiicSkill v-for="charId in charIdList" :key="charId" :char-id="charId" />
+          <div v-for="charId in charIdList" :key="charId" ref="individualContainers" class="w-fit">
+            <RiicSkill :char-id="charId" />
+          </div>
         </div>
       </UPageBody>
     </UPage>
