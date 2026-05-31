@@ -3,5 +3,5 @@
 
 @theme {
   --font-sans: 'HarmonyOS Sans SC', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace, var(--font-sans);
+  --font-mono: 'JetBrains Mono', 'HarmonyOS Sans SC', monospace;
 }
