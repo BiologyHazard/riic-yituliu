@@ -220,8 +220,7 @@ async function extractAndCopy(
       const dstPath = resolve(ROOT_DIR, destination);
 
       if (!existsSync(srcPath)) {
-        console.error(`未找到文件: ${srcPath}`);
-        continue;
+        throw new Error(`ZIP 内未找到配置的源文件: ${srcPath}（目标: ${destination}）`);
       }
 
       // 确保目标目录存在
