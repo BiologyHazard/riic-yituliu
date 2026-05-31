@@ -1,4 +1,5 @@
 import type { Album, PlayMode, Song, SongDetail } from '@/types/monsterSiren';
+import { downloadFile } from '@/utils/file';
 import type { ComputedRef, Ref } from 'vue';
 import { computed, nextTick, ref } from 'vue';
 
@@ -205,15 +206,8 @@ export function useMusicPlayer(
       alert('无法获取下载链接');
       return;
     }
-    const a = document.createElement('a');
-    a.href = detail.sourceUrl;
     const ext = detail.sourceUrl.split('.').pop()?.split('?')[0] ?? 'wav';
-    a.download = `${song.name}.${ext}`;
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    await downloadFile(detail.sourceUrl, `${song.name}.${ext}`);
   }
 
   function closePlayer() {
