@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { downloadFile } from '@/utils/file';
+import { itemValues, type ItemValue } from '@/utils/itemValue';
 import { computed, ref } from 'vue';
 import defaultItems from '@/assets/json/item.json';
-import { itemValues, type ItemValue } from '@/utils/itemValue';
 
 // 搜索和过滤
 const searchQuery = ref<string>('');
@@ -86,15 +87,9 @@ function exportJson() {
   const data = JSON.stringify(itemValues.value, null, 2);
   const blob = new Blob([data], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'item.json';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  setTimeout(() => {
+  downloadFile(url, 'item.json').then(() => {
     URL.revokeObjectURL(url);
-  }, 0);
+  });
 }
 
 // 重置到默认

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import RiicSkill from '@/components/riic/BaseSkill.vue';
 import { getCharIdByName } from '@/utils/character';
+import { downloadFile } from '@/utils/file';
 import { gameData } from '@/utils/gameData';
 import { toPng } from 'html-to-image';
 import { computed, ref, useTemplateRef } from 'vue';
@@ -35,10 +36,7 @@ async function exportAsImage(): Promise<void> {
       backgroundColor: 'rgb(var(--color-neutral-50))',
     });
 
-    const link = document.createElement('a');
-    link.download = `arknights-riic-skills-${new Date().getTime()}.png`;
-    link.href = dataUrl;
-    link.click();
+    await downloadFile(dataUrl, `arknights-riic-skills-${new Date().getTime()}.png`);
   } catch (error) {
     console.error('Failed to export image:', error);
   } finally {

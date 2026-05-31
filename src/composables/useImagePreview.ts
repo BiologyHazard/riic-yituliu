@@ -5,6 +5,7 @@ import { computed, nextTick, ref, watch } from 'vue';
 
 import { useAnimateWhenever } from '@/composables/useAnimateWhenever';
 import { useImagePreviewScale } from '@/composables/useImagePreviewScale';
+import { downloadFile } from '@/utils/file';
 
 export type Point2D = {
   x: number;
@@ -266,52 +267,7 @@ export function useImagePreview(overlayRef: Ref<HTMLElement | null>) {
   async function download(): Promise<void> {
     if (!preview.value) return;
     const { url, downloadName } = preview.value;
-
-    function triggerDownload(href: string) {
-      const a = document.createElement('a');
-      a.href = href;
-      a.download = downloadName;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }
-
-    // blob: / data: URL 可直接触发下载，无需重新 fetch
-    if (url.startsWith('blob:') || url.startsWith('data:')) {
-      triggerDownload(url);
-      return;
-    }
-
-    // 同源 URL：直接设置 download 属性即可，浏览器会处理下载
-    const isSameOrigin = (() => {
-      try {
-        return new URL(url, location.href).origin === location.origin;
-      } catch {
-        return true; // URL 构造失败时认为是同源，交由浏览器处理，浏览器会根据实际情况决定是否允许下载
-      }
-    })();
-
-    if (isSameOrigin) {
-      triggerDownload(url);
-      return;
-    }
-
-    // 跨域：download 属性会被浏览器忽略，需 fetch 转为 blob URL 再触发
-    try {
-      const res = await fetch(url, { referrerPolicy: 'no-referrer' });
-      if (!res.ok) {
-        throw new Error(`Failed to fetch image for download: ${res.status} ${res.statusText}`);
-      }
-      const blob = await res.blob();
-      const objectUrl = URL.createObjectURL(blob);
-      triggerDownload(objectUrl);
-      setTimeout(() => {
-        URL.revokeObjectURL(objectUrl);
-      }, 0);
-    } catch {
-      // fetch 失败时回退到新标签页打开
-      window.open(url, '_blank', 'noopener,noreferrer');
-    }
+    await downloadFile(url, downloadName);
   }
 
   /** 放大图像 */

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import RiicSchedule from '@/components/riic/RiicSchedule.vue';
+import { downloadFile } from '@/utils/file';
 import { parseSchedule } from '@/utils/riic/parseScheduleInput';
+import { toPng } from 'html-to-image';
 import { computed, ref, useTemplateRef } from 'vue';
 
 // 导入预设排班表
@@ -32,12 +34,30 @@ const rawInput = ref<string>(exampleInput);
 /**
  * 解析后的数据
  */
-const data = computed(() => parseSchedule(rawInput.value || ''));
+const data = computed(() => parseSchedule(rawInput.value));
 
 const textareaRef = useTemplateRef('textareaRef');
 const outputPanelRef = useTemplateRef('outputPanelRef');
-const overflowRef = ref<'auto' | 'visible'>('auto');
+const previewWidthMode = ref<'fixed' | 'fit'>('fixed');
 const zoomRef = ref<number>(1);
+const isExporting = ref<boolean>(false);
+
+async function exportAsImage(): Promise<void> {
+  if (!outputPanelRef.value || isExporting.value) return;
+
+  try {
+    isExporting.value = true;
+    const dataUrl = await toPng(outputPanelRef.value, {
+      cacheBust: true,
+    });
+
+    await downloadFile(dataUrl, `arknights-schedule-${new Date().getTime()}.png`);
+  } catch (error) {
+    console.error('Failed to export image:', error);
+  } finally {
+    isExporting.value = false;
+  }
+}
 </script>
 
 <template>
@@ -94,12 +114,12 @@ const zoomRef = ref<number>(1);
           <template #preview>
             <div class="mbe-4 flex flex-wrap gap-2">
               <UTabs
-                v-model="overflowRef"
+                v-model="previewWidthMode"
                 color="neutral"
                 :content="false"
                 :items="[
-                  { label: '滚动', value: 'auto' },
-                  { label: '溢出', value: 'visible' },
+                  { label: '滚动', value: 'fixed' },
+                  { label: '溢出', value: 'fit' },
                 ]"
                 :ui="{ list: 'ring ring-inset ring-accented' }"
                 variant="pill"
@@ -126,9 +146,26 @@ const zoomRef = ref<number>(1);
                 @click="outputPanelRef?.requestFullscreen()"
                 >全屏预览排班表</UButton
               >
+
+              <UButton
+                class="rounded-lg"
+                color="neutral"
+                icon="i-lucide-download"
+                label="导出图片"
+                :loading="isExporting"
+                variant="subtle"
+                @click="exportAsImage"
+              />
             </div>
 
-            <div ref="outputPanelRef" :style="{ overflow: overflowRef }">
+            <div
+              ref="outputPanelRef"
+              class="overflow-auto"
+              :class="{
+                'w-fit': previewWidthMode === 'fit',
+                'w-full': previewWidthMode === 'fixed',
+              }"
+            >
               <RiicSchedule :style="{ zoom: zoomRef }" v-bind="data" />
             </div>
           </template>
