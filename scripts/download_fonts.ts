@@ -172,8 +172,7 @@ async function downloadFile(
 
   const fileStream = createWriteStream(destPath);
   // 将 Web ReadableStream 转换为 Node.js Readable
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  await pipeline(Readable.fromWeb(response.body as any), fileStream);
+  await pipeline(Readable.fromWeb(response.body), fileStream);
 
   log(`完成下载: ${url} -> ${destPath}`);
 }
