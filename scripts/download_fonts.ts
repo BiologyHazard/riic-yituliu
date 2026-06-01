@@ -117,11 +117,11 @@ const FONTS: FontConfig[] = [
     files: [
       {
         source: 'fonts/variable/JetBrainsMono[wght].ttf',
-        destination: 'public/fonts/JetBrains_Mono/JetBrainsMono-wght.ttf',
+        destination: 'public/fonts/JetBrains_Mono/JetBrainsMono[wght].ttf',
       },
       {
         source: 'fonts/variable/JetBrainsMono-Italic[wght].ttf',
-        destination: 'public/fonts/JetBrains_Mono/JetBrainsMono-Italic-wght.ttf',
+        destination: 'public/fonts/JetBrains_Mono/JetBrainsMono-Italic[wght].ttf',
       },
     ],
   },
@@ -131,7 +131,7 @@ const FONTS: FontConfig[] = [
     files: [
       {
         source: 'Outfit-Fonts-1.1/fonts/variable/Outfit[wght].ttf',
-        destination: 'public/fonts/Outfit/Outfit-wght.ttf',
+        destination: 'public/fonts/Outfit/Outfit[wght].ttf',
       },
     ],
   },
