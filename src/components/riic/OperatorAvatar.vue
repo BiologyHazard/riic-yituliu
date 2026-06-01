@@ -110,8 +110,8 @@ const avatarUrl = computed(() => {
 
 .operator-avatar img {
   position: absolute;
-  user-select: none;
-  pointer-events: none;
+  // user-select: none;
+  // pointer-events: none;
 }
 
 .background-image {
