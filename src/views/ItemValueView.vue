@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { downloadFile } from '@/utils/file';
-import { itemValues, type ItemValue } from '@/utils/itemValue';
+import { ensureExpEntry, itemValues, type ItemValue } from '@/utils/itemValue';
 import { computed, ref } from 'vue';
 import defaultItems from '@/assets/json/item.json';
 
@@ -63,6 +63,7 @@ async function handleFileUpload(event: Event): Promise<void> {
     const importedData = JSON.parse(text);
     const cleanedData = validateAndCleanData(importedData);
     itemValues.value = cleanedData;
+    ensureExpEntry();
     alert('导入成功！');
   } catch (err) {
     alert('解析失败：' + (err instanceof Error ? err.message : err));
@@ -75,6 +76,7 @@ function handlePasteImport() {
     const importedData = JSON.parse(pasteInput.value);
     const cleanedData = validateAndCleanData(importedData);
     itemValues.value = cleanedData;
+    ensureExpEntry();
     pasteInput.value = '';
     alert('导入成功！');
   } catch (err) {
@@ -96,6 +98,7 @@ function exportJson() {
 function resetToDefault() {
   if (confirm('确定要重置所有物品价值到默认值吗？')) {
     itemValues.value = JSON.parse(JSON.stringify(defaultItems));
+    ensureExpEntry();
   }
 }
 </script>
