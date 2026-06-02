@@ -47,9 +47,6 @@ export function ensureExpEntry(): void {
   }
 }
 
-// 模块初始化时确保 EXP 条目存在
-ensureExpEntry();
-
 /**
  * 获取指定物品的 AP 价值
  */
