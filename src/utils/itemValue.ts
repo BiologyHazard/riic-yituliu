@@ -24,6 +24,33 @@ const itemValueMap = computed<Map<string, number>>(() => {
 });
 
 /**
+ * 确保 EXP 虚拟物品存在于价值列表中。
+ * 根据「基础作战记录」(2001) 的理智价值自动推算 exp 的 AP 价值。
+ * 在导入 JSON 后或初始化时调用。
+ */
+export function ensureExpEntry(): void {
+  const battleRecord = itemValues.value.find((item) => item.id === '2001');
+  if (!battleRecord || battleRecord.apValue <= 0) return;
+
+  const expApValue = battleRecord.apValue / 200;
+  const existingIndex = itemValues.value.findIndex((item) => item.id === 'exp');
+
+  if (existingIndex >= 0 && itemValues.value[existingIndex]) {
+    itemValues.value[existingIndex].apValue = expApValue;
+  } else {
+    itemValues.value.push({
+      id: 'exp',
+      name: 'EXP',
+      apValue: expApValue,
+      rarity: 0,
+    });
+  }
+}
+
+// 模块初始化时确保 EXP 条目存在
+ensureExpEntry();
+
+/**
  * 获取指定物品的 AP 价值
  */
 export function getItemApValue(itemId: string): number {
