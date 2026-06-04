@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { downloadFile } from '@/utils/file';
-import { ensureExpEntry, itemValues, type ItemValue } from '@/utils/itemValue';
-import { computed, ref } from 'vue';
 import defaultItems from '@/assets/json/item.json';
+import { downloadFile } from '@/utils/file';
+import type { ItemValue } from '@/utils/itemValue';
+import { ensureExpEntry, itemValues } from '@/utils/itemValue';
+import { computed, ref } from 'vue';
 
 // 搜索和过滤
 const searchQuery = ref<string>('');
@@ -88,10 +89,7 @@ function handlePasteImport() {
 function exportJson() {
   const data = JSON.stringify(itemValues.value, null, 2);
   const blob = new Blob([data], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  downloadFile(url, 'item.json').then(() => {
-    URL.revokeObjectURL(url);
-  });
+  return downloadFile(blob, 'item.json');
 }
 
 // 重置到默认
