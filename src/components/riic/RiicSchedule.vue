@@ -4,12 +4,11 @@ import Station from '@/components/riic/RiicStation.vue';
 import type { ScheduleType } from '@/types/riic';
 import type { ColorInstance } from 'color';
 import Color from 'color';
-import { nextTick, onMounted, ref, watch } from 'vue';
+import { nextTick, onMounted, useTemplateRef, watch } from 'vue';
 
 const props = defineProps<ScheduleType>();
 
-const contentContainerElement = ref<HTMLDivElement | null>(null);
-const contentElement = ref<HTMLDivElement | null>(null);
+const contentElement = useTemplateRef('contentElement');
 
 interface itemInfo {
   imageUrl: string;
@@ -41,15 +40,14 @@ const itemInfoMap: Record<string, itemInfo> = {
   },
 };
 
-function adjustContentZoom() {
-  if (contentContainerElement.value && contentElement.value) {
+async function adjustContentZoom() {
+  if (contentElement.value) {
     contentElement.value.style.zoom = '1';
-    nextTick(() => {
-      const scaleX = (2160 * 0.95) / contentContainerElement.value!.clientWidth;
-      const scaleY = (920 * 0.95) / contentContainerElement.value!.clientHeight;
-      const scale = Math.min(scaleX, scaleY, 1);
-      contentElement.value!.style.zoom = scale.toString();
-    });
+    await nextTick();
+    const scaleX = (2160 * 0.95) / contentElement.value.clientWidth;
+    const scaleY = (920 * 0.95) / contentElement.value.clientHeight;
+    const scale = Math.min(scaleX, scaleY, 1);
+    contentElement.value!.style.zoom = scale.toString();
   }
 }
 
@@ -120,7 +118,7 @@ watch(props, () => {
     </div>
 
     <!-- 排班表内容 -->
-    <div ref="contentContainerElement" class="schedule-content-container">
+    <div class="schedule-content-container">
       <div ref="contentElement" class="schedule-content">
         <div v-for="(stationLine, lineIndex) in props.lines" :key="lineIndex" class="schedule-line">
           <div class="queue-descriptions">
@@ -148,13 +146,14 @@ watch(props, () => {
 
 <style scoped lang="scss">
 .schedule {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  isolation: isolate; // 创建新的堆叠上下文，确保子元素的 z-index 不受外部影响
   width: 2160px;
   height: 1080px;
+  display: flex;
+  flex-direction: column;
   position: relative;
   overflow: hidden;
+  background-color: black;
   user-select: none; // 禁止选中
   pointer-events: none; // 禁止交互
 }
@@ -273,17 +272,16 @@ watch(props, () => {
 }
 
 .schedule-content-container {
-  margin: auto;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .schedule-content {
   display: flex;
   flex-direction: column;
   gap: 40px;
-  position: relative;
-  // zoom: 0.48;
-  // transform: scale(0.48) translate(-50%, -50%);
-  transform-origin: center;
 }
 
 .schedule-line {
@@ -301,7 +299,6 @@ watch(props, () => {
 }
 
 .queue-description {
-  margin: 20px 0;
   font-family: 'HarmonyOS Sans SC', sans-serif;
   font-size: 50px;
   line-height: 1.3em;

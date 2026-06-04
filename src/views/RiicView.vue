@@ -3,7 +3,7 @@ import RiicSchedule from '@/components/riic/RiicSchedule.vue';
 import { downloadFile } from '@/utils/file';
 import { parseSchedule } from '@/utils/riic/parseScheduleInput';
 import { toPng } from 'html-to-image';
-import { computed, ref, useTemplateRef } from 'vue';
+import { computed, nextTick, ref, useTemplateRef } from 'vue';
 
 // 导入预设排班表
 /**
@@ -43,20 +43,25 @@ const zoomRef = ref<number>(1);
 const isExporting = ref<boolean>(false);
 
 async function exportAsImage(): Promise<void> {
-  if (!outputPanelRef.value || isExporting.value) return;
+  if (!outputPanelRef.value || isExporting.value) {
+    return;
+  }
+
+  isExporting.value = true;
+  const previousPreviewWidthMode = previewWidthMode.value;
+  previewWidthMode.value = 'fit';
+  await nextTick();
 
   try {
-    isExporting.value = true;
-    const dataUrl = await toPng(outputPanelRef.value, {
-      cacheBust: true,
-    });
+    const dataUrl = await toPng(outputPanelRef.value, { pixelRatio: 1 });
 
     await downloadFile(dataUrl, `arknights-schedule-${new Date().getTime()}.png`);
   } catch (error) {
     console.error('Failed to export image:', error);
-  } finally {
-    isExporting.value = false;
   }
+
+  previewWidthMode.value = previousPreviewWidthMode;
+  isExporting.value = false;
 }
 </script>
 
