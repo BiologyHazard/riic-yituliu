@@ -150,6 +150,14 @@ export function getProfessionName(professionIdOrName: string): string {
   return professionMap.get(professionIdOrName) ?? professionIdOrName;
 }
 
+export function getCharProfessionName(charId: string): string | undefined {
+  const professionId = getCharProfessionId(charId);
+  if (professionId === undefined) {
+    return undefined;
+  }
+  return professionMap.get(professionId);
+}
+
 export function isPatchChar(charId: string): boolean {
   return !!gameData.value && charId in gameData.value.charPatchTable.patchChars;
 }

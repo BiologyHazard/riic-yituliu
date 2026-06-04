@@ -1,5 +1,4 @@
 export interface CharDataType {
-  charId: string;
   displayName: string;
   eliteLevel: number | null;
   isTired: boolean;

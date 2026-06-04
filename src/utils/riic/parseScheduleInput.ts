@@ -9,7 +9,6 @@ import {
   type StationType,
   type StatItem,
 } from '@/types/riic';
-import { getCharIdByName } from '@/utils/character';
 
 /**
  * @example
@@ -46,10 +45,10 @@ function parseQueueDescriptions(s: string): string[] {
 /**
  * @example
  * Input: '能天使1'
- * Output: { charId: 'char_103_angel', displayName: '能天使', eliteLevel: 1, isTired: false }
+ * Output: { displayName: '能天使', eliteLevel: 1, isTired: false }
  * @example
  * Input: 'Lancet-20!'
- * Output: { charId: 'char_285_medic2', displayName: 'Lancet-2', eliteLevel: 0, isTired: true }
+ * Output: { displayName: 'Lancet-2', eliteLevel: 0, isTired: true }
  */
 function parseOperator(s: string): CharDataType {
   s = s.trim();
@@ -62,8 +61,7 @@ function parseOperator(s: string): CharDataType {
     s = s.slice(0, -1);
   }
   const displayName = s;
-  const charId = getCharIdByName(displayName) ?? '';
-  return { charId, displayName, eliteLevel, isTired };
+  return { displayName, eliteLevel, isTired };
 }
 
 /**
@@ -71,8 +69,8 @@ function parseOperator(s: string): CharDataType {
  * Input: '能天使1 Lancet-20! | 说明文字'
  * Output: {
  *     operators: [
- *         { charId: 'char_103_angel', displayName: '能天使', eliteLevel: 1, isTired: false },
- *         { charId: 'char_285_medic2', displayName: 'Lancet-2', eliteLevel: 0, isTired: true },
+ *         { displayName: '能天使', eliteLevel: 1, isTired: false },
+ *         { displayName: 'Lancet-2', eliteLevel: 0, isTired: true },
  *     ],
  *     description: '说明文字',
  * }

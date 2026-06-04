@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import { getCharProfessionName, getCharRarity } from '@/utils/character';
 import { getAvatarUrl } from '@/utils/dataSources';
-import { getCharProfessionId, getCharRarity, getProfessionName } from '@/utils/character';
 import { getPrtsWikiMediaUrl } from '@/utils/prtsWiki';
 import { computed } from 'vue';
 
 interface OperatorAvatarProps {
-  charId: string; // 干员 ID
+  charId?: string; // 干员 ID
+  charName?: string; // 干员显示名称
   eliteLevel?: number; // 精英化等级，0/1/2，默认为 0（可选）
   isTired?: boolean; // 是否注意力涣散（可选）
   rarity?: number; // 稀有度（可选）
@@ -17,6 +18,8 @@ interface OperatorAvatarProps {
 }
 
 const props = withDefaults(defineProps<OperatorAvatarProps>(), {
+  charId: undefined,
+  charName: undefined,
   eliteLevel: 0,
   isTired: false,
   rarity: undefined,
@@ -28,35 +31,55 @@ const props = withDefaults(defineProps<OperatorAvatarProps>(), {
 });
 
 /** 精英阶段角标 URL */
-const eliteUrl = computed(
+const eliteUrl = computed<string>(
   () => `https://torappu.prts.wiki/assets/elite_icon/elite_${props.eliteLevel}_large.png`,
 );
 
 /** 职业名称 */
-const professionName = computed(() => {
-  const professionId = props.profession ?? getCharProfessionId(props.charId);
-  return getProfessionName(professionId ?? '');
+const professionName = computed<string | undefined>(() => {
+  if (props.profession !== undefined) {
+    return props.profession;
+  }
+  if (props.charId !== undefined) {
+    return getCharProfessionName(props.charId);
+  }
+  return undefined;
 });
 
 /** 职业角标 URL */
-const professionUrl = computed(() => {
+const professionUrl = computed<string | undefined>(() => {
+  if (professionName.value === undefined) {
+    return undefined;
+  }
   const fileName = `图标_职业_${professionName.value}.png`;
   const url = getPrtsWikiMediaUrl(fileName);
   return url;
 });
 
 /** 稀有度 */
-const rarity = computed(() => {
-  return props.rarity ?? getCharRarity(props.charId) ?? 0;
+const rarity = computed<number | undefined>(() => {
+  if (props.rarity !== undefined) {
+    return props.rarity;
+  }
+  if (props.charId !== undefined) {
+    return getCharRarity(props.charId);
+  }
+  return undefined;
 });
 
 /** 稀有度角标 URL */
-const rarityUrl = computed(
-  () => `https://torappu.prts.wiki/assets/rarity_icon/rarity_yellow_${rarity.value}.png`,
-);
+const rarityUrl = computed<string | undefined>(() => {
+  if (rarity.value === undefined) {
+    return undefined;
+  }
+  return `https://torappu.prts.wiki/assets/rarity_icon/rarity_yellow_${rarity.value}.png`;
+});
 
 /** 头像 URL */
-const avatarUrl = computed(() => {
+const avatarUrl = computed<string | undefined>(() => {
+  if (props.charId === undefined) {
+    return undefined;
+  }
   return getAvatarUrl(props.charId, props.eliteLevel);
 });
 </script>
@@ -71,14 +94,15 @@ const avatarUrl = computed(() => {
       src="@/assets/images/riic/基建解析UI_干员头像底图_180x180_2510101215_BioHazard.webp"
     />
     <img
-      :alt="`头像_${props.charId}`"
+      v-if="avatarUrl"
+      :alt="`头像_${props.charName}`"
       class="avatar"
       referrerpolicy="no-referrer"
       :src="avatarUrl"
     />
     <div v-if="isTired" class="tired"></div>
     <img
-      v-if="showProfession"
+      v-if="showProfession && professionUrl"
       :alt="`图标_职业_${professionName}`"
       class="profession"
       referrerpolicy="no-referrer"
@@ -92,7 +116,7 @@ const avatarUrl = computed(() => {
       :src="eliteUrl"
     />
     <img
-      v-if="showRarity"
+      v-if="showRarity && rarityUrl"
       :alt="`稀有度_黄_${rarity}`"
       class="rarity"
       referrerpolicy="no-referrer"

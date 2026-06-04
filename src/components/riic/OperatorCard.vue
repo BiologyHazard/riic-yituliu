@@ -2,12 +2,15 @@
 import OperatorAvatar from '@/components/riic/OperatorAvatar.vue';
 import type { CharDataType } from '@/types/riic';
 import { updateText } from '@/utils/autoFontSizing';
-import { useTemplateRef, watch } from 'vue';
+import { getCharIdByName } from '@/utils/character';
+import { computed, useTemplateRef, watch } from 'vue';
 
 const props = defineProps<CharDataType>();
 
 const operatorNameContainerRef = useTemplateRef<HTMLElement>('operatorNameContainerRef');
 const operatorNameRef = useTemplateRef<HTMLElement>('operatorNameRef');
+
+const charId = computed<string | undefined>(() => getCharIdByName(props.displayName));
 
 watch([props, operatorNameRef], () => {
   if (operatorNameRef.value) {
@@ -25,7 +28,8 @@ watch([props, operatorNameRef], () => {
   <div class="operator-card">
     <div class="avatar-container">
       <OperatorAvatar
-        :char-id="props.charId"
+        :char-id="charId"
+        :char-name="props.displayName"
         :elite-level="props.eliteLevel ?? 0"
         :is-tired="props.isTired"
         show-background-image
