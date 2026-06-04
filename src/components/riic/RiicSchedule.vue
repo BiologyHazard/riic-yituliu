@@ -299,6 +299,7 @@ watch(props, () => {
 }
 
 .queue-description {
+  margin-block: 20px;
   font-family: 'HarmonyOS Sans SC', sans-serif;
   font-size: 50px;
   line-height: 1.3em;

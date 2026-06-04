@@ -71,6 +71,7 @@ const isQualityEnabled = computed<boolean>(
 const cachedFontEmbedCSS = ref<string | null>(null);
 const sharedOptions = computed(() => ({
   pixelRatio: exportPixelRatio.value,
+  preferredFontFormat: 'woff2' as const,
   fontEmbedCSS: cachedFontEmbedCSS.value ?? undefined,
 }));
 
@@ -80,13 +81,17 @@ async function exportAsImage(): Promise<void> {
   }
 
   isExporting.value = true;
-  const previousPreviewWidthMode = previewWidthMode.value;
-  const previousZoom = zoomRef.value;
-  previewWidthMode.value = 'fit';
-  zoomRef.value = 1;
-  await nextTick();
+
+  let previousPreviewWidthMode: 'fixed' | 'fit';
+  let previousZoom: number;
 
   try {
+    previousPreviewWidthMode = previewWidthMode.value;
+    previousZoom = zoomRef.value;
+    previewWidthMode.value = 'fit';
+    zoomRef.value = 1;
+    await nextTick();
+
     // 首次导出时预计算字体嵌入 CSS
     if (!cachedFontEmbedCSS.value) {
       cachedFontEmbedCSS.value = await getFontEmbedCSS(outputPanelRef.value);
@@ -111,11 +116,11 @@ async function exportAsImage(): Promise<void> {
     }
   } catch (error) {
     console.error('Failed to export image:', error);
+  } finally {
+    previewWidthMode.value = previousPreviewWidthMode!;
+    zoomRef.value = previousZoom!;
+    isExporting.value = false;
   }
-
-  previewWidthMode.value = previousPreviewWidthMode;
-  zoomRef.value = previousZoom;
-  isExporting.value = false;
 }
 </script>
 
