@@ -2,7 +2,7 @@
 import RiicSchedule from '@/components/riic/RiicSchedule.vue';
 import { downloadFile } from '@/utils/file';
 import { parseSchedule } from '@/utils/riic/parseScheduleInput';
-import { toPng } from 'html-to-image';
+import { toCanvas, toSvg } from 'html-to-image';
 import { computed, nextTick, ref, useTemplateRef } from 'vue';
 
 // 导入预设排班表
@@ -42,6 +42,29 @@ const previewWidthMode = ref<'fixed' | 'fit'>('fixed');
 const zoomRef = ref<number>(1);
 const isExporting = ref<boolean>(false);
 
+// 导出选项
+const exportFormat = ref<'webp' | 'png' | 'jpeg' | 'svg'>('webp');
+const exportQuality = ref<number>(75);
+const exportPixelRatio = ref<number>(1);
+
+const mimeTypeMap: Record<string, string> = {
+  webp: 'image/webp',
+  png: 'image/png',
+  jpeg: 'image/jpeg',
+  svg: 'image/svg+xml',
+};
+
+const fileExtensionMap: Record<string, string> = {
+  webp: 'webp',
+  png: 'png',
+  jpeg: 'jpg',
+  svg: 'svg',
+};
+
+const isQualityEnabled = computed<boolean>(
+  () => exportFormat.value === 'webp' || exportFormat.value === 'jpeg',
+);
+
 async function exportAsImage(): Promise<void> {
   if (!outputPanelRef.value || isExporting.value) {
     return;
@@ -49,18 +72,41 @@ async function exportAsImage(): Promise<void> {
 
   isExporting.value = true;
   const previousPreviewWidthMode = previewWidthMode.value;
+  const previousZoom = zoomRef.value;
   previewWidthMode.value = 'fit';
+  zoomRef.value = 1;
   await nextTick();
 
   try {
-    const dataUrl = await toPng(outputPanelRef.value, { pixelRatio: 1 });
+    const timestamp = new Date().getTime();
+    const ext = fileExtensionMap[exportFormat.value];
 
-    await downloadFile(dataUrl, `arknights-schedule-${new Date().getTime()}.png`);
+    if (exportFormat.value === 'svg') {
+      const svgDataUrl = await toSvg(outputPanelRef.value, {
+        pixelRatio: exportPixelRatio.value,
+      });
+      await downloadFile(svgDataUrl, `arknights-schedule-${timestamp}.${ext}`);
+    } else {
+      const canvas = await toCanvas(outputPanelRef.value, {
+        pixelRatio: exportPixelRatio.value,
+      });
+      const quality = exportFormat.value !== 'png' ? exportQuality.value / 100 : undefined;
+      const blob = await new Promise<Blob | null>((resolve) =>
+        canvas.toBlob(resolve, mimeTypeMap[exportFormat.value], quality),
+      );
+      if (!blob) {
+        throw new Error('Failed to create image blob');
+      }
+      const url = URL.createObjectURL(blob);
+      await downloadFile(url, `arknights-schedule-${timestamp}.${ext}`);
+      URL.revokeObjectURL(url);
+    }
   } catch (error) {
     console.error('Failed to export image:', error);
   }
 
   previewWidthMode.value = previousPreviewWidthMode;
+  zoomRef.value = previousZoom;
   isExporting.value = false;
 }
 </script>
@@ -152,15 +198,81 @@ async function exportAsImage(): Promise<void> {
                 >全屏预览排班表</UButton
               >
 
-              <UButton
-                class="rounded-lg"
-                color="neutral"
-                icon="i-lucide-download"
-                label="导出图片"
-                :loading="isExporting"
-                variant="subtle"
-                @click="exportAsImage"
-              />
+              <UFieldGroup>
+                <UButton
+                  class="rounded-lg"
+                  color="neutral"
+                  icon="i-lucide-download"
+                  label="导出图片"
+                  :loading="isExporting"
+                  variant="subtle"
+                  @click="exportAsImage"
+                />
+
+                <UPopover
+                  :content="{
+                    align: 'center',
+                    side: 'bottom',
+                    sideOffset: 8,
+                  }"
+                >
+                  <UButton
+                    class="rounded-lg"
+                    color="neutral"
+                    :disabled="isExporting"
+                    icon="i-lucide-chevron-down"
+                    variant="subtle"
+                  />
+
+                  <template #content>
+                    <div class="flex flex-col gap-4 p-4" style="min-width: 220px">
+                      <UFormField label="导出格式">
+                        <UTabs
+                          v-model="exportFormat"
+                          color="neutral"
+                          :content="false"
+                          :items="[
+                            { label: 'WebP', value: 'webp' },
+                            { label: 'PNG', value: 'png' },
+                            { label: 'JPEG', value: 'jpeg' },
+                            { label: 'SVG', value: 'svg' },
+                          ]"
+                          :ui="{ list: 'ring ring-inset ring-accented' }"
+                          variant="pill"
+                        />
+                      </UFormField>
+
+                      <UFormField :hint="`${exportQuality}%`" label="图片质量">
+                        <USlider
+                          v-model="exportQuality"
+                          :disabled="!isQualityEnabled"
+                          :max="100"
+                          :min="1"
+                          :step="1"
+                          tooltip
+                        />
+                      </UFormField>
+
+                      <UFormField label="图片大小">
+                        <UTabs
+                          v-model="exportPixelRatio"
+                          color="neutral"
+                          :content="false"
+                          :items="[
+                            { label: '0.5x', value: 0.5 },
+                            { label: '1x', value: 1 },
+                            { label: '2x', value: 2 },
+                            { label: '3x', value: 3 },
+                            { label: '4x', value: 4 },
+                          ]"
+                          :ui="{ list: 'ring ring-inset ring-accented' }"
+                          variant="pill"
+                        />
+                      </UFormField>
+                    </div>
+                  </template>
+                </UPopover>
+              </UFieldGroup>
             </div>
 
             <div
