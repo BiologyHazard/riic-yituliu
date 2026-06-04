@@ -68,11 +68,10 @@ const isQualityEnabled = computed<boolean>(
 /**
  * 缓存字体嵌入 CSS，避免每次导出都重新下载和编码字体
  */
-let cachedFontEmbedCSS: string | null = null;
+const cachedFontEmbedCSS = ref<string | null>(null);
 const sharedOptions = computed(() => ({
   pixelRatio: exportPixelRatio.value,
-  preferredFontFormat: 'woff2' as const,
-  fontEmbedCSS: cachedFontEmbedCSS ?? undefined,
+  fontEmbedCSS: cachedFontEmbedCSS.value ?? undefined,
 }));
 
 async function exportAsImage(): Promise<void> {
@@ -89,8 +88,8 @@ async function exportAsImage(): Promise<void> {
 
   try {
     // 首次导出时预计算字体嵌入 CSS
-    if (!cachedFontEmbedCSS) {
-      cachedFontEmbedCSS = await getFontEmbedCSS(outputPanelRef.value);
+    if (!cachedFontEmbedCSS.value) {
+      cachedFontEmbedCSS.value = await getFontEmbedCSS(outputPanelRef.value);
     }
 
     const timestamp = new Date().getTime();
