@@ -2,7 +2,7 @@
 import RiicSchedule from '@/components/riic/RiicSchedule.vue';
 import { downloadFile } from '@/utils/file';
 import { parseSchedule } from '@/utils/riic/parseScheduleInput';
-import { toCanvas, toSvg } from 'html-to-image';
+import { getFontEmbedCSS, toCanvas, toSvg } from 'html-to-image';
 import { computed, nextTick, ref, useTemplateRef } from 'vue';
 
 // 导入预设排班表
@@ -65,6 +65,16 @@ const isQualityEnabled = computed<boolean>(
   () => exportFormat.value === 'webp' || exportFormat.value === 'jpeg',
 );
 
+/**
+ * 缓存字体嵌入 CSS，避免每次导出都重新下载和编码字体
+ */
+let cachedFontEmbedCSS: string | null = null;
+const sharedOptions = computed(() => ({
+  pixelRatio: exportPixelRatio.value,
+  preferredFontFormat: 'woff2' as const,
+  fontEmbedCSS: cachedFontEmbedCSS ?? undefined,
+}));
+
 async function exportAsImage(): Promise<void> {
   if (!outputPanelRef.value || isExporting.value) {
     return;
@@ -78,18 +88,19 @@ async function exportAsImage(): Promise<void> {
   await nextTick();
 
   try {
+    // 首次导出时预计算字体嵌入 CSS
+    if (!cachedFontEmbedCSS) {
+      cachedFontEmbedCSS = await getFontEmbedCSS(outputPanelRef.value);
+    }
+
     const timestamp = new Date().getTime();
     const ext = fileExtensionMap[exportFormat.value];
 
     if (exportFormat.value === 'svg') {
-      const svgDataUrl = await toSvg(outputPanelRef.value, {
-        pixelRatio: exportPixelRatio.value,
-      });
+      const svgDataUrl = await toSvg(outputPanelRef.value, sharedOptions.value);
       await downloadFile(svgDataUrl, `arknights-schedule-${timestamp}.${ext}`);
     } else {
-      const canvas = await toCanvas(outputPanelRef.value, {
-        pixelRatio: exportPixelRatio.value,
-      });
+      const canvas = await toCanvas(outputPanelRef.value, sharedOptions.value);
       const quality = exportFormat.value !== 'png' ? exportQuality.value / 100 : undefined;
       const blob = await new Promise<Blob | null>((resolve) =>
         canvas.toBlob(resolve, mimeTypeMap[exportFormat.value], quality),
@@ -97,9 +108,7 @@ async function exportAsImage(): Promise<void> {
       if (!blob) {
         throw new Error('Failed to create image blob');
       }
-      const url = URL.createObjectURL(blob);
-      await downloadFile(url, `arknights-schedule-${timestamp}.${ext}`);
-      URL.revokeObjectURL(url);
+      await downloadFile(blob, `arknights-schedule-${timestamp}.${ext}`);
     }
   } catch (error) {
     console.error('Failed to export image:', error);
