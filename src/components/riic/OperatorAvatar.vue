@@ -110,27 +110,22 @@ const avatarUrl = computed(() => {
 
 .operator-avatar img {
   position: absolute;
-  // user-select: none;
-  // pointer-events: none;
 }
 
 .background-image {
   width: 100%;
   height: 100%;
-  // z-index: 0;
 }
 
 .avatar {
   width: 100%;
   height: 100%;
-  // z-index: 1;
 }
 
 .tired {
   position: absolute;
   inset: 0;
   background-color: #ff000080;
-  // z-index: 2;
 }
 
 .profession {
@@ -138,7 +133,6 @@ const avatarUrl = computed(() => {
   height: 25%;
   top: 0%;
   left: 0%;
-  // z-index: 3;
 }
 
 .elite {
@@ -147,7 +141,6 @@ const avatarUrl = computed(() => {
   bottom: 0%;
   left: 0%;
   // filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.5));
-  // z-index: 3;
 }
 
 .rarity {
@@ -155,6 +148,5 @@ const avatarUrl = computed(() => {
   height: 18%;
   bottom: 0%;
   right: 0%;
-  // z-index: 3;
 }
 </style>
