@@ -71,7 +71,6 @@ const isQualityEnabled = computed<boolean>(
 const cachedFontEmbedCSS = ref<string | null>(null);
 const sharedOptions = computed(() => ({
   pixelRatio: exportPixelRatio.value,
-  preferredFontFormat: 'woff2' as const,
   fontEmbedCSS: cachedFontEmbedCSS.value ?? undefined,
 }));
 
