@@ -15,7 +15,8 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
-    "download-fonts": "jiti scripts/download_fonts.ts"
+    "download-fonts": "jiti scripts/download_fonts.ts",
+    "split-font": "jiti scripts/split-font.ts"
   },
   "dependencies": {
     "@nuxt/ui": "^4.5.1",
@@ -36,6 +37,7 @@
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.6.0",
     "@vue/tsconfig": "^0.8.1",
+    "cn-font-split": "^7.4.3",
     "eslint": "^9.37.0",
     "eslint-plugin-vue": "~10.5.0",
     "extract-zip": "^2.0.1",
