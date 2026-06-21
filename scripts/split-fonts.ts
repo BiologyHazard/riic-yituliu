@@ -1,30 +1,9 @@
-#!/usr/bin/env node
-
-/**
- * 字体分片脚本
- *
- * 自动化对所有已下载的字体进行 cn-font-split 分片，
- * 输出结构适配 main.scss 的导入路径。
- *
- * 先手动执行 `npm run download-fonts` 下载原始字体，
- * 再执行本脚本（或通过 `npm run build` 自动触发）。
- *
- * 输出结构（与 main.scss 一一对应）：
- *   src/assets/fonts/
- *     HarmonyOS_Sans_SC/result.css
- *     Alibaba_PuHuiTi_3.0/
- *       AlibabaPuHuiTi-3-35-Thin/result.css
- *       AlibabaPuHuiTi-3-45-Light/result.css
- *       ... (共 10 个字重)
- *     JetBrains_Mono/result.css
- *     Outfit/result.css
- */
-
 import { existsSync } from 'node:fs';
 import { mkdir, readdir, rm, stat } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { fontSplit } from 'cn-font-split';
+import type { FontSplitProps } from 'cn-font-split/dist/interface.js';
 
 // ============ 路径常量 ============
 
@@ -37,98 +16,144 @@ const ASSETS_FONTS_DIR = join(PROJECT_ROOT, 'src', 'assets', 'fonts');
 // ============ 类型定义 ============
 
 /** 单个字体的分片条目 */
-interface SplitEntry {
+interface ExtendedFontSplitProps extends FontSplitProps {
   /** 显示名称（仅用于日志） */
   label: string;
   /** 原始字体文件路径（public/fonts/ 下的原始文件） */
-  inputPath: string;
+  input: string;
   /** 分片输出目录（src/assets/fonts/ 下的目录） */
   outDir: string;
-  /** 字体系列名称（用于 CSS 的 font-family） */
-  fontFamily?: string;
 }
+
+const globalFontSplitProps: Omit<FontSplitProps, 'input' | 'outDir'> = {
+  // css: {
+  //   commentBase: true,
+  //   commentNameTable: true,
+  //   commentUnicodes: false,
+  //   compress: true,
+  //   fileName: 'result.css',
+  // },
+
+  languageAreas: false, // 是否启用语言区域优化，将同一语言的字符分到一起
+  // autoSubset: true, // 当分包超过指定大小时是否自动拆分
+  // fontFeature: true, // 是否保留字体特性（如 Code 字体的连字、字距调整等）
+  // reduceMins: true, // 是否减少碎片分包，合并小分包以减少请求数，一般不需要修改
+
+  chunkSize: 512 * 1024, // 单个分片目标大小
+  chunkSizeTolerance: 1 * 1024, // 分片容差
+  // maxAllowSubsetsCount: 10, // 最大允许分包数量，可能会和 chunkSize 冲突
+
+  testHtml: false, // 是否生成测试 HTML 文件
+  reporter: false, // 是否生成 reporter.bin 文件
+  renameOutputFont: '[index].[ext]', // 自定义分包输出的文件名
+  silent: true, // 不在控制台打印多余的日志信息
+};
 
 // ============ 分片配置 ============
 
-const SPLITS: SplitEntry[] = [
+const fontSplitProps: ExtendedFontSplitProps[] = [
   // 鸿蒙黑体
   {
     label: 'HarmonyOS Sans SC',
-    inputPath: join(PUBLIC_FONTS_DIR, 'HarmonyOS_Sans_SC', 'HarmonyOS_Sans_SC.ttf'),
+    input: join(PUBLIC_FONTS_DIR, 'HarmonyOS_Sans_SC', 'HarmonyOS_Sans_SC.ttf'),
     outDir: join(ASSETS_FONTS_DIR, 'HarmonyOS_Sans_SC'),
-    fontFamily: 'HarmonyOS Sans SC',
+    css: {
+      fontFamily: 'HarmonyOS Sans SC',
+    },
   },
 
   // 阿里巴巴普惠体 3.0
   {
     label: 'AlibabaPuHuiTi-3-35-Thin',
-    inputPath: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-35-Thin.woff2'),
+    input: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-35-Thin.woff2'),
     outDir: join(ASSETS_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-35-Thin'),
-    fontFamily: 'Alibaba PuHuiTi 3.0',
+    css: {
+      fontFamily: 'Alibaba PuHuiTi 3.0',
+    },
   },
   {
     label: 'AlibabaPuHuiTi-3-45-Light',
-    inputPath: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-45-Light.woff2'),
+    input: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-45-Light.woff2'),
     outDir: join(ASSETS_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-45-Light'),
-    fontFamily: 'Alibaba PuHuiTi 3.0',
+    css: {
+      fontFamily: 'Alibaba PuHuiTi 3.0',
+    },
   },
   {
     label: 'AlibabaPuHuiTi-3-55-Regular',
-    inputPath: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-55-Regular.woff2'),
+    input: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-55-Regular.woff2'),
     outDir: join(ASSETS_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-55-Regular'),
-    fontFamily: 'Alibaba PuHuiTi 3.0',
+    css: {
+      fontFamily: 'Alibaba PuHuiTi 3.0',
+    },
   },
   {
     label: 'AlibabaPuHuiTi-3-65-Medium',
-    inputPath: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-65-Medium.woff2'),
+    input: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-65-Medium.woff2'),
     outDir: join(ASSETS_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-65-Medium'),
-    fontFamily: 'Alibaba PuHuiTi 3.0',
+    css: {
+      fontFamily: 'Alibaba PuHuiTi 3.0',
+    },
   },
   {
     label: 'AlibabaPuHuiTi-3-75-SemiBold',
-    inputPath: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-75-SemiBold.woff2'),
+    input: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-75-SemiBold.woff2'),
     outDir: join(ASSETS_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-75-SemiBold'),
-    fontFamily: 'Alibaba PuHuiTi 3.0',
+    css: {
+      fontFamily: 'Alibaba PuHuiTi 3.0',
+    },
   },
   {
     label: 'AlibabaPuHuiTi-3-85-Bold',
-    inputPath: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-85-Bold.woff2'),
+    input: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-85-Bold.woff2'),
     outDir: join(ASSETS_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-85-Bold'),
-    fontFamily: 'Alibaba PuHuiTi 3.0',
+    css: {
+      fontFamily: 'Alibaba PuHuiTi 3.0',
+    },
   },
   {
     label: 'AlibabaPuHuiTi-3-95-ExtraBold',
-    inputPath: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-95-ExtraBold.woff2'),
+    input: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-95-ExtraBold.woff2'),
     outDir: join(ASSETS_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-95-ExtraBold'),
-    fontFamily: 'Alibaba PuHuiTi 3.0',
+    css: {
+      fontFamily: 'Alibaba PuHuiTi 3.0',
+    },
   },
   {
     label: 'AlibabaPuHuiTi-3-105-Heavy',
-    inputPath: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-105-Heavy.woff2'),
+    input: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-105-Heavy.woff2'),
     outDir: join(ASSETS_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-105-Heavy'),
-    fontFamily: 'Alibaba PuHuiTi 3.0',
+    css: {
+      fontFamily: 'Alibaba PuHuiTi 3.0',
+    },
   },
   {
     label: 'AlibabaPuHuiTi-3-115-Black',
-    inputPath: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-115-Black.woff2'),
+    input: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-115-Black.woff2'),
     outDir: join(ASSETS_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-115-Black'),
-    fontFamily: 'Alibaba PuHuiTi 3.0',
+    css: {
+      fontFamily: 'Alibaba PuHuiTi 3.0',
+    },
   },
 
   // JetBrains Mono
   {
     label: 'JetBrains Mono',
-    inputPath: join(PUBLIC_FONTS_DIR, 'JetBrains_Mono', 'JetBrainsMono[wght].ttf'),
+    input: join(PUBLIC_FONTS_DIR, 'JetBrains_Mono', 'JetBrainsMono[wght].ttf'),
     outDir: join(ASSETS_FONTS_DIR, 'JetBrains_Mono'),
-    fontFamily: 'JetBrains Mono',
+    css: {
+      fontFamily: 'JetBrains Mono',
+    },
   },
 
   // Outfit
   {
     label: 'Outfit',
-    inputPath: join(PUBLIC_FONTS_DIR, 'Outfit', 'Outfit[wght].ttf'),
+    input: join(PUBLIC_FONTS_DIR, 'Outfit', 'Outfit[wght].ttf'),
     outDir: join(ASSETS_FONTS_DIR, 'Outfit'),
-    fontFamily: 'Outfit',
+    css: {
+      fontFamily: 'Outfit',
+    },
   },
 ];
 
@@ -147,19 +172,33 @@ async function printSplitStats(outDir: string): Promise<void> {
   const files = (await readdir(outDir)).filter((f) => f.endsWith('.woff2'));
   if (files.length === 0) return;
 
-  const sizes = await Promise.all(files.map((f) => stat(join(outDir, f))));
-  const totalSize = sizes.reduce((sum, s) => sum + s.size, 0);
-  const avgSize = totalSize / files.length;
+  const stats = await Promise.all(files.map((f) => stat(join(outDir, f))));
+  const sortedSizes = stats.map((s) => s.size).toSorted((a, b) => a - b);
+  const totalSize = sortedSizes.reduce((sum, s) => sum + s, 0);
+  const avgSize = totalSize / sortedSizes.length;
+  const quantiles = [0, 0.25, 0.5, 0.75, 1].map((p) => percentile(sortedSizes, p));
 
   log(
-    `${files.length} 分片, ${(totalSize / 1024 / 1024).toFixed(2)} MB, 平均 ${(avgSize / 1024).toFixed(1)} KB`,
+    `${files.length} 分片, ${(totalSize / 1024 / 1024).toFixed(2)} MB, 平均 ${(avgSize / 1024).toFixed(2)} KB, 分位数: ${quantiles.map((q) => (q / 1024).toFixed(2)).join('/')} KB`,
   );
+}
+
+/** 计算排序后数组的百分位值（线性插值） */
+function percentile(sorted: number[], p: number): number {
+  let index = p * (sorted.length - 1);
+  index = Math.max(0, Math.min(index, sorted.length - 1));
+  const lowIndex = Math.floor(index);
+  const highIndex = Math.ceil(index);
+  if (lowIndex === highIndex) return sorted[lowIndex];
+  return sorted[lowIndex] * (highIndex - index) + sorted[highIndex] * (index - lowIndex);
 }
 
 // ============ 分片逻辑 ============
 
 /** 对单个字体文件进行分片 */
-async function splitSingleFont(label: string, inputPath: string, outDir: string): Promise<void> {
+async function splitSingleFont(fontSplitProps: ExtendedFontSplitProps): Promise<void> {
+  const { label, outDir } = fontSplitProps;
+
   log(`开始分片: ${label}`);
 
   // 清空输出目录
@@ -170,10 +209,8 @@ async function splitSingleFont(label: string, inputPath: string, outDir: string)
   await mkdir(outDir, { recursive: true });
 
   await fontSplit({
-    input: inputPath,
-    outDir,
-    renameOutputFont: '[index].[ext]',
-    silent: true,
+    ...globalFontSplitProps,
+    ...fontSplitProps,
   });
 
   // 删除不需要的元数据文件
@@ -195,16 +232,16 @@ async function main(): Promise<void> {
   let hasMissingSource = false;
   let hasErrors = false;
 
-  for (const split of SPLITS) {
-    if (!existsSync(split.inputPath)) {
-      log(`[跳过] 原始字体文件不存在: ${split.inputPath}`);
+  for (const split of fontSplitProps) {
+    if (!existsSync(split.input)) {
+      log(`[跳过] 原始字体文件不存在: ${split.input}`);
       log(`请先运行 \`npm run download-fonts\` 下载原始字体文件。`);
       hasMissingSource = true;
       continue;
     }
 
     try {
-      await splitSingleFont(split.label, split.inputPath, split.outDir);
+      await splitSingleFont(split);
     } catch (err) {
       log(`[错误] 分片失败: ${split.label}`, err);
       hasErrors = true;
