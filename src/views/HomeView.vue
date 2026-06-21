@@ -166,7 +166,7 @@ watch(currentGameDataBaseUrl, loadGameData);
               "
             />
           </ULink>
-          <figcaption>
+          <figcaption class="mbs-2 text-center text-sm text-toned">
             2025-09-30-「众生行记」版本之后基建房间 <code>slot_id</code> 和清理提供的无人机 by
             <ULink
               class="text-primary hover:text-primary/75"
