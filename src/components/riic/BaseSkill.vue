@@ -168,7 +168,7 @@ watch([props, operatorNameElement], () => {
 
 .operator-name {
   color: white;
-  font-family: 'Alibaba PuHuiTi 3.0', var(--font-sans);
+  font-family: 'Alibaba PuHuiTi 3.0', sans-serif;
   font-weight: 700;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -184,7 +184,7 @@ watch([props, operatorNameElement], () => {
 
 .td-buff-index {
   width: 48px;
-  font-family: 'Outfit', var(--font-sans);
+  font-family: 'Outfit', sans-serif;
   font-weight: 900;
   font-size: 72px;
   text-align: center;
@@ -198,7 +198,7 @@ watch([props, operatorNameElement], () => {
   padding: 24px 28px;
   background-color: #e3e3e3;
   color: #222222;
-  font-family: 'HarmonyOS Sans SC', var(--font-sans);
+  font-family: 'HarmonyOS Sans SC', sans-serif;
   font-weight: 500;
   font-size: 36px;
   letter-spacing: -0.02em;
@@ -213,7 +213,6 @@ watch([props, operatorNameElement], () => {
 .td-buff-name {
   width: 384px;
   text-align: left;
-  // background-color: #333;
   position: relative;
 }
 
@@ -228,9 +227,6 @@ watch([props, operatorNameElement], () => {
   top: 50%;
   left: 20px;
   transform: translate(0, -50%);
-  // border-radius: 50%;
-  // background-color: rgba(0, 0, 0, 1);
-  // box-shadow: 0 0 0px 6px rgba(0, 0, 0, 1);
 }
 
 .buff-name-text {
