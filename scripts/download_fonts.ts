@@ -33,35 +33,11 @@ interface FontConfig {
 const FONTS: FontConfig[] = [
   {
     name: '鸿蒙黑体',
-    url: 'https://alliance-communityfile-drcn.dbankcdn.com/FileServer/getFile/cmtyManage/011/111/111/0000000000011111111.20250923104318.11664078982054632530113858317517:50001231000000:2800:C0DB7AC2067D28B96607BC0D598A48EAF74CA1B7D936B819A36F67CB6E071F30.zip?needInitFileName=true',
+    url: 'https://alliance-communityfile-drcn.dbankcdn.com/FileServer/getFile/cmtyManage/011/111/111/0000000000011111111.20260611171743.77886644144213121813005934094365:50001231000000:2800:0CCF575ADA0FCAD85EE25909C15C402A40FA94ABCCFEFC5BD37061A6B94239FF.zip?needInitFileName=true',
     files: [
       {
-        source: 'HarmonyOS Sans 字体/HarmonyOS_SansSC/HarmonyOS_SansSC_Thin.ttf',
-        destination: 'public/fonts/HarmonyOS_Sans_SC/HarmonyOS_SansSC_Thin.ttf',
-      },
-      {
-        source: 'HarmonyOS Sans 字体/HarmonyOS_SansSC/HarmonyOS_SansSC_Light.ttf',
-        destination: 'public/fonts/HarmonyOS_Sans_SC/HarmonyOS_SansSC_Light.ttf',
-      },
-      {
-        source: 'HarmonyOS Sans 字体/HarmonyOS_SansSC/HarmonyOS_SansSC_Regular.ttf',
-        destination: 'public/fonts/HarmonyOS_Sans_SC/HarmonyOS_SansSC_Regular.ttf',
-      },
-      {
-        source: 'HarmonyOS Sans 字体/HarmonyOS_SansSC/HarmonyOS_SansSC_Medium.ttf',
-        destination: 'public/fonts/HarmonyOS_Sans_SC/HarmonyOS_SansSC_Medium.ttf',
-      },
-      {
-        source: 'HarmonyOS Sans 字体/HarmonyOS_SansSC/HarmonyOS_SansSC_Semibold.ttf',
-        destination: 'public/fonts/HarmonyOS_Sans_SC/HarmonyOS_SansSC_Semibold.ttf',
-      },
-      {
-        source: 'HarmonyOS Sans 字体/HarmonyOS_SansSC/HarmonyOS_SansSC_Bold.ttf',
-        destination: 'public/fonts/HarmonyOS_Sans_SC/HarmonyOS_SansSC_Bold.ttf',
-      },
-      {
-        source: 'HarmonyOS Sans 字体/HarmonyOS_SansSC/HarmonyOS_SansSC_Black.ttf',
-        destination: 'public/fonts/HarmonyOS_Sans_SC/HarmonyOS_SansSC_Black.ttf',
+        source: 'HarmonyOS Sans/HarmonyOS_Sans_SC.ttf',
+        destination: 'public/fonts/HarmonyOS_Sans_SC/HarmonyOS_Sans_SC.ttf',
       },
     ],
   },
