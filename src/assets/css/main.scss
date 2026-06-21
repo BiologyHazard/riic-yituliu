@@ -1,9 +1,16 @@
 /* Import Fonts */
-// @use '@/assets/css/fonts/HarmonyOS_Sans_SC.scss';
-@use '@/assets/fonts/HarmonyOS_Sans_SC/result.css';
-@use '@/assets/css/fonts/Alibaba_PuHuiTi_3.0.scss';
-@use '@/assets/css/fonts/JetBrains_Mono.scss';
-@use '@/assets/css/fonts/Outfit.scss';
+@use '@/assets/fonts/HarmonyOS_Sans_SC/result.css' as *;
+@use '@/assets/fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-35-Thin/result.css' as *;
+@use '@/assets/fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-45-Light/result.css' as *;
+@use '@/assets/fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-55-Regular/result.css' as *;
+@use '@/assets/fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-65-Medium/result.css' as *;
+@use '@/assets/fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-75-SemiBold/result.css' as *;
+@use '@/assets/fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-85-Bold/result.css' as *;
+@use '@/assets/fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-95-ExtraBold/result.css' as *;
+@use '@/assets/fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-105-Heavy/result.css' as *;
+@use '@/assets/fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-115-Black/result.css' as *;
+@use '@/assets/fonts/JetBrains_Mono/result.css' as *;
+@use '@/assets/fonts/Outfit/result.css' as *;
 
 /* Global Styles */
 :root {

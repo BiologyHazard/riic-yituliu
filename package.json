@@ -8,7 +8,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build-only": "vite build",
+    "build": "npm-run-all2 download-fonts split-fonts build-only",
     "preview": "vite preview",
     "type-check": "vue-tsc --build",
     "lint": "eslint .",
@@ -16,7 +17,7 @@
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "download-fonts": "jiti scripts/download_fonts.ts",
-    "split-font": "jiti scripts/split-font.ts"
+    "split-fonts": "jiti scripts/split-fonts.ts"
   },
   "dependencies": {
     "@nuxt/ui": "^4.5.1",
