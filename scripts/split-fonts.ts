@@ -265,11 +265,11 @@ async function main(): Promise<void> {
     for (const r of rejected) {
       log('[错误] 分片失败:', (r as PromiseRejectedResult).reason);
     }
-    log(`分片完成（${rejected.length} 个失败）`);
+    log(`字体分片结束，${rejected.length} 个失败`);
     process.exit(1);
   }
 
-  log('分片完成');
+  log('字体分片完成');
 }
 
 main();

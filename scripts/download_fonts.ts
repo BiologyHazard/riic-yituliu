@@ -235,7 +235,7 @@ async function main(): Promise<void> {
     for (const r of rejected) {
       log('[错误] 字体处理失败:', (r as PromiseRejectedResult).reason);
     }
-    log(`全部字体已处理完成（${rejected.length} 个失败）`);
+    log(`字体处理结束，${rejected.length} 个失败`);
     process.exit(1);
   }
 
