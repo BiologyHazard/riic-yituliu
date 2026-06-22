@@ -270,6 +270,7 @@ async function main(): Promise<void> {
   }
 
   log('字体分片完成');
+  process.exit(0);
 }
 
 main();

@@ -238,6 +238,7 @@ async function main(): Promise<void> {
   }
 
   log('全部字体已处理完成');
+  process.exit(0);
 }
 
 main();
