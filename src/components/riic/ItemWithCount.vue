@@ -13,7 +13,7 @@ const formatter = new Intl.NumberFormat(undefined, {
   compactDisplay: 'short',
 });
 
-const itemName = computed(() => getItemName(props.itemId));
+const itemName = computed(() => getItemName(props.itemId) ?? props.itemId);
 const tooltipText = computed(() => {
   if (props.count !== null) {
     return `${itemName.value}×${props.count}`;
@@ -27,7 +27,7 @@ const tooltipText = computed(() => {
   <UTooltip :text="tooltipText">
     <div class="relative inline-block">
       <img
-        :alt="itemName"
+        :alt="`道具_${itemName}`"
         class="h-full w-full object-contain"
         referrerpolicy="no-referrer"
         :src="getItemIconUrl(props.itemId)"

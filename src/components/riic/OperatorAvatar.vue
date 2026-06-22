@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getCharName, getCharProfessionName, getCharRarity } from '@/utils/character';
-import { getAvatarUrl } from '@/utils/dataSources';
+import { getCharAvatarUrl } from '@/utils/dataSources';
 import { getPrtsWikiMediaUrl } from '@/utils/prtsWiki';
 import { computed } from 'vue';
 
@@ -94,7 +94,7 @@ const avatarUrl = computed<string | undefined>(() => {
   if (props.charId === undefined) {
     return undefined;
   }
-  return getAvatarUrl(props.charId, props.eliteLevel);
+  return getCharAvatarUrl(props.charId, props.eliteLevel);
 });
 </script>
 

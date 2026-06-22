@@ -1,11 +1,11 @@
 import { gameData } from '@/utils/gameData';
 
-export function getItemName(itemId: string): string {
-  return gameData.value?.itemTable.items[itemId]?.name ?? itemId;
+export function getItemName(itemId: string): string | undefined {
+  return gameData.value?.itemTable.items[itemId]?.name;
 }
 
-export function getItemIconId(itemId: string): string {
-  return gameData.value?.itemTable.items[itemId]?.iconId ?? itemId;
+export function getItemIconId(itemId: string): string | undefined {
+  return gameData.value?.itemTable.items[itemId]?.iconId;
 }
 
 export function getItemRarity(itemId: string): number | undefined {

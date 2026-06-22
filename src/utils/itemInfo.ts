@@ -1,6 +1,6 @@
 import type { ItemBundle } from '@/types/gameData';
 import { gameData } from '@/utils/gameData';
-import { getItemName } from './item';
+import { getItemName } from '@/utils/item';
 
 export interface ItemInfo {
   itemId: string;
@@ -50,6 +50,6 @@ export function display(itemInfo: ItemInfo | ItemInfo[]): string {
   if (Array.isArray(itemInfo)) {
     return itemInfo.map(display).join(' ');
   } else {
-    return `${getItemName(itemInfo.itemId)}×${itemInfo.count}`;
+    return `${getItemName(itemInfo.itemId) ?? itemInfo.itemId}×${itemInfo.count}`;
   }
 }

@@ -1,4 +1,4 @@
-import { getCharAvatar, getCharSkinId } from '@/utils/character';
+import { getCharAvatar as getCharAvatarId, getCharSkinId } from '@/utils/character';
 import { getItemIconId } from '@/utils/item';
 import { useLocalStorage } from '@vueuse/core';
 import { computed } from 'vue';
@@ -16,15 +16,15 @@ export interface GameDataSource extends DataSource {
 }
 
 export interface AvatarSource extends DataSource {
-  getUrl: (charId: string, eliteLevel: number) => string;
+  getCharAvatarUrl: (charId: string, eliteLevel: number) => string;
 }
 
 export interface ItemIconSource extends DataSource {
-  getUrl: (itemId: string) => string;
+  getItemIconUrl: (itemId: string) => string | undefined;
 }
 
 export interface BaseSkillIconSource extends DataSource {
-  getUrl: (skillIcon: string) => string;
+  getBaseSkillIconUrl: (skillIcon: string) => string;
 }
 
 export interface GithubMirror {
@@ -84,23 +84,23 @@ export const avatarSources: AvatarSource[] = [
     id: 'torappu',
     label: 'Torappu',
     isGithub: false,
-    getUrl(charId: string, eliteLevel: number): string {
-      return `https://torappu.prts.wiki/assets/char_avatar/${getCharAvatar(charId, eliteLevel)}.png`;
+    getCharAvatarUrl(charId: string, eliteLevel: number): string {
+      return `https://torappu.prts.wiki/assets/char_avatar/${getCharAvatarId(charId, eliteLevel)}.png`;
     },
   },
   {
     id: 'yuanyan3060/ArknightsGameResource',
     label: 'yuanyan3060/ArknightsGameResource',
     isGithub: true,
-    getUrl(charId: string, eliteLevel: number): string {
-      return `https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/refs/heads/main/avatar/${getCharAvatar(charId, eliteLevel)}.png`;
+    getCharAvatarUrl(charId: string, eliteLevel: number): string {
+      return `https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/refs/heads/main/avatar/${getCharAvatarId(charId, eliteLevel)}.png`;
     },
   },
   {
     id: 'skland',
     label: 'Skland',
     isGithub: false,
-    getUrl(charId: string, eliteLevel: number): string {
+    getCharAvatarUrl(charId: string, eliteLevel: number): string {
       return `https://web.hycdn.cn/arknights/game/assets/char_skin/avatar/${encodeURIComponent(getCharSkinId(charId, eliteLevel))}.png`;
     },
   },
@@ -108,7 +108,7 @@ export const avatarSources: AvatarSource[] = [
     id: 'skland-avatar',
     label: 'Skland（仅初始立绘）',
     isGithub: false,
-    getUrl(charId: string, _eliteLevel: number): string {
+    getCharAvatarUrl(charId: string, _eliteLevel: number): string {
       return `https://web.hycdn.cn/arknights/game/assets/char/avatar/${charId}.png`;
     },
   },
@@ -119,23 +119,31 @@ export const itemIconSources: ItemIconSource[] = [
     id: 'torappu',
     label: 'Torappu',
     isGithub: false,
-    getUrl(itemId: string): string {
-      return `https://torappu.prts.wiki/assets/item_icon/${getItemIconId(itemId)}.png`;
+    getItemIconUrl(itemId: string): string | undefined {
+      const itemIconId = getItemIconId(itemId);
+      if (itemIconId === undefined) {
+        return undefined;
+      }
+      return `https://torappu.prts.wiki/assets/item_icon/${itemIconId}.png`;
     },
   },
   {
     id: 'yuanyan3060/ArknightsGameResource',
     label: 'yuanyan3060/ArknightsGameResource',
     isGithub: true,
-    getUrl(itemId: string): string {
-      return `https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/refs/heads/main/item/${getItemIconId(itemId)}.png`;
+    getItemIconUrl(itemId: string): string | undefined {
+      const itemIconId = getItemIconId(itemId);
+      if (itemIconId === undefined) {
+        return undefined;
+      }
+      return `https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/refs/heads/main/item/${itemIconId}.png`;
     },
   },
   {
     id: 'skland',
     label: 'Skland（无框）',
     isGithub: false,
-    getUrl(itemId: string): string {
+    getItemIconUrl(itemId: string): string {
       return `https://web.hycdn.cn/arknights/game/assets/item/${itemId}.png`;
     },
   },
@@ -146,7 +154,7 @@ export const baseSkillIconSources: BaseSkillIconSource[] = [
     id: 'torappu',
     label: 'Torappu',
     isGithub: false,
-    getUrl(skillIcon: string): string {
+    getBaseSkillIconUrl(skillIcon: string): string {
       return `https://torappu.prts.wiki/assets/build_skill_icon/${skillIcon}.png`;
     },
   },
@@ -154,7 +162,7 @@ export const baseSkillIconSources: BaseSkillIconSource[] = [
     id: 'yuanyan3060/ArknightsGameResource',
     label: 'yuanyan3060/ArknightsGameResource',
     isGithub: true,
-    getUrl(skillIcon: string): string {
+    getBaseSkillIconUrl(skillIcon: string): string {
       return `https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/refs/heads/main/building_skill/${skillIcon}.png`;
     },
   },
@@ -278,17 +286,20 @@ export const currentGameDataBaseUrl = computed<string>(() => {
 
 // ─── image URL builders ───────────────────────────────────────
 
-export function getAvatarUrl(charId: string, eliteLevel: number): string {
-  const url = currentAvatarSource.value.getUrl(charId, eliteLevel);
+export function getCharAvatarUrl(charId: string, eliteLevel: number): string {
+  const url = currentAvatarSource.value.getCharAvatarUrl(charId, eliteLevel);
   return applyGithubMirror(url, currentAvatarSource.value.isGithub);
 }
 
-export function getItemIconUrl(itemId: string): string {
-  const url = currentItemIconSource.value.getUrl(itemId);
+export function getItemIconUrl(itemId: string): string | undefined {
+  const url = currentItemIconSource.value.getItemIconUrl(itemId);
+  if (url === undefined) {
+    return undefined;
+  }
   return applyGithubMirror(url, currentItemIconSource.value.isGithub);
 }
 
 export function getBaseSkillIconUrl(skillIcon: string): string {
-  const url = currentBaseSkillIconSource.value.getUrl(skillIcon);
+  const url = currentBaseSkillIconSource.value.getBaseSkillIconUrl(skillIcon);
   return applyGithubMirror(url, currentBaseSkillIconSource.value.isGithub);
 }
