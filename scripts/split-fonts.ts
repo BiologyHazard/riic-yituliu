@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs';
 import { mkdir, readdir, rm, stat } from 'node:fs/promises';
-import { dirname, join, resolve } from 'node:path';
+import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { fontSplit } from 'cn-font-split';
 import type { FontSplitProps } from 'cn-font-split/dist/interface.js';
@@ -221,8 +221,11 @@ async function splitSingleFont(fontSplitProps: ExtendedFontSplitProps): Promise<
 
   log(`开始分片: ${label}`);
 
-  // 清空输出目录
+  // 清空输出目录（安全删除：只允许删除 ASSETS_FONTS_DIR 下的子目录）
   if (existsSync(outDir)) {
+    if (relative(ASSETS_FONTS_DIR, outDir).startsWith('..')) {
+      throw new Error(`拒绝删除: "${outDir}" 不在 src/assets/fonts/ 之下`);
+    }
     log(`清空输出目录: ${outDir}`);
     await rm(outDir, { recursive: true, force: true });
   }
