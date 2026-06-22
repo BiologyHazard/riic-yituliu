@@ -35,9 +35,6 @@ jobs:
             npm install
           fi
 
-      - name: Download Fonts
-        run: npm run download-fonts
-
       - name: Build Project
         run: npm run build
 

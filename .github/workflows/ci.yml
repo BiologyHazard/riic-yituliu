@@ -28,13 +28,13 @@ jobs:
           fi
 
       - name: Lint
-        if: ${{ always() }}
+        if: always()
         run: npm run lint
 
       - name: Format Check
-        if: ${{ always() }}
+        if: always()
         run: npm run format:check
 
       - name: Type Check
-        if: ${{ always() }}
+        if: always()
         run: npm run type-check
