@@ -6,6 +6,7 @@ import { dirname, join, resolve } from 'node:path';
 import { Readable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 import { fileURLToPath } from 'node:url';
+import extractZip from 'extract-zip';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -154,23 +155,6 @@ async function downloadFile(
 }
 
 /**
- * 解压 ZIP 文件到指定目录
- * @param zipPath - ZIP 文件路径
- * @param destDir - 解压目标目录
- */
-async function extractZip(zipPath: string, destDir: string): Promise<void> {
-  log(`开始解压: ${zipPath} -> ${destDir}`);
-
-  // 动态导入 extract-zip（仅在需要时加载）
-  const extractZipModule = await import('extract-zip');
-  const extractZipFn = extractZipModule.default;
-
-  await extractZipFn(zipPath, { dir: destDir });
-
-  log(`完成解压: ${zipPath}`);
-}
-
-/**
  * 解压 ZIP 文件并复制指定文件到目标位置
  * @param zipFile - ZIP 文件路径
  * @param files - 需要从 ZIP 中提取的文件映射列表
@@ -187,7 +171,9 @@ async function extractAndCopy(
 
   try {
     // 解压文件
-    await extractZip(zipFile, tmpDir);
+    log(`开始解压: ${zipFile} -> ${tmpDir}`);
+    await extractZip(zipFile, { dir: tmpDir });
+    log(`完成解压: ${zipFile}`);
 
     // 复制文件
     for (const { source, destination } of files) {
