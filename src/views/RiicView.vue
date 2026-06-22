@@ -32,7 +32,7 @@ const exampleInput: string = scheduleFiles['右满 252（2 赤金）一天两换
  */
 const dateRegex = /\s+\d{4}[- ]\d{2}[- ]\d{2}[- ]\d{2}[- ]\d{2}$/;
 
-const openGroupValues = ref<string[]>([]);
+const openGroupValue = ref<string>('');
 
 const navMenuItems = computed<NavigationMenuItem[]>(() => {
   const groups = new Map<string, { label: string; fileName: string }[]>();
@@ -53,7 +53,7 @@ const navMenuItems = computed<NavigationMenuItem[]>(() => {
     return {
       label: groupName,
       value,
-      icon: openGroupValues.value.includes(value) ? 'i-lucide-folder-open' : 'i-lucide-folder',
+      icon: openGroupValue.value === value ? 'i-lucide-folder-open' : 'i-lucide-folder',
       children: items.map((item) => ({
         label: item.label,
         icon: 'i-lucide-file-text',
@@ -185,10 +185,11 @@ async function exportAsImage(): Promise<void> {
         >
           <template #presets>
             <UNavigationMenu
-              v-model="openGroupValues"
+              v-model="openGroupValue"
               color="neutral"
               :items="navMenuItems"
               orientation="vertical"
+              type="single"
               :ui="{ link: 'text-toned', linkLeadingIcon: 'text-toned' }"
               variant="pill"
             />
