@@ -6,45 +6,46 @@ import { getFontEmbedCSS, toCanvas, toSvg } from 'html-to-image';
 import { computed, nextTick, ref, useTemplateRef } from 'vue';
 import type { NavigationMenuItem } from '@nuxt/ui';
 
-// 导入预设排班表
-/**
- * 预设排班表文件对象
- * key: 文件名（不含扩展名）
- * value: 文件内容字符串
- */
-let scheduleFiles = import.meta.glob('@/assets/texts/schedule/*.txt', {
+// 导入预设排班表（按文件夹分组）
+let scheduleFiles = import.meta.glob('@/assets/texts/schedule/**/*.txt', {
   eager: true,
   query: 'raw',
   import: 'default',
 }) as Record<string, string>;
+// 键转为相对于 schedule/ 的路径（不含 .txt）
 scheduleFiles = Object.fromEntries(
-  Object.entries(scheduleFiles).map(([path, resolver]) => {
-    let fileName = path.split('/').pop() || '';
-    fileName = fileName.endsWith('.txt') ? fileName.slice(0, -4) : fileName;
-    return [fileName, resolver];
+  Object.entries(scheduleFiles).map(([path, content]) => {
+    const relativePath = path.replace(/^.*\/schedule\//, '');
+    const withoutExt = relativePath.endsWith('.txt') ? relativePath.slice(0, -4) : relativePath;
+    return [withoutExt, content as string];
   }),
 );
 
-const exampleInput: string = scheduleFiles['右满 252（2 赤金）一天两换 2026-01-09-10-47'] ?? '';
+const exampleKey =
+  Object.keys(scheduleFiles).find((k) =>
+    k.includes('右满 252（2 赤金）一天两换 2026-01-09-10-47'),
+  ) ?? '';
+const exampleInput: string = scheduleFiles[exampleKey] ?? '';
 
 /**
- * 排班预设选择（NavigationMenu 多级菜单）
+ * 排班预设选择（NavigationMenu 多级菜单，严格遵循文件夹结构）
  */
-const dateRegex = /\s+\d{4}[- ]\d{2}[- ]\d{2}[- ]\d{2}[- ]\d{2}$/;
-
 const openGroupValue = ref<string>('');
 
 const navMenuItems = computed<NavigationMenuItem[]>(() => {
-  const groups = new Map<string, { label: string; fileName: string }[]>();
+  const groups = new Map<string, { label: string; filePath: string }[]>();
 
-  for (const name of Object.keys(scheduleFiles)) {
-    const groupKey = name.replace(dateRegex, '');
+  for (const [key] of Object.entries(scheduleFiles)) {
+    const segments = key.split('/');
+    const folderName = segments[0]!;
+    const fileName = segments.slice(1).join('/');
+    // 标签：去掉文件夹名前缀，只保留版本日期
+    const label = fileName.replace(folderName, '').trim();
 
-    if (!groups.has(groupKey)) {
-      groups.set(groupKey, []);
+    if (!groups.has(folderName)) {
+      groups.set(folderName, []);
     }
-    const label = name.match(dateRegex)?.[0]?.trim().replace(' ', '-') ?? name;
-    groups.get(groupKey)!.push({ label, fileName: name });
+    groups.get(folderName)!.push({ label, filePath: key });
   }
 
   return Array.from(groups.entries()).map(([groupName, items], groupIndex) => {
@@ -58,7 +59,7 @@ const navMenuItems = computed<NavigationMenuItem[]>(() => {
         label: item.label,
         icon: 'i-lucide-file-text',
         onSelect: () => {
-          rawInput.value = scheduleFiles[item.fileName] ?? '';
+          rawInput.value = scheduleFiles[item.filePath] ?? '';
         },
       })),
     };
