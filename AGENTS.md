@@ -8,17 +8,23 @@
 ## 常用命令
 
 - `npm run dev`：启动本地开发服务器。
-- `npm run build`：执行生产构建。
+- `npm run build-only`：仅执行 Vite 生产构建（不包含字体处理）。
+- `npm run build`：完整生产构建（下载字体 → 拆分字体 → Vite 构建）。
+- `npm run preview`：预览生产构建产物。
 - `npm run type-check`：运行 TypeScript / Vue 类型检查。
-- `npm run lint`：执行 ESLint 检查。
-- `npm run lint:fix`：自动修复可修复的 ESLint 问题。
+- `npm run lint`：执行 ESLint + Stylelint 检查。
+- `npm run lint:eslint`：仅执行 ESLint 检查。
+- `npm run lint:stylelint`：仅执行 Stylelint 检查。
+- `npm run lint:fix`：自动修复 ESLint 和 Stylelint 可修复的问题。
 - `npm run format`：使用 Prettier 格式化代码。
+- `npm run format:check`：检查代码格式（不修改文件）。
 - `npm run download-fonts`：下载项目依赖字体。
+- `npm run split-fonts`：拆分字体文件。
 
 ## 验证建议
 
-- 小改动优先运行受影响范围最直接的检查，例如 `npm run type-check` 或 `npm run lint`。
-- 如果改动影响构建链路或资源加载，再补充 `npm run build`。
+- 改动完成后建议运行 `npm run type-check` 以及 `npm run lint:fix`。
+- 如果改动影响构建链路或资源加载，再补充 `npm run build`，一般改动则无需运行。
 
 ## 目录提示
 
