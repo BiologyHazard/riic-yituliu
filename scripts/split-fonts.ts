@@ -182,7 +182,7 @@ const fontSplitProps: ExtendedFontSplitProps[] = [
 /** 带时间戳的日志输出 */
 function log(...args: unknown[]): void {
   const ts = new Date().toISOString().replace('T', ' ').slice(0, -1);
-  console.log(`${ts} | split-font |`, ...args);
+  console.log(`${ts} | split-fonts |`, ...args);
 }
 
 /** 打印分片统计信息 */
