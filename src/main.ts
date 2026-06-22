@@ -1,6 +1,5 @@
 import App from '@/App.vue';
-import '@/assets/css/base.css';
-import '@/assets/css/main.scss';
+import '@/assets/css/main.css';
 import router from '@/router';
 import ui from '@nuxt/ui/vue-plugin';
 import { createApp } from 'vue';

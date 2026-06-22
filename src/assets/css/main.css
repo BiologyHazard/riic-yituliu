@@ -1,0 +1,65 @@
+@import 'tailwindcss';
+@import '@nuxt/ui';
+
+/* Import Fonts */
+@import '../fonts/HarmonyOS_Sans_SC/result.css';
+@import '../fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-35-Thin/result.css';
+@import '../fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-45-Light/result.css';
+@import '../fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-55-Regular/result.css';
+@import '../fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-65-Medium/result.css';
+@import '../fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-75-SemiBold/result.css';
+@import '../fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-85-Bold/result.css';
+@import '../fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-95-ExtraBold/result.css';
+@import '../fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-105-Heavy/result.css';
+@import '../fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-115-Black/result.css';
+@import '../fonts/JetBrains_Mono/JetBrainsMono/result.css';
+@import '../fonts/JetBrains_Mono/JetBrainsMono-Italic/result.css';
+@import '../fonts/Outfit/result.css';
+
+@theme {
+  --font-sans: 'HarmonyOS Sans SC', sans-serif;
+  --font-mono: 'JetBrains Mono', 'HarmonyOS Sans SC', monospace;
+}
+
+/* Global Styles */
+:root {
+  --color-primary: #299dff;
+
+  --color-t1: #a0a0a0;
+  --color-t2: #dce537;
+  --color-t3: #00b3fd;
+  --color-t4: #d4c3d4;
+  --color-t5: #ffc802;
+}
+
+html {
+  font-size: 18px;
+  font-feature-settings: 'calt' on;
+  overflow-y: scroll;
+}
+
+.color-t1 {
+  color: var(--color-t1);
+}
+
+.color-t2 {
+  color: var(--color-t2);
+  /* 添加黑色描边，以增加对比度 */
+  -webkit-text-stroke: 0.1em black;
+  paint-order: stroke fill;
+}
+
+.color-t3 {
+  color: var(--color-t3);
+}
+
+.color-t4 {
+  color: var(--color-t4);
+  /* 添加黑色描边，以增加对比度 */
+  -webkit-text-stroke: 0.1em black;
+  paint-order: stroke fill;
+}
+
+.color-t5 {
+  color: var(--color-t5);
+}
