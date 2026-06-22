@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
 import { createWriteStream, existsSync } from 'node:fs';
-import { copyFile, mkdir, rm } from 'node:fs/promises';
-import { tmpdir } from 'node:os';
+import { copyFile, mkdir, mkdtemp, rm } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 import { Readable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
@@ -11,6 +10,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const ROOT_DIR = resolve(__dirname, '..');
+const TEMP_DIR = join(ROOT_DIR, 'node_modules', '.tmp');
 
 /**
  * 字体配置接口
@@ -181,9 +181,9 @@ async function extractAndCopy(
   zipFile: string,
   files: { source: string; destination: string }[],
 ): Promise<void> {
-  // 创建临时目录
-  const tmpDir = join(tmpdir(), `fonts-${Date.now()}`);
-  await mkdir(tmpDir, { recursive: true });
+  // 在项目内创建唯一临时目录
+  await mkdir(TEMP_DIR, { recursive: true });
+  const tmpDir = await mkdtemp(join(TEMP_DIR, 'extract-'));
 
   try {
     // 解压文件
@@ -218,8 +218,10 @@ async function extractAndCopy(
 async function fetchFont(config: FontConfig): Promise<void> {
   log(`开始处理: ${config.name}`);
 
-  // 创建临时文件
-  const tmpZip = join(tmpdir(), `font-${Date.now()}.zip`);
+  // 在项目内创建唯一临时工作目录
+  await mkdir(TEMP_DIR, { recursive: true });
+  const tmpWorkDir = await mkdtemp(join(TEMP_DIR, 'font-'));
+  const tmpZip = join(tmpWorkDir, 'font.zip');
 
   try {
     // 下载字体文件
@@ -230,25 +232,28 @@ async function fetchFont(config: FontConfig): Promise<void> {
 
     log(`完成: ${config.name}`);
   } finally {
-    // 清理临时文件
-    log(`开始删除临时文件: ${tmpZip}`);
-    await rm(tmpZip, { force: true });
+    // 清理临时工作目录
+    log(`开始删除临时目录: ${tmpWorkDir}`);
+    await rm(tmpWorkDir, { recursive: true, force: true });
   }
 }
 
 /**
- * 主函数：依次处理所有字体
+ * 主函数：并行处理所有字体
  */
 async function main(): Promise<void> {
-  try {
-    for (const font of FONTS) {
-      await fetchFont(font);
+  const results = await Promise.allSettled(FONTS.map((font) => fetchFont(font)));
+
+  const rejected = results.filter((r) => r.status === 'rejected');
+  if (rejected.length > 0) {
+    for (const r of rejected) {
+      log('[错误] 字体处理失败:', (r as PromiseRejectedResult).reason);
     }
-    log('全部字体已处理完成');
-  } catch (error) {
-    console.error('处理字体时出错:', error);
+    log(`全部字体已处理完成（${rejected.length} 个失败）`);
     process.exit(1);
   }
+
+  log('全部字体已处理完成');
 }
 
 main();

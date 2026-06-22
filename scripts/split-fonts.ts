@@ -217,7 +217,13 @@ function percentile(sorted: number[], p: number): number {
 
 /** 对单个字体文件进行分片 */
 async function splitSingleFont(fontSplitProps: ExtendedFontSplitProps): Promise<void> {
-  const { label, outDir } = fontSplitProps;
+  const { input, label, outDir } = fontSplitProps;
+
+  if (!existsSync(input)) {
+    log(`[跳过] 原始字体文件不存在: ${input}`);
+    log(`请先运行 \`npm run download-fonts\` 下载原始字体文件。`);
+    return;
+  }
 
   log(`开始分片: ${label}`);
 
@@ -252,34 +258,18 @@ async function splitSingleFont(fontSplitProps: ExtendedFontSplitProps): Promise<
 async function main(): Promise<void> {
   log('开始字体分片');
 
-  let hasMissingSource = false;
-  let hasErrors = false;
+  const results = await Promise.allSettled(fontSplitProps.map((split) => splitSingleFont(split)));
 
-  for (const split of fontSplitProps) {
-    if (!existsSync(split.input)) {
-      log(`[跳过] 原始字体文件不存在: ${split.input}`);
-      log(`请先运行 \`npm run download-fonts\` 下载原始字体文件。`);
-      hasMissingSource = true;
-      continue;
+  const rejected = results.filter((r) => r.status === 'rejected');
+  if (rejected.length > 0) {
+    for (const r of rejected) {
+      log('[错误] 分片失败:', (r as PromiseRejectedResult).reason);
     }
-
-    try {
-      await splitSingleFont(split);
-    } catch (err) {
-      log(`[错误] 分片失败: ${split.label}`, err);
-      hasErrors = true;
-    }
-  }
-
-  if (hasMissingSource) {
-    log('提示：部分字体尚未下载，请执行 npm run download-fonts');
-  }
-  if (hasErrors) {
-    log('分片完成（有错误）');
+    log(`分片完成（${rejected.length} 个失败）`);
     process.exit(1);
-  } else {
-    log('分片完成');
   }
+
+  log('分片完成');
 }
 
 main();
