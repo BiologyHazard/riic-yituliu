@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getCharProfessionName, getCharRarity } from '@/utils/character';
+import { getCharName, getCharProfessionName, getCharRarity } from '@/utils/character';
 import { getAvatarUrl } from '@/utils/dataSources';
 import { getPrtsWikiMediaUrl } from '@/utils/prtsWiki';
 import { computed } from 'vue';
@@ -28,6 +28,20 @@ const props = withDefaults(defineProps<OperatorAvatarProps>(), {
   showRarity: false,
   showProfession: false,
   showEliteLevel: false,
+});
+
+const imageAltName = computed<string>(() => {
+  if (props.charName) {
+    return props.charName;
+  }
+  if (props.charId) {
+    const name = getCharName(props.charId);
+    if (name) {
+      return name;
+    }
+    return props.charId;
+  }
+  return '未知干员';
 });
 
 /** 精英阶段角标 URL */
@@ -95,7 +109,7 @@ const avatarUrl = computed<string | undefined>(() => {
     />
     <img
       v-if="avatarUrl"
-      :alt="`头像_${props.charName}`"
+      :alt="`头像_${imageAltName}`"
       class="avatar"
       referrerpolicy="no-referrer"
       :src="avatarUrl"
