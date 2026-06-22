@@ -535,7 +535,7 @@ const t3EliteMaterialDisplayInfo = computed(() => ({
   </UContainer>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 h1 {
   margin-bottom: 1em;
   text-align: center;
@@ -559,19 +559,19 @@ h1 {
   align-items: center;
   justify-content: center;
   margin-bottom: 0.5em;
+}
 
-  .table-caption-left {
-    text-align: center;
-  }
+.table-caption-left {
+  text-align: center;
+}
 
-  .table-caption-title {
-    font-size: 1.5em;
-    font-weight: bold;
-  }
+.table-caption-title {
+  font-size: 1.5em;
+  font-weight: bold;
+}
 
-  .table-caption-right {
-    text-align: right;
-  }
+.table-caption-right {
+  text-align: right;
 }
 
 .table-container {
@@ -589,43 +589,41 @@ h1 {
   table-layout: auto;
   border-collapse: collapse;
   background: var(--color-background);
+}
 
-  tr td {
-    width: 10em;
-    min-width: 5em;
-    height: 3em;
-    padding: 0.5em;
-    line-height: 1.3;
-    text-align: center;
-  }
+.table tr td {
+  width: 10em;
+  min-width: 5em;
+  height: 3em;
+  padding: 0.5em;
+  line-height: 1.3;
+  text-align: center;
+}
 
-  .table-td-icon {
-    padding: 0;
-  }
+.table .table-td-icon {
+  padding: 0;
+}
 
-  thead {
-    font-weight: 700;
-    background: var(--color-background-light);
-    border-bottom: 0.1em solid var(--color-border);
-  }
+.table thead {
+  font-weight: 700;
+  background: var(--color-background-light);
+  border-bottom: 0.1em solid var(--color-border);
+}
 
-  tbody {
-    tr {
-      transition: background-color 0.15s;
+.table tbody tr {
+  transition: background-color 0.15s;
+}
 
-      &:hover {
-        background: var(--color-background-light);
-      }
-    }
-  }
+.table tbody tr:hover {
+  background: var(--color-background-light);
+}
 
-  img {
-    display: block;
-    width: 2.5em;
-    height: 2.5em;
-    margin: auto;
-    object-fit: contain;
-  }
+.table img {
+  display: block;
+  width: 2.5em;
+  height: 2.5em;
+  margin: auto;
+  object-fit: contain;
 }
 
 a {

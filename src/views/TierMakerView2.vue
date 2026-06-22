@@ -671,11 +671,10 @@ function shouldShowPreviewAtEnd(tierIndex: number): boolean {
   </div>
 </template>
 
-<style scoped lang="scss">
-$avatar-size: clamp(36px, 12vw, 72px);
-
+<style scoped>
 .tier-maker {
-  position: relative;
+  --avatar-size: clamp(36px, 12vw, 72px);
+
   display: flex;
   flex-direction: row;
   gap: 16px;
@@ -685,7 +684,6 @@ $avatar-size: clamp(36px, 12vw, 72px);
 }
 
 .board-section {
-  // flex: 1;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -700,10 +698,10 @@ $avatar-size: clamp(36px, 12vw, 72px);
   border: 1px solid rgb(255 255 255 / 8%);
   border-radius: 8px;
   transition: background-color 0.2s;
+}
 
-  &.drag-over {
-    background: rgb(100 150 255 / 15%);
-  }
+.tier-row.drag-over {
+  background: rgb(100 150 255 / 15%);
 }
 
 .tier-label {
@@ -722,7 +720,7 @@ $avatar-size: clamp(36px, 12vw, 72px);
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  min-height: calc($avatar-size + 16px);
+  min-height: calc(var(--avatar-size) + 16px);
   padding: 8px;
 }
 
@@ -751,47 +749,45 @@ $avatar-size: clamp(36px, 12vw, 72px);
   flex-wrap: wrap;
   gap: 8px;
   align-content: flex-start;
-  min-height: calc($avatar-size + 16px);
+  min-height: calc(var(--avatar-size) + 16px);
   padding: 8px;
-  // height: calc(100vh - 200px);
   overflow-y: auto;
   border: 1px dashed rgb(255 255 255 / 20%);
   border-radius: 8px;
   transition:
     background-color 0.2s,
     border-color 0.2s;
+}
 
-  &.drag-over {
-    background: rgb(100 150 255 / 15%);
-    border-color: rgb(100 150 255 / 50%);
-  }
+.pool.drag-over {
+  background: rgb(100 150 255 / 15%);
+  border-color: rgb(100 150 255 / 50%);
 }
 
 .tile {
-  width: $avatar-size;
-  height: $avatar-size;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
   overflow: hidden;
   cursor: grab;
   background: rgb(255 255 255 / 6%);
   border: 1px solid rgb(255 255 255 / 8%);
   border-radius: 6px;
-  // transition: opacity 0.15s;
+}
 
-  &:active {
-    cursor: grabbing;
-  }
+.tile:active {
+  cursor: grabbing;
+}
 
-  &.char-hidden {
-    pointer-events: none;
-    opacity: 0;
-  }
+.tile.char-hidden {
+  pointer-events: none;
+  opacity: 0;
+}
 
-  &.preview {
-    cursor: default;
-    border: 2px dashed rgb(100 150 255 / 80%);
-    opacity: 0.4;
-    animation: preview-pulse 1s ease-in-out infinite;
-  }
+.tile.preview {
+  cursor: default;
+  border: 2px dashed rgb(100 150 255 / 80%);
+  opacity: 0.4;
+  animation: preview-pulse 1s ease-in-out infinite;
 }
 
 @keyframes preview-pulse {
@@ -817,8 +813,8 @@ $avatar-size: clamp(36px, 12vw, 72px);
 
 .animating-tile {
   position: absolute;
-  width: $avatar-size;
-  height: $avatar-size;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
   overflow: hidden;
   background: rgb(255 255 255 / 6%);
   border: 1px solid rgb(255 255 255 / 8%);

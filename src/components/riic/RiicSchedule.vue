@@ -144,7 +144,7 @@ watch(props, () => {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .schedule {
   position: relative;
   display: flex;
@@ -152,10 +152,10 @@ watch(props, () => {
   inline-size: 2160px;
   block-size: 1080px;
   overflow: hidden;
-  pointer-events: none; // 禁止交互
-  user-select: none; // 禁止选中
+  pointer-events: none; /* 禁止选中 */
+  user-select: none; /* 禁止选中 */
   background-color: black;
-  isolation: isolate; // 创建新的堆叠上下文，确保子元素的 z-index 不受外部影响
+  isolation: isolate; /* 创建新的堆叠上下文，确保子元素的 z-index 不受外部影响 */
 }
 
 .background-image {
@@ -225,11 +225,11 @@ watch(props, () => {
 
 .stats-block {
   display: grid;
-  grid-template-rows: repeat(2, auto); // 2 行
-  grid-auto-columns: max-content; // 列宽随内容
-  grid-auto-flow: column; // 列优先
+  grid-template-rows: repeat(2, auto); /* 2 行 */
+  grid-auto-columns: max-content; /* 列宽随内容 */
+  grid-auto-flow: column; /* 列优先 */
   gap: 22px 26px;
-  align-content: center; // 整个表格居中
+  align-content: center; /* 整个表格居中 */
 }
 
 .stats-item {
@@ -242,8 +242,8 @@ watch(props, () => {
 .item-count {
   position: relative;
   display: flex;
-  align-items: center; // 垂直居中
-  justify-content: flex-end; // 右对齐
+  align-items: center; /* 垂直居中 */
+  justify-content: flex-end; /* 右对齐 */
   min-inline-size: 120px;
   block-size: 41px;
   padding-inline: 40px 20px;
@@ -251,16 +251,12 @@ watch(props, () => {
   font-family: 'HarmonyOS Sans SC', sans-serif;
   font-size: 28px;
   font-weight: 500;
-  background-color: #353535; // 由具体物品决定
+  background-color: #353535; /* 由具体物品决定 */
 }
 
 .base-ap-icon {
-  // position: absolute;
-  // right: 0;
-  // bottom: 0;
   inline-size: auto;
   block-size: 30px;
-  // transform: translate(50%, 50%);
   margin-inline: 4px;
   filter: drop-shadow(0 0 2px black);
 }
@@ -324,6 +320,5 @@ watch(props, () => {
   font-weight: 700;
   color: rgb(255 255 255 / 50%);
   transform: translate(-50%, -50%);
-  // letter-spacing: -0.03em;
 }
 </style>

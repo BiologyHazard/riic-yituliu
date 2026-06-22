@@ -54,14 +54,14 @@ const props = defineProps<StationType>();
   </div>
 </template>
 
-<style scoped lang="scss">
-// 容器样式
+<style scoped>
+/* 容器样式 */
 .trade-station-container {
   display: flex;
   flex-direction: row;
 }
 
-// 左侧标题样式
+/* 左侧标题样式 */
 .station-label {
   display: flex;
   flex-direction: column;
@@ -75,11 +75,11 @@ const props = defineProps<StationType>();
   background-color: v-bind('getLeftBackgroundColor(props.stationType).string()');
   writing-mode: vertical-rl;
   text-orientation: upright;
-  // letter-spacing: -1px;
-  // padding: 10px 0;
+  /* letter-spacing: -1px; */
+  /* padding: 10px 0; */
 }
 
-// 右侧内容区样式
+/* 右侧内容区样式 */
 .content-area {
   display: flex;
   flex-direction: column;
@@ -87,19 +87,19 @@ const props = defineProps<StationType>();
   background-color: v-bind('getRightBackgroundColor(props.stationType).string()');
 }
 
-// 队列样式
+/* 队列样式 */
 .operator-queue:not(:last-child) {
   margin-block-end: 16px;
 }
 
-// 干员行样式
+/* 干员行样式 */
 .operator-row {
   display: flex;
   flex-direction: row;
   block-size: calc(180px + 46px);
 }
 
-// 描述文本样式
+/* 描述文本样式 */
 .description {
   display: flex;
   align-items: center;
@@ -110,6 +110,6 @@ const props = defineProps<StationType>();
   font-weight: 500;
   color: v-bind('getRightTextColor().string()');
   text-align: center;
-  // margin-top: 8px;
+  /* margin-top: 8px; */
 }
 </style>

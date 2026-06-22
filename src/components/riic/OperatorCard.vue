@@ -44,18 +44,15 @@ watch([props, operatorNameRef], () => {
   </div>
 </template>
 
-<style scoped lang="scss">
-// 头像容器
+<style scoped>
+/* 头像容器 */
 .avatar-container {
-  // position: relative;
   inline-size: 180px;
   block-size: 180px;
 }
 
-// 干员名称样式
+/* 干员名称样式 */
 .operator-name-container {
-  // position: absolute;
-  // bottom: 0;
   inline-size: 180px;
   block-size: 46px;
   text-align: center;
@@ -65,7 +62,6 @@ watch([props, operatorNameRef], () => {
 .operator-name {
   display: inline-block;
   max-inline-size: 100%;
-  // letter-spacing: -0.02em;
   overflow: hidden;
   text-overflow: ellipsis;
   font-family: 'HarmonyOS Sans SC', sans-serif;

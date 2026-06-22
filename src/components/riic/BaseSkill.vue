@@ -140,7 +140,7 @@ watch([props, operatorNameElement], () => {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .riic-skill {
   display: flex;
   flex-direction: row;
@@ -228,7 +228,7 @@ watch([props, operatorNameElement], () => {
   inset-inline-start: 20px;
   inline-size: 60px;
   block-size: 60px;
-  // transform: translate(0, -50%);
+  /* transform: translate(0, -50%); */
   margin-block-start: -30px;
 }
 

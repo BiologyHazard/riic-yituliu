@@ -139,7 +139,7 @@ const avatarUrl = computed<string | undefined>(() => {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .operator-avatar {
   position: relative;
   width: 100%;
@@ -178,7 +178,6 @@ const avatarUrl = computed<string | undefined>(() => {
   left: 0%;
   width: 35%;
   height: auto;
-  // filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.5));
 }
 
 .rarity {
