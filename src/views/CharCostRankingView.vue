@@ -181,7 +181,7 @@ const rarities = [
               <td class="px-4 py-3">
                 <div class="flex items-center gap-3">
                   <div class="h-12 w-12">
-                    <OperatorAvatar :char-id="item.charId" size="sm" />
+                    <OperatorAvatar :char-id="item.charId" />
                   </div>
                   <div>
                     <div class="font-bold">{{ item.name }}</div>
