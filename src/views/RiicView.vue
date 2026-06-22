@@ -4,6 +4,7 @@ import { downloadFile } from '@/utils/file';
 import { parseSchedule } from '@/utils/riic/parseScheduleInput';
 import { getFontEmbedCSS, toCanvas, toSvg } from 'html-to-image';
 import { computed, nextTick, ref, useTemplateRef } from 'vue';
+import type { NavigationMenuItem } from '@nuxt/ui';
 
 // 导入预设排班表
 /**
@@ -25,6 +26,44 @@ scheduleFiles = Object.fromEntries(
 );
 
 const exampleInput: string = scheduleFiles['右满 252（2 赤金）一天两换 2026-01-09-10-47'] ?? '';
+
+/**
+ * 排班预设选择（NavigationMenu 多级菜单）
+ */
+const dateRegex = /\s+\d{4}[- ]\d{2}[- ]\d{2}[- ]\d{2}[- ]\d{2}$/;
+
+const openGroupValues = ref<string[]>([]);
+
+const navMenuItems = computed<NavigationMenuItem[]>(() => {
+  const groups = new Map<string, { label: string; fileName: string }[]>();
+
+  for (const name of Object.keys(scheduleFiles)) {
+    const groupKey = name.replace(dateRegex, '');
+
+    if (!groups.has(groupKey)) {
+      groups.set(groupKey, []);
+    }
+    const label = name.match(dateRegex)?.[0]?.trim().replace(' ', '-') ?? name;
+    groups.get(groupKey)!.push({ label, fileName: name });
+  }
+
+  return Array.from(groups.entries()).map(([groupName, items], groupIndex) => {
+    const value = `group-${groupIndex}`;
+
+    return {
+      label: groupName,
+      value,
+      icon: openGroupValues.value.includes(value) ? 'i-lucide-folder-open' : 'i-lucide-folder',
+      children: items.map((item) => ({
+        label: item.label,
+        icon: 'i-lucide-file-text',
+        onSelect: () => {
+          rawInput.value = scheduleFiles[item.fileName] ?? '';
+        },
+      })),
+    };
+  });
+});
 
 /**
  * 输入框内容
@@ -145,15 +184,14 @@ async function exportAsImage(): Promise<void> {
           }"
         >
           <template #presets>
-            <div v-for="[name, content] in Object.entries(scheduleFiles)" :key="name">
-              <UButton
-                class="justify-start"
-                color="primary"
-                variant="link"
-                @click="rawInput = content"
-                >{{ name }}</UButton
-              >
-            </div>
+            <UNavigationMenu
+              v-model="openGroupValues"
+              color="neutral"
+              :items="navMenuItems"
+              orientation="vertical"
+              :ui="{ link: 'text-toned', linkLeadingIcon: 'text-toned' }"
+              variant="pill"
+            />
           </template>
 
           <template #editor>
