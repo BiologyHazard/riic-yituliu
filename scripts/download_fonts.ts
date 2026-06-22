@@ -1,12 +1,10 @@
-#!/usr/bin/env node
-
-import { createWriteStream, existsSync } from 'node:fs';
-import { copyFile, mkdir, mkdtemp, rm } from 'node:fs/promises';
+import { createWriteStream } from 'node:fs';
+import { mkdir, mkdtemp, rm } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 import { Readable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 import { fileURLToPath } from 'node:url';
-import extractZip from 'extract-zip';
+import yauzl from 'yauzl';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -155,46 +153,46 @@ async function downloadFile(
 }
 
 /**
- * 解压 ZIP 文件并复制指定文件到目标位置
- * @param zipFile - ZIP 文件路径
+ * 解压 ZIP 文件并将指定文件提取到目标位置
+ * 使用 yauzl 的 lazyEntries 模式，只读取需要的文件条目，避免全量解压
+ * @param zipPath - ZIP 文件路径
  * @param files - 需要从 ZIP 中提取的文件映射列表
  *                   source: ZIP 内的文件路径
  *                   destination: 相对于项目根目录的目标文件路径
  */
 async function extractAndCopy(
-  zipFile: string,
+  zipPath: string,
   files: { source: string; destination: string }[],
 ): Promise<void> {
-  // 在项目内创建唯一临时目录
-  await mkdir(TEMP_DIR, { recursive: true });
-  const tmpDir = await mkdtemp(join(TEMP_DIR, 'extract-'));
+  const destMap = new Map(files.map((f) => [f.source, f.destination]));
+  const pendingFiles = new Set(files.map((f) => f.source));
 
-  try {
-    // 解压文件
-    log(`开始解压: ${zipFile} -> ${tmpDir}`);
-    await extractZip(zipFile, { dir: tmpDir });
-    log(`完成解压: ${zipFile}`);
+  log(`开始解压: ${zipPath}`);
 
-    // 复制文件
-    for (const { source, destination } of files) {
-      const srcPath = join(tmpDir, source);
-      const dstPath = resolve(ROOT_DIR, destination);
+  const zipfile = await yauzl.openPromise(zipPath);
 
-      if (!existsSync(srcPath)) {
-        throw new Error(`ZIP 内未找到配置的源文件: ${srcPath}（目标: ${destination}）`);
-      }
+  for await (const entry of zipfile.eachEntry()) {
+    const destPath = destMap.get(entry.fileName);
 
-      // 确保目标目录存在
-      await mkdir(dirname(dstPath), { recursive: true });
+    if (destPath) {
+      const fullDestPath = resolve(ROOT_DIR, destPath);
 
-      log(`开始复制: ${srcPath} -> ${dstPath}`);
-      await copyFile(srcPath, dstPath);
+      log(`开始复制: ${entry.fileName} -> ${destPath}`);
+      await mkdir(dirname(fullDestPath), { recursive: true });
+
+      const readStream = await zipfile.openReadStreamPromise(entry);
+      const writeStream = createWriteStream(fullDestPath);
+      await pipeline(readStream, writeStream);
+
+      pendingFiles.delete(entry.fileName);
     }
-  } finally {
-    // 清理临时目录
-    log(`开始删除临时目录: ${tmpDir}`);
-    await rm(tmpDir, { recursive: true, force: true });
   }
+
+  if (pendingFiles.size > 0) {
+    throw new Error(`ZIP 内未找到配置的源文件: ${[...pendingFiles].join(', ')}`);
+  }
+
+  log(`完成解压: ${zipPath}`);
 }
 
 /**
@@ -233,7 +231,7 @@ async function main(): Promise<void> {
   const rejected = results.filter((r) => r.status === 'rejected');
   if (rejected.length > 0) {
     for (const r of rejected) {
-      log('[错误] 字体处理失败:', (r as PromiseRejectedResult).reason);
+      log('[错误] 字体处理失败:', r.reason);
     }
     log(`字体处理结束，${rejected.length} 个失败`);
     process.exit(1);
