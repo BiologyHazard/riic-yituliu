@@ -34,18 +34,17 @@ const globalFontSplitProps: Omit<FontSplitProps, 'input' | 'outDir'> = {
   //   fileName: 'result.css',
   // },
 
-  languageAreas: false, // 是否启用语言区域优化，将同一语言的字符分到一起
+  // languageAreas: true, // 是否启用语言区域优化，将同一语言的字符分到一起
   // autoSubset: true, // 当分包超过指定大小时是否自动拆分
   // fontFeature: true, // 是否保留字体特性（如 Code 字体的连字、字距调整等）
   // reduceMins: true, // 是否减少碎片分包，合并小分包以减少请求数，一般不需要修改
 
-  chunkSize: 512 * 1024, // 单个分片目标大小
-  chunkSizeTolerance: 1 * 1024, // 分片容差
+  // chunkSize: 70 * 1024, // 单个分片目标大小
+  // chunkSizeTolerance: 1 * 1024, // 分片容差
   // maxAllowSubsetsCount: 10, // 最大允许分包数量，可能会和 chunkSize 冲突
 
   testHtml: false, // 是否生成测试 HTML 文件
   reporter: false, // 是否生成 reporter.bin 文件
-  renameOutputFont: '[index].[ext]', // 自定义分包输出的文件名
   silent: true, // 不在控制台打印多余的日志信息
 };
 
@@ -57,6 +56,7 @@ const fontSplitProps: ExtendedFontSplitProps[] = [
     label: 'HarmonyOS Sans SC',
     input: join(PUBLIC_FONTS_DIR, 'HarmonyOS_Sans_SC', 'HarmonyOS_Sans_SC.ttf'),
     outDir: join(ASSETS_FONTS_DIR, 'HarmonyOS_Sans_SC'),
+    renameOutputFont: 'HarmonyOS_Sans_SC-[index].[ext]',
     css: {
       fontFamily: 'HarmonyOS Sans SC',
     },
@@ -67,6 +67,7 @@ const fontSplitProps: ExtendedFontSplitProps[] = [
     label: 'AlibabaPuHuiTi-3-35-Thin',
     input: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-35-Thin.woff2'),
     outDir: join(ASSETS_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-35-Thin'),
+    renameOutputFont: 'AlibabaPuHuiTi-3-35-Thin-[index].[ext]',
     css: {
       fontFamily: 'Alibaba PuHuiTi 3.0',
     },
@@ -75,6 +76,7 @@ const fontSplitProps: ExtendedFontSplitProps[] = [
     label: 'AlibabaPuHuiTi-3-45-Light',
     input: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-45-Light.woff2'),
     outDir: join(ASSETS_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-45-Light'),
+    renameOutputFont: 'AlibabaPuHuiTi-3-45-Light-[index].[ext]',
     css: {
       fontFamily: 'Alibaba PuHuiTi 3.0',
     },
@@ -83,6 +85,7 @@ const fontSplitProps: ExtendedFontSplitProps[] = [
     label: 'AlibabaPuHuiTi-3-55-Regular',
     input: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-55-Regular.woff2'),
     outDir: join(ASSETS_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-55-Regular'),
+    renameOutputFont: 'AlibabaPuHuiTi-3-55-Regular-[index].[ext]',
     css: {
       fontFamily: 'Alibaba PuHuiTi 3.0',
     },
@@ -91,6 +94,7 @@ const fontSplitProps: ExtendedFontSplitProps[] = [
     label: 'AlibabaPuHuiTi-3-65-Medium',
     input: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-65-Medium.woff2'),
     outDir: join(ASSETS_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-65-Medium'),
+    renameOutputFont: 'AlibabaPuHuiTi-3-65-Medium-[index].[ext]',
     css: {
       fontFamily: 'Alibaba PuHuiTi 3.0',
     },
@@ -99,6 +103,7 @@ const fontSplitProps: ExtendedFontSplitProps[] = [
     label: 'AlibabaPuHuiTi-3-75-SemiBold',
     input: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-75-SemiBold.woff2'),
     outDir: join(ASSETS_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-75-SemiBold'),
+    renameOutputFont: 'AlibabaPuHuiTi-3-75-SemiBold-[index].[ext]',
     css: {
       fontFamily: 'Alibaba PuHuiTi 3.0',
     },
@@ -107,6 +112,7 @@ const fontSplitProps: ExtendedFontSplitProps[] = [
     label: 'AlibabaPuHuiTi-3-85-Bold',
     input: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-85-Bold.woff2'),
     outDir: join(ASSETS_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-85-Bold'),
+    renameOutputFont: 'AlibabaPuHuiTi-3-85-Bold-[index].[ext]',
     css: {
       fontFamily: 'Alibaba PuHuiTi 3.0',
     },
@@ -115,6 +121,7 @@ const fontSplitProps: ExtendedFontSplitProps[] = [
     label: 'AlibabaPuHuiTi-3-95-ExtraBold',
     input: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-95-ExtraBold.woff2'),
     outDir: join(ASSETS_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-95-ExtraBold'),
+    renameOutputFont: 'AlibabaPuHuiTi-3-95-ExtraBold-[index].[ext]',
     css: {
       fontFamily: 'Alibaba PuHuiTi 3.0',
     },
@@ -123,6 +130,7 @@ const fontSplitProps: ExtendedFontSplitProps[] = [
     label: 'AlibabaPuHuiTi-3-105-Heavy',
     input: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-105-Heavy.woff2'),
     outDir: join(ASSETS_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-105-Heavy'),
+    renameOutputFont: 'AlibabaPuHuiTi-3-105-Heavy-[index].[ext]',
     css: {
       fontFamily: 'Alibaba PuHuiTi 3.0',
     },
@@ -131,6 +139,7 @@ const fontSplitProps: ExtendedFontSplitProps[] = [
     label: 'AlibabaPuHuiTi-3-115-Black',
     input: join(PUBLIC_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-115-Black.woff2'),
     outDir: join(ASSETS_FONTS_DIR, 'Alibaba_PuHuiTi_3.0', 'AlibabaPuHuiTi-3-115-Black'),
+    renameOutputFont: 'AlibabaPuHuiTi-3-115-Black-[index].[ext]',
     css: {
       fontFamily: 'Alibaba PuHuiTi 3.0',
     },
@@ -140,7 +149,17 @@ const fontSplitProps: ExtendedFontSplitProps[] = [
   {
     label: 'JetBrains Mono',
     input: join(PUBLIC_FONTS_DIR, 'JetBrains_Mono', 'JetBrainsMono[wght].ttf'),
-    outDir: join(ASSETS_FONTS_DIR, 'JetBrains_Mono'),
+    outDir: join(ASSETS_FONTS_DIR, 'JetBrains_Mono', 'JetBrainsMono'),
+    renameOutputFont: 'JetBrainsMono-[index].[ext]',
+    css: {
+      fontFamily: 'JetBrains Mono',
+    },
+  },
+  {
+    label: 'JetBrains Mono Italic',
+    input: join(PUBLIC_FONTS_DIR, 'JetBrains_Mono', 'JetBrainsMono-Italic[wght].ttf'),
+    outDir: join(ASSETS_FONTS_DIR, 'JetBrains_Mono', 'JetBrainsMono-Italic'),
+    renameOutputFont: 'JetBrainsMono-Italic-[index].[ext]',
     css: {
       fontFamily: 'JetBrains Mono',
     },
@@ -151,6 +170,7 @@ const fontSplitProps: ExtendedFontSplitProps[] = [
     label: 'Outfit',
     input: join(PUBLIC_FONTS_DIR, 'Outfit', 'Outfit[wght].ttf'),
     outDir: join(ASSETS_FONTS_DIR, 'Outfit'),
+    renameOutputFont: 'Outfit-[index].[ext]',
     css: {
       fontFamily: 'Outfit',
     },
