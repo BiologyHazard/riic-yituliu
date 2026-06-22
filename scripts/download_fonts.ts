@@ -1,7 +1,6 @@
 import { createWriteStream } from 'node:fs';
-import { mkdir, mkdtemp, rm } from 'node:fs/promises';
-import { dirname, join, resolve } from 'node:path';
-import { Readable } from 'node:stream';
+import { mkdir } from 'node:fs/promises';
+import { dirname, resolve } from 'node:path';
 import { pipeline } from 'node:stream/promises';
 import { fileURLToPath } from 'node:url';
 import yauzl from 'yauzl';
@@ -9,7 +8,6 @@ import yauzl from 'yauzl';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const ROOT_DIR = resolve(__dirname, '..');
-const TEMP_DIR = join(ROOT_DIR, 'node_modules', '.tmp');
 
 /**
  * 字体配置接口
@@ -122,18 +120,16 @@ function log(...args: unknown[]): void {
 }
 
 /**
- * 从 URL 下载文件到本地
- * @param url - 要下载的文件 URL
- * @param destPath - 本地保存路径
+ * 从 URL 下载字体 ZIP 到内存 Buffer
+ * @param url - 字体 ZIP 的下载 URL
  * @param headers - 可选的 HTTP 请求头
- * @throws 当下载失败或响应体为空时抛出错误
  */
-async function downloadFile(
+async function downloadToBuffer(
+  name: string,
   url: string,
-  destPath: string,
   headers?: Record<string, string>,
-): Promise<void> {
-  log(`开始下载: ${url} -> ${destPath}`);
+): Promise<Buffer> {
+  log(`[${name}] 开始下载: ${url}`);
 
   const response = await fetch(url, { headers });
 
@@ -141,35 +137,30 @@ async function downloadFile(
     throw new Error(`下载失败: ${response.status} ${response.statusText}`);
   }
 
-  if (!response.body) {
-    throw new Error('响应体为空');
-  }
-
-  const fileStream = createWriteStream(destPath);
-  // 将 Web ReadableStream 转换为 Node.js Readable
-  await pipeline(Readable.fromWeb(response.body), fileStream);
-
-  log(`完成下载: ${url} -> ${destPath}`);
+  const buffer = Buffer.from(await response.arrayBuffer());
+  log(`[${name}] 下载完成 (${(buffer.length / 1024 / 1024).toFixed(2)} MB)`);
+  return buffer;
 }
 
 /**
- * 解压 ZIP 文件并将指定文件提取到目标位置
+ * 从 ZIP Buffer 中提取指定文件到目标位置
  * 使用 yauzl 的 lazyEntries 模式，只读取需要的文件条目，避免全量解压
- * @param zipPath - ZIP 文件路径
+ * @param buffer - ZIP 文件的完整 Buffer
  * @param files - 需要从 ZIP 中提取的文件映射列表
  *                   source: ZIP 内的文件路径
  *                   destination: 相对于项目根目录的目标文件路径
  */
-async function extractAndCopy(
-  zipPath: string,
+async function extractFromBuffer(
+  name: string,
+  buffer: Buffer,
   files: { source: string; destination: string }[],
 ): Promise<void> {
   const destMap = new Map(files.map((f) => [f.source, f.destination]));
   const pendingFiles = new Set(files.map((f) => f.source));
 
-  log(`开始解压: ${zipPath}`);
+  log(`[${name}] 开始解压`);
 
-  const zipfile = await yauzl.openPromise(zipPath);
+  const zipfile = await yauzl.fromBufferPromise(buffer);
 
   for await (const entry of zipfile.eachEntry()) {
     const destPath = destMap.get(entry.fileName);
@@ -177,7 +168,7 @@ async function extractAndCopy(
     if (destPath) {
       const fullDestPath = resolve(ROOT_DIR, destPath);
 
-      log(`开始复制: ${entry.fileName} -> ${destPath}`);
+      log(`[${name}] 开始复制: ${entry.fileName} -> ${destPath}`);
       await mkdir(dirname(fullDestPath), { recursive: true });
 
       const readStream = await zipfile.openReadStreamPromise(entry);
@@ -192,34 +183,22 @@ async function extractAndCopy(
     throw new Error(`ZIP 内未找到配置的源文件: ${[...pendingFiles].join(', ')}`);
   }
 
-  log(`完成解压: ${zipPath}`);
+  log(`[${name}] 完成解压`);
 }
 
 /**
- * 获取字体文件（下载、解压、复制）
+ * 获取字体文件（下载到内存、解压提取）
  * @param config - 字体配置对象
  */
 async function fetchFont(config: FontConfig): Promise<void> {
-  log(`开始处理: ${config.name}`);
+  const { name, url, files, headers } = config;
 
-  // 在项目内创建唯一临时工作目录
-  await mkdir(TEMP_DIR, { recursive: true });
-  const tmpWorkDir = await mkdtemp(join(TEMP_DIR, 'font-'));
-  const tmpZip = join(tmpWorkDir, 'font.zip');
+  log(`[${name}] 开始处理`);
 
-  try {
-    // 下载字体文件
-    await downloadFile(config.url, tmpZip, config.headers);
+  const buffer = await downloadToBuffer(name, url, headers);
+  await extractFromBuffer(name, buffer, files);
 
-    // 解压并复制
-    await extractAndCopy(tmpZip, config.files);
-
-    log(`完成: ${config.name}`);
-  } finally {
-    // 清理临时工作目录
-    log(`开始删除临时目录: ${tmpWorkDir}`);
-    await rm(tmpWorkDir, { recursive: true, force: true });
-  }
+  log(`[${name}] 完成`);
 }
 
 /**
