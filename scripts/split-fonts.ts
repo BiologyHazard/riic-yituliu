@@ -186,7 +186,7 @@ function log(...args: unknown[]): void {
 }
 
 /** 打印分片统计信息 */
-async function printSplitStats(outDir: string): Promise<void> {
+async function printSplitStats(label: string, outDir: string): Promise<void> {
   if (!existsSync(outDir)) return;
 
   const files = (await readdir(outDir)).filter((f) => f.endsWith('.woff2'));
@@ -199,7 +199,7 @@ async function printSplitStats(outDir: string): Promise<void> {
   const quantiles = [0, 0.25, 0.5, 0.75, 1].map((p) => percentile(sortedSizes, p));
 
   log(
-    `${files.length} 分片, ${(totalSize / 1024 / 1024).toFixed(2)} MB, 平均 ${(avgSize / 1024).toFixed(2)} KB, 分位数: ${quantiles.map((q) => (q / 1024).toFixed(2)).join('/')} KB`,
+    `[${label}] ${files.length} 分片, ${(totalSize / 1024 / 1024).toFixed(2)} MB, 平均 ${(avgSize / 1024).toFixed(2)} KB, 分位数: ${quantiles.map((q) => (q / 1024).toFixed(2)).join('/')} KB`,
   );
 }
 
@@ -220,8 +220,8 @@ async function splitSingleFont(fontSplitProps: ExtendedFontSplitProps): Promise<
   const { input, label, outDir } = fontSplitProps;
 
   if (!existsSync(input)) {
-    log(`[跳过] 原始字体文件不存在: ${input}`);
-    log(`请先运行 \`npm run download-fonts\` 下载原始字体文件。`);
+    log(`[${label}] [跳过] 原始字体文件不存在: ${input}`);
+    log(`[${label}] 请先运行 \`npm run download-fonts\` 下载原始字体文件。`);
     return;
   }
 
@@ -232,7 +232,7 @@ async function splitSingleFont(fontSplitProps: ExtendedFontSplitProps): Promise<
     if (relative(ASSETS_FONTS_DIR, outDir).startsWith('..')) {
       throw new Error(`拒绝删除: "${outDir}" 不在 src/assets/fonts/ 之下`);
     }
-    log(`清空输出目录: ${outDir}`);
+    log(`[${label}] 清空输出目录: ${outDir}`);
     await rm(outDir, { recursive: true, force: true });
   }
   await mkdir(outDir, { recursive: true });
@@ -250,7 +250,7 @@ async function splitSingleFont(fontSplitProps: ExtendedFontSplitProps): Promise<
     }
   }
 
-  await printSplitStats(outDir);
+  await printSplitStats(label, outDir);
 }
 
 // ============ 主流程 ============
