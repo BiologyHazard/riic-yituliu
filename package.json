@@ -13,7 +13,7 @@
     "preview": "vite preview",
     "type-check": "vue-tsc --build",
     "lint": "npm-run-all2 --parallel lint:eslint lint:stylelint",
-    "lint:fix": "npm-run-all2 --parallel lint:eslint:fix lint:stylelint:fix",
+    "lint:fix": "npm-run-all2 lint:eslint:fix lint:stylelint:fix",
     "lint:eslint": "eslint .",
     "lint:eslint:fix": "eslint . --fix",
     "lint:stylelint": "stylelint \"**/*.{css,scss,vue,html}\"",
