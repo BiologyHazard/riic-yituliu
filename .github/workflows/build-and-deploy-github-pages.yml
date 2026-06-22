@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
@@ -41,8 +41,8 @@ jobs:
       - name: Copy 404 Page
         run: cp dist/index.html dist/404.html
 
-      - name: Upload Artifacts
-        uses: actions/upload-pages-artifact@v4
+      - name: Upload GitHub Pages Artifact
+        uses: actions/upload-pages-artifact@v5
         with:
           path: dist
 
@@ -64,4 +64,4 @@ jobs:
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
