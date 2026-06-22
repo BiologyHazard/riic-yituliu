@@ -629,70 +629,70 @@ function shouldShowPreviewAtEnd(tierIndex: number): boolean {
 $avatar-size: clamp(36px, 12vw, 72px);
 
 .tier-maker {
-  width: 1420px;
+  position: relative;
   display: flex;
   flex-direction: row;
   gap: 16px;
-  user-select: none;
-  position: relative;
   align-items: flex-start;
+  width: 1420px;
+  user-select: none;
 }
 
 .board-section {
-  width: 826px;
   // flex: 1;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  width: 826px;
   min-width: 0;
 }
 
 .tier-row {
   display: flex;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
   overflow: hidden;
+  background: rgb(255 255 255 / 4%);
+  border: 1px solid rgb(255 255 255 / 8%);
+  border-radius: 8px;
   transition: background-color 0.2s;
 
   &.drag-over {
-    background: rgba(100, 150, 255, 0.15);
+    background: rgb(100 150 255 / 15%);
   }
 }
 
 .tier-label {
-  width: 96px;
-  flex-shrink: 0;
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
+  width: 96px;
   font-size: 20px;
+  font-weight: 700;
   user-select: none;
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  border-right: 1px solid rgb(255 255 255 / 8%);
 }
 
 .tier-list {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  padding: 8px;
   min-height: calc($avatar-size + 16px);
+  padding: 8px;
 }
 
 .pool-section {
-  width: 490px;
-  flex-shrink: 0;
   display: flex;
+  flex-shrink: 0;
   flex-direction: column;
   gap: 8px;
+  width: 490px;
 }
 
 .pool-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   gap: 8px;
+  align-items: center;
+  justify-content: space-between;
   font-weight: 500;
 }
 
@@ -704,31 +704,31 @@ $avatar-size: clamp(36px, 12vw, 72px);
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  padding: 8px;
-  border: 1px dashed rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
+  align-content: flex-start;
   min-height: calc($avatar-size + 16px);
+  padding: 8px;
   // height: calc(100vh - 200px);
   overflow-y: auto;
+  border: 1px dashed rgb(255 255 255 / 20%);
+  border-radius: 8px;
   transition:
     background-color 0.2s,
     border-color 0.2s;
-  align-content: flex-start;
 
   &.drag-over {
-    background: rgba(100, 150, 255, 0.15);
-    border-color: rgba(100, 150, 255, 0.5);
+    background: rgb(100 150 255 / 15%);
+    border-color: rgb(100 150 255 / 50%);
   }
 }
 
 .tile {
   width: $avatar-size;
   height: $avatar-size;
-  border-radius: 6px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
   cursor: grab;
+  background: rgb(255 255 255 / 6%);
+  border: 1px solid rgb(255 255 255 / 8%);
+  border-radius: 6px;
   // transition: opacity 0.15s;
 
   &:active {
@@ -736,14 +736,14 @@ $avatar-size: clamp(36px, 12vw, 72px);
   }
 
   &.char-hidden {
-    opacity: 0;
     pointer-events: none;
+    opacity: 0;
   }
 
   &.preview {
-    opacity: 0.4;
-    border: 2px dashed rgba(100, 150, 255, 0.8);
     cursor: default;
+    border: 2px dashed rgb(100 150 255 / 80%);
+    opacity: 0.4;
     animation: preview-pulse 1s ease-in-out infinite;
   }
 }
@@ -753,6 +753,7 @@ $avatar-size: clamp(36px, 12vw, 72px);
   100% {
     opacity: 0.4;
   }
+
   50% {
     opacity: 0.6;
   }
@@ -762,22 +763,22 @@ $avatar-size: clamp(36px, 12vw, 72px);
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 9999;
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 9999;
 }
 
 .animating-tile {
   position: absolute;
   width: $avatar-size;
   height: $avatar-size;
-  border-radius: 6px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgb(255 255 255 / 6%);
+  border: 1px solid rgb(255 255 255 / 8%);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 30%);
   transform: translate(-50%, -50%);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   will-change: transform, opacity;
 }
 </style>

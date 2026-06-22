@@ -141,9 +141,9 @@ const avatarUrl = computed<string | undefined>(() => {
 
 <style scoped lang="scss">
 .operator-avatar {
+  position: relative;
   width: 100%;
   height: 100%;
-  position: relative;
 }
 
 .operator-avatar img {
@@ -167,24 +167,24 @@ const avatarUrl = computed<string | undefined>(() => {
 }
 
 .profession {
-  width: 25%;
-  height: 25%;
   top: 0%;
   left: 0%;
+  width: 25%;
+  height: 25%;
 }
 
 .elite {
-  width: 35%;
-  height: auto;
   bottom: 0%;
   left: 0%;
+  width: 35%;
+  height: auto;
   // filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.5));
 }
 
 .rarity {
+  right: 0%;
+  bottom: 0%;
   width: auto;
   height: 18%;
-  bottom: 0%;
-  right: 0%;
 }
 </style>

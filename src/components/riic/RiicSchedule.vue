@@ -146,30 +146,30 @@ watch(props, () => {
 
 <style scoped lang="scss">
 .schedule {
-  isolation: isolate; // 创建新的堆叠上下文，确保子元素的 z-index 不受外部影响
-  width: 2160px;
-  height: 1080px;
+  position: relative;
   display: flex;
   flex-direction: column;
-  position: relative;
+  width: 2160px;
+  height: 1080px;
   overflow: hidden;
-  background-color: black;
-  user-select: none; // 禁止选中
   pointer-events: none; // 禁止交互
+  user-select: none; // 禁止选中
+  background-color: black;
+  isolation: isolate; // 创建新的堆叠上下文，确保子元素的 z-index 不受外部影响
 }
 
 .background-image {
   position: absolute;
+  z-index: -1;
   width: 100%;
   height: 100%;
-  z-index: -1;
 }
 
 .schedule-title {
   display: flex;
   flex-direction: row;
-  align-items: stretch;
   gap: 40px;
+  align-items: stretch;
   height: 120px;
   margin: 12px 0 0 13px;
   color: #ededed;
@@ -188,17 +188,17 @@ watch(props, () => {
 .left-content {
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   // border-left: 17px solid var(--color-primary);
   padding: 0 80px 0 20px;
-  background-color: #353535;
   font-family: 'Alibaba PuHuiTi 3.0', sans-serif;
-  font-weight: 1000;
   font-size: 48px;
+  font-weight: 1000;
   line-height: 1.1;
   letter-spacing: -0.03em;
   white-space: pre-wrap;
+  background-color: #353535;
 }
 
 .decoration {
@@ -214,44 +214,44 @@ watch(props, () => {
   justify-content: center;
   min-width: 360px;
   padding: 0 20px;
-  background-color: #353535;
   font-family: 'HarmonyOS Sans SC', sans-serif;
-  font-weight: 500;
   font-size: 22px;
+  font-weight: 500;
   line-height: 1.3;
   text-align: center;
   white-space: pre-wrap;
+  background-color: #353535;
 }
 
 .stats-block {
   display: grid;
-  grid-auto-flow: column; // 列优先
   grid-template-rows: repeat(2, auto); // 2 行
   grid-auto-columns: max-content; // 列宽随内容
-  align-content: center; // 整个表格居中
+  grid-auto-flow: column; // 列优先
   gap: 22px 26px;
+  align-content: center; // 整个表格居中
 }
 
 .stats-item {
+  position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
-  position: relative;
 }
 
 .item-count {
   position: relative;
   display: flex;
-  justify-content: flex-end; // 右对齐
   align-items: center; // 垂直居中
+  justify-content: flex-end; // 右对齐
   min-width: 120px;
   height: 41px;
-  background-color: #353535; // 由具体物品决定
-  font-family: 'HarmonyOS Sans SC', sans-serif;
-  font-weight: 500;
-  font-size: 28px;
   padding: 0 20px 0 40px;
   margin: 0 0 0 30px;
+  font-family: 'HarmonyOS Sans SC', sans-serif;
+  font-size: 28px;
+  font-weight: 500;
+  background-color: #353535; // 由具体物品决定
 }
 
 .base-ap-icon {
@@ -272,10 +272,10 @@ watch(props, () => {
 }
 
 .schedule-content-container {
-  flex: 1;
   display: flex;
-  justify-content: center;
+  flex: 1;
   align-items: center;
+  justify-content: center;
 }
 
 .schedule-content {
@@ -293,8 +293,8 @@ watch(props, () => {
 .queue-descriptions {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
   align-items: center;
+  justify-content: space-around;
   width: fit-content;
 }
 
@@ -302,8 +302,8 @@ watch(props, () => {
   margin-block: 20px;
   font-family: 'HarmonyOS Sans SC', sans-serif;
   font-size: 50px;
-  line-height: 1.3em;
   font-weight: 600;
+  line-height: 1.3em;
   color: white;
   text-align: center;
   text-wrap: nowrap;
@@ -319,11 +319,11 @@ watch(props, () => {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  color: rgba(255, 255, 255, 0.5);
   font-family: 'Alibaba PuHuiTi 3.0', sans-serif;
-  font-weight: 700;
   font-size: 120px;
+  font-weight: 700;
+  color: rgb(255 255 255 / 50%);
+  transform: translate(-50%, -50%);
   // letter-spacing: -0.03em;
 }
 </style>

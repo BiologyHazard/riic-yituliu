@@ -101,5 +101,3 @@ onMounted(() => {
     </UMain>
   </UApp>
 </template>
-
-<style scoped lang="scss"></style>

@@ -537,14 +537,14 @@ const t3EliteMaterialDisplayInfo = computed(() => ({
 
 <style scoped lang="scss">
 h1 {
-  text-align: center;
   margin-bottom: 1em;
+  text-align: center;
 }
 
 .decimal-control {
   display: flex;
-  align-items: center;
   gap: 0.5em;
+  align-items: center;
   padding: 0.5em 0;
 }
 
@@ -555,9 +555,9 @@ h1 {
 .table-caption {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: center;
   gap: 2em;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 0.5em;
 
   .table-caption-left {
@@ -575,28 +575,28 @@ h1 {
 }
 
 .table-container {
-  overflow: auto;
   width: fit-content;
   max-width: 100%;
   margin: 1em auto;
+  overflow: auto;
   border: 0.1em solid var(--color-border);
   border-radius: 1em;
 }
 
 .table {
+  font-size: 1em;
+  color: var(--color-text);
   table-layout: auto;
   border-collapse: collapse;
-  font-size: 1em;
   background: var(--color-background);
-  color: var(--color-text);
 
   tr td {
-    min-width: 5em;
     width: 10em;
+    min-width: 5em;
     height: 3em;
-    padding: 0.5em 0.5em;
-    text-align: center;
+    padding: 0.5em;
     line-height: 1.3;
+    text-align: center;
   }
 
   .table-td-icon {
@@ -604,9 +604,9 @@ h1 {
   }
 
   thead {
+    font-weight: 700;
     background: var(--color-background-light);
     border-bottom: 0.1em solid var(--color-border);
-    font-weight: 700;
   }
 
   tbody {
@@ -620,11 +620,11 @@ h1 {
   }
 
   img {
+    display: block;
     width: 2.5em;
     height: 2.5em;
-    object-fit: contain;
-    display: block;
     margin: auto;
+    object-fit: contain;
   }
 }
 

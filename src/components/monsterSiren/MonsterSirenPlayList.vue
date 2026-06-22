@@ -102,15 +102,15 @@ const emit = defineEmits<{
 
 .playlist-slide-enter-from,
 .playlist-slide-leave-to {
-  transform: translateY(20px);
   opacity: 0;
+  transform: translateY(20px);
 }
 
-@media (min-width: 640px) {
+@media (width >= 640px) {
   .playlist-slide-enter-from,
   .playlist-slide-leave-to {
-    transform: translateY(20px) scale(0.95);
     opacity: 0;
+    transform: translateY(20px) scale(0.95);
   }
 }
 </style>

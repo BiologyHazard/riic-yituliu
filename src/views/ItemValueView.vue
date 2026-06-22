@@ -201,15 +201,19 @@ function resetToDefault() {
 .rarity-5 {
   color: #ff7f27;
 }
+
 .rarity-4 {
   color: #e1b2ff;
 }
+
 .rarity-3 {
   color: #00b0ff;
 }
+
 .rarity-2 {
   color: #c9e100;
 }
+
 .rarity-1 {
   color: #9e9e9e;
 }

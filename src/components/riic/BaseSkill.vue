@@ -142,13 +142,13 @@ watch([props, operatorNameElement], () => {
 
 <style scoped lang="scss">
 .riic-skill {
-  width: 1920px;
   display: flex;
   flex-direction: row;
-  align-items: center;
   gap: 20px;
-  background-image: linear-gradient(185deg, #191919, #424242);
+  align-items: center;
+  width: 1920px;
   padding: 24px 24px 24px 34px;
+  background-image: linear-gradient(185deg, #191919, #424242);
 }
 
 .operator-avatar {
@@ -157,52 +157,52 @@ watch([props, operatorNameElement], () => {
 }
 
 .operator-name-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 180px;
   height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   margin-block-start: 6px;
   background-color: #181818;
 }
 
 .operator-name {
-  color: white;
-  font-family: 'Alibaba PuHuiTi 3.0', sans-serif;
-  font-weight: 700;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-family: 'Alibaba PuHuiTi 3.0', sans-serif;
+  font-weight: 700;
+  color: white;
   white-space: nowrap;
 }
 
 .riic-skill-table {
   width: 100%;
   table-layout: fixed;
-  border-collapse: separate;
   border-spacing: 10px;
+  border-collapse: separate;
 }
 
 .td-buff-index {
   width: 48px;
   font-family: 'Outfit', sans-serif;
-  font-weight: 900;
   font-size: 72px;
-  text-align: center;
-  vertical-align: top;
+  font-weight: 900;
   line-height: 1;
+  vertical-align: top;
+  text-align: center;
 }
 
 .td-buff-cond,
 .td-buff-name,
 .td-buff-description {
   padding: 24px 28px;
-  background-color: #e3e3e3;
-  color: #222222;
   font-family: 'HarmonyOS Sans SC', sans-serif;
-  font-weight: 500;
   font-size: 36px;
-  letter-spacing: -0.02em;
+  font-weight: 500;
   line-height: 1.3;
+  color: #222222;
+  letter-spacing: -0.02em;
+  background-color: #e3e3e3;
 }
 
 .td-buff-cond {
@@ -211,9 +211,9 @@ watch([props, operatorNameElement], () => {
 }
 
 .td-buff-name {
+  position: relative;
   width: 384px;
   text-align: left;
-  position: relative;
 }
 
 .td-buff-description {
@@ -221,11 +221,11 @@ watch([props, operatorNameElement], () => {
 }
 
 .skill-icon {
-  width: 60px;
-  height: 60px;
   position: absolute;
   top: 50%;
   left: 20px;
+  width: 60px;
+  height: 60px;
   transform: translate(0, -50%);
 }
 

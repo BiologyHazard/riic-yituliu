@@ -58,21 +58,21 @@ watch([props, operatorNameRef], () => {
   // bottom: 0;
   width: 180px;
   height: 46px;
-  background-color: #1f1f1f;
   text-align: center;
+  background-color: #1f1f1f;
 }
 
 .operator-name {
   display: inline-block;
   max-width: 100%;
-  color: white;
-  font-family: 'HarmonyOS Sans SC', sans-serif;
-  font-weight: 500;
-  font-size: 36px;
-  line-height: 46px;
   // letter-spacing: -0.02em;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-family: 'HarmonyOS Sans SC', sans-serif;
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 46px;
+  color: white;
   white-space: nowrap;
 }
 </style>

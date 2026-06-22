@@ -115,5 +115,3 @@ async function exportEachAsImage(): Promise<void> {
     </UPage>
   </UContainer>
 </template>
-
-<style scoped lang="scss"></style>

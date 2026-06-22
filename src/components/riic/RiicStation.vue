@@ -68,11 +68,11 @@ const props = defineProps<StationType>();
   align-items: center;
   justify-content: center;
   width: 64px;
-  background-color: v-bind('getLeftBackgroundColor(props.stationType).string()');
-  color: v-bind('getLeftTextColor(props.stationType).string()');
   font-family: 'HarmonyOS Sans SC', sans-serif;
-  font-weight: 700;
   font-size: 46px;
+  font-weight: 700;
+  color: v-bind('getLeftTextColor(props.stationType).string()');
+  background-color: v-bind('getLeftBackgroundColor(props.stationType).string()');
   writing-mode: vertical-rl;
   text-orientation: upright;
   // letter-spacing: -1px;
@@ -81,10 +81,10 @@ const props = defineProps<StationType>();
 
 // 右侧内容区样式
 .content-area {
-  background-color: v-bind('getRightBackgroundColor(props.stationType).string()');
   display: flex;
   flex-direction: column;
   padding: 16px;
+  background-color: v-bind('getRightBackgroundColor(props.stationType).string()');
 }
 
 // 队列样式
@@ -102,13 +102,13 @@ const props = defineProps<StationType>();
 // 描述文本样式
 .description {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   height: 1.2em;
-  color: v-bind('getRightTextColor().string()');
   font-family: 'HarmonyOS Sans SC', sans-serif;
-  font-weight: 500;
   font-size: 42px;
+  font-weight: 500;
+  color: v-bind('getRightTextColor().string()');
   text-align: center;
   // margin-top: 8px;
 }

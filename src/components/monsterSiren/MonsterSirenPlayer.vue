@@ -271,7 +271,7 @@ const isPlaylistOpen = defineModel<boolean>('isPlaylistOpen');
 
 .player-slide-enter-from,
 .player-slide-leave-to {
-  transform: translateY(100%);
   opacity: 0;
+  transform: translateY(100%);
 }
 </style>
