@@ -9,15 +9,7 @@ export default defineConfig({
   plugins: [
     vue(),
     vueDevTools(),
-    ui({
-      ui: {
-        colors: {
-          primary: 'blue',
-          secondary: 'green',
-          neutral: 'slate',
-        },
-      },
-    }),
+    ui(),
     {
       name: 'dev-generic-proxy',
       configureServer(server) {

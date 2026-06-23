@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import logoUrl from '@/assets/images/白鸥.webp';
+import { useTheme } from '@/composables/useTheme';
 import { currentGameDataBaseUrl } from '@/utils/dataSources';
 import { gameDataError, isGameDataLoading, loadGameData } from '@/utils/gameData';
 import { isPenguinDataLoading, loadPenguinData, penguinDataError } from '@/utils/penguinStats';
+import { useHead } from '@unhead/vue';
 import { computed, onMounted } from 'vue';
 import { RouterView } from 'vue-router';
+
+const { style, link } = useTheme();
+useHead({ style, link });
 
 const items = computed(() => [
   { label: '首页', to: '/' },
@@ -91,6 +96,7 @@ onMounted(() => {
               </div>
             </template>
           </UPopover>
+          <ThemePicker />
           <UColorModeButton />
         </div>
       </template>
