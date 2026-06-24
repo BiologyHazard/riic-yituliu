@@ -3,8 +3,9 @@ import RiicSchedule from '@/components/riic/RiicSchedule.vue';
 import { downloadFile } from '@/utils/file';
 import { parseSchedule } from '@/utils/riic/parseScheduleInput';
 import type { NavigationMenuItem } from '@nuxt/ui';
+import { useElementSize } from '@vueuse/core';
 import { getFontEmbedCSS, toCanvas, toSvg } from 'html-to-image';
-import { computed, nextTick, ref, useTemplateRef } from 'vue';
+import { computed, ref, useTemplateRef } from 'vue';
 
 // --- 排班表预设 ---
 
@@ -94,9 +95,32 @@ const data = computed(() => parseSchedule(rawInput.value));
 
 // --- 排班表预览 ---
 
+/** 外层容器，用于绑定 useElementSize 监听宽度变化 */
 const outputPanelRef = useTemplateRef('outputPanelRef');
-const previewWidthMode = ref<'fixed' | 'fit'>('fixed');
-const zoomRef = ref<number>(1);
+/** 排班表组件外面包的 div，用于导出图片 */
+const riicScheduleRef = useTemplateRef('riicScheduleRef');
+
+/** 预览宽度模式 */
+const previewWidthMode = ref<'scroll' | 'overflow'>('scroll');
+/** 缩放模式：自动适应父容器宽度，或指定倍率 */
+const zoomRef = ref<number | 'auto'>('auto');
+
+// 自动缩放模式下，通过 useElementSize 监听容器宽度变化
+const { width: containerWidth } = useElementSize(outputPanelRef);
+// 硬编码排班表的宽度为 2160px
+const scheduleWidth = ref<number>(2160);
+
+/** 实际生效的缩放值（自动缩放时返回计算后的值，手动指定时返回用户选择的值） */
+const effectiveZoom = computed<number>(() => {
+  if (zoomRef.value === 'auto') {
+    if (scheduleWidth.value > 0 && containerWidth.value > 0) {
+      return containerWidth.value / scheduleWidth.value;
+    } else {
+      return 1;
+    }
+  }
+  return zoomRef.value;
+});
 
 // --- 导出图片 ---
 
@@ -135,35 +159,26 @@ const sharedOptions = computed(() => ({
 }));
 
 async function exportAsImage(): Promise<void> {
-  if (!outputPanelRef.value || isExporting.value) {
+  if (!riicScheduleRef.value || isExporting.value) {
     return;
   }
 
   isExporting.value = true;
 
-  let previousPreviewWidthMode: 'fixed' | 'fit';
-  let previousZoom: number;
-
   try {
-    previousPreviewWidthMode = previewWidthMode.value;
-    previousZoom = zoomRef.value;
-    previewWidthMode.value = 'fit';
-    zoomRef.value = 1;
-    await nextTick();
-
     // 首次导出时预计算字体嵌入 CSS
     if (!cachedFontEmbedCSS.value) {
-      cachedFontEmbedCSS.value = await getFontEmbedCSS(outputPanelRef.value);
+      cachedFontEmbedCSS.value = await getFontEmbedCSS(riicScheduleRef.value);
     }
 
     const timestamp = new Date().getTime();
     const ext = fileExtensionMap[exportFormat.value];
 
     if (exportFormat.value === 'svg') {
-      const svgDataUrl = await toSvg(outputPanelRef.value, sharedOptions.value);
+      const svgDataUrl = await toSvg(riicScheduleRef.value, sharedOptions.value);
       await downloadFile(svgDataUrl, `arknights-schedule-${timestamp}.${ext}`);
     } else {
-      const canvas = await toCanvas(outputPanelRef.value, sharedOptions.value);
+      const canvas = await toCanvas(riicScheduleRef.value, sharedOptions.value);
       const quality = exportFormat.value !== 'png' ? exportQuality.value / 100 : undefined;
       const blob = await new Promise<Blob | null>((resolve) =>
         canvas.toBlob(resolve, mimeTypeMap[exportFormat.value], quality),
@@ -176,8 +191,6 @@ async function exportAsImage(): Promise<void> {
   } catch (error) {
     console.error('Failed to export image:', error);
   } finally {
-    previewWidthMode.value = previousPreviewWidthMode!;
-    zoomRef.value = previousZoom!;
     isExporting.value = false;
   }
 }
@@ -239,8 +252,8 @@ async function exportAsImage(): Promise<void> {
                 color="neutral"
                 :content="false"
                 :items="[
-                  { label: '滚动', value: 'fixed' },
-                  { label: '溢出', value: 'fit' },
+                  { label: '滚动', value: 'scroll' },
+                  { label: '溢出', value: 'overflow' },
                 ]"
                 :ui="{ list: 'ring ring-inset ring-accented' }"
                 variant="pill"
@@ -251,6 +264,7 @@ async function exportAsImage(): Promise<void> {
                 color="neutral"
                 :content="false"
                 :items="[
+                  { label: '自动', value: 'auto' },
                   { label: '0.5x', value: 0.5 },
                   { label: '1x', value: 1 },
                   { label: '2x', value: 2 },
@@ -264,7 +278,7 @@ async function exportAsImage(): Promise<void> {
                 color="neutral"
                 leading-icon="i-lucide-maximize"
                 variant="subtle"
-                @click="outputPanelRef?.requestFullscreen()"
+                @click="riicScheduleRef?.requestFullscreen()"
                 >全屏预览排班表</UButton
               >
 
@@ -347,13 +361,16 @@ async function exportAsImage(): Promise<void> {
 
             <div
               ref="outputPanelRef"
-              class="overflow-auto"
               :class="{
-                'w-fit': previewWidthMode === 'fit',
-                'w-full': previewWidthMode === 'fixed',
+                'overflow-x-auto': previewWidthMode === 'scroll',
+                'overflow-x-visible': previewWidthMode === 'overflow',
               }"
             >
-              <RiicSchedule :style="{ zoom: zoomRef }" v-bind="data" />
+              <div :style="{ zoom: effectiveZoom }">
+                <div ref="riicScheduleRef" class="w-fit">
+                  <RiicSchedule v-bind="data" />
+                </div>
+              </div>
             </div>
           </template>
 
