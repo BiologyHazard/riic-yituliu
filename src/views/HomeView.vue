@@ -21,6 +21,15 @@ import { getPrtsWikiMediaUrl } from '@/utils/prtsWiki';
 import { watch } from 'vue';
 
 watch(currentGameDataBaseUrl, loadGameData);
+
+const commonSelectProps = {
+  class: 'w-full max-w-xs',
+  content: { bodyLock: false },
+  ui: {
+    trailingIcon: 'group-data-[state=open]:rotate-180 transition-transform duration-200',
+  },
+  valueKey: 'id' as const,
+};
 </script>
 
 <template>
@@ -33,53 +42,29 @@ watch(currentGameDataBaseUrl, loadGameData);
             <UFormField label="游戏数据源">
               <USelect
                 v-model="currentGameDataSourceId"
-                class="w-full max-w-xs"
-                :content="{ bodyLock: false }"
                 :items="gameDataSources"
-                :ui="{
-                  trailingIcon:
-                    'group-data-[state=open]:rotate-180 transition-transform duration-200',
-                }"
-                value-key="id"
+                v-bind="commonSelectProps"
               />
             </UFormField>
             <UFormField label="干员头像源">
               <USelect
                 v-model="currentAvatarSourceId"
-                class="w-full max-w-xs"
-                :content="{ bodyLock: false }"
                 :items="avatarSources"
-                :ui="{
-                  trailingIcon:
-                    'group-data-[state=open]:rotate-180 transition-transform duration-200',
-                }"
-                value-key="id"
+                v-bind="commonSelectProps"
               />
             </UFormField>
             <UFormField label="基建技能图标源">
               <USelect
                 v-model="currentBaseSkillIconSourceId"
-                class="w-full max-w-xs"
-                :content="{ bodyLock: false }"
                 :items="baseSkillIconSources"
-                :ui="{
-                  trailingIcon:
-                    'group-data-[state=open]:rotate-180 transition-transform duration-200',
-                }"
-                value-key="id"
+                v-bind="commonSelectProps"
               />
             </UFormField>
             <UFormField label="物品图标源">
               <USelect
                 v-model="currentItemIconSourceId"
-                class="w-full max-w-xs"
-                :content="{ bodyLock: false }"
                 :items="itemIconSources"
-                :ui="{
-                  trailingIcon:
-                    'group-data-[state=open]:rotate-180 transition-transform duration-200',
-                }"
-                value-key="id"
+                v-bind="commonSelectProps"
               />
             </UFormField>
             <UFormField
@@ -93,14 +78,8 @@ watch(currentGameDataBaseUrl, loadGameData);
             >
               <USelect
                 v-model="currentMirrorId"
-                class="w-full max-w-xs"
-                :content="{ bodyLock: false }"
                 :items="githubMirrors"
-                :ui="{
-                  trailingIcon:
-                    'group-data-[state=open]:rotate-180 transition-transform duration-200',
-                }"
-                value-key="id"
+                v-bind="commonSelectProps"
               />
             </UFormField>
 
