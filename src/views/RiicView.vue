@@ -22,12 +22,6 @@ scheduleFiles = Object.fromEntries(
   }),
 );
 
-const exampleKey =
-  Object.keys(scheduleFiles).find((k) =>
-    k.includes('右满 252（2 赤金）一天两换 2026-01-09-10-47'),
-  ) ?? '';
-const exampleInput: string = scheduleFiles[exampleKey] ?? '';
-
 const toast = useToast();
 
 const navigationMenuItems: NavigationMenuItem[] = (() => {
@@ -80,6 +74,14 @@ const navigationMenuItems: NavigationMenuItem[] = (() => {
 
 // --- 排班表编辑器 ---
 
+const exampleKey =
+  Object.keys(scheduleFiles).find((k) =>
+    k.includes('右满 252（2 赤金）一天两换 2026-01-09-10-47'),
+  ) ?? '';
+const exampleInput: string = scheduleFiles[exampleKey] ?? '';
+
+const textareaRef = useTemplateRef('textareaRef');
+
 /**
  * 输入框内容
  */
@@ -90,7 +92,8 @@ const rawInput = ref<string>(exampleInput);
  */
 const data = computed(() => parseSchedule(rawInput.value));
 
-const textareaRef = useTemplateRef('textareaRef');
+// --- 排班表预览 ---
+
 const outputPanelRef = useTemplateRef('outputPanelRef');
 const previewWidthMode = ref<'fixed' | 'fit'>('fixed');
 const zoomRef = ref<number>(1);
