@@ -22,11 +22,11 @@ export function updateText(
     if (elementWidth > containerWidth) {
       const newFontSize = Math.max((maxFontSize * containerWidth) / elementWidth, minFontSize);
       element.style.fontSize = `${newFontSize}px`;
-      console.log(
-        `Adjusting ${element.textContent} font size from ${maxFontSize}px to ${newFontSize}px because element.scrollWidth (${elementWidth}px) > containerWidth (${containerWidth}px)`,
-      );
+      // console.log(
+      //   `Adjusting ${element.textContent} font size from ${maxFontSize}px to ${newFontSize}px because element.scrollWidth (${elementWidth}px) > containerWidth (${containerWidth}px)`,
+      // );
     } else {
-      console.log(`${element.textContent}: font size ${maxFontSize}`);
+      // console.log(`${element.textContent}: font size ${maxFontSize}`);
     }
   });
 }
