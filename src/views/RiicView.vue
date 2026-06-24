@@ -28,7 +28,9 @@ const exampleKey =
   ) ?? '';
 const exampleInput: string = scheduleFiles[exampleKey] ?? '';
 
-const navigationMenuItems = computed<NavigationMenuItem[]>(() => {
+const toast = useToast();
+
+const navigationMenuItems: NavigationMenuItem[] = (() => {
   let dirSeq = 0;
   const roots: NavigationMenuItem[] = [];
 
@@ -40,11 +42,18 @@ const navigationMenuItems = computed<NavigationMenuItem[]>(() => {
     for (const [i, segment] of segments.entries()) {
       if (i === segments.length - 1) {
         // 文件
+        const label = segment.replace(/\.txt$/, '');
         level.push({
           label: segment,
           icon: 'i-lucide-file-text',
           onSelect: () => {
             rawInput.value = content;
+            toast.add({
+              title: '已应用排班表预设',
+              description: label,
+              icon: 'i-lucide-check-circle',
+              color: 'success',
+            });
           },
         });
       } else {
@@ -67,7 +76,7 @@ const navigationMenuItems = computed<NavigationMenuItem[]>(() => {
   }
 
   return roots;
-});
+})();
 
 // --- 排班表编辑器 ---
 
