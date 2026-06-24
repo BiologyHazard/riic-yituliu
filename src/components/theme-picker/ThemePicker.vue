@@ -1,14 +1,23 @@
 <script setup lang="ts">
 import { useTheme } from '@/composables/useTheme';
 import { useColorMode } from '@vueuse/core';
-import { ref } from 'vue';
+import { ref, useTemplateRef } from 'vue';
 
 const colorModeCalculated = useColorMode();
 const colorModeRaw = useColorMode({ emitAuto: true });
 
 const open = ref(false);
 
-const activeColorRole = ref<'primary' | 'secondary'>('primary');
+const activeColorRole = ref<number>(0);
+const carousel = useTemplateRef('carousel');
+
+function onTabChange(val: string | number) {
+  carousel.value?.emblaApi?.scrollTo(Number(val));
+}
+
+function onCarouselSelect(index: number) {
+  activeColorRole.value = index;
+}
 
 const {
   primaryColors,
@@ -49,39 +58,47 @@ const {
         <legend class="mb-2 text-xs leading-none font-semibold select-none">主题色</legend>
         <UTabs
           v-model="activeColorRole"
+          :content="false"
           :items="[
-            { label: '第一主题色', value: 'primary', slot: 'primary-content' },
-            { label: '第二主题色', value: 'secondary', slot: 'secondary-content' },
+            { label: '第一主题色', value: 0 },
+            { label: '第二主题色', value: 1 },
           ]"
           size="xs"
           variant="link"
-        >
-          <template #primary-content>
-            <div class="mt-2 grid grid-cols-3 gap-1">
-              <ThemePickerButton
-                v-for="{ id, lightLabel, darkLabel, chipStyle } in primaryColors"
-                :key="id"
-                :chip-style
-                :label="colorModeCalculated === 'dark' ? darkLabel : lightLabel"
-                :selected="primary === id"
-                @click="primary = id"
-              />
-            </div>
-          </template>
+          @update:model-value="onTabChange"
+        />
 
-          <template #secondary-content>
-            <div class="mt-2 grid grid-cols-3 gap-1">
-              <ThemePickerButton
-                v-for="{ id, lightLabel, darkLabel, chipStyle } in secondaryColors"
-                :key="id"
-                :chip-style
-                :label="colorModeCalculated === 'dark' ? darkLabel : lightLabel"
-                :selected="secondary === id"
-                @click="secondary = id"
-              />
-            </div>
-          </template>
-        </UTabs>
+        <UCarousel
+          ref="carousel"
+          v-slot="{ item }"
+          auto-height
+          class="mt-2"
+          :duration="20"
+          :items="[0, 1]"
+          :ui="{ container: 'transition-height' }"
+          @select="onCarouselSelect"
+        >
+          <div v-if="item === 0" class="grid grid-cols-3 gap-1">
+            <ThemePickerButton
+              v-for="{ id, lightLabel, darkLabel, chipStyle } in primaryColors"
+              :key="id"
+              :chip-style
+              :label="colorModeCalculated === 'dark' ? darkLabel : lightLabel"
+              :selected="primary === id"
+              @click="primary = id"
+            />
+          </div>
+          <div v-else class="grid grid-cols-3 gap-1">
+            <ThemePickerButton
+              v-for="{ id, lightLabel, darkLabel, chipStyle } in secondaryColors"
+              :key="id"
+              :chip-style
+              :label="colorModeCalculated === 'dark' ? darkLabel : lightLabel"
+              :selected="secondary === id"
+              @click="secondary = id"
+            />
+          </div>
+        </UCarousel>
       </fieldset>
 
       <fieldset>
