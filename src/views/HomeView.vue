@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import {
   avatarSources,
-  gameDataSources,
-  githubMirrors,
-  itemIconSources,
   baseSkillIconSources,
   currentAvatarSource,
   currentAvatarSourceId,
+  currentBaseSkillIconSource,
+  currentBaseSkillIconSourceId,
   currentGameDataBaseUrl,
   currentGameDataSource,
   currentGameDataSourceId,
   currentItemIconSource,
   currentItemIconSourceId,
   currentMirrorId,
-  currentBaseSkillIconSource,
-  currentBaseSkillIconSourceId,
+  gameDataSources,
+  githubMirrors,
+  itemIconSources,
 } from '@/utils/dataSources';
 import { loadGameData } from '@/utils/gameData';
 import { getPrtsWikiMediaUrl } from '@/utils/prtsWiki';
@@ -31,11 +31,11 @@ watch(currentGameDataBaseUrl, loadGameData);
           <h2 class="mb-4 text-lg font-bold">数据源设置</h2>
           <div class="flex flex-col gap-4">
             <UFormField label="游戏数据源">
-              <USelectMenu
+              <USelect
                 v-model="currentGameDataSourceId"
-                class="w-xs"
+                class="w-full max-w-xs"
+                :content="{ bodyLock: false }"
                 :items="gameDataSources"
-                :search-input="false"
                 :ui="{
                   trailingIcon:
                     'group-data-[state=open]:rotate-180 transition-transform duration-200',
@@ -44,11 +44,11 @@ watch(currentGameDataBaseUrl, loadGameData);
               />
             </UFormField>
             <UFormField label="干员头像源">
-              <USelectMenu
+              <USelect
                 v-model="currentAvatarSourceId"
-                class="w-xs"
+                class="w-full max-w-xs"
+                :content="{ bodyLock: false }"
                 :items="avatarSources"
-                :search-input="false"
                 :ui="{
                   trailingIcon:
                     'group-data-[state=open]:rotate-180 transition-transform duration-200',
@@ -57,11 +57,11 @@ watch(currentGameDataBaseUrl, loadGameData);
               />
             </UFormField>
             <UFormField label="基建技能图标源">
-              <USelectMenu
+              <USelect
                 v-model="currentBaseSkillIconSourceId"
-                class="w-xs"
+                class="w-full max-w-xs"
+                :content="{ bodyLock: false }"
                 :items="baseSkillIconSources"
-                :search-input="false"
                 :ui="{
                   trailingIcon:
                     'group-data-[state=open]:rotate-180 transition-transform duration-200',
@@ -70,11 +70,11 @@ watch(currentGameDataBaseUrl, loadGameData);
               />
             </UFormField>
             <UFormField label="物品图标源">
-              <USelectMenu
+              <USelect
                 v-model="currentItemIconSourceId"
-                class="w-xs"
+                class="w-full max-w-xs"
+                :content="{ bodyLock: false }"
                 :items="itemIconSources"
-                :search-input="false"
                 :ui="{
                   trailingIcon:
                     'group-data-[state=open]:rotate-180 transition-transform duration-200',
@@ -91,11 +91,11 @@ watch(currentGameDataBaseUrl, loadGameData);
               "
               label="GitHub 镜像"
             >
-              <USelectMenu
+              <USelect
                 v-model="currentMirrorId"
-                class="w-xs"
+                class="w-full max-w-xs"
+                :content="{ bodyLock: false }"
                 :items="githubMirrors"
-                :search-input="false"
                 :ui="{
                   trailingIcon:
                     'group-data-[state=open]:rotate-180 transition-transform duration-200',
