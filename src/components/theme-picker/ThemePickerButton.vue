@@ -21,8 +21,7 @@ const props = defineProps<{
   >
     <template v-if="props.chipStyle" #leading>
       <span
-        class="inline-block size-2 rounded-full"
-        :class="`bg-(--color-light) dark:bg-(--color-dark)`"
+        class="inline-block size-2 rounded-full bg-(--color-light) dark:bg-(--color-dark)"
         :style="props.chipStyle"
       />
     </template>
