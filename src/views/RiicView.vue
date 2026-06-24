@@ -2,9 +2,11 @@
 import RiicSchedule from '@/components/riic/RiicSchedule.vue';
 import { downloadFile } from '@/utils/file';
 import { parseSchedule } from '@/utils/riic/parseScheduleInput';
+import type { NavigationMenuItem } from '@nuxt/ui';
 import { getFontEmbedCSS, toCanvas, toSvg } from 'html-to-image';
 import { computed, nextTick, ref, useTemplateRef } from 'vue';
-import type { NavigationMenuItem } from '@nuxt/ui';
+
+// --- 排班表预设 ---
 
 // 导入预设排班表（按文件夹分组）
 let scheduleFiles = import.meta.glob('@/assets/texts/schedule/**/*.txt', {
@@ -12,12 +14,11 @@ let scheduleFiles = import.meta.glob('@/assets/texts/schedule/**/*.txt', {
   query: 'raw',
   import: 'default',
 }) as Record<string, string>;
-// 键转为相对于 schedule/ 的路径（不含 .txt）
+// 键转为相对于 schedule/ 的路径
 scheduleFiles = Object.fromEntries(
   Object.entries(scheduleFiles).map(([path, content]) => {
     const relativePath = path.replace(/^.*\/schedule\//, '');
-    const withoutExt = relativePath.endsWith('.txt') ? relativePath.slice(0, -4) : relativePath;
-    return [withoutExt, content as string];
+    return [relativePath, content];
   }),
 );
 
@@ -27,44 +28,48 @@ const exampleKey =
   ) ?? '';
 const exampleInput: string = scheduleFiles[exampleKey] ?? '';
 
-/**
- * 排班预设选择（NavigationMenu 多级菜单，严格遵循文件夹结构）
- */
-const openGroupValue = ref<string>('');
+const navigationMenuItems = computed<NavigationMenuItem[]>(() => {
+  let dirSeq = 0;
+  const roots: NavigationMenuItem[] = [];
 
-const navMenuItems = computed<NavigationMenuItem[]>(() => {
-  const groups = new Map<string, { label: string; filePath: string }[]>();
+  // 遍历所有文件路径，构建树形结构
+  for (const [path, content] of Object.entries(scheduleFiles)) {
+    const segments = path.split('/');
+    let level = roots;
 
-  for (const [key] of Object.entries(scheduleFiles)) {
-    const segments = key.split('/');
-    const folderName = segments[0]!;
-    const fileName = segments.slice(1).join('/');
-    // 标签：去掉文件夹名前缀，只保留版本日期
-    const label = fileName.replace(folderName, '').trim();
-
-    if (!groups.has(folderName)) {
-      groups.set(folderName, []);
+    for (const [i, segment] of segments.entries()) {
+      if (i === segments.length - 1) {
+        // 文件
+        level.push({
+          label: segment,
+          icon: 'i-lucide-file-text',
+          onSelect: () => {
+            rawInput.value = content;
+          },
+        });
+      } else {
+        // 目录
+        let dir = level.find((n) => n.label === segment && n.children);
+        if (!dir) {
+          // 如果目录尚未创建，则创建一个新的目录节点
+          const dirValue = `dir-${dirSeq++}`;
+          dir = {
+            label: segment,
+            value: dirValue,
+            icon: 'i-lucide-folder',
+            children: [],
+          };
+          level.push(dir);
+        }
+        level = dir.children!;
+      }
     }
-    groups.get(folderName)!.push({ label, filePath: key });
   }
 
-  return Array.from(groups.entries()).map(([groupName, items], groupIndex) => {
-    const value = `group-${groupIndex}`;
-
-    return {
-      label: groupName,
-      value,
-      icon: openGroupValue.value === value ? 'i-lucide-folder-open' : 'i-lucide-folder',
-      children: items.map((item) => ({
-        label: item.label,
-        icon: 'i-lucide-file-text',
-        onSelect: () => {
-          rawInput.value = scheduleFiles[item.filePath] ?? '';
-        },
-      })),
-    };
-  });
+  return roots;
 });
+
+// --- 排班表编辑器 ---
 
 /**
  * 输入框内容
@@ -80,6 +85,9 @@ const textareaRef = useTemplateRef('textareaRef');
 const outputPanelRef = useTemplateRef('outputPanelRef');
 const previewWidthMode = ref<'fixed' | 'fit'>('fixed');
 const zoomRef = ref<number>(1);
+
+// --- 导出图片 ---
+
 const isExporting = ref<boolean>(false);
 
 // 导出选项
@@ -186,9 +194,7 @@ async function exportAsImage(): Promise<void> {
         >
           <template #presets>
             <UNavigationMenu
-              v-model="openGroupValue"
-              color="neutral"
-              :items="navMenuItems"
+              :items="navigationMenuItems"
               orientation="vertical"
               type="single"
               :ui="{ link: 'text-toned', linkLeadingIcon: 'text-toned' }"
