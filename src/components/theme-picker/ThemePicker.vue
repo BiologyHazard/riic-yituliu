@@ -46,7 +46,7 @@ const {
       <UButton
         aria-label="更改主题"
         color="neutral"
-        icon="i-lucide-swatch-book"
+        icon="i-lucide-palette"
         square
         :ui="{ leadingIcon: 'text-primary' }"
         :variant="open ? 'soft' : 'ghost'"
