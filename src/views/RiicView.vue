@@ -25,53 +25,59 @@ scheduleFiles = Object.fromEntries(
 
 const toast = useToast();
 
-const navigationMenuItems: NavigationMenuItem[] = (() => {
-  let dirSeq = 0;
-  const roots: NavigationMenuItem[] = [];
+function onSelectPreset(path: string, content: string): void {
+  const description = path.replace(/^.*\//, '').replace(/\.txt$/, '');
+  rawInput.value = content;
+  toast.add({
+    title: '已应用排班表预设',
+    description,
+    icon: 'i-lucide-check-circle',
+    color: 'success',
+  });
+}
 
-  // 遍历所有文件路径，构建树形结构
+const navigationMenuItems = computed<NavigationMenuItem[]>(() => {
+  const roots: NavigationMenuItem[] = [];
+  const nodeMap = new Map<string, NavigationMenuItem>();
+
   for (const [path, content] of Object.entries(scheduleFiles)) {
     const segments = path.split('/');
-    let level = roots;
+    let parentArray = roots;
+    let parentKey: string | null = null;
 
     for (const [i, segment] of segments.entries()) {
+      const currentKey: string = parentKey !== null ? `${parentKey}/${segment}` : segment;
+
       if (i === segments.length - 1) {
         // 文件
-        const label = segment.replace(/\.txt$/, '');
-        level.push({
+        parentArray.push({
           label: segment,
+          value: path,
           icon: 'i-lucide-file-text',
-          onSelect: () => {
-            rawInput.value = content;
-            toast.add({
-              title: '已应用排班表预设',
-              description: label,
-              icon: 'i-lucide-check-circle',
-              color: 'success',
-            });
-          },
+          onSelect: () => onSelectPreset(path, content),
         });
       } else {
         // 目录
-        let dir = level.find((n) => n.label === segment && n.children);
-        if (!dir) {
-          // 如果目录尚未创建，则创建一个新的目录节点
-          const dirValue = `dir-${dirSeq++}`;
+        let dir = nodeMap.get(currentKey);
+        if (dir === undefined) {
+          // 如果目录不存在，则创建一个新的目录节点
           dir = {
             label: segment,
-            value: dirValue,
-            icon: 'i-lucide-folder',
+            value: currentKey,
+            icon: 'i-lucide-folder', // 想要在使用 UNavigationMenu 的情况下，根据文件夹展开情况切换图标疑似是做不到的，根本没办法知道展开了哪些文件夹
             children: [],
           };
-          level.push(dir);
+          parentArray.push(dir);
+          nodeMap.set(currentKey, dir);
         }
-        level = dir.children!;
+        parentArray = dir.children!;
+        parentKey = currentKey;
       }
     }
   }
 
   return roots;
-})();
+});
 
 // --- 排班表编辑器 ---
 
