@@ -97,7 +97,9 @@ onMounted(() => {
             </template>
           </UPopover>
           <ThemePicker />
-          <UColorModeButton />
+          <UTooltip text="切换颜色模式">
+            <UColorModeButton />
+          </UTooltip>
         </div>
       </template>
     </UHeader>

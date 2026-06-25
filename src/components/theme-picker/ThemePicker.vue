@@ -42,16 +42,16 @@ const {
     v-model:open="open"
     :ui="{ content: 'w-80 px-4 py-4 flex flex-col gap-4 overflow-y-auto max-h-[calc(100vh-5rem)]' }"
   >
-    <template #default>
+    <UTooltip text="更改主题">
       <UButton
-        aria-label="颜色选择器"
+        aria-label="更改主题"
         color="neutral"
         icon="i-lucide-swatch-book"
         square
         :ui="{ leadingIcon: 'text-primary' }"
         :variant="open ? 'soft' : 'ghost'"
       />
-    </template>
+    </UTooltip>
 
     <template #content>
       <fieldset>
