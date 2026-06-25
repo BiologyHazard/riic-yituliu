@@ -149,6 +149,9 @@ const effectiveZoom = computed<number>(() => {
 
 const isExporting = ref<boolean>(false);
 
+/** 当前导出 toast 的 ID，用于后续更新进度 */
+const currentToastId = ref<string | number | null>(null);
+
 // 导出选项
 const exportFormat = ref<'webp' | 'png' | 'jpeg' | 'svg'>('webp');
 const exportQuality = ref<number>(75);
@@ -188,8 +191,20 @@ async function exportAsImage(): Promise<void> {
 
   isExporting.value = true;
 
+  // 创建初始 toast
+  const t = toast.add({
+    title: '导出排班表图片',
+    description: '正在准备...',
+    icon: 'i-lucide-loader-circle',
+    color: 'primary',
+    duration: 0,
+    progress: false,
+  });
+  currentToastId.value = t.id;
+
   try {
-    // 首次导出时预计算字体嵌入 CSS
+    // Step 1: 嵌入字体
+    toast.update(currentToastId.value, { description: '正在嵌入字体...' });
     if (!cachedFontEmbedCSS.value) {
       cachedFontEmbedCSS.value = await getFontEmbedCSS(riicScheduleRef.value);
     }
@@ -198,9 +213,15 @@ async function exportAsImage(): Promise<void> {
     const ext = fileExtensionMap[exportFormat.value];
 
     if (exportFormat.value === 'svg') {
+      // Step 2: 生成图片
+      toast.update(currentToastId.value, { description: '正在生成图片...' });
       const svgDataUrl = await toSvg(riicScheduleRef.value, sharedOptions.value);
+      // Step 3: 下载
+      toast.update(currentToastId.value, { description: '正在下载...' });
       await downloadFile(svgDataUrl, `arknights-schedule-${timestamp}.${ext}`);
     } else {
+      // Step 2: 生成图片
+      toast.update(currentToastId.value, { description: '正在生成图片...' });
       const canvas = await toCanvas(riicScheduleRef.value, sharedOptions.value);
       const quality = exportFormat.value !== 'png' ? exportQuality.value / 100 : undefined;
       const blob = await new Promise<Blob | null>((resolve) =>
@@ -209,10 +230,28 @@ async function exportAsImage(): Promise<void> {
       if (!blob) {
         throw new Error('Failed to create image blob');
       }
+      // Step 3: 下载
+      toast.update(currentToastId.value, { description: '正在下载...' });
       await downloadFile(blob, `arknights-schedule-${timestamp}.${ext}`);
     }
+
+    // 完成
+    toast.update(currentToastId.value, {
+      title: '导出完成',
+      description: '排班表图片已成功导出！',
+      icon: 'i-lucide-check-circle',
+      color: 'success',
+      duration: 3000,
+    });
   } catch (error) {
     console.error('Failed to export image:', error);
+    toast.update(currentToastId.value, {
+      title: '导出失败',
+      description: error instanceof Error ? error.message : '导出失败，请重试',
+      icon: 'i-lucide-x-circle',
+      color: 'error',
+      duration: 0,
+    });
   } finally {
     isExporting.value = false;
   }
