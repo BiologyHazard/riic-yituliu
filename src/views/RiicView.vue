@@ -105,21 +105,29 @@ const previewWidthMode = ref<'scroll' | 'overflow'>('scroll');
 /** 缩放模式：自动适应父容器宽度，或指定倍率 */
 const zoomRef = ref<number | 'auto'>('auto');
 
-// 自动缩放模式下，通过 useElementSize 监听容器宽度变化
+// 自动缩放且滚动模式下，通过 useElementSize 监听容器宽度变化
 const { width: containerWidth } = useElementSize(outputPanelRef);
-// 硬编码排班表的宽度为 2160px
+// 自动缩放且溢出模式下，监听窗口可见区域宽度（排除滚动条）
+const { width: viewportWidth } = useElementSize(document.documentElement);
+// 硬编码排班表的宽度为 2160px，不监听宽度是避免产生抖动
 const scheduleWidth = ref<number>(2160);
 
 /** 实际生效的缩放值（自动缩放时返回计算后的值，手动指定时返回用户选择的值） */
 const effectiveZoom = computed<number>(() => {
   if (zoomRef.value === 'auto') {
+    // 自动缩放模式下，计算缩放值
     if (scheduleWidth.value > 0 && containerWidth.value > 0) {
-      return containerWidth.value / scheduleWidth.value;
+      // 滚动模式 → 缩放到父容器宽度；溢出模式 → 缩放到可见区域宽度
+      const targetWidth =
+        previewWidthMode.value === 'overflow' ? viewportWidth.value : containerWidth.value;
+      return targetWidth / scheduleWidth.value;
     } else {
       return 1;
     }
+  } else {
+    // 手动指定缩放模式，直接返回用户选择的值
+    return zoomRef.value;
   }
-  return zoomRef.value;
 });
 
 // --- 导出图片 ---
@@ -364,6 +372,8 @@ async function exportAsImage(): Promise<void> {
               :class="{
                 'overflow-x-auto': previewWidthMode === 'scroll',
                 'overflow-x-visible': previewWidthMode === 'overflow',
+                'relative left-1/2 w-screen -translate-x-1/2':
+                  previewWidthMode === 'overflow' && zoomRef === 'auto',
               }"
             >
               <div :style="{ zoom: effectiveZoom }">
