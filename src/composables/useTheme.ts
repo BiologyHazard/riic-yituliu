@@ -339,6 +339,96 @@ const englishFontOptions: FontOption[] = [
       ],
     },
   },
+  {
+    label: 'Open Sans',
+    value: 'open-sans',
+    family: 'Open Sans',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: `font-open-sans`,
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap',
+        },
+      ],
+    },
+  },
+  {
+    label: 'CMU Serif',
+    value: 'cmu-serif',
+    family: 'CMU Serif',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: `font-cmu-serif`,
+          rel: 'stylesheet',
+          href: 'https://cdn.jsdelivr.net/npm/computer-modern@0.1.3/index.min.css',
+        },
+      ],
+    },
+  },
+  {
+    label: 'CMU Bright',
+    value: 'cmu-bright',
+    family: 'CMU Bright',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: `font-cmu-bright`,
+          rel: 'stylesheet',
+          href: 'https://cdn.jsdelivr.net/npm/computer-modern@0.1.3/index.min.css',
+        },
+      ],
+    },
+  },
+  {
+    label: 'CMU Sans Serif',
+    value: 'cmu-sans-serif',
+    family: 'CMU Sans Serif',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: `font-cmu-sans-serif`,
+          rel: 'stylesheet',
+          href: 'https://cdn.jsdelivr.net/npm/computer-modern@0.1.3/index.min.css',
+        },
+      ],
+    },
+  },
+  {
+    label: 'Latin Modern Roman',
+    value: 'latin-modern-roman',
+    family: 'TypoPRO Latin Modern Roman',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: `font-latin-modern-roman`,
+          rel: 'stylesheet',
+          href: 'https://cdn.jsdelivr.net/npm/@typopro/web-latin-modern@3.7.5/TypoPRO-LatinModern.min.css',
+        },
+      ],
+    },
+  },
+  {
+    label: 'Latin Modern Sans',
+    value: 'latin-modern-sans',
+    family: 'TypoPRO Latin Modern Sans',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: `font-latin-modern-sans`,
+          rel: 'stylesheet',
+          href: 'https://cdn.jsdelivr.net/npm/@typopro/web-latin-modern@3.7.5/TypoPRO-LatinModern.min.css',
+        },
+      ],
+    },
+  },
   { label: '（系统默认）', value: 'system-ui', family: 'system-ui', source: { type: 'keyword' } },
   {
     label: '（浏览器默认）',
@@ -401,7 +491,26 @@ const chineseFontOptions: FontOption[] = [
         {
           id: `font-lxgw-wenkai`,
           rel: 'stylesheet',
-          href: 'https://cn-font.claude-code-best.win/packages/lxgwwenkai/dist/LXGWWenKai-Regular/result.css',
+          href: 'https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.min.css',
+          // href: 'https://cn-font.claude-code-best.win/packages/lxgwwenkai/dist/LXGWWenKai-Regular/result.css',
+          // href: 'https://cn-font.claude-code-best.win/packages/lxgwwenkai/dist/LXGWWenKai-Light/result.css',
+          // href: 'https://cn-font.claude-code-best.win/packages/lxgwwenkai/dist/LXGWWenKai-Bold/result.css',
+        },
+      ],
+    },
+  },
+  {
+    label: '霞鹜文楷屏幕阅读版',
+    value: 'lxgw-wenkai-screen',
+    family: 'LXGW WenKai Screen',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: `font-lxgw-wenkai-screen`,
+          rel: 'stylesheet',
+          href: 'https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.min.css',
+          // href: 'https://cn-font.claude-code-best.win/packages/lywkpmydb/dist/LXGWWenKaiScreen/result.css',
         },
       ],
     },
@@ -411,6 +520,187 @@ const chineseFontOptions: FontOption[] = [
     label: '（浏览器默认）',
     value: 'sans-serif',
     family: 'sans-serif',
+    source: { type: 'keyword' },
+  },
+];
+
+const monospaceFontOptions: FontOption[] = [
+  {
+    label: 'JetBrains Mono',
+    value: 'jetbrains-mono',
+    family: 'JetBrains Mono',
+    source: { type: 'local' },
+  },
+  {
+    label: 'Google Sans Code',
+    value: 'google-sans-code',
+    family: 'Google Sans Code',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: `font-google-sans-code`,
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght,MONO@0,300..800,0..1;1,300..800,0..1&display=swap',
+        },
+      ],
+    },
+  },
+  {
+    label: 'Fira Code',
+    value: 'fira-code',
+    family: 'Fira Code',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: 'font-fira-code',
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap',
+        },
+      ],
+    },
+  },
+  {
+    label: 'Fira Mono',
+    value: 'fira-mono',
+    family: 'Fira Mono',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: 'font-fira-mono',
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap',
+        },
+      ],
+    },
+  },
+  {
+    label: 'Source Code Pro',
+    value: 'source-code-pro',
+    family: 'Source Code Pro',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: 'font-source-code-pro',
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap',
+        },
+      ],
+    },
+  },
+  {
+    label: 'Noto Sans Mono',
+    value: 'noto-sans-mono',
+    family: 'Noto Sans Mono',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: 'font-noto-sans-mono',
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wdth,wght@62.5..100,100..900&display=swap',
+        },
+      ],
+    },
+  },
+  {
+    label: 'Space Mono',
+    value: 'space-mono',
+    family: 'Space Mono',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: 'font-space-mono',
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap',
+        },
+      ],
+    },
+  },
+  {
+    label: 'Cascadia Code',
+    value: 'cascadia-code',
+    family: 'Cascadia Code',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: 'font-cascadia-code',
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Cascadia+Code:ital,wght@0,200..700;1,200..700&display=swap',
+        },
+      ],
+    },
+  },
+  {
+    label: 'Cascadia Mono',
+    value: 'cascadia-mono',
+    family: 'Cascadia Mono',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: 'font-cascadia-mono',
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Cascadia+Mono:ital,wght@0,200..700;1,200..700&display=swap',
+        },
+      ],
+    },
+  },
+  {
+    label: 'Geist Mono',
+    value: 'geist-mono',
+    family: 'Geist Mono',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: 'font-geist-mono',
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Geist+Mono:ital,wght@0,100..900;1,100..900&display=swap',
+        },
+      ],
+    },
+  },
+  {
+    label: 'Ubuntu Mono',
+    value: 'ubuntu-mono',
+    family: 'Ubuntu Mono',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: 'font-ubuntu-mono',
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap',
+        },
+      ],
+    },
+  },
+  {
+    label: 'Ubuntu Sans Mono',
+    value: 'ubuntu-sans-mono',
+    family: 'Ubuntu Sans Mono',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: 'font-ubuntu-sans-mono',
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Ubuntu+Sans+Mono:ital,wght@0,400..700;1,400..700&display=swap',
+        },
+      ],
+    },
+  },
+  { label: '（系统默认）', value: 'system-ui', family: 'system-ui', source: { type: 'keyword' } },
+  {
+    label: '（浏览器默认）',
+    value: 'monospace',
+    family: 'monospace',
     source: { type: 'keyword' },
   },
 ];
@@ -482,6 +772,7 @@ const radius = ref<number>(0.25);
 
 const englishFont = ref<string>('use-chinese');
 const chineseFont = ref<string>('harmonyos-sans-sc');
+const monospaceFont = ref<string>('jetbrains-mono');
 
 function toCssFontFamily(family: string, source: FontOption['source']): string {
   return source.type === 'keyword' ? family : `'${family}'`;
@@ -526,16 +817,27 @@ const style = computed<ResolvableStyle[]>(() => {
   // 字体
   const engOpt = englishFontOptions.find((font) => font.value === englishFont.value);
   const chnOpt = chineseFontOptions.find((font) => font.value === chineseFont.value);
+  const monoOpt = monospaceFontOptions.find((font) => font.value === monospaceFont.value);
   const engCss = engOpt ? toCssFontFamily(engOpt.family, engOpt.source) : `'${englishFont.value}'`;
   const chnCss = chnOpt ? toCssFontFamily(chnOpt.family, chnOpt.source) : `'${chineseFont.value}'`;
-  const innerHTML =
+  const monCss = monoOpt
+    ? toCssFontFamily(monoOpt.family, monoOpt.source)
+    : `'${monospaceFont.value}'`;
+  const fontSansHtml =
     engOpt?.source.type === 'use-chinese'
       ? `:root { --font-sans: ${chnCss}, sans-serif; }`
       : `:root { --font-sans: ${engCss}, ${chnCss}, sans-serif; }`;
 
   style.push({
-    innerHTML,
+    innerHTML: fontSansHtml,
     id: 'nuxt-ui-font',
+    tagPriority: -2,
+  });
+
+  // 等宽字体
+  style.push({
+    innerHTML: `:root { --font-mono: ${monCss}, ${chnCss}, monospace; }`,
+    id: 'nuxt-ui-mono-font',
     tagPriority: -2,
   });
 
@@ -543,7 +845,7 @@ const style = computed<ResolvableStyle[]>(() => {
 });
 
 const link = computed<ResolvableLink[]>(() => {
-  const allFonts = [...englishFontOptions, ...chineseFontOptions];
+  const allFonts = [...englishFontOptions, ...chineseFontOptions, ...monospaceFontOptions];
   return allFonts.flatMap((font) => (font.source.type === 'link' ? font.source.links : []));
 });
 
@@ -554,6 +856,7 @@ function resetTheme() {
   radius.value = 0.25;
   englishFont.value = 'use-chinese';
   chineseFont.value = 'harmonyos-sans-sc';
+  monospaceFont.value = 'jetbrains-mono';
   iconSet.value = 'lucide';
 }
 
@@ -565,6 +868,7 @@ export function useTheme() {
     radiuses,
     englishFontOptions,
     chineseFontOptions,
+    monospaceFontOptions,
     iconSets,
     colorModes,
     primary,
@@ -573,6 +877,7 @@ export function useTheme() {
     radius,
     englishFont,
     chineseFont,
+    monospaceFont,
     iconSet,
     style,
     link,

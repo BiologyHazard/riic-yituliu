@@ -26,6 +26,7 @@ const {
   radiuses,
   englishFontOptions,
   chineseFontOptions,
+  monospaceFontOptions,
   iconSets,
   colorModes,
   primary,
@@ -34,6 +35,7 @@ const {
   radius,
   englishFont,
   chineseFont,
+  monospaceFont,
   iconSet,
   resetTheme,
 } = useTheme();
@@ -188,6 +190,37 @@ const {
                     item.source.type === 'keyword'
                       ? `${item.family}, sans-serif`
                       : `'${item.family}', sans-serif`,
+                }"
+              >
+                {{ item.label }}
+              </span>
+            </template>
+          </USelect>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend class="mb-2 text-xs leading-none font-semibold select-none">等宽字体</legend>
+        <div>
+          <USelect
+            v-model="monospaceFont"
+            class="w-full rounded-sm font-mono ring-default hover:bg-elevated/50 data-[state=open]:bg-elevated/50"
+            color="neutral"
+            :content="{ bodyLock: false }"
+            icon="i-lucide-code"
+            :items="monospaceFontOptions"
+            size="sm"
+            :ui="{
+              trailingIcon: 'group-data-[state=open]:rotate-180 transition-transform duration-200',
+            }"
+          >
+            <template #item-label="{ item }">
+              <span
+                :style="{
+                  fontFamily:
+                    item.source.type === 'keyword'
+                      ? `${item.family}, monospace`
+                      : `'${item.family}', monospace`,
                 }"
               >
                 {{ item.label }}
