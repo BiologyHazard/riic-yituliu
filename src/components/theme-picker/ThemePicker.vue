@@ -49,7 +49,8 @@ const {
   <UPopover
     v-model:open="open"
     :ui="{
-      content: 'w-80 px-4 py-4 flex flex-col gap-4 overflow-y-auto max-h-[calc(100vh-5rem)]',
+      content:
+        'flex max-h-[calc(100svh-5rem)] w-80 max-w-[calc(100svw-1rem)] flex-col gap-4 overflow-y-auto px-4 py-4',
     }"
   >
     <UTooltip text="更改主题">
@@ -148,7 +149,7 @@ const {
             :items="englishFontOptions"
             size="sm"
             :ui="{
-              trailingIcon: 'group-data-[state=open]:rotate-180 transition-transform duration-200',
+              trailingIcon: 'transition-transform duration-200 group-data-[state=open]:rotate-180',
             }"
             @update:open="
               (open) => {
@@ -177,7 +178,7 @@ const {
             :items="chineseFontOptions"
             size="sm"
             :ui="{
-              trailingIcon: 'group-data-[state=open]:rotate-180 transition-transform duration-200',
+              trailingIcon: 'transition-transform duration-200 group-data-[state=open]:rotate-180',
             }"
             @update:open="
               (open) => {
@@ -206,7 +207,7 @@ const {
             :items="monospaceFontOptions"
             size="sm"
             :ui="{
-              trailingIcon: 'group-data-[state=open]:rotate-180 transition-transform duration-200',
+              trailingIcon: 'transition-transform duration-200 group-data-[state=open]:rotate-180',
             }"
             @update:open="
               (open) => {
@@ -236,7 +237,7 @@ const {
             size="sm"
             :ui="{
               item: 'capitalize',
-              trailingIcon: 'group-data-[state=open]:rotate-180 transition-transform duration-200',
+              trailingIcon: 'transition-transform duration-200 group-data-[state=open]:rotate-180',
             }"
           />
         </div>
