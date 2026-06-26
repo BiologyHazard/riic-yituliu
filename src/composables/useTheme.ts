@@ -191,7 +191,229 @@ const neutralColors = primaryColors.filter((color) => neutralColorNames.includes
 
 const radiuses = [0, 0.125, 0.25, 0.375, 0.5];
 
-const fonts = ['Public Sans', 'DM Sans', 'Geist', 'Inter', 'Poppins', 'Outfit', 'Raleway'];
+interface FontOption {
+  label: string;
+  value: string;
+  family: string;
+  source:
+    | { type: 'use-chinese' }
+    | { type: 'keyword' }
+    | { type: 'local' }
+    | { type: 'link'; links: { id: string; rel: string; href: string }[] };
+}
+
+const englishFontOptions: FontOption[] = [
+  { label: '（使用中文字体）', value: 'use-chinese', family: '', source: { type: 'use-chinese' } },
+  {
+    label: 'Public Sans',
+    value: 'public-sans',
+    family: 'Public Sans',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: `font-public-sans`,
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap',
+        },
+      ],
+    },
+  },
+  {
+    label: 'DM Sans',
+    value: 'dm-sans',
+    family: 'DM Sans',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: `font-dm-sans`,
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,100..900;1,100..900&display=swap',
+        },
+      ],
+    },
+  },
+  {
+    label: 'Geist',
+    value: 'geist',
+    family: 'Geist',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: `font-geist`,
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Geist:ital,wght@0,100..900;1,100..900&display=swap',
+        },
+      ],
+    },
+  },
+  {
+    label: 'Inter',
+    value: 'inter',
+    family: 'Inter',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: `font-inter`,
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap',
+        },
+      ],
+    },
+  },
+  {
+    label: 'Poppins',
+    value: 'poppins',
+    family: 'Poppins',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: `font-poppins`,
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap',
+        },
+      ],
+    },
+  },
+  {
+    label: 'Outfit',
+    value: 'outfit',
+    family: 'Outfit',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: `font-outfit`,
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap',
+        },
+      ],
+    },
+  },
+  {
+    label: 'Raleway',
+    value: 'raleway',
+    family: 'Raleway',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: `font-raleway`,
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap',
+        },
+      ],
+    },
+  },
+  {
+    label: 'Google Sans Flex',
+    value: 'google-sans-flex',
+    family: 'Google Sans Flex',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: `font-google-sans-flex`,
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,slnt,wdth,wght,GRAD,ROND@6..144,-10..0,25..151,1..1000,0..100,0..100&display=swap',
+        },
+      ],
+    },
+  },
+  {
+    label: 'Space Grotesk',
+    value: 'space-grotesk',
+    family: 'Space Grotesk',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: `font-space-grotesk`,
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap',
+        },
+      ],
+    },
+  },
+  { label: '（系统默认）', value: 'system-ui', family: 'system-ui', source: { type: 'keyword' } },
+  {
+    label: '（浏览器默认）',
+    value: 'sans-serif',
+    family: 'sans-serif',
+    source: { type: 'keyword' },
+  },
+];
+
+const chineseFontOptions: FontOption[] = [
+  {
+    label: '鸿蒙黑体',
+    value: 'harmonyos-sans-sc',
+    family: 'HarmonyOS Sans SC',
+    source: { type: 'local' },
+  },
+  {
+    label: '阿里巴巴普惠体',
+    value: 'alibaba-puhuiti',
+    family: 'Alibaba PuHuiTi 3.0',
+    source: { type: 'local' },
+  },
+  {
+    label: '思源黑体',
+    value: 'noto-sans-sc',
+    family: 'Noto Sans SC',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: `font-noto-sans-sc`,
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&display=swap',
+        },
+      ],
+    },
+  },
+  {
+    label: '思源宋体',
+    value: 'noto-serif-sc',
+    family: 'Noto Serif SC',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: `font-noto-serif-sc`,
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200..900&display=swap',
+        },
+      ],
+    },
+  },
+  {
+    label: '霞鹜文楷',
+    value: 'lxgw-wenkai',
+    family: 'LXGW WenKai',
+    source: {
+      type: 'link',
+      links: [
+        {
+          id: `font-lxgw-wenkai`,
+          rel: 'stylesheet',
+          href: 'https://cn-font.claude-code-best.win/packages/lxgwwenkai/dist/LXGWWenKai-Regular/result.css',
+        },
+      ],
+    },
+  },
+  { label: '（系统默认）', value: 'system-ui', family: 'system-ui', source: { type: 'keyword' } },
+  {
+    label: '（浏览器默认）',
+    value: 'sans-serif',
+    family: 'sans-serif',
+    source: { type: 'keyword' },
+  },
+];
 
 const iconSets = [
   {
@@ -258,7 +480,12 @@ const neutral = computed<string>({
 
 const radius = ref<number>(0.25);
 
-const font = ref<string>('Public Sans');
+const englishFont = ref<string>('use-chinese');
+const chineseFont = ref<string>('harmonyos-sans-sc');
+
+function toCssFontFamily(family: string, source: FontOption['source']): string {
+  return source.type === 'keyword' ? family : `'${family}'`;
+}
 
 const _iconSet = ref<string>('lucide');
 const iconSet = computed<string>({
@@ -271,44 +498,64 @@ const iconSet = computed<string>({
   },
 });
 
-const style = computed<ResolvableStyle[]>(() => [
-  {
-    innerHTML:
-      primary.value === 'grayscale'
-        ? `:root { --ui-primary: black; } .dark { --ui-primary: white; }`
-        : ':root {}',
-    id: 'nuxt-ui-primary-grayscale',
-    tagPriority: -2,
-  },
-  {
-    innerHTML:
-      secondary.value === 'grayscale'
-        ? `:root { --ui-secondary: black; } .dark { --ui-secondary: white; }`
-        : ':root {}',
-    id: 'nuxt-ui-secondary-grayscale',
-    tagPriority: -2,
-  },
-  {
+const style = computed<ResolvableStyle[]>(() => {
+  const style: ResolvableStyle[] = [];
+  // 主题色为 grayscale
+  if (primary.value === 'grayscale') {
+    style.push({
+      innerHTML: `:root { --ui-primary: black; } .dark { --ui-primary: white; }`,
+      id: 'nuxt-ui-primary-grayscale',
+      tagPriority: -2,
+    });
+  }
+  if (secondary.value === 'grayscale') {
+    style.push({
+      innerHTML: `:root { --ui-secondary: black; } .dark { --ui-secondary: white; }`,
+      id: 'nuxt-ui-secondary-grayscale',
+      tagPriority: -2,
+    });
+  }
+
+  // 圆角大小
+  style.push({
     innerHTML: `:root { --ui-radius: ${radius.value}rem; }`,
     id: 'nuxt-ui-radius',
     tagPriority: -2,
-  },
-  {
-    innerHTML: `:root { --font-sans: '${font.value}', sans-serif; }`,
+  });
+
+  // 字体
+  const engOpt = englishFontOptions.find((font) => font.value === englishFont.value);
+  const chnOpt = chineseFontOptions.find((font) => font.value === chineseFont.value);
+  const engCss = engOpt ? toCssFontFamily(engOpt.family, engOpt.source) : `'${englishFont.value}'`;
+  const chnCss = chnOpt ? toCssFontFamily(chnOpt.family, chnOpt.source) : `'${chineseFont.value}'`;
+  const innerHTML =
+    engOpt?.source.type === 'use-chinese'
+      ? `:root { --font-sans: ${chnCss}, sans-serif; }`
+      : `:root { --font-sans: ${engCss}, ${chnCss}, sans-serif; }`;
+
+  style.push({
+    innerHTML,
     id: 'nuxt-ui-font',
     tagPriority: -2,
-  },
-]);
+  });
+
+  return style;
+});
 
 const link = computed<ResolvableLink[]>(() => {
-  const name = font.value;
-  return [
-    {
-      rel: 'stylesheet',
-      href: `https://fonts.googleapis.com/css2?family=${encodeURIComponent(name)}:wght@400;500;600;700&display=swap`,
-      id: `font-${name.toLowerCase().replace(/\s+/g, '-')}`,
-    },
-  ];
+  const links: ResolvableLink[] = [];
+
+  const engOpt = englishFontOptions.find((font) => font.value === englishFont.value);
+  if (engOpt?.source.type === 'link') {
+    links.push(...engOpt.source.links);
+  }
+
+  const chnOpt = chineseFontOptions.find((font) => font.value === chineseFont.value);
+  if (chnOpt?.source.type === 'link') {
+    links.push(...chnOpt.source.links);
+  }
+
+  return links;
 });
 
 function resetTheme() {
@@ -316,7 +563,8 @@ function resetTheme() {
   secondary.value = 'blue';
   neutral.value = 'slate';
   radius.value = 0.25;
-  font.value = 'Public Sans';
+  englishFont.value = 'use-chinese';
+  chineseFont.value = 'harmonyos-sans-sc';
   iconSet.value = 'lucide';
 }
 
@@ -326,14 +574,16 @@ export function useTheme() {
     secondaryColors,
     neutralColors,
     radiuses,
-    fonts,
+    englishFontOptions,
+    chineseFontOptions,
     iconSets,
     colorModes,
     primary,
     secondary,
     neutral,
     radius,
-    font,
+    englishFont,
+    chineseFont,
     iconSet,
     style,
     link,

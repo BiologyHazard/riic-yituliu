@@ -24,14 +24,16 @@ const {
   secondaryColors,
   neutralColors,
   radiuses,
-  fonts,
+  englishFontOptions,
+  chineseFontOptions,
   iconSets,
   colorModes,
   primary,
   secondary,
   neutral,
   radius,
-  font,
+  englishFont,
+  chineseFont,
   iconSet,
   resetTheme,
 } = useTheme();
@@ -40,7 +42,9 @@ const {
 <template>
   <UPopover
     v-model:open="open"
-    :ui="{ content: 'w-80 px-4 py-4 flex flex-col gap-4 overflow-y-auto max-h-[calc(100vh-5rem)]' }"
+    :ui="{
+      content: 'w-80 px-4 py-4 flex flex-col gap-4 overflow-y-auto max-h-[calc(100vh-5rem)]',
+    }"
   >
     <UTooltip text="更改主题">
       <UButton
@@ -130,20 +134,66 @@ const {
       </fieldset>
 
       <fieldset>
-        <legend class="mb-2 text-xs leading-none font-semibold select-none">字体</legend>
+        <legend class="mb-2 text-xs leading-none font-semibold select-none">英文字体</legend>
         <div>
           <USelect
-            v-model="font"
+            v-model="englishFont"
             class="w-full rounded-sm ring-default hover:bg-elevated/50 data-[state=open]:bg-elevated/50"
             color="neutral"
             :content="{ bodyLock: false }"
             icon="i-lucide-type"
-            :items="fonts"
+            :items="englishFontOptions"
             size="sm"
             :ui="{
               trailingIcon: 'group-data-[state=open]:rotate-180 transition-transform duration-200',
             }"
-          />
+          >
+            <template #item-label="{ item }">
+              <span
+                :style="{
+                  fontFamily:
+                    item.source.type === 'use-chinese'
+                      ? undefined
+                      : item.source.type === 'keyword'
+                        ? `${item.family}, sans-serif`
+                        : `'${item.family}', sans-serif`,
+                }"
+              >
+                {{ item.label }}
+              </span>
+            </template>
+          </USelect>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend class="mb-2 text-xs leading-none font-semibold select-none">中文字体</legend>
+        <div>
+          <USelect
+            v-model="chineseFont"
+            class="w-full rounded-sm ring-default hover:bg-elevated/50 data-[state=open]:bg-elevated/50"
+            color="neutral"
+            :content="{ bodyLock: false }"
+            icon="i-lucide-quote"
+            :items="chineseFontOptions"
+            size="sm"
+            :ui="{
+              trailingIcon: 'group-data-[state=open]:rotate-180 transition-transform duration-200',
+            }"
+          >
+            <template #item-label="{ item }">
+              <span
+                :style="{
+                  fontFamily:
+                    item.source.type === 'keyword'
+                      ? `${item.family}, sans-serif`
+                      : `'${item.family}', sans-serif`,
+                }"
+              >
+                {{ item.label }}
+              </span>
+            </template>
+          </USelect>
         </div>
       </fieldset>
 
