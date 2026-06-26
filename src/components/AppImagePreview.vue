@@ -112,7 +112,7 @@ defineExpose({ open });
             <UTooltip :kbds="['meta', 'S']" text="下载">
               <UButton color="neutral" icon="i-lucide-download" variant="ghost" @click="download" />
             </UTooltip>
-            <UPopover mode="click" :ui="{ content: 'p-4 w-80' }">
+            <UPopover mode="click" :ui="{ content: 'w-80 p-4' }">
               <UTooltip text="帮助">
                 <UButton
                   color="neutral"

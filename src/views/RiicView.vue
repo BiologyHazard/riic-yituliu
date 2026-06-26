@@ -300,7 +300,7 @@ async function exportAsImage(): Promise<void> {
                   { label: '滚动', value: 'scroll' },
                   { label: '溢出', value: 'overflow' },
                 ]"
-                :ui="{ list: 'ring ring-inset ring-accented' }"
+                :ui="{ list: 'ring ring-accented ring-inset' }"
                 variant="pill"
               />
 
@@ -314,7 +314,7 @@ async function exportAsImage(): Promise<void> {
                   { label: '1x', value: 1 },
                   { label: '2x', value: 2 },
                 ]"
-                :ui="{ list: 'ring ring-inset ring-accented' }"
+                :ui="{ list: 'ring ring-accented ring-inset' }"
                 variant="pill"
               />
 
@@ -366,7 +366,7 @@ async function exportAsImage(): Promise<void> {
                             { label: 'JPEG', value: 'jpeg' },
                             { label: 'SVG', value: 'svg' },
                           ]"
-                          :ui="{ list: 'ring ring-inset ring-accented' }"
+                          :ui="{ list: 'ring ring-accented ring-inset' }"
                           variant="pill"
                         />
                       </UFormField>
@@ -394,7 +394,7 @@ async function exportAsImage(): Promise<void> {
                             { label: '3x', value: 3 },
                             { label: '4x', value: 4 },
                           ]"
-                          :ui="{ list: 'ring ring-inset ring-accented' }"
+                          :ui="{ list: 'ring ring-accented ring-inset' }"
                           variant="pill"
                         />
                       </UFormField>
