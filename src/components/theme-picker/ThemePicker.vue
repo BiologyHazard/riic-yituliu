@@ -141,7 +141,7 @@ const {
         <div>
           <USelect
             v-model="englishFont"
-            class="w-full rounded-sm ring-default hover:bg-elevated/50 data-[state=open]:bg-elevated/50"
+            class="w-full"
             color="neutral"
             :content="{ bodyLock: false }"
             icon="i-lucide-type"
@@ -170,7 +170,7 @@ const {
         <div>
           <USelect
             v-model="chineseFont"
-            class="w-full rounded-sm ring-default hover:bg-elevated/50 data-[state=open]:bg-elevated/50"
+            class="w-full"
             color="neutral"
             :content="{ bodyLock: false }"
             icon="i-lucide-quote"
@@ -199,7 +199,7 @@ const {
         <div>
           <USelect
             v-model="monospaceFont"
-            class="w-full rounded-sm font-mono ring-default hover:bg-elevated/50 data-[state=open]:bg-elevated/50"
+            class="w-full font-mono"
             color="neutral"
             :content="{ bodyLock: false }"
             icon="i-lucide-code"
@@ -228,7 +228,7 @@ const {
         <div>
           <USelect
             v-model="iconSet"
-            class="w-full rounded-sm capitalize ring-default hover:bg-elevated/50 data-[state=open]:bg-elevated/50"
+            class="w-full capitalize"
             color="neutral"
             :content="{ bodyLock: false }"
             :icon="iconSets.find((i) => i.value === iconSet)?.icon"

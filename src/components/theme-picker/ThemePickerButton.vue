@@ -11,13 +11,12 @@ const props = defineProps<{
 
 <template>
   <UButton
-    class="rounded-sm capitalize ring-default"
-    :class="[props.selected ? 'bg-elevated' : 'hover:bg-elevated/50']"
+    class="capitalize"
     color="neutral"
     :icon="props.icon"
     :label="props.label"
     size="sm"
-    variant="outline"
+    :variant="props.selected ? 'subtle' : 'outline'"
   >
     <template v-if="props.chipStyle" #leading>
       <span
