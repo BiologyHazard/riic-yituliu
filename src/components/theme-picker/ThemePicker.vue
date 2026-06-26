@@ -38,6 +38,9 @@ const {
   monospaceFont,
   iconSet,
   resetTheme,
+  loadEnglishFontCss,
+  loadChineseFontCss,
+  loadMonospaceFontCss,
 } = useTheme();
 </script>
 
@@ -149,6 +152,11 @@ const {
             :ui="{
               trailingIcon: 'group-data-[state=open]:rotate-180 transition-transform duration-200',
             }"
+            @update:open="
+              (open) => {
+                if (open) loadEnglishFontCss();
+              }
+            "
           >
             <template #item-label="{ item }">
               <span
@@ -182,6 +190,11 @@ const {
             :ui="{
               trailingIcon: 'group-data-[state=open]:rotate-180 transition-transform duration-200',
             }"
+            @update:open="
+              (open) => {
+                if (open) loadChineseFontCss();
+              }
+            "
           >
             <template #item-label="{ item }">
               <span
@@ -213,6 +226,11 @@ const {
             :ui="{
               trailingIcon: 'group-data-[state=open]:rotate-180 transition-transform duration-200',
             }"
+            @update:open="
+              (open) => {
+                if (open) loadMonospaceFontCss();
+              }
+            "
           >
             <template #item-label="{ item }">
               <span

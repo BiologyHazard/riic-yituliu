@@ -768,17 +768,31 @@ const neutral = computed<string>({
   },
 });
 
+/** 圆角半径（单位：rem） */
 const radius = ref<number>(0.25);
 
+/** 选中的英文字体 ID */
 const englishFont = ref<string>('use-chinese');
+/** 选中的中文字体 ID */
 const chineseFont = ref<string>('harmonyos-sans-sc');
+/** 选中的等宽字体 ID */
 const monospaceFont = ref<string>('jetbrains-mono');
 
-function toCssFontFamily(family: string, source: FontOption['source']): string {
-  return source.type === 'keyword' ? family : `'${family}'`;
-}
+/** 选中的英文字体配置 */
+const englishFontOption = computed<FontOption | undefined>(() =>
+  englishFontOptions.find((font) => font.value === englishFont.value),
+);
+/** 选中的中文字体配置 */
+const chineseFontOption = computed<FontOption | undefined>(() =>
+  chineseFontOptions.find((font) => font.value === chineseFont.value),
+);
+/** 选中的等宽字体配置 */
+const monospaceFontOption = computed<FontOption | undefined>(() =>
+  monospaceFontOptions.find((font) => font.value === monospaceFont.value),
+);
 
 const _iconSet = ref<string>('lucide');
+/** 图标集 */
 const iconSet = computed<string>({
   get() {
     return _iconSet.value;
@@ -789,9 +803,21 @@ const iconSet = computed<string>({
   },
 });
 
+/**
+ * 将字体转换为 CSS 字体家族名称字符串
+ * 如果字体为关键字类型，则直接返回字体名称，否则加上单引号
+ * @example
+ * toCssFontFamily({ family: 'Public Sans', source: { type: 'link', links: [...] } }) // => "'Public Sans'"
+ * toCssFontFamily({ family: 'system-ui', source: { type: 'keyword' } }) // => "system-ui"
+ */
+function toCssFontFamily(font: FontOption): string {
+  return font.source.type === 'keyword' ? font.family : `'${font.family}'`;
+}
+
 const style = computed<ResolvableStyle[]>(() => {
   const style: ResolvableStyle[] = [];
-  // 主题色为 grayscale
+
+  // 主题色为 grayscale 时，设置 --ui-primary 和 --ui-secondary 变量为黑白色
   if (primary.value === 'grayscale') {
     style.push({
       innerHTML: `:root { --ui-primary: black; } .dark { --ui-primary: white; }`,
@@ -815,28 +841,32 @@ const style = computed<ResolvableStyle[]>(() => {
   });
 
   // 字体
-  const engOpt = englishFontOptions.find((font) => font.value === englishFont.value);
-  const chnOpt = chineseFontOptions.find((font) => font.value === chineseFont.value);
-  const monoOpt = monospaceFontOptions.find((font) => font.value === monospaceFont.value);
-  const engCss = engOpt ? toCssFontFamily(engOpt.family, engOpt.source) : `'${englishFont.value}'`;
-  const chnCss = chnOpt ? toCssFontFamily(chnOpt.family, chnOpt.source) : `'${chineseFont.value}'`;
-  const monCss = monoOpt
-    ? toCssFontFamily(monoOpt.family, monoOpt.source)
+  // 将字体选项转换为 CSS 字体家族名称字符串
+  const englishFontCss = englishFontOption.value
+    ? toCssFontFamily(englishFontOption.value)
+    : `'${englishFont.value}'`;
+  const chineseFontCss = chineseFontOption.value
+    ? toCssFontFamily(chineseFontOption.value)
+    : `'${chineseFont.value}'`;
+  const monospaceFontCss = monospaceFontOption.value
+    ? toCssFontFamily(monospaceFontOption.value)
     : `'${monospaceFont.value}'`;
-  const fontSansHtml =
-    engOpt?.source.type === 'use-chinese'
-      ? `:root { --font-sans: ${chnCss}, sans-serif; }`
-      : `:root { --font-sans: ${engCss}, ${chnCss}, sans-serif; }`;
 
+  // 根据选中的字体生成 CSS 变量
+  const fontSansInnerHtml =
+    englishFontOption.value?.source.type === 'use-chinese'
+      ? `:root { --font-sans: ${chineseFontCss}, sans-serif; }` // 如果英文字体为 “使用中文字体”，则只使用中文字体和 sans-serif
+      : `:root { --font-sans: ${englishFontCss}, ${chineseFontCss}, sans-serif; }`;
+  const fontMonoInnerHtml = `:root { --font-mono: ${monospaceFontCss}, ${chineseFontCss}, monospace; }`;
+
+  // 将 CSS 变量添加到 style 中
   style.push({
-    innerHTML: fontSansHtml,
-    id: 'nuxt-ui-font',
+    innerHTML: fontSansInnerHtml,
+    id: 'nuxt-ui-sans-font',
     tagPriority: -2,
   });
-
-  // 等宽字体
   style.push({
-    innerHTML: `:root { --font-mono: ${monCss}, ${chnCss}, monospace; }`,
+    innerHTML: fontMonoInnerHtml,
     id: 'nuxt-ui-mono-font',
     tagPriority: -2,
   });
@@ -844,10 +874,63 @@ const style = computed<ResolvableStyle[]>(() => {
   return style;
 });
 
+const extraFontLinks = ref<ResolvableLink[]>([]);
+
 const link = computed<ResolvableLink[]>(() => {
-  const allFonts = [...englishFontOptions, ...chineseFontOptions, ...monospaceFontOptions];
-  return allFonts.flatMap((font) => (font.source.type === 'link' ? font.source.links : []));
+  // 当前已选字体（始终需要）
+  const selectedFonts: FontOption[] = [];
+
+  if (englishFontOption.value) selectedFonts.push(englishFontOption.value);
+  if (chineseFontOption.value) selectedFonts.push(chineseFontOption.value);
+  if (monospaceFontOption.value) selectedFonts.push(monospaceFontOption.value);
+
+  const selectedLinks: ResolvableLink[] = selectedFonts.flatMap((font) =>
+    font.source.type === 'link' ? font.source.links : [],
+  );
+
+  // 合并按需加载的预览字体，按 id 去重
+  const seenIds = new Set(selectedLinks.map((l) => l.id));
+  const allLinks: ResolvableLink[] = [...selectedLinks];
+  for (const link of extraFontLinks.value) {
+    if (!seenIds.has(link.id)) {
+      seenIds.add(link.id);
+      allLinks.push(link);
+    }
+  }
+  return allLinks;
 });
+
+/** 按需加载字体 CSS（通过 extraFontLinks 响应式合并到 link），用于字体选择框预览 */
+function loadFontCss(fontOptions: FontOption[]): void {
+  const existingIds = new Set(extraFontLinks.value.map((l) => l.id));
+  const newLinks: ResolvableLink[] = [];
+  for (const font of fontOptions) {
+    if (font.source.type !== 'link') {
+      continue;
+    }
+    for (const linkDef of font.source.links) {
+      if (!existingIds.has(linkDef.id)) {
+        existingIds.add(linkDef.id);
+        newLinks.push(linkDef);
+      }
+    }
+  }
+  if (newLinks.length > 0) {
+    extraFontLinks.value = [...extraFontLinks.value, ...newLinks];
+  }
+}
+
+function loadEnglishFontCss() {
+  loadFontCss(englishFontOptions);
+}
+
+function loadChineseFontCss() {
+  loadFontCss(chineseFontOptions);
+}
+
+function loadMonospaceFontCss() {
+  loadFontCss(monospaceFontOptions);
+}
 
 function resetTheme() {
   primary.value = 'green';
@@ -882,5 +965,8 @@ export function useTheme() {
     style,
     link,
     resetTheme,
+    loadEnglishFontCss,
+    loadChineseFontCss,
+    loadMonospaceFontCss,
   };
 }
