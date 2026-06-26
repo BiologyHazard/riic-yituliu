@@ -36,7 +36,7 @@ const commonSelectProps = {
   <UContainer>
     <UPage>
       <UPageBody class="space-y-6">
-        <section class="data-source-settings rounded-lg p-4">
+        <section>
           <h2 class="mb-4 text-lg font-bold">数据源设置</h2>
           <div class="flex flex-col gap-4">
             <UFormField label="游戏数据源">
@@ -89,44 +89,40 @@ const commonSelectProps = {
           </div>
         </section>
 
-        <div class="flex flex-col">
+        <section class="flex flex-col items-start">
           <UButton
+            label="飞书知识库"
             rel="noopener noreferrer"
             target="_blank"
-            to="https://h089spg07ll.feishu.cn/wiki/space/7463413966732361756"
+            to="https://my.feishu.cn/wiki/V5VcwWMkeiz64mkuL9Vcot7unqd"
             trailing-icon="i-lucide-external-link"
             variant="link"
-          >
-            飞书知识库
-          </UButton>
+          />
           <UButton
+            label="bilibili@Bio-Hazard"
             rel="noopener noreferrer"
             target="_blank"
             to="https://space.bilibili.com/37179776"
             trailing-icon="i-lucide-external-link"
             variant="link"
-          >
-            bilibili@Bio-Hazard
-          </UButton>
+          />
           <UButton
+            label="森空岛@BioHazard"
             rel="noopener noreferrer"
             target="_blank"
             to="https://www.skland.com/profile?id=1138552273321"
             trailing-icon="i-lucide-external-link"
             variant="link"
-          >
-            森空岛@BioHazard
-          </UButton>
+          />
           <UButton
+            label="NGA@Bio-Hazard"
             rel="noopener noreferrer"
             target="_blank"
             to="https://bbs.nga.cn/thread.php?authorid=60824354"
             trailing-icon="i-lucide-external-link"
             variant="link"
-          >
-            NGA@Bio-Hazard
-          </UButton>
-        </div>
+          />
+        </section>
 
         <figure>
           <ULink
