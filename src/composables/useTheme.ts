@@ -932,6 +932,24 @@ function loadMonospaceFontCss() {
   loadFontCss(monospaceFontOptions);
 }
 
+function getPreviewFontFamily(
+  type: 'english' | 'chinese' | 'monospace',
+  item: FontOption,
+): string | undefined {
+  switch (type) {
+    case 'english':
+      if (item.source.type === 'use-chinese') {
+        return undefined;
+      } else {
+        return `${toCssFontFamily(item)}, sans-serif`;
+      }
+    case 'chinese':
+      return `${toCssFontFamily(item)}, sans-serif`;
+    case 'monospace':
+      return `${toCssFontFamily(item)}, monospace`;
+  }
+}
+
 function resetTheme() {
   primary.value = 'green';
   secondary.value = 'blue';
@@ -964,9 +982,10 @@ export function useTheme() {
     iconSet,
     style,
     link,
-    resetTheme,
     loadEnglishFontCss,
     loadChineseFontCss,
     loadMonospaceFontCss,
+    getPreviewFontFamily,
+    resetTheme,
   };
 }

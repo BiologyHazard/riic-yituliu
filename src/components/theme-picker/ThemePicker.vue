@@ -37,10 +37,11 @@ const {
   chineseFont,
   monospaceFont,
   iconSet,
-  resetTheme,
   loadEnglishFontCss,
   loadChineseFontCss,
   loadMonospaceFontCss,
+  getPreviewFontFamily,
+  resetTheme,
 } = useTheme();
 </script>
 
@@ -156,16 +157,7 @@ const {
             "
           >
             <template #item-label="{ item }">
-              <span
-                :style="{
-                  fontFamily:
-                    item.source.type === 'use-chinese'
-                      ? undefined
-                      : item.source.type === 'keyword'
-                        ? `${item.family}, sans-serif`
-                        : `'${item.family}', sans-serif`,
-                }"
-              >
+              <span :style="{ fontFamily: getPreviewFontFamily('english', item) }">
                 {{ item.label }}
               </span>
             </template>
@@ -194,14 +186,7 @@ const {
             "
           >
             <template #item-label="{ item }">
-              <span
-                :style="{
-                  fontFamily:
-                    item.source.type === 'keyword'
-                      ? `${item.family}, sans-serif`
-                      : `'${item.family}', sans-serif`,
-                }"
-              >
+              <span :style="{ fontFamily: getPreviewFontFamily('chinese', item) }">
                 {{ item.label }}
               </span>
             </template>
@@ -230,14 +215,7 @@ const {
             "
           >
             <template #item-label="{ item }">
-              <span
-                :style="{
-                  fontFamily:
-                    item.source.type === 'keyword'
-                      ? `${item.family}, monospace`
-                      : `'${item.family}', monospace`,
-                }"
-              >
+              <span :style="{ fontFamily: getPreviewFontFamily('monospace', item) }">
                 {{ item.label }}
               </span>
             </template>
