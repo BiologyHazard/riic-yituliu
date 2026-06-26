@@ -543,19 +543,8 @@ const style = computed<ResolvableStyle[]>(() => {
 });
 
 const link = computed<ResolvableLink[]>(() => {
-  const links: ResolvableLink[] = [];
-
-  const engOpt = englishFontOptions.find((font) => font.value === englishFont.value);
-  if (engOpt?.source.type === 'link') {
-    links.push(...engOpt.source.links);
-  }
-
-  const chnOpt = chineseFontOptions.find((font) => font.value === chineseFont.value);
-  if (chnOpt?.source.type === 'link') {
-    links.push(...chnOpt.source.links);
-  }
-
-  return links;
+  const allFonts = [...englishFontOptions, ...chineseFontOptions];
+  return allFonts.flatMap((font) => (font.source.type === 'link' ? font.source.links : []));
 });
 
 function resetTheme() {
