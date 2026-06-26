@@ -71,6 +71,7 @@ const {
           :items="[
             { label: '第一主题色', value: 0 },
             { label: '第二主题色', value: 1 },
+            { label: '中性色', value: 2 },
           ]"
           size="xs"
           variant="link"
@@ -83,8 +84,8 @@ const {
           auto-height
           class="mt-2"
           :duration="20"
-          :items="[0, 1]"
-          :ui="{ container: 'transition-height' }"
+          :items="[0, 1, 2]"
+          :ui="{ container: 'transition-[height]' }"
           @select="onCarouselSelect"
         >
           <div v-if="item === 0" class="grid grid-cols-3 gap-1">
@@ -97,7 +98,7 @@ const {
               @click="primary = id"
             />
           </div>
-          <div v-else class="grid grid-cols-3 gap-1">
+          <div v-else-if="item === 1" class="grid grid-cols-3 gap-1">
             <ThemePickerButton
               v-for="{ id, lightLabel, darkLabel, chipStyle } in secondaryColors"
               :key="id"
@@ -107,21 +108,17 @@ const {
               @click="secondary = id"
             />
           </div>
+          <div v-else-if="item === 2" class="grid grid-cols-3 gap-1">
+            <ThemePickerButton
+              v-for="{ id, lightLabel, darkLabel, chipStyle } in neutralColors"
+              :key="id"
+              :chip-style
+              :label="colorModeCalculated === 'dark' ? darkLabel : lightLabel"
+              :selected="neutral === id"
+              @click="neutral = id"
+            />
+          </div>
         </UCarousel>
-      </fieldset>
-
-      <fieldset>
-        <legend class="mb-2 text-xs leading-none font-semibold select-none">中性色</legend>
-        <div class="grid grid-cols-3 gap-1">
-          <ThemePickerButton
-            v-for="{ id, lightLabel, darkLabel, chipStyle } in neutralColors"
-            :key="id"
-            :chip-style
-            :label="colorModeCalculated === 'dark' ? darkLabel : lightLabel"
-            :selected="neutral === id"
-            @click="neutral = id"
-          />
-        </div>
       </fieldset>
 
       <fieldset>
