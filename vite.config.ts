@@ -1,7 +1,7 @@
-import { fileURLToPath, URL } from 'node:url';
 import ui from '@nuxt/ui/vite';
-import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import { fileURLToPath, URL } from 'node:url';
+import { defineConfig } from 'vite';
 import vueDevTools from 'vite-plugin-vue-devtools';
 
 // https://vite.dev/config/
@@ -9,7 +9,18 @@ export default defineConfig({
   plugins: [
     vue(),
     vueDevTools(),
-    ui(),
+    ui(
+      // 如需更改默认主题，还需要在 `src/composables/useTheme.ts` 的 `resetTheme` 函数中同步修改
+      {
+        ui: {
+          colors: {
+            primary: 'blue',
+            secondary: 'green',
+            neutral: 'slate',
+          },
+        },
+      },
+    ),
     {
       name: 'dev-generic-proxy',
       configureServer(server) {

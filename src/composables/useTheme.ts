@@ -951,8 +951,8 @@ function getPreviewFontFamily(
 }
 
 function resetTheme() {
-  primary.value = 'green';
-  secondary.value = 'blue';
+  primary.value = 'blue';
+  secondary.value = 'green';
   neutral.value = 'slate';
   radius.value = 0.25;
   englishFont.value = 'use-chinese';
