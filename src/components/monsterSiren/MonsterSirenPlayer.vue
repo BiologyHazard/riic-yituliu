@@ -244,7 +244,7 @@ const isPlaylistOpen = defineModel<boolean>('isPlaylistOpen');
         </div>
       </div>
 
-      <MonsterSirenPlaylist
+      <MonsterSirenPlayList
         :album-map="props.albumMap"
         :is-playing="props.isPlaying"
         :is-playlist-open="Boolean(isPlaylistOpen)"
