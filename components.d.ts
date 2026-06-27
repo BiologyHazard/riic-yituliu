@@ -11,10 +11,10 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    AppImagePreview: typeof import('./src/components/AppImagePreview.vue')['default']
+    AppImagePreview: typeof import('./src/components/image-preview/AppImagePreview.vue')['default']
     BaseSkill: typeof import('./src/components/riic/BaseSkill.vue')['default']
-    ImagePreviewContainer: typeof import('./src/components/ImagePreviewContainer.vue')['default']
-    ImagePreviewHelpMenu: typeof import('./src/components/ImagePreviewHelpMenu.vue')['default']
+    ImagePreviewContainer: typeof import('./src/components/image-preview/ImagePreviewContainer.vue')['default']
+    ImagePreviewHelpMenu: typeof import('./src/components/image-preview/ImagePreviewHelpMenu.vue')['default']
     ItemWithCount: typeof import('./src/components/riic/ItemWithCount.vue')['default']
     MonsterSirenAlbumCard: typeof import('./src/components/monsterSiren/MonsterSirenAlbumCard.vue')['default']
     MonsterSirenAlbumDetail: typeof import('./src/components/monsterSiren/MonsterSirenAlbumDetail.vue')['default']

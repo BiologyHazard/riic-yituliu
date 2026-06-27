@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PreviewTarget } from '@/composables/useImagePreview';
+import type { PreviewTarget } from '@/composables/image-preview/useImagePreview';
 import type { Album, PlayMode, Song } from '@/types/monsterSiren';
 
 const props = defineProps<{

@@ -3,8 +3,8 @@ import type { CSSProperties, Ref } from 'vue';
 import { useDevicePixelRatio, useMagicKeys } from '@vueuse/core';
 import { computed, nextTick, ref, watch } from 'vue';
 
-import { useAnimateWhenever } from '@/composables/useAnimateWhenever';
-import { useImagePreviewScale } from '@/composables/useImagePreviewScale';
+import { useAnimateWhenever } from '@/composables/image-preview/useAnimateWhenever';
+import { useImagePreviewScale } from '@/composables/image-preview/useImagePreviewScale';
 import { downloadFile } from '@/utils/file';
 
 export type Point2D = {
