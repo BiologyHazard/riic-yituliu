@@ -25,7 +25,7 @@
     "split-fonts": "jiti scripts/split-fonts.ts"
   },
   "dependencies": {
-    "@nuxt/ui": "^4.5.1",
+    "@nuxt/ui": "^4.9.0",
     "@tanstack/vue-virtual": "^3.13.23",
     "@unhead/vue": "^2.1.15",
     "@vueuse/core": "^14.2.1",
