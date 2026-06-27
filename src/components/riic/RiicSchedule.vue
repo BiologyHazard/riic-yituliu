@@ -152,7 +152,7 @@ watch(props, () => {
   inline-size: 2160px;
   block-size: 1080px;
   overflow: hidden;
-  pointer-events: none; /* 禁止选中 */
+  pointer-events: none; /* 禁止交互 */
   user-select: none; /* 禁止选中 */
   background-color: black;
   isolation: isolate; /* 创建新的堆叠上下文，确保子元素的 z-index 不受外部影响 */
