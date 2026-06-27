@@ -1,21 +1,6 @@
 @import 'tailwindcss';
 @import '@nuxt/ui';
 
-/* Import Fonts */
-@import '../fonts/HarmonyOS_Sans_SC/result.css';
-@import '../fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-35-Thin/result.css';
-@import '../fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-45-Light/result.css';
-@import '../fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-55-Regular/result.css';
-@import '../fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-65-Medium/result.css';
-@import '../fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-75-SemiBold/result.css';
-@import '../fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-85-Bold/result.css';
-@import '../fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-95-ExtraBold/result.css';
-@import '../fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-105-Heavy/result.css';
-@import '../fonts/Alibaba_PuHuiTi_3.0/AlibabaPuHuiTi-3-115-Black/result.css';
-@import '../fonts/JetBrains_Mono/JetBrainsMono/result.css';
-@import '../fonts/JetBrains_Mono/JetBrainsMono-Italic/result.css';
-@import '../fonts/Outfit/result.css';
-
 @theme {
   --font-sans: 'HarmonyOS Sans SC', sans-serif;
   --font-mono: 'JetBrains Mono', 'HarmonyOS Sans SC', monospace;
