@@ -163,7 +163,7 @@ watch(
             v-show="url === arknightsIframeUrl"
             :key="url"
             allowfullscreen
-            class="aspect-[16/9] w-full"
+            class="aspect-[16/9]"
             :src="url"
           />
         </div>
@@ -229,7 +229,7 @@ watch(
             v-show="url === endfieldIframeUrl"
             :key="url"
             allowfullscreen
-            class="aspect-[16/9] w-full border-0"
+            class="aspect-[16/9]"
             :src="url"
           />
         </div>
