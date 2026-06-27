@@ -1,7 +1,12 @@
 import type { Config } from 'stylelint';
 
 export default {
-  extends: ['stylelint-config-standard', 'stylelint-config-html', 'stylelint-config-recess-order'],
+  extends: [
+    'stylelint-config-standard',
+    'stylelint-config-standard-vue',
+    'stylelint-config-html',
+    'stylelint-config-recess-order',
+  ],
   ignoreFiles: ['**/dist/**', '**/node_modules/**', 'src/assets/fonts/**/*.css'],
   overrides: [
     {
