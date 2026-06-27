@@ -48,23 +48,23 @@ watch([props, operatorNameRef], () => {
 // 头像容器
 .avatar-container {
   // position: relative;
-  width: 180px;
-  height: 180px;
+  inline-size: 180px;
+  block-size: 180px;
 }
 
 // 干员名称样式
 .operator-name-container {
   // position: absolute;
   // bottom: 0;
-  width: 180px;
-  height: 46px;
+  inline-size: 180px;
+  block-size: 46px;
   text-align: center;
   background-color: #1f1f1f;
 }
 
 .operator-name {
   display: inline-block;
-  max-width: 100%;
+  max-inline-size: 100%;
   // letter-spacing: -0.02em;
   overflow: hidden;
   text-overflow: ellipsis;

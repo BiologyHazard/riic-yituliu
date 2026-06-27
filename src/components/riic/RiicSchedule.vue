@@ -149,8 +149,8 @@ watch(props, () => {
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 2160px;
-  height: 1080px;
+  inline-size: 2160px;
+  block-size: 1080px;
   overflow: hidden;
   pointer-events: none; // 禁止交互
   user-select: none; // 禁止选中
@@ -161,8 +161,8 @@ watch(props, () => {
 .background-image {
   position: absolute;
   z-index: -1;
-  width: 100%;
-  height: 100%;
+  inline-size: 100%;
+  block-size: 100%;
 }
 
 .schedule-title {
@@ -170,8 +170,9 @@ watch(props, () => {
   flex-direction: row;
   gap: 40px;
   align-items: stretch;
-  height: 120px;
-  margin: 12px 0 0 13px;
+  block-size: 120px;
+  margin-block-start: 12px;
+  margin-inline-start: 13px;
   color: #ededed;
 }
 
@@ -181,7 +182,7 @@ watch(props, () => {
 }
 
 .bar {
-  width: 17px;
+  inline-size: 17px;
   background: var(--color-primary);
 }
 
@@ -190,8 +191,7 @@ watch(props, () => {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  // border-left: 17px solid var(--color-primary);
-  padding: 0 80px 0 20px;
+  padding-inline: 20px 80px;
   font-family: 'Alibaba PuHuiTi 3.0', sans-serif;
   font-size: 48px;
   font-weight: 1000;
@@ -202,9 +202,9 @@ watch(props, () => {
 }
 
 .decoration {
-  width: auto;
-  height: 54px;
-  margin-left: -47px;
+  inline-size: auto;
+  block-size: 54px;
+  margin-inline-start: -47px;
 }
 
 .middle-block {
@@ -212,8 +212,8 @@ watch(props, () => {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  min-width: 360px;
-  padding: 0 20px;
+  min-inline-size: 360px;
+  padding-inline: 20px;
   font-family: 'HarmonyOS Sans SC', sans-serif;
   font-size: 22px;
   font-weight: 500;
@@ -244,10 +244,10 @@ watch(props, () => {
   display: flex;
   align-items: center; // 垂直居中
   justify-content: flex-end; // 右对齐
-  min-width: 120px;
-  height: 41px;
-  padding: 0 20px 0 40px;
-  margin: 0 0 0 30px;
+  min-inline-size: 120px;
+  block-size: 41px;
+  padding-inline: 40px 20px;
+  margin-inline-start: 30px;
   font-family: 'HarmonyOS Sans SC', sans-serif;
   font-size: 28px;
   font-weight: 500;
@@ -258,8 +258,8 @@ watch(props, () => {
   // position: absolute;
   // right: 0;
   // bottom: 0;
-  width: auto;
-  height: 30px;
+  inline-size: auto;
+  block-size: 30px;
   // transform: translate(50%, 50%);
   margin-inline: 4px;
   filter: drop-shadow(0 0 2px black);
@@ -267,8 +267,8 @@ watch(props, () => {
 
 .item-image {
   position: absolute;
-  width: 60px;
-  height: 60px;
+  inline-size: 60px;
+  block-size: 60px;
 }
 
 .schedule-content-container {
@@ -295,7 +295,7 @@ watch(props, () => {
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  width: fit-content;
+  inline-size: fit-content;
 }
 
 .queue-description {
@@ -317,8 +317,8 @@ watch(props, () => {
 
 .watermark {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
   font-family: 'Alibaba PuHuiTi 3.0', sans-serif;
   font-size: 120px;
   font-weight: 700;

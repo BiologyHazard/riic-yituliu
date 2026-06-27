@@ -146,22 +146,23 @@ watch([props, operatorNameElement], () => {
   flex-direction: row;
   gap: 20px;
   align-items: center;
-  width: 1920px;
-  padding: 24px 24px 24px 34px;
+  inline-size: 1920px;
+  padding-block: 24px;
+  padding-inline: 34px 24px;
   background-image: linear-gradient(185deg, #191919, #424242);
 }
 
 .operator-avatar {
-  width: 180px;
-  height: 180px;
+  inline-size: 180px;
+  block-size: 180px;
 }
 
 .operator-name-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 180px;
-  height: 40px;
+  inline-size: 180px;
+  block-size: 40px;
   margin-block-start: 6px;
   background-color: #181818;
 }
@@ -176,14 +177,14 @@ watch([props, operatorNameElement], () => {
 }
 
 .riic-skill-table {
-  width: 100%;
+  inline-size: 100%;
   table-layout: fixed;
   border-spacing: 10px;
   border-collapse: separate;
 }
 
 .td-buff-index {
-  width: 48px;
+  inline-size: 48px;
   font-family: 'Outfit', sans-serif;
   font-size: 72px;
   font-weight: 900;
@@ -195,7 +196,8 @@ watch([props, operatorNameElement], () => {
 .td-buff-cond,
 .td-buff-name,
 .td-buff-description {
-  padding: 24px 28px;
+  padding-block: 24px;
+  padding-inline: 28px;
   font-family: 'HarmonyOS Sans SC', sans-serif;
   font-size: 36px;
   font-weight: 500;
@@ -206,13 +208,13 @@ watch([props, operatorNameElement], () => {
 }
 
 .td-buff-cond {
-  width: 132px;
+  inline-size: 132px;
   text-align: center;
 }
 
 .td-buff-name {
   position: relative;
-  width: 384px;
+  inline-size: 384px;
   text-align: left;
 }
 
@@ -222,11 +224,12 @@ watch([props, operatorNameElement], () => {
 
 .skill-icon {
   position: absolute;
-  top: 50%;
-  left: 20px;
-  width: 60px;
-  height: 60px;
-  transform: translate(0, -50%);
+  inset-block-start: 50%;
+  inset-inline-start: 20px;
+  inline-size: 60px;
+  block-size: 60px;
+  // transform: translate(0, -50%);
+  margin-block-start: -30px;
 }
 
 .buff-name-text {

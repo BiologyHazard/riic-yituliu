@@ -67,7 +67,7 @@ const props = defineProps<StationType>();
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 64px;
+  block-size: 64px;
   font-family: 'HarmonyOS Sans SC', sans-serif;
   font-size: 46px;
   font-weight: 700;
@@ -89,14 +89,14 @@ const props = defineProps<StationType>();
 
 // 队列样式
 .operator-queue:not(:last-child) {
-  margin-bottom: 16px;
+  margin-block-end: 16px;
 }
 
 // 干员行样式
 .operator-row {
   display: flex;
   flex-direction: row;
-  height: calc(180px + 46px);
+  block-size: calc(180px + 46px);
 }
 
 // 描述文本样式
@@ -104,7 +104,7 @@ const props = defineProps<StationType>();
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 1.2em;
+  block-size: 1.2em;
   font-family: 'HarmonyOS Sans SC', sans-serif;
   font-size: 42px;
   font-weight: 500;
