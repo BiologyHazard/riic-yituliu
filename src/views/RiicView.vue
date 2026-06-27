@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import RiicSchedule from '@/components/riic/RiicSchedule.vue';
 import { useToastWithProgress } from '@/composables/useToastWithProgress';
 import { downloadFile } from '@/utils/file';
 import { parseSchedule } from '@/utils/riic/parseScheduleInput';

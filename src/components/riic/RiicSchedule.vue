@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import RiicYituliuDecoration from '@/components/icons/RiicYituliuDecoration.vue';
-import Station from '@/components/riic/RiicStation.vue';
 import type { ScheduleType } from '@/types/riic';
 import type { ColorInstance } from 'color';
 import Color from 'color';
@@ -131,7 +129,7 @@ watch(props, () => {
             </div>
           </div>
           <div class="stations">
-            <Station
+            <RiicStation
               v-for="(station, stationIndex) in stationLine"
               :key="stationIndex"
               v-bind="station"

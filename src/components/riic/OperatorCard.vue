@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import OperatorAvatar from '@/components/riic/OperatorAvatar.vue';
 import type { CharDataType } from '@/types/riic';
 import { updateText } from '@/utils/autoFontSizing';
 import { getCharIdByName } from '@/utils/character';

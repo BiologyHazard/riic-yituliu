@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import RiicSkill from '@/components/riic/BaseSkill.vue';
 import { getCharIdByName } from '@/utils/character';
 import { downloadFile } from '@/utils/file';
 import { gameData } from '@/utils/gameData';

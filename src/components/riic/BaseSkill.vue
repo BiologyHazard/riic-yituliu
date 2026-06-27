@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import OperatorAvatar from '@/components/riic/OperatorAvatar.vue';
 import type { BuffUnlockCondition } from '@/types/gameData';
 import { updateText } from '@/utils/autoFontSizing';
 import { getCharName } from '@/utils/character';

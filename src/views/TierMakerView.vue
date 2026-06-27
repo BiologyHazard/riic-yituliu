@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import OperatorAvatar from '@/components/riic/OperatorAvatar.vue';
 import { gameData } from '@/utils/gameData';
 import Color from 'color';
 import { nextTick, onMounted, reactive, ref, watch } from 'vue';

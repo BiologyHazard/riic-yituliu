@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import OperatorAvatar from '@/components/riic/OperatorAvatar.vue';
 import {
   charEliteAndLevelUpItemCost,
   charSkillSpecializationItemCost,

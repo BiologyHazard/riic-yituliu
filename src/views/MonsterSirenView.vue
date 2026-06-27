@@ -4,10 +4,9 @@ import { useMonsterSirenApi } from '@/composables/monsterSiren/useMonsterSirenAp
 import { useMusicPlayer } from '@/composables/monsterSiren/useMusicPlayer';
 import { useSongFilter } from '@/composables/monsterSiren/useSongFilter';
 import { useViewMode } from '@/composables/monsterSiren/useViewMode';
-import MonsterSirenSongDetail from '@/components/monsterSiren/MonsterSirenSongDetail.vue';
-import { computed, onMounted, useTemplateRef, watch, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
 import type { SongDetail } from '@/types/monsterSiren';
+import { computed, onMounted, ref, useTemplateRef, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 // ─── 界面状态 ─────────────────────────────────────────────────────────────────────
 const route = useRoute();

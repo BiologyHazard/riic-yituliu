@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import ItemWithCount from '@/components/riic/ItemWithCount.vue';
-import OperatorAvatar from '@/components/riic/OperatorAvatar.vue';
 import {
   charDevelopItemCost,
   getCharName,
