@@ -10,20 +10,8 @@ repos:
 
   - repo: local
     hooks:
-      - id: type-check
-        name: Type Check
+      - id: check-all
+        name: Check All (type-check, lint, format)
         language: system
-        entry: npm run type-check
-        pass_filenames: false
-
-      - id: lint
-        name: Lint
-        language: system
-        entry: npm run lint
-        pass_filenames: false
-
-      - id: format-check
-        name: Format Check
-        language: system
-        entry: npm run format:check
+        entry: npm run check
         pass_filenames: false

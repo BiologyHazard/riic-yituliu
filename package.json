@@ -20,6 +20,7 @@
     "lint:stylelint:fix": "stylelint \"**/*.{css,scss,vue,html}\" --fix",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
+    "check": "npm-run-all2 --parallel type-check lint format:check",
     "download-fonts": "jiti scripts/download_fonts.ts",
     "split-fonts": "jiti scripts/split-fonts.ts"
   },
