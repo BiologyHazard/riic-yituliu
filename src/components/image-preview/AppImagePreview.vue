@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import ImagePreviewHelpMenu from '@/components/image-preview/ImagePreviewHelpMenu.vue';
 import { useImagePreview } from '@/composables/image-preview/useImagePreview';
 import { useTemplateRef } from 'vue';
 

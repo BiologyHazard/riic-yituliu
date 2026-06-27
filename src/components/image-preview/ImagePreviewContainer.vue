@@ -1,5 +1,3 @@
-<script setup lang="ts"></script>
-
 <template>
   <div class="group/image-preview relative cursor-zoom-in overflow-hidden">
     <div

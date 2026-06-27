@@ -1,5 +1,4 @@
 import type { WatchSource } from 'vue';
-
 import { onScopeDispose, watch } from 'vue';
 
 /**
