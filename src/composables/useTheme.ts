@@ -2,7 +2,7 @@ import { defaultTheme } from '@/utils/theme/defaultTheme';
 import { themeIcons } from '@/utils/theme/themeIcons';
 import type { ResolvableLink, ResolvableStyle } from '@unhead/vue';
 import colors from 'tailwindcss/colors';
-import { computed, ref } from 'vue';
+import { computed, ref, type CSSProperties } from 'vue';
 
 const appConfig = useAppConfig();
 
@@ -12,18 +12,52 @@ interface ColorEntry {
   id: string;
   lightLabel: string;
   darkLabel: string;
-  chipStyle: Record<string, string>;
+  chipStyle: CSSProperties;
+}
+
+/**
+ * 从 `tailwindcss/colors` 的 JavaScript 对象中获取指定颜色的具体色值。
+ * 用于在 CSS var() fallback 中提供硬编码颜色值，避免完全依赖 Tailwind CSS 变量。
+ */
+function getTailwindColor(colorName: string, shade: number): string | null {
+  const palette = (colors as Record<string, Record<string, string> | string>)[colorName];
+  if (typeof palette === 'object') {
+    return palette[shade] ?? null;
+  } else if (typeof palette === 'string') {
+    return palette;
+  } else {
+    return null;
+  }
+}
+
+/**
+ * 获取颜色的 CSS 属性值，格式为 `var(--color-<name>-<shade>, <fallback>)`。
+ *
+ * 采用 “CSS 变量优先 + 具体值回退” 策略：
+ * - 优先使用 Tailwind CSS 变量（尊重 `@theme` 中的颜色覆盖）。
+ * - 若变量被 Tailwind 的 tree-shaking 移除，则 fallback 到从 `tailwindcss/colors` 提取的具体色值。
+ * - `neutral` 颜色会映射为 `old-neutral`，以适配 Nuxt UI 的主题重写。
+ */
+function getColorCSSProperty(colorName: string, shade: number): string {
+  // Nuxt UI 主题会重写 --color-neutral-* 为 --color-old-neutral-*。
+  const colorVarName = colorName === 'neutral' ? 'old-neutral' : colorName;
+  const fallback = getTailwindColor(colorName, shade);
+  if (fallback !== null) {
+    return `var(--color-${colorVarName}-${shade}, ${fallback})`;
+  } else {
+    return `var(--color-${colorVarName}-${shade})`;
+  }
 }
 
 function toColorEntry(colorName: string): ColorEntry {
-  const name = colorName === 'neutral' ? 'old-neutral' : colorName;
   return {
     id: colorName,
     lightLabel: colorName,
     darkLabel: colorName,
     chipStyle: {
-      '--color-light': `var(--color-${name}-500)`,
-      '--color-dark': `var(--color-${name}-400)`,
+      // 优先使用 CSS 变量（尊重 @theme 覆盖），被 tree-shake 时 fallback 到具体值
+      '--color-light': getColorCSSProperty(colorName, 500),
+      '--color-dark': getColorCSSProperty(colorName, 400),
     },
   };
 }
