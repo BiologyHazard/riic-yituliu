@@ -1,3 +1,4 @@
+import { defaultTheme } from '@/utils/theme/defaultTheme';
 import type { ResolvableLink, ResolvableStyle } from '@unhead/vue';
 import colors from 'tailwindcss/colors';
 import { computed, ref } from 'vue';
@@ -951,9 +952,9 @@ function getPreviewFontFamily(
 }
 
 function resetTheme() {
-  primary.value = 'blue';
-  secondary.value = 'green';
-  neutral.value = 'slate';
+  primary.value = defaultTheme.ui.colors.primary;
+  secondary.value = defaultTheme.ui.colors.secondary;
+  neutral.value = defaultTheme.ui.colors.neutral;
   radius.value = 0.25;
   englishFont.value = 'use-chinese';
   chineseFont.value = 'harmonyos-sans-sc';
