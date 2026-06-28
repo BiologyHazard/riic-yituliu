@@ -21,5 +21,6 @@ export default {
     'custom-property-empty-line-before': null,
     'font-family-name-quotes': 'always-unless-keyword',
     'import-notation': 'string',
+    'number-max-precision': null,
   },
 } satisfies Config;
