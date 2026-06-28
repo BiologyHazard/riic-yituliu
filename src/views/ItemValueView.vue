@@ -102,99 +102,102 @@ function resetToDefault() {
 </script>
 
 <template>
-  <div class="item-value-view mx-auto max-w-4xl p-4">
-    <h1 class="mb-6 text-2xl font-bold">物品价值管理</h1>
+  <UContainer class="max-w-4xl">
+    <UPage>
+      <UPageHeader title="物品价值管理" />
+      <UPageBody>
+        <!-- 顶部操作栏 -->
+        <div class="mbe-6 flex flex-wrap items-end gap-4 pb-6">
+          <UFormField class="min-w-64 flex-1" label="搜索物品">
+            <UInput v-model="searchQuery" icon="i-lucide-search" placeholder="名称或 ID..." />
+          </UFormField>
 
-    <!-- 顶部操作栏 -->
-    <div class="mbe-6 flex flex-wrap items-end gap-4 pb-6">
-      <UFormField class="min-w-64 flex-1" label="搜索物品">
-        <UInput v-model="searchQuery" icon="i-lucide-search" placeholder="名称或 ID..." />
-      </UFormField>
-
-      <div class="flex gap-2">
-        <UButton color="neutral" variant="subtle" @click="exportJson">
-          <template #leading>
-            <UIcon name="i-lucide-download" />
-          </template>
-          导出 JSON
-        </UButton>
-        <UButton color="error" variant="subtle" @click="resetToDefault">重置默认</UButton>
-      </div>
-    </div>
-
-    <!-- 导入区域 -->
-    <div class="mbe-8 grid grid-cols-1 gap-6 md:grid-cols-2">
-      <UCard>
-        <template #header>
-          <div class="font-bold">上传 JSON 文件</div>
-        </template>
-        <div class="flex flex-col gap-2">
-          <UFileUpload
-            accept="application/json"
-            description="选择 JSON 文件"
-            icon="i-lucide-upload"
-            type="file"
-            @change="handleFileUpload"
-          />
+          <div class="flex gap-2">
+            <UButton color="neutral" variant="subtle" @click="exportJson">
+              <template #leading>
+                <UIcon name="i-lucide-download" />
+              </template>
+              导出 JSON
+            </UButton>
+            <UButton color="error" variant="subtle" @click="resetToDefault">重置默认</UButton>
+          </div>
         </div>
-      </UCard>
 
-      <UCard>
-        <template #header>
-          <div class="font-bold">粘贴 JSON 文本</div>
-        </template>
-        <div class="flex flex-col gap-2">
-          <UTextarea
-            v-model="pasteInput"
-            autoresize
-            placeholder="在此粘贴 JSON 内容..."
-            :rows="3"
-          />
-          <UButton block color="primary" :disabled="!pasteInput" @click="handlePasteImport">
-            确认导入
-          </UButton>
+        <!-- 导入区域 -->
+        <div class="mbe-8 grid grid-cols-1 gap-6 md:grid-cols-2">
+          <UCard>
+            <template #header>
+              <div class="font-bold">上传 JSON 文件</div>
+            </template>
+            <div class="flex flex-col gap-2">
+              <UFileUpload
+                accept="application/json"
+                description="选择 JSON 文件"
+                icon="i-lucide-upload"
+                type="file"
+                @change="handleFileUpload"
+              />
+            </div>
+          </UCard>
+
+          <UCard>
+            <template #header>
+              <div class="font-bold">粘贴 JSON 文本</div>
+            </template>
+            <div class="flex flex-col gap-2">
+              <UTextarea
+                v-model="pasteInput"
+                autoresize
+                placeholder="在此粘贴 JSON 内容..."
+                :rows="3"
+              />
+              <UButton block color="primary" :disabled="!pasteInput" @click="handlePasteImport">
+                确认导入
+              </UButton>
+            </div>
+          </UCard>
         </div>
-      </UCard>
-    </div>
 
-    <!-- 物品列表 -->
-    <UCard>
-      <div class="overflow-x-auto">
-        <table class="w-full text-start">
-          <thead>
-            <tr class="border-be">
-              <th class="px-4 py-2">ID</th>
-              <th class="px-4 py-2">名称</th>
-              <th class="px-4 py-2">价值 (AP)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="item in filteredItems"
-              :key="item.id"
-              class="border-be border-accented hover:bg-muted"
-            >
-              <td class="px-4 py-2 font-mono">{{ item.id }}</td>
-              <td class="px-4 py-2">
-                <span :class="`rarity-${item.rarity}`">{{ item.name }}</span>
-              </td>
-              <td class="px-4 py-2">
-                <UInputNumber
-                  v-model="item.apValue"
-                  :format-options="{
-                    maximumSignificantDigits: 21,
-                    useGrouping: false,
-                  }"
-                  :step="1"
-                  :step-snapping="false"
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </UCard>
-  </div>
+        <!-- 物品列表 -->
+        <UCard>
+          <div class="overflow-x-auto">
+            <table class="w-full text-start">
+              <thead>
+                <tr class="border-be">
+                  <th class="px-4 py-2">ID</th>
+                  <th class="px-4 py-2">名称</th>
+                  <th class="px-4 py-2">价值 (AP)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="item in filteredItems"
+                  :key="item.id"
+                  class="border-be border-accented hover:bg-muted"
+                >
+                  <td class="px-4 py-2 font-mono">{{ item.id }}</td>
+                  <td class="px-4 py-2">
+                    <span :class="`rarity-${item.rarity}`">{{ item.name }}</span>
+                  </td>
+                  <td class="px-4 py-2">
+                    <UInputNumber
+                      v-model="item.apValue"
+                      :format-options="{
+                        maximumSignificantDigits: 21,
+                        useGrouping: false,
+                      }"
+                      :step="1"
+                      :step-snapping="false"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </UCard>
+      </UPageBody>
+    </UPage>
+  </UContainer>
 </template>
 
 <style scoped>

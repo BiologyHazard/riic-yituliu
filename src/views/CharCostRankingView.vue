@@ -142,92 +142,95 @@ const rarities = [
 </script>
 
 <template>
-  <div class="char-cost-ranking-view mx-auto max-w-7xl p-4">
-    <h1 class="mbe-6 text-2xl font-bold">干员养成成本排行</h1>
+  <UContainer>
+    <UPage>
+      <UPageHeader title="干员养成成本排行" />
+      <UPageBody>
+        <div class="mbe-6 flex flex-wrap gap-4">
+          <div class="min-w-64 flex-1">
+            <UInput v-model="searchQuery" icon="i-lucide-search" placeholder="搜索干员名称..." />
+          </div>
+          <USelectMenu
+            v-model="selectedRarity"
+            class="w-40"
+            :items="rarities"
+            label-key="label"
+            placeholder="筛选星级"
+            value-key="value"
+          />
+        </div>
 
-    <div class="mbe-6 flex flex-wrap gap-4">
-      <div class="min-w-64 flex-1">
-        <UInput v-model="searchQuery" icon="i-lucide-search" placeholder="搜索干员名称..." />
-      </div>
-      <USelectMenu
-        v-model="selectedRarity"
-        class="w-40"
-        :items="rarities"
-        label-key="label"
-        placeholder="筛选星级"
-        value-key="value"
-      />
-    </div>
+        <UCard :ui="{ body: 'p-0 sm:p-0' }">
+          <div class="overflow-x-auto">
+            <table class="w-full text-start text-sm whitespace-nowrap">
+              <thead>
+                <tr class="border-be border-muted bg-muted">
+                  <th class="px-4 py-3">干员</th>
+                  <th class="px-4 py-3 text-center">精2消耗 (排名)</th>
+                  <th class="px-4 py-3 text-center">一技能专三 (排名)</th>
+                  <th class="px-4 py-3 text-center">二技能专三 (排名)</th>
+                  <th class="px-4 py-3 text-center">三技能专三 (排名)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y">
+                <tr
+                  v-for="item in filteredRankedCosts"
+                  :key="item.charId"
+                  class="border-muted hover:bg-muted"
+                >
+                  <td class="px-4 py-3">
+                    <div class="flex items-center gap-3">
+                      <div class="h-12 w-12">
+                        <OperatorAvatar :char-id="item.charId" />
+                      </div>
+                      <div>
+                        <div class="font-bold">{{ item.name }}</div>
+                        <div class="text-xs text-muted">{{ item.rarity + 1 }}★</div>
+                      </div>
+                    </div>
+                  </td>
 
-    <UCard :ui="{ body: 'p-0 sm:p-0' }">
-      <div class="overflow-x-auto">
-        <table class="w-full text-start text-sm whitespace-nowrap">
-          <thead>
-            <tr class="border-be border-muted bg-muted">
-              <th class="px-4 py-3">干员</th>
-              <th class="px-4 py-3 text-center">精2消耗 (排名)</th>
-              <th class="px-4 py-3 text-center">一技能专三 (排名)</th>
-              <th class="px-4 py-3 text-center">二技能专三 (排名)</th>
-              <th class="px-4 py-3 text-center">三技能专三 (排名)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="item in filteredRankedCosts"
-              :key="item.charId"
-              class="border-be border-muted hover:bg-muted"
-            >
-              <td class="px-4 py-3">
-                <div class="flex items-center gap-3">
-                  <div class="h-12 w-12">
-                    <OperatorAvatar :char-id="item.charId" />
-                  </div>
-                  <div>
-                    <div class="font-bold">{{ item.name }}</div>
-                    <div class="text-xs text-muted">{{ item.rarity + 1 }}★</div>
-                  </div>
-                </div>
-              </td>
+                  <!-- 精2 -->
+                  <td class="px-4 py-3 text-center">
+                    <div v-if="item.elite2Cost > 0">
+                      <div class="text-primary">{{ item.elite2Cost.toFixed(1) }}</div>
+                      <div class="text-xs text-muted">{{ item.elite2Rank }}</div>
+                    </div>
+                    <div v-else class="text-muted opacity-50">-</div>
+                  </td>
 
-              <!-- 精2 -->
-              <td class="px-4 py-3 text-center">
-                <div v-if="item.elite2Cost > 0">
-                  <div class="text-primary">{{ item.elite2Cost.toFixed(1) }}</div>
-                  <div class="text-xs text-muted">{{ item.elite2Rank }}</div>
-                </div>
-                <div v-else class="text-muted opacity-50">-</div>
-              </td>
+                  <!-- 技能 1 -->
+                  <td class="px-4 py-3 text-center">
+                    <div v-if="item.skill1Cost > 0">
+                      <div class="text-primary">{{ item.skill1Cost.toFixed(1) }}</div>
+                      <div class="text-xs text-muted">{{ item.skill1Rank }}</div>
+                    </div>
+                    <div v-else class="text-muted opacity-50">-</div>
+                  </td>
 
-              <!-- 技能 1 -->
-              <td class="px-4 py-3 text-center">
-                <div v-if="item.skill1Cost > 0">
-                  <div class="text-primary">{{ item.skill1Cost.toFixed(1) }}</div>
-                  <div class="text-xs text-muted">{{ item.skill1Rank }}</div>
-                </div>
-                <div v-else class="text-muted opacity-50">-</div>
-              </td>
+                  <!-- 技能 2 -->
+                  <td class="px-4 py-3 text-center">
+                    <div v-if="item.skill2Cost > 0">
+                      <div class="text-primary">{{ item.skill2Cost.toFixed(1) }}</div>
+                      <div class="text-xs text-muted">{{ item.skill2Rank }}</div>
+                    </div>
+                    <div v-else class="text-muted opacity-50">-</div>
+                  </td>
 
-              <!-- 技能 2 -->
-              <td class="px-4 py-3 text-center">
-                <div v-if="item.skill2Cost > 0">
-                  <div class="text-primary">{{ item.skill2Cost.toFixed(1) }}</div>
-                  <div class="text-xs text-muted">{{ item.skill2Rank }}</div>
-                </div>
-                <div v-else class="text-muted opacity-50">-</div>
-              </td>
-
-              <!-- 技能 3 -->
-              <td class="px-4 py-3 text-center">
-                <div v-if="item.skill3Cost > 0">
-                  <div class="text-primary">{{ item.skill3Cost.toFixed(1) }}</div>
-                  <div class="text-xs text-muted">{{ item.skill3Rank }}</div>
-                </div>
-                <div v-else class="text-muted opacity-50">-</div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </UCard>
-  </div>
+                  <!-- 技能 3 -->
+                  <td class="px-4 py-3 text-center">
+                    <div v-if="item.skill3Cost > 0">
+                      <div class="text-primary">{{ item.skill3Cost.toFixed(1) }}</div>
+                      <div class="text-xs text-muted">{{ item.skill3Rank }}</div>
+                    </div>
+                    <div v-else class="text-muted opacity-50">-</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </UCard>
+      </UPageBody>
+    </UPage>
+  </UContainer>
 </template>
