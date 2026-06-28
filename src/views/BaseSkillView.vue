@@ -107,7 +107,7 @@ async function exportEachAsImage(): Promise<void> {
         </div>
         <div ref="exportContainer" class="w-fit">
           <div v-for="charId in charIdList" :key="charId" ref="individualContainers" class="w-fit">
-            <RiicSkill :char-id="charId" />
+            <BaseSkill :char-id="charId" />
           </div>
         </div>
       </UPageBody>
