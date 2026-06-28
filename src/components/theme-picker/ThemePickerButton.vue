@@ -11,7 +11,6 @@ const props = defineProps<{
 
 <template>
   <UButton
-    class="capitalize"
     color="neutral"
     :icon="props.icon"
     :label="props.label"

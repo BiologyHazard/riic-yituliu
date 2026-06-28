@@ -24,6 +24,8 @@ const {
   secondaryColors,
   neutralColors,
   radiuses,
+  cornerShapePresets,
+  supportsCornerShape,
   englishFontOptions,
   chineseFontOptions,
   monospaceFontOptions,
@@ -33,6 +35,8 @@ const {
   secondary,
   neutral,
   radius,
+  cornerShape,
+  cornerShapeCoefficient,
   englishFont,
   chineseFont,
   monospaceFont,
@@ -95,6 +99,7 @@ const {
               v-for="{ id, lightLabel, darkLabel, chipStyle } in primaryColors"
               :key="id"
               :chip-style
+              class="capitalize"
               :label="colorModeCalculated === 'dark' ? darkLabel : lightLabel"
               :selected="primary === id"
               @click="primary = id"
@@ -105,6 +110,7 @@ const {
               v-for="{ id, lightLabel, darkLabel, chipStyle } in secondaryColors"
               :key="id"
               :chip-style
+              class="capitalize"
               :label="colorModeCalculated === 'dark' ? darkLabel : lightLabel"
               :selected="secondary === id"
               @click="secondary = id"
@@ -115,6 +121,7 @@ const {
               v-for="{ id, lightLabel, darkLabel, chipStyle } in neutralColors"
               :key="id"
               :chip-style
+              class="capitalize"
               :label="colorModeCalculated === 'dark' ? darkLabel : lightLabel"
               :selected="neutral === id"
               @click="neutral = id"
@@ -124,7 +131,7 @@ const {
       </fieldset>
 
       <fieldset>
-        <legend class="mb-2 text-xs leading-none font-semibold select-none">圆角</legend>
+        <legend class="mb-2 text-xs leading-none font-semibold select-none">圆角大小</legend>
         <div class="grid grid-cols-5 gap-1">
           <ThemePickerButton
             v-for="r in radiuses"
@@ -132,7 +139,28 @@ const {
             class="justify-center px-0"
             :label="String(r)"
             :selected="radius === r"
+            :style="{
+              borderRadius: `${r * cornerShapeCoefficient}rem`,
+            }"
             @click="radius = r"
+          />
+        </div>
+      </fieldset>
+
+      <fieldset v-if="supportsCornerShape">
+        <legend class="mb-2 text-xs leading-none font-semibold select-none">圆角形状</legend>
+        <div class="grid grid-cols-5 gap-1">
+          <ThemePickerButton
+            v-for="{ label, value, cssValue, coefficient } in cornerShapePresets"
+            :key="value"
+            class="justify-center px-0"
+            :label="label"
+            :selected="cornerShape === value"
+            :style="{
+              cornerShape: cssValue,
+              borderRadius: `${radius * coefficient}rem`,
+            }"
+            @click="cornerShape = value"
           />
         </div>
       </fieldset>

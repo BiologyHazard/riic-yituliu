@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 @import '@nuxt/ui';
+@import './corner-shape/corner-shape-utilities.css';
+@import './corner-shape/squircle-corner.css';
 
 @theme {
   --font-sans: 'HarmonyOS Sans SC', sans-serif;

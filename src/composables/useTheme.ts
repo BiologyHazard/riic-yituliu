@@ -92,6 +92,48 @@ const neutralColors = primaryColors.filter((color) => neutralColorNames.includes
 
 const radiuses = [0, 0.125, 0.25, 0.375, 0.5];
 
+interface CornerShapePreset {
+  label: string;
+  value: string;
+  cssValue: string;
+  coefficient: number;
+}
+
+const cornerShapePresets: CornerShapePreset[] = [
+  {
+    label: '-∞',
+    value: '-infinity',
+    cssValue: 'notch',
+    coefficient: 0.46325137517610426,
+  },
+  {
+    label: '0',
+    value: '0',
+    cssValue: 'bevel',
+    coefficient: 0.6551363775620336,
+  },
+  {
+    label: '1',
+    value: '1',
+    cssValue: 'round',
+    coefficient: 1,
+  },
+  {
+    label: 'log₂(3)',
+    value: 'log2(3)',
+    cssValue: 'superellipse(log(3, 2))',
+    coefficient: 1.3561800271129498,
+  },
+  {
+    label: '2',
+    value: '2',
+    cssValue: 'squircle',
+    coefficient: 1.7150089225301701,
+  },
+];
+
+const supportsCornerShape = CSS.supports('corner-shape: squircle');
+
 interface FontOption {
   label: string;
   value: string;
@@ -672,6 +714,23 @@ const neutral = computed<string>({
 /** 圆角半径（单位：rem） */
 const radius = ref<number>(0.25);
 
+/** 圆角形状预设值（对应 cornerShapePresets 中的 value） */
+const cornerShape = ref<string>(supportsCornerShape ? 'log2(3)' : '1');
+
+/** 当前选中的圆角形状 */
+const selectedCornerShape = computed<CornerShapePreset | undefined>(() =>
+  cornerShapePresets.find((p) => p.value === cornerShape.value),
+);
+
+/** 当前选中圆角形状的补偿系数 */
+const cornerShapeCoefficient = computed<number>(() => {
+  if (!supportsCornerShape) {
+    return 1;
+  } else {
+    return selectedCornerShape.value?.coefficient ?? 1;
+  }
+});
+
 /** 选中的英文字体 ID */
 const englishFont = ref<string>('use-chinese');
 /** 选中的中文字体 ID */
@@ -721,25 +780,39 @@ const style = computed<ResolvableStyle[]>(() => {
   // 主题色为 grayscale 时，设置 --ui-primary 和 --ui-secondary 变量为黑白色
   if (primary.value === 'grayscale') {
     style.push({
-      innerHTML: `:root { --ui-primary: black; } .dark { --ui-primary: white; }`,
+      innerHTML: `@layer theme { :root { --ui-primary: black; } .dark { --ui-primary: white; } }`,
       id: 'nuxt-ui-primary-grayscale',
       tagPriority: -2,
     });
   }
   if (secondary.value === 'grayscale') {
     style.push({
-      innerHTML: `:root { --ui-secondary: black; } .dark { --ui-secondary: white; }`,
+      innerHTML: `@layer theme { :root { --ui-secondary: black; } .dark { --ui-secondary: white; } }`,
       id: 'nuxt-ui-secondary-grayscale',
       tagPriority: -2,
     });
   }
 
   // 圆角大小
+  // 浏览器支持 corner-shape: squircle 时，根据预设系数补偿圆角半径
+  const effectiveRadius = supportsCornerShape
+    ? radius.value * cornerShapeCoefficient.value
+    : radius.value;
   style.push({
-    innerHTML: `:root { --ui-radius: ${radius.value}rem; }`,
+    innerHTML: `@layer theme { :root { --ui-radius: ${effectiveRadius}rem; } }`,
     id: 'nuxt-ui-radius',
     tagPriority: -2,
   });
+
+  // 圆角形状（superellipse 参数）
+  // 与 squircle-corner.css 中的 var(--corner-shape) 配合使用
+  if (supportsCornerShape && selectedCornerShape.value) {
+    style.push({
+      innerHTML: `@layer theme { :root { --corner-shape: ${selectedCornerShape.value.cssValue}; } }`,
+      id: 'nuxt-ui-corner-shape',
+      tagPriority: -2,
+    });
+  }
 
   // 字体
   // 将字体选项转换为 CSS 字体家族名称字符串
@@ -756,9 +829,9 @@ const style = computed<ResolvableStyle[]>(() => {
   // 根据选中的字体生成 CSS 变量
   const fontSansInnerHtml =
     englishFontOption.value?.source.type === 'use-chinese'
-      ? `:root { --font-sans: ${chineseFontCss}, sans-serif; }` // 如果英文字体为 “使用中文字体”，则只使用中文字体和 sans-serif
-      : `:root { --font-sans: ${englishFontCss}, ${chineseFontCss}, sans-serif; }`;
-  const fontMonoInnerHtml = `:root { --font-mono: ${monospaceFontCss}, ${chineseFontCss}, monospace; }`;
+      ? `@layer theme { :root { --font-sans: ${chineseFontCss}, sans-serif; } }` // 如果英文字体为 “使用中文字体”，则只使用中文字体和 sans-serif
+      : `@layer theme { :root { --font-sans: ${englishFontCss}, ${chineseFontCss}, sans-serif; } }`;
+  const fontMonoInnerHtml = `@layer theme { :root { --font-mono: ${monospaceFontCss}, ${chineseFontCss}, monospace; } }`;
 
   // 将 CSS 变量添加到 style 中
   style.push({
@@ -856,6 +929,7 @@ function resetTheme() {
   secondary.value = defaultTheme.ui.colors.secondary;
   neutral.value = defaultTheme.ui.colors.neutral;
   radius.value = 0.25;
+  cornerShape.value = supportsCornerShape ? 'log2(3)' : '1';
   englishFont.value = 'use-chinese';
   chineseFont.value = 'harmonyos-sans-sc';
   monospaceFont.value = 'jetbrains-mono';
@@ -868,6 +942,8 @@ export function useTheme() {
     secondaryColors,
     neutralColors,
     radiuses,
+    cornerShapePresets,
+    supportsCornerShape,
     englishFontOptions,
     chineseFontOptions,
     monospaceFontOptions,
@@ -877,6 +953,8 @@ export function useTheme() {
     secondary,
     neutral,
     radius,
+    cornerShape,
+    cornerShapeCoefficient,
     englishFont,
     chineseFont,
     monospaceFont,
