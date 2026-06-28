@@ -149,7 +149,6 @@ watch(
             />
           </UFormField>
           <UButton
-            class="text-sm"
             rel="noopener noreferrer"
             target="_blank"
             :to="arknightsIframeUrl"
@@ -163,7 +162,7 @@ watch(
             v-show="url === arknightsIframeUrl"
             :key="url"
             allowfullscreen
-            class="aspect-[16/9]"
+            class="aspect-16/9 inline-full"
             :src="url"
           />
         </div>
@@ -215,7 +214,6 @@ watch(
             />
           </UFormField>
           <UButton
-            class="text-sm"
             rel="noopener noreferrer"
             target="_blank"
             :to="endfieldIframeUrl"
@@ -229,7 +227,7 @@ watch(
             v-show="url === endfieldIframeUrl"
             :key="url"
             allowfullscreen
-            class="aspect-[16/9]"
+            class="aspect-16/9 inline-full"
             :src="url"
           />
         </div>
