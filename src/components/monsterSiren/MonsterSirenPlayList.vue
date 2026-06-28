@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Album, Song } from '@/types/monsterSiren';
+import { getResizedCoverUrl } from '@/utils/aliyunOss';
 
 const props = defineProps<{
   playerSong: Song | null;
@@ -61,7 +62,7 @@ const emit = defineEmits<{
                 :alt="song.name"
                 class="h-full w-full object-cover"
                 referrerpolicy="no-referrer"
-                :src="props.albumMap.get(song.albumCid)?.coverUrl"
+                :src="getResizedCoverUrl(props.albumMap.get(song.albumCid)!.coverUrl, 128)"
               />
               <div
                 v-if="props.playerSong?.cid === song.cid && props.playerIndex === index"

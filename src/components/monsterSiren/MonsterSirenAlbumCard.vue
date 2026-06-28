@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Album } from '@/types/monsterSiren';
+import { getResizedCoverUrl } from '@/utils/aliyunOss';
 
 const props = defineProps<{
   album: Album;
@@ -21,7 +22,7 @@ const emit = defineEmits<{
         class="aspect-square w-full object-cover transition-transform group-hover:scale-105"
         loading="lazy"
         referrerpolicy="no-referrer"
-        :src="props.album.coverUrl"
+        :src="getResizedCoverUrl(props.album.coverUrl, null)"
       />
       <div
         class="absolute inset-0 flex items-end justify-end gap-3 bg-black/40 p-3 opacity-0 backdrop-blur-[2px] transition-all group-hover:opacity-100"

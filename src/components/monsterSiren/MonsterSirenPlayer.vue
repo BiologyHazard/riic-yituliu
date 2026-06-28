@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { PreviewTarget } from '@/composables/image-preview/useImagePreview';
 import type { Album, PlayMode, Song } from '@/types/monsterSiren';
+import { getResizedCoverUrl } from '@/utils/aliyunOss';
 
 const props = defineProps<{
   playerSong: Song | null;
@@ -81,7 +82,7 @@ const isPlaylistOpen = defineModel<boolean>('isPlaylistOpen');
                 :alt="props.playerAlbum.name"
                 class="h-full w-full object-cover"
                 referrerpolicy="no-referrer"
-                :src="props.playerAlbum.coverUrl"
+                :src="getResizedCoverUrl(props.playerAlbum.coverUrl, 128)"
               />
               <div
                 v-else

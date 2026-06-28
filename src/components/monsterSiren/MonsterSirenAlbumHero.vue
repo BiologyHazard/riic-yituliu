@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Album, AlbumDetail } from '@/types/monsterSiren';
+import { getResizedCoverUrl } from '@/utils/aliyunOss';
 
 const props = defineProps<{
   album: Album;
@@ -25,7 +26,7 @@ const emit = defineEmits<{
         :alt="props.album.name"
         class="h-full w-full scale-110 object-cover transition-transform duration-700 group-hover/album-header:scale-105"
         referrerpolicy="no-referrer"
-        :src="props.albumDetail?.coverDeUrl || props.album.coverUrl"
+        :src="getResizedCoverUrl(props.albumDetail?.coverDeUrl || props.album.coverUrl, null)"
       />
     </div>
 
@@ -37,7 +38,7 @@ const emit = defineEmits<{
         :alt="props.album.name"
         class="h-full w-full scale-110 object-cover blur-md brightness-40 saturate-60 transition-transform duration-700 group-hover/album-header:scale-115"
         referrerpolicy="no-referrer"
-        :src="props.albumDetail?.coverDeUrl || props.album.coverUrl"
+        :src="getResizedCoverUrl(props.albumDetail?.coverDeUrl || props.album.coverUrl, null)"
       />
     </div>
 
@@ -56,7 +57,7 @@ const emit = defineEmits<{
           :alt="props.album.name"
           class="h-full w-full object-cover"
           referrerpolicy="no-referrer"
-          :src="props.album.coverUrl"
+          :src="getResizedCoverUrl(props.album.coverUrl, 352)"
         />
       </ImagePreviewContainer>
 

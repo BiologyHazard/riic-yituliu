@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Album, Song } from '@/types/monsterSiren';
-
+import { getResizedCoverUrl } from '@/utils/aliyunOss';
 import { useWindowVirtualizer } from '@tanstack/vue-virtual';
 import { computed, useTemplateRef } from 'vue';
 
@@ -124,7 +124,7 @@ const virtualItems = computed(() => {
                   class="h-full w-full object-cover"
                   loading="lazy"
                   referrerpolicy="no-referrer"
-                  :src="props.albumMap.get(song.albumCid)!.coverUrl"
+                  :src="getResizedCoverUrl(props.albumMap.get(song.albumCid)!.coverUrl, 128)"
                 />
               </ImagePreviewContainer>
               <div

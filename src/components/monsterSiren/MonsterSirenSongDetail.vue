@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Album, Song, SongDetail } from '@/types/monsterSiren';
+import { getResizedCoverUrl } from '@/utils/aliyunOss';
 import { computed, onUnmounted, ref, watch } from 'vue';
 
 const props = defineProps<{
@@ -125,7 +126,7 @@ onUnmounted(() => {
           :alt="album.name"
           class="h-full w-full object-cover"
           referrerpolicy="no-referrer"
-          :src="album.coverUrl"
+          :src="getResizedCoverUrl(album.coverUrl, null)"
         />
         <div v-else class="flex h-full w-full items-center justify-center bg-white/5">
           <UIcon class="h-20 w-20 opacity-20" name="i-lucide-music" />
