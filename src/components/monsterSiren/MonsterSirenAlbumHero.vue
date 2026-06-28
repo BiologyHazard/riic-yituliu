@@ -94,14 +94,14 @@ const emit = defineEmits<{
           {{ props.album.artistes.join(' / ') }}
         </p>
 
-        <!-- 曲目统计与 CID 信息 -->
+        <!-- 乐曲统计与 CID 信息 -->
         <p class="text-xs text-white/60">
-          {{ props.songCount }} 首曲目
+          {{ props.songCount }} 首乐曲
           <span class="mx-1.5 opacity-40">·</span>
           CID: {{ props.album.cid }}
         </p>
 
-        <!-- 操作按钮：一键播放全部曲目 -->
+        <!-- 操作按钮：一键播放全部乐曲 -->
         <div class="mt-1 flex flex-wrap gap-2">
           <UButton class="light" icon="i-lucide-play" size="sm" @click="emit('play')">
             播放全部
