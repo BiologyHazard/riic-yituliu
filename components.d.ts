@@ -11,6 +11,8 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AppFooter: typeof import('./src/components/AppFooter.vue')['default']
+    AppHeader: typeof import('./src/components/AppHeader.vue')['default']
     AppImagePreview: typeof import('./src/components/image-preview/AppImagePreview.vue')['default']
     BaseSkill: typeof import('./src/components/riic/BaseSkill.vue')['default']
     ImagePreviewContainer: typeof import('./src/components/image-preview/ImagePreviewContainer.vue')['default']
@@ -49,6 +51,7 @@ declare module 'vue' {
     UContainer: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Container.vue')['default']
     UFieldGroup: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/FieldGroup.vue')['default']
     UFileUpload: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/FileUpload.vue')['default']
+    UFooter: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Footer.vue')['default']
     UFormField: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/FormField.vue')['default']
     UHeader: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Header.vue')['default']
     UIcon: typeof import('./node_modules/@nuxt/ui/dist/runtime/vue/components/Icon.vue')['default']

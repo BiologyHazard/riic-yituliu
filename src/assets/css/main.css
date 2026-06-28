@@ -8,7 +8,12 @@
   --font-mono: 'JetBrains Mono', 'HarmonyOS Sans SC', monospace;
 }
 
-/* Global Styles */
+@layer base {
+  html {
+    font-feature-settings: 'calt' on;
+  }
+}
+
 :root {
   --color-primary: #299dff;
 
@@ -17,12 +22,6 @@
   --color-t3: #00b3fd;
   --color-t4: #d4c3d4;
   --color-t5: #ffc802;
-}
-
-html {
-  overflow-y: scroll;
-  font-size: 18px;
-  font-feature-settings: 'calt' on;
 }
 
 .color-t1 {
