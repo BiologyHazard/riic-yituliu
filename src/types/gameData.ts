@@ -52,6 +52,7 @@ export interface CharPatchTable {
 export interface SkinTable {
   charSkins: Record<string, CharSkin>;
   buildinEvolveMap: Record<string, Record<string, string>>;
+  buildinPatchMap: Record<string, Record<string, string>>;
 }
 
 export type PhaseEnum = 'PHASE_0' | 'PHASE_1' | 'PHASE_2';

@@ -24,6 +24,31 @@ export const patchedCharacterTable = computed(() => ({
 }));
 
 /**
+ * 升变干员 ID 映射到皮肤 ID 的映射表
+ *
+ * 将 `excel/skin_table.json` 中的 `buildinPatchMap` 为
+ * ```json
+ * "buildinPatchMap": {
+ *   "char_002_amiya": {
+ *     "char_1001_amiya2": "char_1001_amiya2#2",
+ *     "char_1037_amiya3": "char_1037_amiya3#2"
+ *   }
+ * }
+ * ```
+ * 转换为
+ * ```json
+ * {
+ *   "char_1001_amiya2": "char_1001_amiya2#2",
+ *   "char_1037_amiya3": "char_1037_amiya3#2"
+ * }
+ * ```
+ */
+export const patchCharIdToSkinId = computed(() => {
+  const buildinPatchMap = gameData.value?.skinTable.buildinPatchMap ?? {};
+  return Object.assign({}, ...Object.values(buildinPatchMap)); // 拍平 buildinPatchMap 对象
+});
+
+/**
  * 根据干员名称获取干员 ID
  * @param name 干员名称（如："能天使"）
  * @returns 干员 ID（如："char_103_angel"），未找到则返回 undefined
@@ -92,6 +117,12 @@ export function getCharProfessionId(charId: string): string | undefined {
  * getCharSkinId('char_103_angel', 2) // => 'char_103_angel#2'
  */
 export function getCharSkinId(charId: string, eliteLevel: number): string {
+  // 查找升变干员
+  if (patchCharIdToSkinId.value[charId] !== undefined) {
+    return patchCharIdToSkinId.value[charId];
+  }
+
+  // 查找普通干员
   const evolveMap = gameData.value?.skinTable.buildinEvolveMap[charId] ?? {};
   for (let level = eliteLevel; level >= 0; level--) {
     const skinId = evolveMap[String(level)];
@@ -99,7 +130,9 @@ export function getCharSkinId(charId: string, eliteLevel: number): string {
       return skinId;
     }
   }
+
   // Fallback to default skinId
+  console.warn(`干员 ${charId} 的精英化等级 ${eliteLevel} 没有对应的皮肤 ID，尝试使用默认皮肤。`);
   if (eliteLevel === 2) {
     return `${charId}#2`;
   } else {
@@ -113,24 +146,17 @@ export function getCharSkinId(charId: string, eliteLevel: number): string {
  * @param eliteLevel 精英化等级（0/1/2）
  * @returns 头像 ID，用于构建头像 URL
  * @example
- * getCharAvatar('char_103_angel', 2) // => 'char_103_angel_2'
+ * getCharAvatarId('char_103_angel', 2) // => 'char_103_angel_2'
  */
-export function getCharAvatar(charId: string, eliteLevel: number): string {
-  // const evolveMap = gameData.value?.skinTable.buildinEvolveMap[charId] ?? {}
-  // for (let level = eliteLevel; level >= 0; level--) {
-  //   if (String(level) in evolveMap) {
-  //     const avatarId = gameData.value?.skinTable.charSkins[evolveMap[String(level)] ?? '']?.avatarId
-  //     if (avatarId !== undefined) {
-  //       return avatarId
-  //     }
-  //   }
-  // }
+export function getCharAvatarId(charId: string, eliteLevel: number): string {
   const skinId = getCharSkinId(charId, eliteLevel);
   const avatarId = gameData.value?.skinTable.charSkins[skinId]?.avatarId;
   if (avatarId !== undefined) {
     return avatarId;
   }
+
   // Fallback to default avatarId
+  console.warn(`干员 ${charId} 的精英化等级 ${eliteLevel} 没有对应的头像 ID，尝试使用默认头像。`);
   if (eliteLevel === 2) {
     return `${charId}_2`;
   } else {

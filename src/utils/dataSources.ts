@@ -1,5 +1,6 @@
-import { getCharAvatar as getCharAvatarId, getCharSkinId } from '@/utils/gameData/character';
+import { getCharAvatarId, getCharName, getCharSkinId } from '@/utils/gameData/character';
 import { getItemIconId } from '@/utils/gameData/item';
+import { getPrtsWikiCharAvatarUrl } from '@/utils/prtsWiki';
 import { useLocalStorage } from '@vueuse/core';
 import { computed } from 'vue';
 
@@ -16,7 +17,7 @@ export interface GameDataSource extends DataSource {
 }
 
 export interface AvatarSource extends DataSource {
-  getCharAvatarUrl: (charId: string, eliteLevel: number) => string;
+  getCharAvatarUrl: (charId: string, eliteLevel: number) => string | undefined;
 }
 
 export interface ItemIconSource extends DataSource {
@@ -89,11 +90,31 @@ export const avatarSources: AvatarSource[] = [
     },
   },
   {
+    id: 'prts-wiki',
+    label: 'PRTS Wiki',
+    isGithub: false,
+    getCharAvatarUrl(charId: string, eliteLevel: number): string | undefined {
+      const charName = getCharName(charId);
+      if (charName === undefined) {
+        return undefined;
+      }
+      return getPrtsWikiCharAvatarUrl(charId, charName, eliteLevel);
+    },
+  },
+  {
     id: 'yuanyan3060/ArknightsGameResource',
     label: 'yuanyan3060/ArknightsGameResource',
     isGithub: true,
     getCharAvatarUrl(charId: string, eliteLevel: number): string {
       return `https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/refs/heads/main/avatar/${getCharAvatarId(charId, eliteLevel)}.png`;
+    },
+  },
+  {
+    id: 'fexli/ArknightsResource',
+    label: 'fexli/ArknightsResource',
+    isGithub: true,
+    getCharAvatarUrl(charId: string, eliteLevel: number): string {
+      return `https://raw.githubusercontent.com/fexli/ArknightsResource/refs/heads/main/avatar/ASSISTANT/${getCharAvatarId(charId, eliteLevel)}.png`;
     },
   },
   {
@@ -137,6 +158,18 @@ export const itemIconSources: ItemIconSource[] = [
         return undefined;
       }
       return `https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/refs/heads/main/item/${itemIconId}.png`;
+    },
+  },
+  {
+    id: 'fexli/ArknightsResource',
+    label: 'fexli/ArknightsResource',
+    isGithub: true,
+    getItemIconUrl(itemId: string): string | undefined {
+      const itemIconId = getItemIconId(itemId);
+      if (itemIconId === undefined) {
+        return undefined;
+      }
+      return `https://raw.githubusercontent.com/fexli/ArknightsResource/refs/heads/main/items/${itemIconId}.png`;
     },
   },
   {
@@ -286,8 +319,11 @@ export const currentGameDataBaseUrl = computed<string>(() => {
 
 // ─── image URL builders ───────────────────────────────────────
 
-export function getCharAvatarUrl(charId: string, eliteLevel: number): string {
+export function getCharAvatarUrl(charId: string, eliteLevel: number): string | undefined {
   const url = currentAvatarSource.value.getCharAvatarUrl(charId, eliteLevel);
+  if (url === undefined) {
+    return undefined;
+  }
   return applyGithubMirror(url, currentAvatarSource.value.isGithub);
 }
 
