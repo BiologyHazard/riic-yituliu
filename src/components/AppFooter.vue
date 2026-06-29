@@ -27,7 +27,7 @@ const beianString: string | null =
         icon="i-simple-icons:nuxtdotjs"
         rel="noopener noreferrer"
         target="_blank"
-        to="https://unocss.dev/"
+        to="https://ui.nuxt.com/"
         variant="ghost"
       />
       <UButton
