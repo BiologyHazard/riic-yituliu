@@ -24,7 +24,7 @@ declare module 'vue' {
     MonsterSirenAlbumsGrid: typeof import('./src/components/monsterSiren/MonsterSirenAlbumsGrid.vue')['default']
     MonsterSirenAlbumsTab: typeof import('./src/components/monsterSiren/MonsterSirenAlbumsTab.vue')['default']
     MonsterSirenPlayer: typeof import('./src/components/monsterSiren/MonsterSirenPlayer.vue')['default']
-    MonsterSirenPlayList: typeof import('./src/components/monsterSiren/MonsterSirenPlayList.vue')['default']
+    MonsterSirenPlaylist: typeof import('./src/components/monsterSiren/MonsterSirenPlaylist.vue')['default']
     MonsterSirenSongCard: typeof import('./src/components/monsterSiren/MonsterSirenSongCard.vue')['default']
     MonsterSirenSongDetail: typeof import('./src/components/monsterSiren/MonsterSirenSongDetail.vue')['default']
     MonsterSirenSongGrid: typeof import('./src/components/monsterSiren/MonsterSirenSongGrid.vue')['default']
