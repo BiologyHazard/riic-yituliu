@@ -1,6 +1,6 @@
 import { getCharAvatarId, getCharName, getCharSkinId } from '@/utils/gameData/character';
-import { getItemIconId } from '@/utils/gameData/item';
-import { getPrtsWikiCharAvatarUrl } from '@/utils/prtsWiki';
+import { getItemIconId, getItemName } from '@/utils/gameData/item';
+import { getPrtsWikiCharAvatarUrl, getPrtsWikiItemIconUrl } from '@/utils/prtsWiki';
 import { useLocalStorage } from '@vueuse/core';
 import { computed } from 'vue';
 
@@ -146,6 +146,18 @@ export const itemIconSources: ItemIconSource[] = [
         return undefined;
       }
       return `https://torappu.prts.wiki/assets/item_icon/${itemIconId}.png`;
+    },
+  },
+  {
+    id: 'prts-wiki',
+    label: 'PRTS Wiki',
+    isGithub: false,
+    getItemIconUrl(itemId: string): string | undefined {
+      const itemName = getItemName(itemId);
+      if (itemName === undefined) {
+        return undefined;
+      }
+      return getPrtsWikiItemIconUrl(itemId, itemName);
     },
   },
   {
