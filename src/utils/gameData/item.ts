@@ -1,4 +1,4 @@
-import { gameData } from '@/utils/gameData';
+import { gameData } from '@/utils/gameData/gameData';
 
 export function getItemName(itemId: string): string | undefined {
   return gameData.value?.itemTable.items[itemId]?.name;

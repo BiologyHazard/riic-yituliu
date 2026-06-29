@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useTheme } from '@/composables/useTheme';
 import { currentGameDataBaseUrl } from '@/utils/dataSources';
-import { loadGameData } from '@/utils/gameData';
+import { loadGameData } from '@/utils/gameData/gameData';
 import { loadPenguinData } from '@/utils/penguinStats';
 import { useHead } from '@unhead/vue';
 import { onMounted } from 'vue';

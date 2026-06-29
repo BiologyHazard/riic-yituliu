@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { getCharIdByName } from '@/utils/character';
 import { downloadFile } from '@/utils/file';
-import { gameData } from '@/utils/gameData';
+import { getCharIdByName } from '@/utils/gameData/character';
+import { gameData } from '@/utils/gameData/gameData';
 import { toPng } from 'html-to-image';
 import { computed, ref, useTemplateRef } from 'vue';
 

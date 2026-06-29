@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { CharDataType } from '@/types/riic';
 import { updateText } from '@/utils/autoFontSizing';
-import { getCharIdByName } from '@/utils/character';
+import { getCharIdByName } from '@/utils/gameData/character';
 import { computed, useTemplateRef, watch } from 'vue';
 
 const props = defineProps<CharDataType>();

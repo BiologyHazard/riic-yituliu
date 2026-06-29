@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { getItemIconUrl } from '@/utils/dataSources';
-import { gameData } from '@/utils/gameData';
+import { gameData } from '@/utils/gameData/gameData';
 import {
   getItemName,
   getItemRarity,
   getWorkshopByProductRate,
   isEliteMaterial,
-} from '@/utils/item';
+} from '@/utils/gameData/item';
 import { items, resultMatrix, stages, zones } from '@/utils/penguinStats';
 import { computed, ref } from 'vue';
 

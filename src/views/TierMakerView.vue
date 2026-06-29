@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { gameData } from '@/utils/gameData';
+import { gameData } from '@/utils/gameData/gameData';
 import Color from 'color';
 import { nextTick, onMounted, reactive, ref, watch } from 'vue';
 

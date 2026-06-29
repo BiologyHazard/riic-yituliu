@@ -1,5 +1,5 @@
-import { getCharAvatar as getCharAvatarId, getCharSkinId } from '@/utils/character';
-import { getItemIconId } from '@/utils/item';
+import { getCharAvatar as getCharAvatarId, getCharSkinId } from '@/utils/gameData/character';
+import { getItemIconId } from '@/utils/gameData/item';
 import { useLocalStorage } from '@vueuse/core';
 import { computed } from 'vue';
 

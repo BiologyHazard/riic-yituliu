@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { getCharName, getCharProfessionName, getCharRarity } from '@/utils/character';
 import { getCharAvatarUrl } from '@/utils/dataSources';
+import { getCharName, getCharProfessionName, getCharRarity } from '@/utils/gameData/character';
 import { getPrtsWikiMediaUrl } from '@/utils/prtsWiki';
 import { computed } from 'vue';
 

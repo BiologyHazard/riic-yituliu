@@ -1,5 +1,5 @@
 import type { UniEquipData } from '@/types/gameData';
-import { gameData } from '@/utils/gameData';
+import { gameData } from '@/utils/gameData/gameData';
 import type { ItemInfo } from '@/utils/itemInfo';
 import { fromItemBundleArray } from '@/utils/itemInfo';
 import { computed } from 'vue';

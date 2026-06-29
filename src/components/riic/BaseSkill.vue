@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { BuffUnlockCondition } from '@/types/gameData';
 import { updateText } from '@/utils/autoFontSizing';
-import { getCharName } from '@/utils/character';
 import { getBaseSkillIconUrl } from '@/utils/dataSources';
-import { gameData } from '@/utils/gameData';
+import { getCharName } from '@/utils/gameData/character';
+import { gameData } from '@/utils/gameData/gameData';
 import { computed, useTemplateRef, watch } from 'vue';
 
 const props = defineProps<{ charId: string }>();

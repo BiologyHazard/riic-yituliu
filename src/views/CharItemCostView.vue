@@ -4,7 +4,7 @@ import {
   getCharName,
   isCharInGame,
   patchedCharacterTable,
-} from '@/utils/character';
+} from '@/utils/gameData/character';
 import type { ItemInfo } from '@/utils/itemInfo';
 import { combine, sortBySortId } from '@/utils/itemInfo';
 import { computed, ref, watch } from 'vue';

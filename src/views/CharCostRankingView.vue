@@ -6,7 +6,7 @@ import {
   getCharRarity,
   isCharInGame,
   patchedCharacterTable,
-} from '@/utils/character';
+} from '@/utils/gameData/character';
 import { calculateMaterialValue } from '@/utils/itemValue';
 import { computed, ref } from 'vue';
 

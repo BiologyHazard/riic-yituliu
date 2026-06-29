@@ -1,6 +1,6 @@
 import type { ItemBundle } from '@/types/gameData';
-import { gameData } from '@/utils/gameData';
-import { getItemName } from '@/utils/item';
+import { gameData } from '@/utils/gameData/gameData';
+import { getItemName } from '@/utils/gameData/item';
 
 export interface ItemInfo {
   itemId: string;

@@ -16,7 +16,7 @@ import {
   githubMirrors,
   itemIconSources,
 } from '@/utils/dataSources';
-import { loadGameData } from '@/utils/gameData';
+import { loadGameData } from '@/utils/gameData/gameData';
 import { getPrtsWikiMediaUrl } from '@/utils/prtsWiki';
 import { watch } from 'vue';
 
