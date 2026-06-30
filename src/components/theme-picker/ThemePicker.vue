@@ -52,7 +52,7 @@ const {
     v-model:open="open"
     :ui="{
       content:
-        'flex max-h-[calc(100svh-5rem)] w-80 max-w-[calc(100svw-1rem)] flex-col gap-4 overflow-y-auto px-4 py-4',
+        'flex flex-col gap-4 overflow-y-auto p-4 inline-80 max-block-[calc(100svh-5rem)] max-inline-[calc(100svw-1rem)]',
     }"
   >
     <UTooltip text="更改主题">
@@ -70,6 +70,7 @@ const {
       <UFormField label="主题色">
         <UTabs
           v-model="activeColorRole"
+          class="mbe-2"
           :content="false"
           :items="[
             { label: '第一主题色', value: 0 },
@@ -85,7 +86,6 @@ const {
           ref="carousel"
           v-slot="{ item }"
           auto-height
-          class="mt-2"
           :duration="20"
           :items="[0, 1, 2]"
           :ui="{ container: 'transition-[height]' }"
@@ -164,7 +164,7 @@ const {
         <div>
           <USelect
             v-model="englishFont"
-            class="w-full"
+            class="inline-full"
             color="neutral"
             :content="{ bodyLock: false }"
             icon="i-lucide-type"
@@ -192,7 +192,7 @@ const {
         <div>
           <USelect
             v-model="chineseFont"
-            class="w-full"
+            class="inline-full"
             color="neutral"
             :content="{ bodyLock: false }"
             icon="i-lucide-quote"
@@ -220,7 +220,7 @@ const {
         <div>
           <USelect
             v-model="monospaceFont"
-            class="w-full font-mono"
+            class="font-mono inline-full"
             color="neutral"
             :content="{ bodyLock: false }"
             icon="i-lucide-code"
