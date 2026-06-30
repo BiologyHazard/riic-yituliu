@@ -256,7 +256,7 @@ onMounted(loadData);
                 v-model="viewTab"
                 :content="false"
                 :items="[
-                  { label: '全部乐曲', value: 'musics', icon: 'i-lucide-music-2' },
+                  { label: '全部乐曲', value: 'musics', icon: 'i-lucide-music' },
                   { label: '按专辑浏览', value: 'albums', icon: 'i-lucide-disc-3' },
                 ]"
               />
