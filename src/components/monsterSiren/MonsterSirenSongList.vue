@@ -27,7 +27,7 @@ const virtualizer = useWindowVirtualizer({
   get count(): number {
     return props.songs.length;
   },
-  estimateSize: () => 72,
+  estimateSize: () => 64,
   overscan: 16,
   get scrollMargin(): number {
     return scrollMargin.value;

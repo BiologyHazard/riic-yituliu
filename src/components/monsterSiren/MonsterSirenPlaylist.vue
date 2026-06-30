@@ -44,7 +44,7 @@ const emit = defineEmits<{
           class="flex-1"
           :items="props.playlist"
           :virtualize="{
-            estimateSize: 63,
+            estimateSize: 56,
             skipMeasurement: true,
             overscan: 16,
           }"
