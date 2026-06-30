@@ -46,13 +46,13 @@ const virtualItems = computed(() => {
 <template>
   <div class="overflow-hidden rounded-xl border">
     <div
-      class="hidden items-center gap-3 bg-muted px-4 py-2 text-xs font-medium text-muted lg:grid lg:grid-cols-[2rem_2.5rem_1fr_1fr_3rem]"
+      class="hidden items-center gap-3 bg-muted px-4 py-2 text-xs font-medium text-muted lg:grid lg:grid-cols-[--spacing(8)_--spacing(10)_1fr_1fr_--spacing(12)]"
     >
       <span class="text-center">#</span>
       <span />
       <span>曲名</span>
       <span>专辑</span>
-      <span class="text-right">操作</span>
+      <span class="text-center">操作</span>
     </div>
 
     <div ref="containerRef">
@@ -66,7 +66,7 @@ const virtualItems = computed(() => {
         <template v-for="{ key, index, start, size, song } in virtualItems" :key="key">
           <div
             v-if="song"
-            class="group flex cursor-pointer items-center gap-3 border-t border-t-default px-3 py-2.5 transition-colors hover:bg-muted sm:px-4 sm:py-3 lg:grid lg:grid-cols-[2rem_2.5rem_1fr_1fr_3rem]"
+            class="group grid cursor-pointer grid-cols-[--spacing(4)_--spacing(10)_1fr_--spacing(12)] items-center gap-3 border-t border-t-default px-3 transition-colors hover:bg-muted sm:px-4 lg:grid-cols-[--spacing(8)_--spacing(10)_1fr_1fr_--spacing(12)]"
             :class="{ 'bg-primary/10': props.isCurrentSong(song.cid) }"
             :style="{
               position: 'absolute',
@@ -78,7 +78,7 @@ const virtualItems = computed(() => {
             }"
             @click="emit('playSong', song, props.songs, index)"
           >
-            <div class="w-5 shrink-0 text-center">
+            <div class="flex w-4 shrink-0 items-center justify-center text-center sm:w-8">
               <template v-if="!props.isCurrentSong(song.cid)">
                 <span class="text-sm text-muted tabular-nums group-hover:hidden">
                   {{ index + 1 }}
