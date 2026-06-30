@@ -29,7 +29,6 @@ const {
   englishFontOptions,
   chineseFontOptions,
   monospaceFontOptions,
-  iconSets,
   colorModes,
   primary,
   secondary,
@@ -40,7 +39,6 @@ const {
   englishFont,
   chineseFont,
   monospaceFont,
-  iconSet,
   loadEnglishFontCss,
   loadChineseFontCss,
   loadMonospaceFontCss,
@@ -249,25 +247,6 @@ const {
               </span>
             </template>
           </USelect>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend class="mb-2 text-xs leading-none font-semibold select-none">图标</legend>
-        <div>
-          <USelect
-            v-model="iconSet"
-            class="w-full capitalize"
-            color="neutral"
-            :content="{ bodyLock: false }"
-            :icon="iconSets.find((i) => i.value === iconSet)?.icon"
-            :items="iconSets"
-            size="sm"
-            :ui="{
-              item: 'capitalize',
-              trailingIcon: 'transition-transform duration-200 group-data-[state=open]:rotate-180',
-            }"
-          />
         </div>
       </fieldset>
 

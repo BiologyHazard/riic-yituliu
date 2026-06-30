@@ -1,5 +1,4 @@
 import { defaultTheme } from '@/utils/theme/defaultTheme';
-import { themeIcons } from '@/utils/theme/themeIcons';
 import type { ResolvableLink, ResolvableStyle } from '@unhead/vue';
 import colors from 'tailwindcss/colors';
 import { computed, ref, type CSSProperties } from 'vue';
@@ -648,24 +647,6 @@ const monospaceFontOptions: FontOption[] = [
   },
 ];
 
-const iconSets = [
-  {
-    label: 'Lucide',
-    icon: 'i-lucide-feather',
-    value: 'lucide',
-  },
-  {
-    label: 'Phosphor',
-    icon: 'i-ph-phosphor-logo',
-    value: 'phosphor',
-  },
-  {
-    label: 'Tabler',
-    icon: 'i-tabler-brand-tabler',
-    value: 'tabler',
-  },
-];
-
 const colorModes = computed<{ label: string; value: 'light' | 'dark' | 'auto'; icon: string }[]>(
   () => [
     { label: 'Light', value: 'light', icon: appConfig.ui.icons.light },
@@ -750,18 +731,6 @@ const chineseFontOption = computed<FontOption | undefined>(() =>
 const monospaceFontOption = computed<FontOption | undefined>(() =>
   monospaceFontOptions.find((font) => font.value === monospaceFont.value),
 );
-
-const _iconSet = ref<string>('lucide');
-/** 图标集 */
-const iconSet = computed<string>({
-  get() {
-    return _iconSet.value;
-  },
-  set(option) {
-    _iconSet.value = option;
-    appConfig.ui.icons = { ...themeIcons[option] };
-  },
-});
 
 /**
  * 将字体转换为 CSS 字体家族名称字符串
@@ -933,7 +902,6 @@ function resetTheme() {
   englishFont.value = 'use-chinese';
   chineseFont.value = 'harmonyos-sans-sc';
   monospaceFont.value = 'jetbrains-mono';
-  iconSet.value = 'lucide';
 }
 
 export function useTheme() {
@@ -947,7 +915,6 @@ export function useTheme() {
     englishFontOptions,
     chineseFontOptions,
     monospaceFontOptions,
-    iconSets,
     colorModes,
     primary,
     secondary,
@@ -958,7 +925,6 @@ export function useTheme() {
     englishFont,
     chineseFont,
     monospaceFont,
-    iconSet,
     style,
     link,
     loadEnglishFontCss,
