@@ -190,12 +190,12 @@ async function exportAsImage(): Promise<void> {
 
   // 创建初始 toast
   const { initToast, updateProgress, completeToast, failToast } = useToastWithProgress();
-  initToast({ title: '导出排班表图片', description: '正在准备...' });
+  initToast({ title: '导出排班表图片', description: '正在准备…' });
   await nextTick();
 
   try {
     // Step 1: 嵌入字体
-    updateProgress(1 / 10, { description: '正在嵌入字体...' });
+    updateProgress(1 / 10, { description: '正在嵌入字体…' });
     if (!cachedFontEmbedCSS.value) {
       cachedFontEmbedCSS.value = await getFontEmbedCSS(riicScheduleRef.value);
     }
@@ -205,14 +205,14 @@ async function exportAsImage(): Promise<void> {
 
     if (exportFormat.value === 'svg') {
       // Step 2: 生成图片
-      updateProgress(4 / 10, { description: '正在生成图片...' });
+      updateProgress(4 / 10, { description: '正在生成图片…' });
       const svgDataUrl = await toSvg(riicScheduleRef.value, sharedOptions.value);
       // Step 3: 下载
-      updateProgress(8 / 10, { description: '正在下载...' });
+      updateProgress(8 / 10, { description: '正在下载…' });
       await downloadFile(svgDataUrl, `arknights-schedule-${timestamp}.${ext}`);
     } else {
       // Step 2: 生成图片
-      updateProgress(4 / 10, { description: '正在生成图片...' });
+      updateProgress(4 / 10, { description: '正在生成图片…' });
       const canvas = await toCanvas(riicScheduleRef.value, sharedOptions.value);
       const quality = exportFormat.value !== 'png' ? exportQuality.value / 100 : undefined;
       const blob = await new Promise<Blob | null>((resolve) =>
@@ -222,7 +222,7 @@ async function exportAsImage(): Promise<void> {
         throw new Error('Failed to create image blob');
       }
       // Step 3: 下载
-      updateProgress(8 / 10, { description: '正在下载...' });
+      updateProgress(8 / 10, { description: '正在下载…' });
       await downloadFile(blob, `arknights-schedule-${timestamp}.${ext}`);
     }
 

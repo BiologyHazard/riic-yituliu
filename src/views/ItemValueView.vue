@@ -109,7 +109,7 @@ function resetToDefault() {
         <!-- 顶部操作栏 -->
         <div class="mbe-6 flex flex-wrap items-end gap-4 pb-6">
           <UFormField class="min-w-64 flex-1" label="搜索物品">
-            <UInput v-model="searchQuery" icon="i-lucide-search" placeholder="名称或 ID..." />
+            <UInput v-model="searchQuery" icon="i-lucide-search" placeholder="名称或 ID…" />
           </UFormField>
 
           <div class="flex gap-2">
@@ -148,7 +148,7 @@ function resetToDefault() {
               <UTextarea
                 v-model="pasteInput"
                 autoresize
-                placeholder="在此粘贴 JSON 内容..."
+                placeholder="在此粘贴 JSON 内容…"
                 :rows="3"
               />
               <UButton block color="primary" :disabled="!pasteInput" @click="handlePasteImport">

@@ -199,7 +199,7 @@ const virtualItems = computed(() => {
 
       <div v-if="props.songs.length === 0" class="py-12">
         <div class="flex items-center justify-center gap-2 text-muted">
-          <UIcon class="" name="i-lucide-search-x" />
+          <UIcon name="i-lucide-search-x" />
           没有找到匹配的乐曲
         </div>
       </div>

@@ -148,7 +148,7 @@ const rarities = [
       <UPageBody>
         <div class="mbe-6 flex flex-wrap gap-4">
           <div class="min-w-64 flex-1">
-            <UInput v-model="searchQuery" icon="i-lucide-search" placeholder="搜索干员名称..." />
+            <UInput v-model="searchQuery" icon="i-lucide-search" placeholder="搜索干员名称…" />
           </div>
           <USelectMenu
             v-model="selectedRarity"
