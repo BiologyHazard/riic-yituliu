@@ -67,8 +67,7 @@ const {
     </UTooltip>
 
     <template #content>
-      <fieldset>
-        <legend class="mb-2 text-xs leading-none font-semibold select-none">主题色</legend>
+      <UFormField label="主题色">
         <UTabs
           v-model="activeColorRole"
           :content="false"
@@ -126,10 +125,9 @@ const {
             />
           </div>
         </UCarousel>
-      </fieldset>
+      </UFormField>
 
-      <fieldset>
-        <legend class="mb-2 text-xs leading-none font-semibold select-none">圆角大小</legend>
+      <UFormField label="圆角大小">
         <div class="grid grid-cols-5 gap-1">
           <ThemePickerButton
             v-for="r in radiuses"
@@ -143,10 +141,9 @@ const {
             @click="radius = r"
           />
         </div>
-      </fieldset>
+      </UFormField>
 
-      <fieldset v-if="supportsCornerShape">
-        <legend class="mb-2 text-xs leading-none font-semibold select-none">圆角形状</legend>
+      <UFormField v-if="supportsCornerShape" label="圆角形状">
         <div class="grid grid-cols-5 gap-1">
           <ThemePickerButton
             v-for="{ label, value, cssValue, coefficient } in cornerShapePresets"
@@ -161,10 +158,9 @@ const {
             @click="cornerShape = value"
           />
         </div>
-      </fieldset>
+      </UFormField>
 
-      <fieldset>
-        <legend class="mb-2 text-xs leading-none font-semibold select-none">英文字体</legend>
+      <UFormField label="英文字体">
         <div>
           <USelect
             v-model="englishFont"
@@ -190,10 +186,9 @@ const {
             </template>
           </USelect>
         </div>
-      </fieldset>
+      </UFormField>
 
-      <fieldset>
-        <legend class="mb-2 text-xs leading-none font-semibold select-none">中文字体</legend>
+      <UFormField label="中文字体">
         <div>
           <USelect
             v-model="chineseFont"
@@ -219,10 +214,9 @@ const {
             </template>
           </USelect>
         </div>
-      </fieldset>
+      </UFormField>
 
-      <fieldset>
-        <legend class="mb-2 text-xs leading-none font-semibold select-none">等宽字体</legend>
+      <UFormField label="等宽字体">
         <div>
           <USelect
             v-model="monospaceFont"
@@ -248,10 +242,9 @@ const {
             </template>
           </USelect>
         </div>
-      </fieldset>
+      </UFormField>
 
-      <fieldset>
-        <legend class="mb-2 text-xs leading-none font-semibold select-none">颜色模式</legend>
+      <UFormField label="颜色模式">
         <div class="grid grid-cols-3 gap-1">
           <ThemePickerButton
             v-for="{ label, value, icon } in colorModes"
@@ -262,9 +255,9 @@ const {
             @click="colorModeRaw = value"
           />
         </div>
-      </fieldset>
+      </UFormField>
 
-      <fieldset>
+      <UFormField>
         <div class="flex justify-end">
           <UTooltip text="重置主题">
             <UButton
@@ -277,7 +270,7 @@ const {
             />
           </UTooltip>
         </div>
-      </fieldset>
+      </UFormField>
     </template>
   </UPopover>
 </template>
