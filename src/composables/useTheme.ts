@@ -649,9 +649,9 @@ const monospaceFontOptions: FontOption[] = [
 
 const colorModes = computed<{ label: string; value: 'light' | 'dark' | 'auto'; icon: string }[]>(
   () => [
-    { label: 'Light', value: 'light', icon: appConfig.ui.icons.light },
-    { label: 'Dark', value: 'dark', icon: appConfig.ui.icons.dark },
-    { label: 'System', value: 'auto', icon: appConfig.ui.icons.system },
+    { label: '浅色模式', value: 'light', icon: appConfig.ui.icons.light },
+    { label: '深色模式', value: 'dark', icon: appConfig.ui.icons.dark },
+    { label: '跟随系统', value: 'auto', icon: appConfig.ui.icons.system },
   ],
 );
 
