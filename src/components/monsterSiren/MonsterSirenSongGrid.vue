@@ -39,8 +39,11 @@ function canLoadMore() {
   return displayCount.value < props.songs.length;
 }
 
-// 监听窗口滚动
-const {} = useInfiniteScroll(window, onLoadMore, { distance: DISTANCE_TO_LOAD, canLoadMore });
+// 监听滚动容器滚动
+const {} = useInfiniteScroll(() => document.getElementById('scroll-container'), onLoadMore, {
+  distance: DISTANCE_TO_LOAD,
+  canLoadMore,
+});
 
 // 当内容变化时重置加载上限
 watch(

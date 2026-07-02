@@ -3,7 +3,7 @@ import { useToastWithProgress } from '@/composables/useToastWithProgress';
 import { downloadFile } from '@/utils/file';
 import { parseSchedule } from '@/utils/riic/parseScheduleInput';
 import type { NavigationMenuItem } from '@nuxt/ui';
-import { useElementSize, useWindowSize } from '@vueuse/core';
+import { refThrottled, useElementSize } from '@vueuse/core';
 import { getFontEmbedCSS, toCanvas, toSvg } from 'html-to-image';
 import { computed, nextTick, onMounted, ref, useTemplateRef } from 'vue';
 
@@ -113,12 +113,11 @@ const zoomRef = ref<number | 'auto'>('auto');
 
 // 自动缩放且滚动模式下，通过 useElementSize 监听容器宽度变化
 const { width: containerWidth } = useElementSize(outputPanelRef);
-// 自动缩放且溢出模式下，监听窗口可见区域宽度（排除滚动条）
-// 使用 useWindowSize({ type: 'visual' }) 来计算可见区域宽度
-// 其他类似的方式：
-//   useWindowSize({ type: 'inner', includeScrollbar: false })
-//   useElementSize(document.documentElement);
-const { width: viewportWidth } = useWindowSize({ type: 'visual' });
+// 自动缩放且溢出模式下，监听窗口可见区域宽度
+const { width: viewportWidth } = useElementSize(document.getElementById('main'));
+// 对宽度值做节流，避免频繁缩放导致卡顿
+const containerWidthThrottled = refThrottled(containerWidth, 250);
+const viewportWidthThrottled = refThrottled(viewportWidth, 250);
 // 只在组件挂载时获取一次排班表宽度，避免抖动
 const scheduleWidth = ref<number>(2160);
 onMounted(() => {
@@ -133,7 +132,9 @@ const effectiveZoom = computed<number>(() => {
     // 自动缩放模式下，计算缩放值
     // 滚动模式 → 缩放到父容器宽度；溢出模式 → 缩放到可见区域宽度
     const targetWidth =
-      previewWidthMode.value === 'overflow' ? viewportWidth.value : containerWidth.value;
+      previewWidthMode.value === 'overflow'
+        ? viewportWidthThrottled.value
+        : containerWidthThrottled.value;
     if (scheduleWidth.value > 0 && targetWidth > 0) {
       return targetWidth / scheduleWidth.value;
     } else {

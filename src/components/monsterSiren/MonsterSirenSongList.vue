@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Album, Song } from '@/types/monsterSiren';
 import { getResizedCoverUrl } from '@/utils/aliyunOss';
-import { useWindowVirtualizer } from '@tanstack/vue-virtual';
+import { useVirtualizer } from '@tanstack/vue-virtual';
 import { computed, useTemplateRef } from 'vue';
 
 const props = defineProps<{
@@ -20,15 +20,20 @@ const emit = defineEmits<{
 
 const containerRef = useTemplateRef('containerRef');
 /** 计算滚动边距 */
-const scrollMargin = computed(() => (containerRef.value ? containerRef.value.offsetTop : 0));
+const scrollMargin = computed(() => {
+  const scrollEl = document.getElementById('scroll-container');
+  if (!containerRef.value || !scrollEl) return 0;
+  return containerRef.value.getBoundingClientRect().top - scrollEl.getBoundingClientRect().top;
+});
 
-// 使用 TanStack Virtual 进行窗口级虚拟化
-const virtualizer = useWindowVirtualizer({
+// 使用 TanStack Virtual 进行虚拟化
+const virtualizer = useVirtualizer({
   get count(): number {
     return props.songs.length;
   },
   estimateSize: () => 64,
   overscan: 16,
+  getScrollElement: () => document.getElementById('scroll-container'),
   get scrollMargin(): number {
     return scrollMargin.value;
   },
@@ -44,15 +49,17 @@ const virtualItems = computed(() => {
 </script>
 
 <template>
-  <div class="overflow-hidden rounded-xl border">
-    <div
-      class="hidden items-center gap-3 bg-muted px-4 py-2 text-xs font-medium text-muted lg:grid lg:grid-cols-[--spacing(8)_--spacing(10)_1fr_1fr_--spacing(12)]"
-    >
-      <span class="text-center">#</span>
-      <span />
-      <span>曲名</span>
-      <span>专辑</span>
-      <span class="text-center">操作</span>
+  <div class="overflow-clip rounded-xl border">
+    <div class="sticky top-(--ui-header-height) z-50">
+      <div
+        class="hidden items-center gap-3 bg-muted px-4 py-2 text-xs font-medium text-muted lg:grid lg:grid-cols-[--spacing(8)_--spacing(10)_1fr_1fr_--spacing(12)]"
+      >
+        <span class="text-center">#</span>
+        <span />
+        <span>曲名</span>
+        <span>专辑</span>
+        <span class="text-center">操作</span>
+      </div>
     </div>
 
     <div ref="containerRef">

@@ -1,90 +1,71 @@
 <script setup lang="ts">
-import logoUrl from '@/assets/images/白鸥.webp';
 import { currentGameDataBaseUrl } from '@/utils/dataSources';
 import { gameDataError, isGameDataLoading, loadGameData } from '@/utils/gameData/gameData';
 import { isPenguinDataLoading, loadPenguinData, penguinDataError } from '@/utils/penguinStats';
-import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 
-const items = computed(() => [
-  { label: '首页', to: '/' },
-  { label: '排班表生成器', to: '/riic' },
-  { label: '基建技能', to: '/base-skill' },
-  { label: '基建地图', to: '/riic-map' },
-  { label: '干员拉满消耗', to: '/char-item-cost' },
-  { label: '养成成本排行', to: '/char-cost-ranking' },
-  { label: '材料信息', to: '/material-info' },
-  { label: '物品价值', to: '/item-value' },
-  { label: '作战列表', to: '/stages' },
-  { label: '明日方舟游戏内公告', to: '/arknights-game-bulletin' },
-  { label: '塞壬唱片', to: '/monster-siren' },
-  { label: '终末地游戏内公告', to: '/endfield-game-bulletin' },
-  { label: '友情链接', to: '/links' },
-]);
+const open = defineModel<boolean>('open');
+
+const route = useRoute();
 </script>
 
 <template>
-  <UHeader>
+  <UHeader :toggle="false" :ui="{ container: 'max-w-none px-4!' }">
     <template #left>
       <UButton
-        :avatar="{ src: logoUrl, size: 'xs', alt: 'Logo', class: 'rounded-none bg-transparent' }"
-        class="p-1.5"
-        to="/"
+        aria-label="Toggle sidebar"
+        color="neutral"
+        :icon="open ? 'i-lucide-panel-left-close' : 'i-lucide-panel-left-open'"
         variant="ghost"
+        @click="open = !open"
       />
-    </template>
-
-    <UNavigationMenu :items="items" variant="link" />
-
-    <template #body>
-      <UNavigationMenu :items="items" orientation="vertical" />
+      <div class="text-lg font-semibold">{{ route.meta.title || '明日方舟基建一图流' }}</div>
     </template>
 
     <template #right>
-      <div class="flex items-center gap-1">
-        <UPopover
-          v-if="isGameDataLoading || isPenguinDataLoading || gameDataError || penguinDataError"
-        >
-          <div>
-            <UButton
-              v-if="gameDataError || penguinDataError"
-              color="error"
-              icon="i-lucide-triangle-alert"
-              size="md"
-              variant="ghost"
-            />
-            <UButton
-              v-else-if="isGameDataLoading || isPenguinDataLoading"
-              color="primary"
-              icon="i-lucide-loader-circle"
-              size="md"
-              :ui="{ leadingIcon: 'animate-spin' }"
-              variant="ghost"
-            />
-          </div>
-          <template #content>
-            <div class="max-w-xs p-3">
-              <div class="space-y-1 text-sm">
-                <p v-if="isGameDataLoading">正在加载游戏数据...</p>
-                <p v-if="gameDataError" class="text-error">游戏数据加载失败</p>
-                <p v-if="isPenguinDataLoading">正在加载企鹅物流数据...</p>
-                <p v-if="penguinDataError" class="text-error">企鹅物流加载失败</p>
-              </div>
-              <UButton
-                block
-                class="mbs-2"
-                size="md"
-                @click="
-                  () => {
-                    loadGameData(currentGameDataBaseUrl);
-                    loadPenguinData();
-                  }
-                "
-              >
-                重试
-              </UButton>
+      <UPopover
+        v-if="isGameDataLoading || isPenguinDataLoading || gameDataError || penguinDataError"
+      >
+        <UButton
+          v-if="gameDataError || penguinDataError"
+          color="error"
+          icon="i-lucide-triangle-alert"
+          size="md"
+          variant="ghost"
+        />
+        <UButton
+          v-else-if="isGameDataLoading || isPenguinDataLoading"
+          color="primary"
+          icon="i-lucide-loader-circle"
+          size="md"
+          :ui="{ leadingIcon: 'animate-spin' }"
+          variant="ghost"
+        />
+        <template #content>
+          <div class="max-w-xs p-3">
+            <div class="space-y-1 text-sm">
+              <p v-if="isGameDataLoading">正在加载游戏数据...</p>
+              <p v-if="gameDataError" class="text-error">游戏数据加载失败</p>
+              <p v-if="isPenguinDataLoading">正在加载企鹅物流数据...</p>
+              <p v-if="penguinDataError" class="text-error">企鹅物流加载失败</p>
             </div>
-          </template>
-        </UPopover>
+            <UButton
+              block
+              class="mbs-2"
+              size="md"
+              @click="
+                () => {
+                  loadGameData(currentGameDataBaseUrl);
+                  loadPenguinData();
+                }
+              "
+            >
+              重试
+            </UButton>
+          </div>
+        </template>
+      </UPopover>
+      <div class="flex items-center justify-center gap-1">
         <ThemePicker />
         <UTooltip text="切换颜色模式">
           <UColorModeButton />
