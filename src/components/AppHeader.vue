@@ -3,23 +3,81 @@ import logoUrl from '@/assets/images/白鸥.webp';
 import { currentGameDataBaseUrl } from '@/utils/dataSources';
 import { gameDataError, isGameDataLoading, loadGameData } from '@/utils/gameData/gameData';
 import { isPenguinDataLoading, loadPenguinData, penguinDataError } from '@/utils/penguinStats';
-import { computed } from 'vue';
+import type { NavigationMenuItem } from '@nuxt/ui';
 
-const items = computed(() => [
-  { label: '首页', to: '/' },
-  { label: '排班表生成器', to: '/riic' },
-  { label: '基建技能', to: '/base-skill' },
-  { label: '基建地图', to: '/riic-map' },
-  { label: '干员拉满消耗', to: '/char-item-cost' },
-  { label: '养成成本排行', to: '/char-cost-ranking' },
-  { label: '材料信息', to: '/material-info' },
-  { label: '物品价值', to: '/item-value' },
-  { label: '作战列表', to: '/stages' },
-  { label: '明日方舟游戏内公告', to: '/arknights-game-bulletin' },
-  { label: '塞壬唱片', to: '/monster-siren' },
-  { label: '终末地游戏内公告', to: '/endfield-game-bulletin' },
-  { label: '友情链接', to: '/links' },
-]);
+const items: NavigationMenuItem[] = [
+  { label: '首页', icon: 'i-lucide-home', to: '/' },
+  // {
+  //   label: '明日方舟',
+  //   icon: 'i-lucide-shield-plus',
+  //   defaultOpen: true,
+  //   children: [
+  {
+    label: '罗德岛基建',
+    icon: 'i-lucide-factory',
+    defaultOpen: true,
+    children: [
+      { label: '排班表生成器', icon: 'i-lucide-calendar-sync', to: '/riic' },
+      { label: '基建技能', icon: 'i-lucide-wrench', to: '/base-skill' },
+      { label: '基建地图', icon: 'i-lucide-map', to: '/riic-map' },
+    ],
+  },
+  {
+    label: '干员养成',
+    icon: 'i-lucide-trending-up',
+    defaultOpen: true,
+    children: [
+      { label: '干员拉满消耗', icon: 'i-lucide-arrow-up-to-line', to: '/char-item-cost' },
+      { label: '养成成本排行', icon: 'i-lucide-list-ordered', to: '/char-cost-ranking' },
+    ],
+  },
+  {
+    label: '罗德岛物价局',
+    icon: 'i-lucide-shopping-bag',
+    defaultOpen: true,
+    children: [
+      { label: '材料信息', icon: 'i-lucide-boxes', to: '/material-info' },
+      { label: '物品价值', icon: 'i-lucide-coins', to: '/item-value' },
+    ],
+  },
+  {
+    label: '作战与情报',
+    icon: 'i-lucide-newspaper',
+    defaultOpen: true,
+    children: [
+      { label: '作战列表', icon: 'i-lucide-swords', to: '/stages' },
+      {
+        label: '明日方舟游戏内公告',
+        icon: 'i-lucide-megaphone',
+        to: '/arknights-game-bulletin',
+      },
+      { label: '塞壬唱片', icon: 'i-lucide-disc-3', to: '/monster-siren' },
+      {
+        label: '明日方舟一图流',
+        icon: 'i-mdi-numeric-1-box-outline',
+        to: 'https://ark.yituliu.cn/',
+        target: '_blank',
+      },
+    ],
+  },
+  //   ],
+  // },
+  {
+    label: '明日方舟终末地',
+    icon: 'i-lucide-satellite',
+    defaultOpen: true,
+    children: [
+      { label: '终末地游戏内公告', icon: 'i-lucide-megaphone', to: '/endfield-game-bulletin' },
+      {
+        label: '终末地一图流',
+        icon: 'i-mdi-numeric-1-box-outline',
+        to: 'https://ef.yituliu.cn/',
+        target: '_blank',
+      },
+    ],
+  },
+  { label: '友情链接', icon: 'i-lucide-link', to: '/links' },
+];
 </script>
 
 <template>
@@ -33,7 +91,7 @@ const items = computed(() => [
       />
     </template>
 
-    <UNavigationMenu :items="items" variant="link" />
+    <UNavigationMenu content-orientation="vertical" :items="items" variant="link" />
 
     <template #body>
       <UNavigationMenu :items="items" orientation="vertical" />
