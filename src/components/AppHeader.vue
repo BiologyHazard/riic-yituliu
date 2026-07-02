@@ -9,6 +9,7 @@ const items = computed(() => [
   { label: '首页', to: '/' },
   { label: '排班表生成器', to: '/riic' },
   { label: '基建技能', to: '/base-skill' },
+  { label: '基建地图', to: '/riic-map' },
   { label: '干员拉满消耗', to: '/char-item-cost' },
   { label: '养成成本排行', to: '/char-cost-ranking' },
   { label: '材料信息', to: '/material-info' },

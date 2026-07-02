@@ -7,6 +7,7 @@ import ItemValueView from '@/views/ItemValueView.vue';
 import LinksView from '@/views/LinksView.vue';
 import MaterialInfoView from '@/views/MaterialInfoView.vue';
 import MonsterSirenView from '@/views/MonsterSirenView.vue';
+import RiicMapView from '@/views/RiicMapView.vue';
 import RiicView from '@/views/RiicView.vue';
 import StageList from '@/views/StageList.vue';
 import TierMakerView from '@/views/TierMakerView.vue';
@@ -33,6 +34,12 @@ const router = createRouter({
       name: 'base-skill',
       component: BaseSkillView,
       meta: { title: '基建技能' },
+    },
+    {
+      path: '/riic-map',
+      name: 'riic-map',
+      component: RiicMapView,
+      meta: { title: '基建地图' },
     },
     {
       path: '/char-item-cost',
