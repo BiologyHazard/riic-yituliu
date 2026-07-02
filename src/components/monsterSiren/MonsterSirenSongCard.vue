@@ -28,10 +28,10 @@ const icon = computed(() => {
 
 <template>
   <div
-    class="group h-full cursor-pointer rounded-2xl p-3 transition-all hover:bg-muted hover:shadow-md"
+    class="group h-full cursor-pointer rounded-2xl px-1 py-3 transition-all hover:bg-muted hover:shadow-md sm:px-3"
     :class="{ 'bg-primary/10 ring ring-primary/25 ring-inset': props.isActive }"
   >
-    <div class="relative mb-3 overflow-hidden rounded-xl shadow-md">
+    <div class="relative mb-3 overflow-hidden rounded-md shadow-md sm:rounded-xl">
       <img
         v-if="props.album?.coverUrl"
         :alt="song.name"

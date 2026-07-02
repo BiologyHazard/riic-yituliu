@@ -14,9 +14,9 @@ const emit = defineEmits<{
 
 <template>
   <div
-    class="group h-full cursor-pointer rounded-2xl p-3 transition-all hover:bg-muted hover:shadow-md"
+    class="group h-full cursor-pointer rounded-2xl px-1 py-3 transition-all hover:bg-muted hover:shadow-md sm:px-3"
   >
-    <div class="relative mb-3 overflow-hidden rounded-xl shadow-md">
+    <div class="relative mb-3 overflow-hidden rounded-md shadow-md sm:rounded-xl">
       <img
         :alt="props.album.name"
         class="aspect-square w-full object-cover transition-transform group-hover:scale-105"

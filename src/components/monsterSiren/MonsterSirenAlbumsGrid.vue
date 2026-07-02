@@ -14,7 +14,9 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+  <div
+    class="-mx-3 grid grid-cols-3 gap-0 sm:mx-0 sm:gap-3 md:grid-cols-4 lg:grid-cols-5 lg:gap-4 xl:grid-cols-6"
+  >
     <div v-for="album in props.albums" :key="album.cid">
       <MonsterSirenAlbumCard
         :album="album"
