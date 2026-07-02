@@ -4,8 +4,9 @@ import { currentGameDataBaseUrl } from '@/utils/dataSources';
 import { loadGameData } from '@/utils/gameData/gameData';
 import { loadPenguinData } from '@/utils/penguinStats';
 import { useHead } from '@unhead/vue';
-import { onMounted } from 'vue';
-import { RouterView } from 'vue-router';
+import { onMounted, ref } from 'vue';
+
+const isSidebarOpen = ref(true);
 
 const { style, link } = useTheme();
 useHead({ style, link });
@@ -18,11 +19,18 @@ onMounted(() => {
 </script>
 
 <template>
-  <UApp>
-    <AppHeader />
-    <UMain>
-      <RouterView />
-    </UMain>
-    <AppFooter />
-  </UApp>
+  <Suspense>
+    <UApp>
+      <div class="flex">
+        <AppSidebar v-model:open="isSidebarOpen" />
+        <div class="isolate min-w-0 flex-1">
+          <AppHeader v-model:open="isSidebarOpen" />
+          <UMain id="main">
+            <RouterView />
+          </UMain>
+          <AppFooter />
+        </div>
+      </div>
+    </UApp>
+  </Suspense>
 </template>

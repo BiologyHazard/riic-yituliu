@@ -44,15 +44,17 @@ const virtualItems = computed(() => {
 </script>
 
 <template>
-  <div class="overflow-hidden rounded-xl border">
-    <div
-      class="hidden items-center gap-3 bg-muted px-4 py-2 text-xs font-medium text-muted lg:grid lg:grid-cols-[--spacing(8)_--spacing(10)_1fr_1fr_--spacing(12)]"
-    >
-      <span class="text-center">#</span>
-      <span />
-      <span>曲名</span>
-      <span>专辑</span>
-      <span class="text-center">操作</span>
+  <div class="overflow-clip rounded-xl border">
+    <div class="sticky top-(--ui-header-height) z-50">
+      <div
+        class="hidden items-center gap-3 bg-muted px-4 py-2 text-xs font-medium text-muted lg:grid lg:grid-cols-[--spacing(8)_--spacing(10)_1fr_1fr_--spacing(12)]"
+      >
+        <span class="text-center">#</span>
+        <span />
+        <span>曲名</span>
+        <span>专辑</span>
+        <span class="text-center">操作</span>
+      </div>
     </div>
 
     <div ref="containerRef">

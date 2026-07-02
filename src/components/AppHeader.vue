@@ -1,42 +1,24 @@
 <script setup lang="ts">
-import logoUrl from '@/assets/images/白鸥.webp';
 import { currentGameDataBaseUrl } from '@/utils/dataSources';
 import { gameDataError, isGameDataLoading, loadGameData } from '@/utils/gameData/gameData';
 import { isPenguinDataLoading, loadPenguinData, penguinDataError } from '@/utils/penguinStats';
-import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 
-const items = computed(() => [
-  { label: '首页', to: '/' },
-  { label: '排班表生成器', to: '/riic' },
-  { label: '基建技能', to: '/base-skill' },
-  { label: '基建地图', to: '/riic-map' },
-  { label: '干员拉满消耗', to: '/char-item-cost' },
-  { label: '养成成本排行', to: '/char-cost-ranking' },
-  { label: '材料信息', to: '/material-info' },
-  { label: '物品价值', to: '/item-value' },
-  { label: '作战列表', to: '/stages' },
-  { label: '明日方舟游戏内公告', to: '/arknights-game-bulletin' },
-  { label: '塞壬唱片', to: '/monster-siren' },
-  { label: '终末地游戏内公告', to: '/endfield-game-bulletin' },
-  { label: '友情链接', to: '/links' },
-]);
+const open = defineModel<boolean>('open');
+
+const route = useRoute();
 </script>
 
 <template>
-  <UHeader>
+  <UHeader :toggle="false" :ui="{ container: 'max-w-none px-4!' }">
     <template #left>
       <UButton
-        :avatar="{ src: logoUrl, size: 'xs', alt: 'Logo', class: 'rounded-none bg-transparent' }"
-        class="p-1.5"
-        to="/"
+        color="neutral"
+        :icon="open ? 'i-lucide-panel-left-close' : 'i-lucide-panel-left-open'"
         variant="ghost"
+        @click="open = !open"
       />
-    </template>
-
-    <UNavigationMenu :items="items" variant="link" />
-
-    <template #body>
-      <UNavigationMenu :items="items" orientation="vertical" />
+      <div class="text-lg font-semibold">{{ route.meta.title || '明日方舟基建一图流' }}</div>
     </template>
 
     <template #right>
