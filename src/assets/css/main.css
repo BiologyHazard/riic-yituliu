@@ -10,7 +10,6 @@
 
 @layer base {
   html {
-    scrollbar-gutter: stable;
     font-feature-settings: 'calt' on;
   }
 }
