@@ -49,8 +49,10 @@ defineExpose({ open });
         @mouseup="onMouseup"
       >
         <!-- 顶部工具栏 -->
-        <div class="flex shrink-0 items-center justify-between gap-4 bg-default px-4 py-2">
-          <div class="flex min-w-0 flex-col">
+        <div
+          class="flex shrink-0 items-center justify-end gap-4 bg-default px-4 py-2 sm:justify-between"
+        >
+          <div class="hidden min-w-0 flex-col sm:flex">
             <p class="truncate text-sm font-medium text-highlighted">{{ preview.name }}</p>
             <ULink
               class="text-xs text-muted"
@@ -61,7 +63,7 @@ defineExpose({ open });
               {{ preview.url }}
             </ULink>
           </div>
-          <p v-if="naturalWidth && naturalHeight" class="text-sm text-muted">
+          <p v-if="naturalWidth && naturalHeight" class="hidden text-sm text-muted sm:block">
             {{ naturalWidth }} × {{ naturalHeight }}
           </p>
           <div class="flex shrink-0 items-center gap-1">
