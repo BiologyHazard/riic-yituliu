@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import BioHazard from '@/components/icons/BioHazard.vue';
+
 const beianMap: Record<string, string> = {
   'misakabio.top': '沪ICP备2026013897号-1',
   'biohazard.top': '沪ICP备2026013897号-3',
@@ -9,6 +11,8 @@ const beianString: string | null =
 </script>
 
 <template>
+  <USeparator :icon="BioHazard" />
+
   <UFooter>
     <template #left>
       <p class="text-sm text-muted">Powered by</p>
