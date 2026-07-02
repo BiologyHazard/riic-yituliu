@@ -110,13 +110,15 @@ const emit = defineEmits<{
       </div>
 
       <!-- 大图预览按钮：在专辑信息区域提供入口 -->
-      <UButton
-        class="light absolute right-6 bottom-6 cursor-zoom-in opacity-75"
-        color="neutral"
-        icon="i-lucide-zoom-in"
-        variant="soft"
-        @click="emit('previewCoverDe')"
-      />
+      <div class="absolute right-6 bottom-6 backdrop-blur-xs">
+        <UButton
+          class="light cursor-zoom-in opacity-75"
+          color="neutral"
+          icon="i-lucide-zoom-in"
+          variant="soft"
+          @click="emit('previewCoverDe')"
+        />
+      </div>
     </div>
 
     <!-- 专辑简介：支持动态展开的过渡效果 -->
