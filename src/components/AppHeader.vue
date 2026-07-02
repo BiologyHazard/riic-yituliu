@@ -4,7 +4,10 @@ import { gameDataError, isGameDataLoading, loadGameData } from '@/utils/gameData
 import { isPenguinDataLoading, loadPenguinData, penguinDataError } from '@/utils/penguinStats';
 import { useRoute } from 'vue-router';
 
-const open = defineModel<boolean>('open');
+// const collapsed = defineModel<boolean>('collapsed');
+const emit = defineEmits<{
+  open: [];
+}>();
 
 const route = useRoute();
 </script>
@@ -12,13 +15,20 @@ const route = useRoute();
 <template>
   <UHeader :toggle="false" :ui="{ container: 'max-w-none px-4!' }">
     <template #left>
-      <UButton
-        aria-label="Toggle sidebar"
+      <!-- <UButton
         color="neutral"
-        :icon="open ? 'i-lucide-panel-left-close' : 'i-lucide-panel-left-open'"
+        :icon="collapsed ? 'i-lucide-panel-left-open' : 'i-lucide-panel-left-close'"
         variant="ghost"
-        @click="open = !open"
+        @click="collapsed = !collapsed"
+      /> -->
+      <UButton
+        class="lg:hidden"
+        color="neutral"
+        icon="i-lucide-menu"
+        variant="ghost"
+        @click="emit('open')"
       />
+      <UDashboardSidebarCollapse class="max-lg:hidden" />
       <div class="text-lg font-semibold">{{ route.meta.title || '明日方舟基建一图流' }}</div>
     </template>
 

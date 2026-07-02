@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import logoUrl from '@/assets/images/白鸥.webp';
 import type { NavigationMenuItem } from '@nuxt/ui';
+import { useEventListener } from '@vueuse/core';
+import { ref } from 'vue';
 
-const open = defineModel<boolean>('open');
+const collapsed = defineModel<boolean>('collapsed');
 
 const itemsCollapsed: NavigationMenuItem[] = [
   { label: '首页', icon: 'i-lucide-home', to: '/' },
@@ -71,18 +73,35 @@ const itemsExpanded: NavigationMenuItem[] = [
   },
   { label: '友情链接', icon: 'i-lucide-link', to: '/links' },
 ];
+
+const isResizing = ref(false);
+
+function onResizeStart() {
+  isResizing.value = true;
+  useEventListener('mouseup', onResizeEnd, { once: true });
+  useEventListener('touchend', onResizeEnd, { once: true });
+}
+
+function onResizeEnd() {
+  isResizing.value = false;
+}
 </script>
 
 <template>
-  <USidebar
-    v-model:open="open"
-    collapsible="icon"
-    mode="slideover"
-    :ui="{ header: 'justify-between' }"
-    variant="inset"
+  <UDashboardSidebar
+    v-model:collapsed="collapsed"
+    auto-close
+    collapsible
+    :default-size="16"
+    :max-size="24"
+    :min-size="12"
+    :persistent="false"
+    resizable
+    side="left"
+    :ui="{ root: ['border-none', !isResizing && 'transition-[width] duration-200 ease-out'] }"
   >
     <template #header>
-      <div class="flex items-center gap-2">
+      <div class="flex min-w-0 items-center justify-start gap-2">
         <UButton
           :avatar="{
             src: logoUrl,
@@ -94,29 +113,36 @@ const itemsExpanded: NavigationMenuItem[] = [
           to="/"
           variant="ghost"
         />
-        <div v-if="open" class="truncate font-bold">明日方舟基建一图流</div>
+        <div v-if="!collapsed" class="truncate font-bold">明日方舟基建一图流</div>
       </div>
-      <UButton
-        aria-label="Toggle sidebar"
-        class="lg:hidden"
-        color="neutral"
-        :icon="open ? 'i-lucide-panel-left-close' : 'i-lucide-panel-left-open'"
-        variant="ghost"
-        @click="open = !open"
-      />
     </template>
 
-    <template #default>
-      <UNavigationMenu
-        :key="Number(open)"
-        :collapsed="!open"
-        :default-value="['明日方舟', '明日方舟终末地']"
-        :items="open ? itemsExpanded : itemsCollapsed"
-        orientation="vertical"
-        :ui="{ link: 'overflow-hidden p-1.5' }"
-        value-key="label"
-        variant="pill"
+    <UNavigationMenu
+      :collapsed="collapsed"
+      :default-value="['明日方舟', '明日方舟终末地']"
+      :items="collapsed ? itemsCollapsed : itemsExpanded"
+      orientation="vertical"
+      :ui="{ link: 'overflow-hidden p-1.5' }"
+      value-key="label"
+      variant="pill"
+    />
+
+    <template #resize-handle="{ onMouseDown, onTouchStart, onDoubleClick }">
+      <UDashboardResizeHandle
+        @dblclick="onDoubleClick"
+        @mousedown="
+          {
+            onResizeStart();
+            onMouseDown($event);
+          }
+        "
+        @touchstart="
+          {
+            onResizeStart();
+            onTouchStart($event);
+          }
+        "
       />
     </template>
-  </USidebar>
+  </UDashboardSidebar>
 </template>

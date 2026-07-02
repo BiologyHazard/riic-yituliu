@@ -6,7 +6,8 @@ import { loadPenguinData } from '@/utils/penguinStats';
 import { useHead } from '@unhead/vue';
 import { onMounted, ref } from 'vue';
 
-const isSidebarOpen = ref(true);
+const collapsed = ref(false);
+const open = ref(false);
 
 const { style, link } = useTheme();
 useHead({ style, link });
@@ -21,13 +22,13 @@ onMounted(() => {
 <template>
   <Suspense>
     <UApp>
-      <div class="flex h-dvh bg-neutral-50 dark:bg-neutral-950">
-        <AppSidebar v-model:open="isSidebarOpen" />
+      <UDashboardGroup class="bg-neutral-50 dark:bg-neutral-950" unit="rem">
+        <AppSidebar v-model:collapsed="collapsed" v-model:open="open" />
         <div
-          class="flex-1 overflow-hidden bg-default lg:my-4 lg:mr-4 lg:rounded-xl lg:shadow-sm lg:ring lg:ring-default"
+          class="min-w-0 flex-1 overflow-hidden bg-default lg:my-4 lg:mr-4 lg:rounded-xl lg:shadow-sm lg:ring lg:ring-default"
         >
           <div id="scroll-container" class="h-full overflow-y-auto">
-            <AppHeader v-model:open="isSidebarOpen" />
+            <AppHeader v-model:collapsed="collapsed" @open="open = true" />
             <UMain
               id="main"
               class="min-h-[calc(100lvh-var(--ui-header-height))] lg:min-h-[calc(100lvh-var(--ui-header-height)-(--spacing(8)))]"
@@ -37,7 +38,7 @@ onMounted(() => {
             <AppFooter />
           </div>
         </div>
-      </div>
+      </UDashboardGroup>
     </UApp>
   </Suspense>
 </template>
