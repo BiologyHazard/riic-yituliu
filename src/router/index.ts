@@ -1,7 +1,8 @@
+import ArknightsGameBulletinView from '@/views/ArknightsGameBulletinView.vue';
 import BaseSkillView from '@/views/BaseSkillView.vue';
 import CharCostRankingView from '@/views/CharCostRankingView.vue';
 import CharItemCostView from '@/views/CharItemCostView.vue';
-import GameBulletinView from '@/views/GameBulletinView.vue';
+import EndfieldGameBulletinView from '@/views/EndfieldGameBulletinView.vue';
 import HomeView from '@/views/HomeView.vue';
 import ItemValueView from '@/views/ItemValueView.vue';
 import LinksView from '@/views/LinksView.vue';
@@ -72,10 +73,10 @@ const router = createRouter({
       meta: { title: '作战列表' },
     },
     {
-      path: '/game-bulletin',
-      name: 'game-bulletin',
-      component: GameBulletinView,
-      meta: { title: '游戏内公告' },
+      path: '/arknights-game-bulletin',
+      name: 'arknights-game-bulletin',
+      component: ArknightsGameBulletinView,
+      meta: { title: '明日方舟游戏内公告' },
     },
     {
       path: '/monster-siren',
@@ -109,6 +110,12 @@ const router = createRouter({
           meta: { title: '塞壬唱片 - 乐曲详情' },
         },
       ],
+    },
+    {
+      path: '/endfield-game-bulletin',
+      name: 'endfield-game-bulletin',
+      component: EndfieldGameBulletinView,
+      meta: { title: '明日方舟：终末地游戏内公告' },
     },
     {
       path: '/links',

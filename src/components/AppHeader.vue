@@ -15,8 +15,9 @@ const items = computed(() => [
   { label: '材料信息', to: '/material-info' },
   { label: '物品价值', to: '/item-value' },
   { label: '作战列表', to: '/stages' },
-  { label: '游戏内公告', to: '/game-bulletin' },
+  { label: '明日方舟游戏内公告', to: '/arknights-game-bulletin' },
   { label: '塞壬唱片', to: '/monster-siren' },
+  { label: '终末地游戏内公告', to: '/endfield-game-bulletin' },
   { label: '友情链接', to: '/links' },
 ]);
 </script>
