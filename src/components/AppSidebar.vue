@@ -1,8 +1,21 @@
 <script setup lang="ts">
 import logoUrl from '@/assets/images/白鸥.webp';
 import type { NavigationMenuItem } from '@nuxt/ui';
+import { useMediaQuery } from '@vueuse/core';
+import { useRouter } from 'vue-router';
 
 const open = defineModel<boolean>('open');
+
+const isLarge = useMediaQuery('(width >= 1024px)');
+
+const router = useRouter();
+router.afterEach(() => {
+  console.log('Route changed, closing sidebar on mobile if open');
+  if (!isLarge.value) {
+    console.log('Closing sidebar on mobile');
+    open.value = false;
+  }
+});
 
 const itemsCollapsed: NavigationMenuItem[] = [
   { label: '首页', icon: 'i-lucide-home', to: '/' },

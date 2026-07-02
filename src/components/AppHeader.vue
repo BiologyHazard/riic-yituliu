@@ -23,49 +23,51 @@ const route = useRoute();
     </template>
 
     <template #right>
-      <UPopover
-        v-if="isGameDataLoading || isPenguinDataLoading || gameDataError || penguinDataError"
-      >
-        <UButton
-          v-if="gameDataError || penguinDataError"
-          color="error"
-          icon="i-lucide-triangle-alert"
-          size="md"
-          variant="ghost"
-        />
-        <UButton
-          v-else-if="isGameDataLoading || isPenguinDataLoading"
-          color="primary"
-          icon="i-lucide-loader-circle"
-          size="md"
-          :ui="{ leadingIcon: 'animate-spin' }"
-          variant="ghost"
-        />
-        <template #content>
-          <div class="max-w-xs p-3">
-            <div class="space-y-1 text-sm">
-              <p v-if="isGameDataLoading">正在加载游戏数据...</p>
-              <p v-if="gameDataError" class="text-error">游戏数据加载失败</p>
-              <p v-if="isPenguinDataLoading">正在加载企鹅物流数据...</p>
-              <p v-if="penguinDataError" class="text-error">企鹅物流加载失败</p>
-            </div>
+      <div class="flex items-center gap-1">
+        <UPopover
+          v-if="isGameDataLoading || isPenguinDataLoading || gameDataError || penguinDataError"
+        >
+          <div>
             <UButton
-              block
-              class="mbs-2"
+              v-if="gameDataError || penguinDataError"
+              color="error"
+              icon="i-lucide-triangle-alert"
               size="md"
-              @click="
-                () => {
-                  loadGameData(currentGameDataBaseUrl);
-                  loadPenguinData();
-                }
-              "
-            >
-              重试
-            </UButton>
+              variant="ghost"
+            />
+            <UButton
+              v-else-if="isGameDataLoading || isPenguinDataLoading"
+              color="primary"
+              icon="i-lucide-loader-circle"
+              size="md"
+              :ui="{ leadingIcon: 'animate-spin' }"
+              variant="ghost"
+            />
           </div>
-        </template>
-      </UPopover>
-      <div class="flex items-center justify-center gap-1">
+          <template #content>
+            <div class="max-w-xs p-3">
+              <div class="space-y-1 text-sm">
+                <p v-if="isGameDataLoading">正在加载游戏数据...</p>
+                <p v-if="gameDataError" class="text-error">游戏数据加载失败</p>
+                <p v-if="isPenguinDataLoading">正在加载企鹅物流数据...</p>
+                <p v-if="penguinDataError" class="text-error">企鹅物流加载失败</p>
+              </div>
+              <UButton
+                block
+                class="mbs-2"
+                size="md"
+                @click="
+                  () => {
+                    loadGameData(currentGameDataBaseUrl);
+                    loadPenguinData();
+                  }
+                "
+              >
+                重试
+              </UButton>
+            </div>
+          </template>
+        </UPopover>
         <ThemePicker />
         <UTooltip text="切换颜色模式">
           <UColorModeButton />
