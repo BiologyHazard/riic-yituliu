@@ -11,10 +11,10 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    AppFooter: typeof import('./src/components/AppFooter.vue')['default']
-    AppHeader: typeof import('./src/components/AppHeader.vue')['default']
+    AppFooter: typeof import('./src/components/layout/AppFooter.vue')['default']
+    AppHeader: typeof import('./src/components/layout/AppHeader.vue')['default']
     AppImagePreview: typeof import('./src/components/image-preview/AppImagePreview.vue')['default']
-    AppSidebar: typeof import('./src/components/AppSidebar.vue')['default']
+    AppSidebar: typeof import('./src/components/layout/AppSidebar.vue')['default']
     BaseSkill: typeof import('./src/components/riic/BaseSkill.vue')['default']
     BioHazard: typeof import('./src/components/icons/BioHazard.vue')['default']
     ImagePreviewContainer: typeof import('./src/components/image-preview/ImagePreviewContainer.vue')['default']
