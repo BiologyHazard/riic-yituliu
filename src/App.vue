@@ -44,9 +44,9 @@ onMounted(() => {
           >
             <!--
               第 3 层：滚动容器（负责内容滚动）
-              overflow-y-auto 在内容超出时显示滚动条，滚动条溢出圆角的部分会被第 3 层裁剪掉。
+              overflow-auto 在内容超出时显示滚动条，滚动条溢出圆角的部分会被第 3 层裁剪掉。
             -->
-            <div id="scroll-container" class="h-full overflow-y-auto">
+            <div id="scroll-container" class="h-full overflow-auto">
               <AppHeader v-model:open="open" />
               <UMain
                 id="main"
