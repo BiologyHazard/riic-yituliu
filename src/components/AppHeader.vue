@@ -17,14 +17,14 @@ const route = useRoute();
         color="neutral"
         :icon="open ? 'i-lucide-panel-left-close' : 'i-lucide-panel-left-open'"
         variant="ghost"
-        @click="open = !open"
+        @click="void (open = !open)"
       />
       <UButton
         class="lg:hidden"
         color="neutral"
         icon="i-lucide-menu"
         variant="ghost"
-        @click="open = !open"
+        @click="void (open = !open)"
       />
       <div class="text-lg font-semibold">{{ route.meta.title || '明日方舟基建一图流' }}</div>
     </template>

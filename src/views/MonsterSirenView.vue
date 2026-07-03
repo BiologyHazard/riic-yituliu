@@ -266,7 +266,7 @@ onMounted(loadData);
                 size="sm"
                 :title="songViewMode === 'grid' ? '切换为列表视图' : '切换为网格视图'"
                 variant="ghost"
-                @click="songViewMode = songViewMode === 'grid' ? 'list' : 'grid'"
+                @click="void (songViewMode = songViewMode === 'grid' ? 'list' : 'grid')"
               />
             </div>
 
@@ -278,7 +278,12 @@ onMounted(loadData);
                 placeholder="搜索曲名、专辑、艺术家或 CID…"
               >
                 <template v-if="searchQuery" #trailing>
-                  <UButton icon="i-lucide-x" size="xs" variant="ghost" @click="searchQuery = ''" />
+                  <UButton
+                    icon="i-lucide-x"
+                    size="xs"
+                    variant="ghost"
+                    @click="void (searchQuery = '')"
+                  />
                 </template>
               </UInput>
             </div>

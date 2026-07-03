@@ -114,7 +114,7 @@ const itemsExpanded: NavigationMenuItem[] = [
         color="neutral"
         icon="i-lucide-x"
         variant="ghost"
-        @click="open = !open"
+        @click="void (open = !open)"
       />
     </template>
 

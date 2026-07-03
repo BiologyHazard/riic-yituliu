@@ -230,7 +230,7 @@ const isPlaylistOpen = defineModel<boolean>('isPlaylistOpen');
               icon="i-lucide-list-music"
               size="sm"
               :variant="isPlaylistOpen ? 'solid' : 'ghost'"
-              @click="isPlaylistOpen = !isPlaylistOpen"
+              @click="void (isPlaylistOpen = !isPlaylistOpen)"
             />
           </UTooltip>
           <UTooltip text="关闭播放器">

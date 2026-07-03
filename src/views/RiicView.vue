@@ -274,7 +274,7 @@ async function exportAsImage(): Promise<void> {
 
           <template #editor>
             <div class="mbe-4 flex flex-wrap items-center gap-2">
-              <UButton variant="subtle" @click="rawInput = ''">清空内容</UButton>
+              <UButton variant="subtle" @click="void (rawInput = '')">清空内容</UButton>
               <UButton variant="subtle" @click="textareaRef?.textareaRef?.requestFullscreen()"
                 >全屏输入</UButton
               >
