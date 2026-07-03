@@ -165,11 +165,11 @@ const rarities = [
             <table class="w-full text-start text-sm whitespace-nowrap">
               <thead>
                 <tr class="border-be border-muted bg-muted">
-                  <th class="px-4 py-3">干员</th>
-                  <th class="px-4 py-3 text-center">精2消耗 (排名)</th>
-                  <th class="px-4 py-3 text-center">一技能专三 (排名)</th>
-                  <th class="px-4 py-3 text-center">二技能专三 (排名)</th>
-                  <th class="px-4 py-3 text-center">三技能专三 (排名)</th>
+                  <th class="w-1/5 px-4 py-3">干员</th>
+                  <th class="w-1/5 px-4 py-3 text-center">精 2 消耗</th>
+                  <th class="w-1/5 px-4 py-3 text-center">一技能专三</th>
+                  <th class="w-1/5 px-4 py-3 text-center">二技能专三</th>
+                  <th class="w-1/5 px-4 py-3 text-center">三技能专三</th>
                 </tr>
               </thead>
               <tbody class="divide-y">
