@@ -1,21 +1,8 @@
 <script setup lang="ts">
 import logoUrl from '@/assets/images/白鸥.webp';
 import type { NavigationMenuItem } from '@nuxt/ui';
-import { useMediaQuery } from '@vueuse/core';
-import { onUnmounted } from 'vue';
-import { useRouter } from 'vue-router';
 
-const open = defineModel<boolean>('open', { default: false });
-
-const isLarge = useMediaQuery('(width >= 1024px)');
-
-const router = useRouter();
-const removeAfterEach = router.afterEach(() => {
-  if (!isLarge.value) {
-    open.value = false;
-  }
-});
-onUnmounted(removeAfterEach);
+const collapsed = defineModel<boolean>('collapsed');
 
 const itemsCollapsed: NavigationMenuItem[] = [
   {
@@ -217,15 +204,25 @@ const itemsExpanded: NavigationMenuItem[] = [
 </script>
 
 <template>
-  <USidebar
-    v-model:open="open"
-    collapsible="icon"
-    mode="slideover"
-    :ui="{ header: 'justify-between' }"
-    variant="inset"
+  <UDashboardSidebar
+    v-model:collapsed="collapsed"
+    auto-close
+    class="border-none py-4 transition-none duration-300 data-[dragging=false]:transition-[width]"
+    collapsible
+    :default-size="16"
+    :max-size="24"
+    :min-size="12"
+    :persistent="false"
+    resizable
+    side="left"
+    :ui="{
+      overlay: 'lg:block',
+      content:
+        'fixed inset-y-4 left-4 flex w-[calc(100%-(--spacing(8)))] rounded-lg ring-default sm:shadow-lg sm:ring lg:flex',
+    }"
   >
     <template #header>
-      <div class="flex items-center gap-2">
+      <div class="flex min-w-0 items-center justify-start gap-2">
         <UButton
           :avatar="{
             src: logoUrl,
@@ -237,25 +234,16 @@ const itemsExpanded: NavigationMenuItem[] = [
           to="/"
           variant="ghost"
         />
-        <div v-if="open" class="truncate font-bold">明日方舟基建一图流</div>
+        <div v-if="!collapsed" class="truncate font-bold">明日方舟基建一图流</div>
       </div>
-      <UButton
-        class="lg:hidden"
-        color="neutral"
-        icon="i-lucide-x"
-        variant="ghost"
-        @click="void (open = !open)"
-      />
     </template>
 
-    <template #default>
-      <UNavigationMenu
-        :collapsed="!open"
-        :items="open ? itemsExpanded : itemsCollapsed"
-        orientation="vertical"
-        :ui="{ link: 'p-1.5' }"
-        variant="pill"
-      />
-    </template>
-  </USidebar>
+    <UNavigationMenu
+      :collapsed="collapsed"
+      :items="collapsed ? itemsCollapsed : itemsExpanded"
+      orientation="vertical"
+      :ui="{ link: 'p-1.5' }"
+      variant="pill"
+    />
+  </UDashboardSidebar>
 </template>

@@ -4,7 +4,7 @@ import { gameDataError, isGameDataLoading, loadGameData } from '@/utils/gameData
 import { isPenguinDataLoading, loadPenguinData, penguinDataError } from '@/utils/penguinStats';
 import { useRoute } from 'vue-router';
 
-const open = defineModel<boolean>('open');
+const open = defineModel<boolean>('open', { default: false });
 
 const route = useRoute();
 </script>
@@ -13,19 +13,13 @@ const route = useRoute();
   <UHeader :toggle="false" :ui="{ container: 'max-w-none px-4!' }">
     <template #left>
       <UButton
-        class="max-lg:hidden"
-        color="neutral"
-        :icon="open ? 'i-lucide-panel-left-close' : 'i-lucide-panel-left-open'"
-        variant="ghost"
-        @click="void (open = !open)"
-      />
-      <UButton
         class="lg:hidden"
         color="neutral"
-        icon="i-lucide-menu"
+        :icon="open ? 'i-lucide-x' : 'i-lucide-menu'"
         variant="ghost"
         @click="void (open = !open)"
       />
+      <UDashboardSidebarCollapse class="max-lg:hidden" />
       <div class="text-lg font-semibold">{{ route.meta.title || '明日方舟基建一图流' }}</div>
     </template>
 
