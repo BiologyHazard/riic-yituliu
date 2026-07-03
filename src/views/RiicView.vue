@@ -114,7 +114,7 @@ const zoomRef = ref<number | 'auto'>('auto');
 // 自动缩放且滚动模式下，通过 useElementSize 监听容器宽度变化
 const { width: containerWidth } = useElementSize(outputPanelRef);
 // 自动缩放且溢出模式下，监听窗口可见区域宽度
-const { width: viewportWidth } = useElementSize(document.getElementById('main'));
+const { width: viewportWidth } = useElementSize(() => document.getElementById('main'));
 // 对宽度值做节流，避免频繁缩放导致卡顿
 const containerWidthThrottled = refThrottled(containerWidth, 250);
 const viewportWidthThrottled = refThrottled(viewportWidth, 250);
