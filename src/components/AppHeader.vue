@@ -13,9 +13,16 @@ const route = useRoute();
   <UHeader :toggle="false" :ui="{ container: 'max-w-none px-4!' }">
     <template #left>
       <UButton
-        aria-label="Toggle sidebar"
+        class="max-lg:hidden"
         color="neutral"
         :icon="open ? 'i-lucide-panel-left-close' : 'i-lucide-panel-left-open'"
+        variant="ghost"
+        @click="open = !open"
+      />
+      <UButton
+        class="lg:hidden"
+        color="neutral"
+        icon="i-lucide-menu"
         variant="ghost"
         @click="open = !open"
       />

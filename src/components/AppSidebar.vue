@@ -110,10 +110,9 @@ const itemsExpanded: NavigationMenuItem[] = [
         <div v-if="open" class="truncate font-bold">明日方舟基建一图流</div>
       </div>
       <UButton
-        aria-label="Toggle sidebar"
         class="lg:hidden"
         color="neutral"
-        :icon="open ? 'i-lucide-panel-left-close' : 'i-lucide-panel-left-open'"
+        icon="i-lucide-x"
         variant="ghost"
         @click="open = !open"
       />
@@ -121,7 +120,6 @@ const itemsExpanded: NavigationMenuItem[] = [
 
     <template #default>
       <UNavigationMenu
-        :key="Number(open)"
         :collapsed="!open"
         :default-value="['明日方舟', '明日方舟终末地']"
         :items="open ? itemsExpanded : itemsCollapsed"
