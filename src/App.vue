@@ -3,6 +3,7 @@ import { useTheme } from '@/composables/useTheme';
 import { currentGameDataBaseUrl } from '@/utils/dataSources';
 import { loadGameData } from '@/utils/gameData/gameData';
 import { loadPenguinData } from '@/utils/penguinStats';
+import { zh_cn } from '@nuxt/ui/locale';
 import { useHead } from '@unhead/vue';
 import { onMounted, ref } from 'vue';
 
@@ -20,7 +21,7 @@ onMounted(() => {
 
 <template>
   <Suspense>
-    <UApp>
+    <UApp :locale="zh_cn">
       <!--
         第 1 层：全局布局容器
         flex 水平排列侧边栏和主内容区，h-dvh 占满整个视口高度。
