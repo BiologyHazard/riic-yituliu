@@ -2,20 +2,20 @@
 import logoUrl from '@/assets/images/白鸥.webp';
 import type { NavigationMenuItem } from '@nuxt/ui';
 import { useMediaQuery } from '@vueuse/core';
+import { onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 
-const open = defineModel<boolean>('open');
+const open = defineModel<boolean>('open', { default: false });
 
 const isLarge = useMediaQuery('(width >= 1024px)');
 
 const router = useRouter();
-router.afterEach(() => {
-  console.log('Route changed, closing sidebar on mobile if open');
+const removeAfterEach = router.afterEach(() => {
   if (!isLarge.value) {
-    console.log('Closing sidebar on mobile');
     open.value = false;
   }
 });
+onUnmounted(removeAfterEach);
 
 const itemsCollapsed: NavigationMenuItem[] = [
   {
