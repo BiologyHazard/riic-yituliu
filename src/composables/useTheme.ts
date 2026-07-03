@@ -768,7 +768,7 @@ const style = computed<ResolvableStyle[]>(() => {
     ? radius.value * cornerShapeCoefficient.value
     : radius.value;
   style.push({
-    innerHTML: `@layer theme { :root { --ui-radius: ${effectiveRadius}rem; } }`,
+    innerHTML: `@layer theme { :root { --ui-radius: ${effectiveRadius}rem; --ui-radius-initial: ${radius.value}rem; --corner-shape-coefficient: ${cornerShapeCoefficient.value} } }`,
     id: 'nuxt-ui-radius',
     tagPriority: -2,
   });
