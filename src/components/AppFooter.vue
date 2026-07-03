@@ -19,7 +19,7 @@ const beianString: string | null =
       <UButton
         aria-label="Vue.js"
         color="neutral"
-        icon="i-logos:vue"
+        icon="i-simple-icons:vuedotjs"
         rel="noopener noreferrer"
         target="_blank"
         to="https://vuejs.org/"
@@ -27,7 +27,7 @@ const beianString: string | null =
       />
       <UButton
         aria-label="Nuxt UI"
-        class="text-green-500 dark:text-green-400"
+        color="neutral"
         icon="i-simple-icons:nuxtdotjs"
         rel="noopener noreferrer"
         target="_blank"
@@ -36,7 +36,7 @@ const beianString: string | null =
       />
       <UButton
         aria-label="Tailwind CSS"
-        class="text-sky-500 dark:text-sky-400"
+        color="neutral"
         icon="i-simple-icons:tailwindcss"
         rel="noopener noreferrer"
         target="_blank"
