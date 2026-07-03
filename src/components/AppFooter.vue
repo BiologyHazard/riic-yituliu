@@ -45,11 +45,16 @@ const beianString: string | null =
       />
     </template>
 
+    <div class="flex flex-wrap items-center justify-center gap-1">
+      <p class="text-xs text-dimmed">
+        © {{ new Date().getFullYear() }} BioHazard. All rights reserved.
+      </p>
     <p v-if="beianString !== null" class="text-xs text-dimmed">
-      <a href="https://beian.miit.gov.cn/" rel="noopener noreferrer" target="_blank">{{
-        beianString
-      }}</a>
+        <a href="https://beian.miit.gov.cn/" rel="noopener noreferrer" target="_blank">
+          {{ beianString }}
+        </a>
     </p>
+    </div>
 
     <template #right>
       <UButton
