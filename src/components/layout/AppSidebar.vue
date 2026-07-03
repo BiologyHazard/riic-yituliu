@@ -207,7 +207,7 @@ const itemsExpanded: NavigationMenuItem[] = [
   <UDashboardSidebar
     v-model:collapsed="collapsed"
     auto-close
-    class="border-none py-4 transition-none duration-300 data-[dragging=false]:transition-[width]"
+    class="group/sidebar border-none py-4 transition-none duration-300 data-[dragging=false]:transition-[width]"
     collapsible
     :default-size="16"
     :max-size="24"
@@ -217,6 +217,7 @@ const itemsExpanded: NavigationMenuItem[] = [
     side="left"
     :ui="{
       overlay: 'lg:block',
+      body: 'scrollbar-thin group-data-[collapsed=true]/sidebar:scrollbar-none',
       content:
         'fixed inset-y-4 left-4 flex w-[calc(100%-(--spacing(8)))] rounded-lg ring-default sm:shadow-lg sm:ring lg:flex',
     }"
@@ -242,7 +243,11 @@ const itemsExpanded: NavigationMenuItem[] = [
       :collapsed="collapsed"
       :items="collapsed ? itemsCollapsed : itemsExpanded"
       orientation="vertical"
-      :ui="{ link: 'p-1.5' }"
+      :tooltip="true"
+      :ui="{
+        link: 'p-1.5 text-toned',
+        linkLeadingIcon: 'text-toned',
+      }"
       variant="pill"
     />
   </UDashboardSidebar>
