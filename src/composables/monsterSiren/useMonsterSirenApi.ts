@@ -24,80 +24,85 @@ async function apiFetch<T>(path: string): Promise<T> {
   return json.data;
 }
 
-export function useMonsterSirenApi() {
-  const isLoading = ref(true);
-  const loadError = ref<string | null>(null);
+const isLoading = ref(true);
+const loadError = ref<string | null>(null);
 
-  const albums = ref<Album[]>([]);
-  const songs = ref<Song[]>([]);
+const albums = ref<Album[]>([]);
+const songs = ref<Song[]>([]);
 
-  const songDetailCache = ref(new Map<string, SongDetail>());
-  const loadingDetailCids = ref(new Set<string>());
+const songDetailCache = ref(new Map<string, SongDetail>());
+const loadingDetailCids = ref(new Set<string>());
 
-  const albumDetailCache = ref(new Map<string, AlbumDetail>());
-  const isLoadingAlbumDetail = ref(false);
-  const currentAlbumDetail = ref<AlbumDetail | null>(null);
+const albumDetailCache = ref(new Map<string, AlbumDetail>());
+const isLoadingAlbumDetail = ref(false);
+const currentAlbumDetail = ref<AlbumDetail | null>(null);
 
-  const albumMap = computed(() => new Map(albums.value.map((album) => [album.cid, album])));
-  const songMap = computed(() => new Map(songs.value.map((song) => [song.cid, song])));
+const albumMap = computed(() => new Map(albums.value.map((album) => [album.cid, album])));
+const songMap = computed(() => new Map(songs.value.map((song) => [song.cid, song])));
 
-  const albumSongCount = computed(() => {
-    const map = new Map<string, number>();
-    for (const song of songs.value) {
-      map.set(song.albumCid, (map.get(song.albumCid) ?? 0) + 1);
-    }
-    return map;
-  });
+const albumSongCount = computed(() => {
+  const map = new Map<string, number>();
+  for (const song of songs.value) {
+    map.set(song.albumCid, (map.get(song.albumCid) ?? 0) + 1);
+  }
+  return map;
+});
 
-  async function loadData() {
-    isLoading.value = true;
+async function loadData() {
+  if (albums.value.length > 0 && songs.value.length > 0) {
+    isLoading.value = false;
     loadError.value = null;
-    try {
-      const [albumsData, songsData] = await Promise.all([
-        apiFetch<Album[]>('/api/albums'),
-        apiFetch<{ list: Song[] }>('/api/songs'),
-      ]);
-      albums.value = albumsData;
-      songs.value = songsData.list;
-    } catch (error) {
-      loadError.value = error instanceof Error ? error.message : String(error);
-    } finally {
-      isLoading.value = false;
-    }
+    return; // 数据已加载，无需重复请求
   }
-
-  async function getSongDetail(cid: string): Promise<SongDetail | null> {
-    if (songDetailCache.value.has(cid)) {
-      return songDetailCache.value.get(cid)!;
-    }
-    loadingDetailCids.value.add(cid);
-    try {
-      const data = await apiFetch<SongDetail>(`/api/song/${cid}`);
-      songDetailCache.value.set(cid, data);
-      return data;
-    } catch {
-      return null;
-    } finally {
-      loadingDetailCids.value.delete(cid);
-    }
+  isLoading.value = true;
+  loadError.value = null;
+  try {
+    const [albumsData, songsData] = await Promise.all([
+      apiFetch<Album[]>('/api/albums'),
+      apiFetch<{ list: Song[] }>('/api/songs'),
+    ]);
+    albums.value = albumsData;
+    songs.value = songsData.list;
+  } catch (error) {
+    loadError.value = error instanceof Error ? error.message : String(error);
+  } finally {
+    isLoading.value = false;
   }
+}
 
-  async function getAlbumDetail(cid: string): Promise<AlbumDetail | null> {
-    if (albumDetailCache.value.has(cid)) {
-      return albumDetailCache.value.get(cid)!;
-    }
-    isLoadingAlbumDetail.value = true;
-    try {
-      const data = await apiFetch<AlbumDetail>(`/api/album/${cid}/detail`);
-      albumDetailCache.value.set(cid, data);
-      return data;
-    } catch {
-      return null;
-    } finally {
-      isLoadingAlbumDetail.value = false;
-    }
+async function getSongDetail(cid: string): Promise<SongDetail | null> {
+  if (songDetailCache.value.has(cid)) {
+    return songDetailCache.value.get(cid)!;
   }
+  loadingDetailCids.value.add(cid);
+  try {
+    const data = await apiFetch<SongDetail>(`/api/song/${cid}`);
+    songDetailCache.value.set(cid, data);
+    return data;
+  } catch {
+    return null;
+  } finally {
+    loadingDetailCids.value.delete(cid);
+  }
+}
 
+async function getAlbumDetail(cid: string): Promise<AlbumDetail | null> {
+  if (albumDetailCache.value.has(cid)) {
+    return albumDetailCache.value.get(cid)!;
+  }
+  isLoadingAlbumDetail.value = true;
+  try {
+    const data = await apiFetch<AlbumDetail>(`/api/album/${cid}/detail`);
+    albumDetailCache.value.set(cid, data);
+    return data;
+  } catch {
+    return null;
+  } finally {
+    isLoadingAlbumDetail.value = false;
+  }
+}
+
+export function useMonsterSirenApi() {
   return {
     isLoading,
     loadError,
