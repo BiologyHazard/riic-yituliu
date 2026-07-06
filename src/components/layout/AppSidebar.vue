@@ -78,6 +78,11 @@ const itemsCollapsed: NavigationMenuItem[] = [
     target: '_blank',
   },
   {
+    label: '森空岛签到',
+    icon: 'i-lucide-bot-message-square',
+    to: '/sklassistant',
+  },
+  {
     label: '友情链接',
     icon: 'i-lucide-link',
     to: '/links',
@@ -86,6 +91,11 @@ const itemsCollapsed: NavigationMenuItem[] = [
 
 const itemsExpanded: NavigationMenuItem[] = [
   { label: '首页', icon: 'i-lucide-home', to: '/' },
+  {
+    label: '森空岛签到',
+    icon: 'i-lucide-bot-message-square',
+    to: '/sklassistant',
+  },
   {
     label: '明日方舟',
     icon: 'i-lucide-shield-plus',

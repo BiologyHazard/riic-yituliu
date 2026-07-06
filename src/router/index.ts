@@ -10,6 +10,7 @@ import MaterialInfoView from '@/views/MaterialInfoView.vue';
 import MonsterSirenView from '@/views/MonsterSirenView.vue';
 import RiicMapView from '@/views/RiicMapView.vue';
 import RiicView from '@/views/RiicView.vue';
+import SklandAssistantView from '@/views/SklandAssistantView.vue';
 import StageList from '@/views/StageList.vue';
 import TierMakerView from '@/views/TierMakerView.vue';
 import TierMakerView2 from '@/views/TierMakerView2.vue';
@@ -116,6 +117,12 @@ const router = createRouter({
       name: 'endfield-game-bulletin',
       component: EndfieldGameBulletinView,
       meta: { title: '明日方舟：终末地游戏内公告' },
+    },
+    {
+      path: '/sklassistant',
+      name: 'sklassistant',
+      component: SklandAssistantView,
+      meta: { title: '森空岛签到' },
     },
     {
       path: '/links',
