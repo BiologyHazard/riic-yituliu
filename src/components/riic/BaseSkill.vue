@@ -109,19 +109,21 @@ watch([props, operatorNameElement], () => {
             </td>
             <td class="td-buff-cond">{{ getCondText(buffDataItem.cond) }}</td>
             <td class="td-buff-name">
-              <img
-                :alt="gameData?.buildingData.buffs[buffDataItem.buffId]!.buffName"
-                class="skill-icon"
-                referrerpolicy="no-referrer"
-                :src="
-                  getBaseSkillIconUrl(
-                    gameData?.buildingData.buffs[buffDataItem.buffId]!.skillIcon ?? '',
-                  )
-                "
-              />
-              <span class="buff-name-text">{{
-                gameData?.buildingData.buffs[buffDataItem.buffId]!.buffName
-              }}</span>
+              <div class="skill-icon-and-name">
+                <img
+                  :alt="gameData?.buildingData.buffs[buffDataItem.buffId]!.buffName"
+                  class="skill-icon"
+                  referrerpolicy="no-referrer"
+                  :src="
+                    getBaseSkillIconUrl(
+                      gameData?.buildingData.buffs[buffDataItem.buffId]!.skillIcon ?? '',
+                    )
+                  "
+                />
+                <span class="buff-name-text">{{
+                  gameData?.buildingData.buffs[buffDataItem.buffId]!.buffName
+                }}</span>
+              </div>
             </td>
             <!-- eslint-disable vue/no-v-html -->
             <td
@@ -195,8 +197,6 @@ watch([props, operatorNameElement], () => {
 .td-buff-cond,
 .td-buff-name,
 .td-buff-description {
-  padding-block: 24px;
-  padding-inline: 28px;
   font-family: 'HarmonyOS Sans SC', sans-serif;
   font-size: 36px;
   font-weight: 500;
@@ -208,30 +208,33 @@ watch([props, operatorNameElement], () => {
 
 .td-buff-cond {
   inline-size: 132px;
+  padding-block: 24px;
+  padding-inline: 28px;
   text-align: center;
 }
 
 .td-buff-name {
-  position: relative;
   inline-size: 384px;
+  padding-block: 24px;
+  padding-inline: 20px;
   text-align: left;
 }
 
 .td-buff-description {
+  padding-block: 24px;
+  padding-inline: 28px;
   text-align: left;
 }
 
-.skill-icon {
-  position: absolute;
-  inset-block-start: 50%;
-  inset-inline-start: 20px;
-  inline-size: 60px;
-  block-size: 60px;
-  /* transform: translate(0, -50%); */
-  margin-block-start: -30px;
+.skill-icon-and-name {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: flex-start;
 }
 
-.buff-name-text {
-  margin-inline-start: 72px;
+.skill-icon {
+  inline-size: 60px;
+  block-size: 60px;
 }
 </style>
