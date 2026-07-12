@@ -1,10 +1,20 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import type { FormError, FormSubmitEvent } from '@nuxt/ui';
+import { onMounted, reactive, ref } from 'vue';
 
-const qq = ref('');
-const email = ref('');
-const token = ref('');
-const remind = ref(true);
+interface FormState {
+  qq: string;
+  email: string;
+  token: string;
+  remind: boolean;
+}
+
+const state = reactive<FormState>({
+  qq: '',
+  email: '',
+  token: '',
+  remind: true,
+});
 const submitting = ref(false);
 const submitText = ref('提交');
 
@@ -19,46 +29,53 @@ onMounted(() => {
   const queryString = window.location.search;
   const params = new URLSearchParams(queryString);
   const qqParam = params.get('qq');
-  let qqValue = '';
-  if (qqParam) {
-    if (!isNaN(parseInt(qqParam))) {
-      qqValue = qqParam;
-    } else {
-      try {
-        qqValue = atob(qqParam);
-        if (isNaN(parseInt(qqValue))) {
-          qqValue = '';
-        }
-      } catch {
-        // ignore
-      }
-    }
+  if (qqParam && /^\d{5,20}$/.test(qqParam)) {
+    const qqValue = qqParam;
     if (qqValue) {
-      qq.value = qqValue;
-      email.value = getQQEmailAddress(qqValue);
+      state.qq = qqValue;
+      state.email = getQQEmailAddress(qqValue);
     }
   }
 });
 
 /**
+ * 表单验证
+ */
+function validate(state: {
+  qq: string;
+  email: string;
+  token: string;
+  remind: boolean;
+}): FormError[] {
+  const errors: FormError[] = [];
+  if (!state.qq || !/^\d{5,20}$/.test(state.qq)) {
+    errors.push({ name: 'qq', message: '请填写有效的QQ号' });
+  }
+  if (!state.email) {
+    errors.push({ name: 'email', message: '请填写有效的邮箱地址' });
+  }
+  if (!state.token || state.token.length !== 24) {
+    errors.push({ name: 'token', message: 'token 格式错误' });
+  }
+  return errors;
+}
+
+/**
  * 提交表单
  */
-async function handleSubmit() {
+async function handleSubmit(
+  event: FormSubmitEvent<{ qq: string; email: string; token: string; remind: boolean }>,
+) {
   submitting.value = true;
   submitText.value = '提交中...';
 
   try {
-    const response = await fetch('/BioBot/plugins/sklassistant', {
+    const response = await fetch('https://biobot.misakabio.top/BioBot/plugins/sklassistant', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        qq: qq.value,
-        email: email.value,
-        token: token.value,
-        remind: remind.value,
-      }),
+      body: JSON.stringify(event.data),
     });
     const data = await response.json();
     alert(data.message);
@@ -84,7 +101,7 @@ async function handleSubmit() {
       <UPageBody class="space-y-8">
         <!-- 这是什么 -->
         <section>
-          <h2 class="mbe-4 text-lg font-bold">这是什么</h2>
+          <h2 class="mbe-4 text-2xl font-bold">这是什么</h2>
           <p>
             这是 BioBot
             的森空岛小助手插件，提供森空岛自动签到、干员查询、仓库查询、森空岛小秘书等各种使用功能。
@@ -93,38 +110,40 @@ async function handleSubmit() {
 
         <!-- 如何使用 -->
         <section>
-          <h2 class="mbe-4 text-lg font-bold">如何使用</h2>
+          <h2 class="mbe-4 text-2xl font-bold">如何使用</h2>
 
           <div class="space-y-6">
             <div>
-              <h3 class="mbe-2 font-semibold">Step 1</h3>
+              <h3 class="mbe-2 text-lg font-semibold">Step 1</h3>
               <p>
                 使用浏览器打开鹰角网络官网
-                <a
-                  class="font-medium text-primary hover:underline"
+                <ULink
+                  class="font-medium text-primary"
+                  external
                   href="https://www.hypergryph.com/"
                   rel="noopener noreferrer"
                   target="_blank"
-                  >https://www.hypergryph.com/</a
+                  >https://www.hypergryph.com/</ULink
                 >，并登录。
               </p>
             </div>
 
             <div>
-              <h3 class="mbe-2 font-semibold">Step 2</h3>
+              <h3 class="mbe-2 text-lg font-semibold">Step 2</h3>
               <p class="mbe-2">
                 用上一步所使用的同一个浏览器，访问
-                <a
-                  class="font-medium text-primary hover:underline"
+                <ULink
+                  class="font-medium text-primary"
+                  external
                   href="https://web-api.hypergryph.com/account/info/hg"
                   rel="noopener noreferrer"
                   target="_blank"
-                  >https://web-api.hypergryph.com/account/info/hg</a
+                  >https://web-api.hypergryph.com/account/info/hg</ULink
                 >
               </p>
               <p class="mbe-2">返回如下信息：</p>
               <pre
-                class="text-code block overflow-x-auto rounded-lg bg-muted p-4 font-mono text-sm"
+                class="rounded-lg border border-default bg-elevated/50 p-4 text-sm whitespace-pre-wrap"
               ><code>{
     "code": 0,
     "data": {
@@ -135,57 +154,62 @@ async function handleSubmit() {
             </div>
 
             <div>
-              <h3 class="mbe-2 font-semibold">Step 3</h3>
+              <h3 class="mbe-2 text-lg font-semibold">Step 3</h3>
               <p class="mbe-4">
                 把获取到的 token，以及您的联系方式，填入下面的输入框中，并点击提交。<br />
                 （token 是
-                <code class="text-code rounded bg-muted px-1 font-mono text-sm">"content": </code>
+                <code class="text-code rounded-sm bg-elevated/50 px-1 text-sm ring ring-default"
+                  >"content":</code
+                >
                 后面的内容，不包含双引号。在上面的例子中 token 是
-                <code class="text-code rounded bg-muted px-1 font-mono text-sm"
+                <code class="text-code rounded-sm bg-elevated/50 px-1 text-sm ring ring-default"
                   >1145141919810ABCDEFGHIJ</code
                 >）
               </p>
 
               <UCard variant="subtle">
-                <form class="space-y-4" @submit.prevent="handleSubmit">
-                  <UFormField label="QQ">
+                <UForm class="space-y-4" :state="state" :validate="validate" @submit="handleSubmit">
+                  <UFormField label="QQ" name="qq" required>
                     <UInput
                       id="qqInput"
-                      v-model="qq"
+                      v-model="state.qq"
                       :maxlength="20"
                       :minlength="5"
                       name="qq"
-                      pattern="\d+"
+                      pattern="^\d{5,20}$"
                       placeholder="请填写QQ号"
                       required
-                      title="请填写QQ号"
                     />
                   </UFormField>
 
-                  <UFormField label="Email">
-                    <UInput id="emailInput" v-model="email" name="email" required type="email" />
+                  <UFormField label="Email" name="email" required>
+                    <UInput id="emailInput" v-model="state.email" required type="email" />
                   </UFormField>
 
-                  <UFormField label="Token">
+                  <UFormField label="Token" name="token" required>
                     <UInput
                       id="tokenInput"
-                      v-model="token"
+                      v-model="state.token"
                       :maxlength="24"
                       :minlength="24"
                       name="token"
                       pattern="^([A-Za-z0-9+\/]{4})*([A-Za-z0-9+\/]{4}|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{2}==)$"
                       placeholder="不包含双引号"
                       required
-                      title="token 格式错误"
                     />
                   </UFormField>
 
-                  <UCheckbox id="remindInput" v-model="remind" label="启用邮件提醒" name="remind" />
+                  <UCheckbox
+                    id="remindInput"
+                    v-model="state.remind"
+                    label="启用邮件提醒"
+                    name="remind"
+                  />
 
                   <UButton :disabled="submitting" type="submit">
                     {{ submitText }}
                   </UButton>
-                </form>
+                </UForm>
               </UCard>
             </div>
           </div>
@@ -193,7 +217,7 @@ async function handleSubmit() {
 
         <!-- 为什么我要填联系方式 -->
         <section>
-          <h2 class="mbe-4 text-lg font-bold">为什么我要填联系方式</h2>
+          <h2 class="mbe-4 text-2xl font-bold">为什么我要填联系方式</h2>
           <p>
             填写邮箱是为了在签到成功或失败之后给您发送邮件提醒。<br />
             填写QQ号是为了使您有办法停用自动签到或者删除 token。<br />
@@ -203,7 +227,7 @@ async function handleSubmit() {
 
         <!-- 致谢 -->
         <section class="flex flex-col items-start">
-          <h2 class="mbe-4 text-lg font-bold">致谢</h2>
+          <h2 class="mbe-4 text-2xl font-bold">致谢</h2>
           <UButton
             label="ProbiusOfficial/Skland_API"
             rel="noopener noreferrer"

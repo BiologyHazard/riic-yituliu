@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import logoUrl from '@/assets/images/白鸥.webp';
+import SklandOopa from '@/components/icons/SklandOopa.vue';
 import type { NavigationMenuItem } from '@nuxt/ui';
 
 const collapsed = defineModel<boolean>('collapsed');
@@ -90,11 +91,10 @@ const itemsCollapsed: NavigationMenuItem[] = [
 ];
 
 const itemsExpanded: NavigationMenuItem[] = [
-  { label: '首页', icon: 'i-lucide-home', to: '/' },
   {
-    label: '森空岛签到',
-    icon: 'i-lucide-bot-message-square',
-    to: '/sklassistant',
+    label: '首页',
+    icon: 'i-lucide-home',
+    to: '/',
   },
   {
     label: '明日方舟',
@@ -204,6 +204,11 @@ const itemsExpanded: NavigationMenuItem[] = [
         target: '_blank',
       },
     ],
+  },
+  {
+    label: 'BioBot 森空岛签到',
+    icon: SklandOopa,
+    to: '/sklassistant',
   },
   {
     label: '友情链接',
