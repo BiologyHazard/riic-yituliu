@@ -79,8 +79,8 @@ const itemsCollapsed: NavigationMenuItem[] = [
     target: '_blank',
   },
   {
-    label: '森空岛签到',
-    icon: 'i-lucide-bot-message-square',
+    label: 'BioBot 森空岛小助手',
+    icon: SklandOopa,
     to: '/sklassistant',
   },
   {
@@ -206,7 +206,7 @@ const itemsExpanded: NavigationMenuItem[] = [
     ],
   },
   {
-    label: 'BioBot 森空岛签到',
+    label: 'BioBot 森空岛小助手',
     icon: SklandOopa,
     to: '/sklassistant',
   },
