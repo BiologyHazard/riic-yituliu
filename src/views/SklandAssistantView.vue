@@ -70,7 +70,7 @@ async function handleSubmit(
   submitText.value = '提交中...';
 
   try {
-    const response = await fetch('https://biobot.misakabio.top/BioBot/plugins/sklassistant', {
+    const response = await fetch('https://biobot.biohazard.top/BioBot/plugins/sklassistant', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
