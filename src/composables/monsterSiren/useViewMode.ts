@@ -1,6 +1,6 @@
 import type { SongViewMode, Tab } from '@/types/monsterSiren';
-import type { Router, RouteLocationNormalizedLoaded } from 'vue-router';
 import { computed } from 'vue';
+import type { RouteLocationNormalizedLoaded, Router } from 'vue-router';
 
 export function useViewMode(route: RouteLocationNormalizedLoaded, router: Router) {
   const BASE_PATH = '/monster-siren';

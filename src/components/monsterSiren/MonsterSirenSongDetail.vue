@@ -147,7 +147,7 @@ onUnmounted(() => {
     <div class="flex h-full flex-1 flex-col overflow-hidden p-12">
       <div
         ref="lyricContainer"
-        class="no-scrollbar flex-1 overflow-y-auto"
+        class="flex-1 scrollbar-none overflow-y-auto"
         @scroll="handleUserScroll"
       >
         <div v-if="isLoadingLyrics" class="flex h-full items-center justify-center">
@@ -177,14 +177,3 @@ onUnmounted(() => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-</style>

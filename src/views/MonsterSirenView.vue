@@ -176,6 +176,7 @@ onMounted(loadData);
     @clear-playlist="clearPlaylist"
     @close-player="closePlayer"
     @download-song="downloadSong"
+    @open-song-detail="(song) => (selectedSongCid = song.cid)"
     @play-next="playNext"
     @play-prev="playPrev"
     @play-song="playSong"
@@ -190,7 +191,7 @@ onMounted(loadData);
 
   <div
     v-if="selectedSongCid !== null && songMap.has(selectedSongCid)"
-    class="fixed inset-0 z-40 flex flex-col overflow-hidden bg-default pt-16"
+    class="fixed inset-0 z-60 flex flex-col overflow-hidden bg-default pt-16"
   >
     <MonsterSirenSongDetail
       :album="albumMap.get(songMap.get(selectedSongCid)!.albumCid) ?? null"

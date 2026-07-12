@@ -28,6 +28,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   previewImage: [target: PreviewTarget];
   seekAudio: [event: InputEvent];
+  openSongDetail: [song: Song];
   togglePlayMode: [];
   playPrev: [];
   togglePlay: [];
@@ -48,7 +49,7 @@ const isPlaylistOpen = defineModel<boolean>('isPlaylistOpen');
   <Transition name="player-slide">
     <div
       v-if="props.playerSong"
-      class="fixed bottom-0 left-0 z-50 w-full border-t border-t-default bg-default/95 shadow-2xl backdrop-blur-md"
+      class="fixed bottom-0 left-0 z-70 w-full border-t border-t-default bg-default/95 shadow-2xl backdrop-blur-md"
     >
       <div
         class="group/progress relative h-1 w-full bg-gray-200 transition-all hover:h-1.5 dark:bg-gray-700"
@@ -72,7 +73,7 @@ const isPlaylistOpen = defineModel<boolean>('isPlaylistOpen');
         <div class="h-10 w-10 shrink-0 overflow-hidden rounded-lg shadow sm:h-12 sm:w-12">
           <div
             class="group/image-preview relative cursor-pointer overflow-hidden"
-            @click="$router.push(`/monster-siren/song/${props.playerSong.cid}`)"
+            @click="emit('openSongDetail', props.playerSong)"
           >
             <div
               class="h-full w-full transition-all group-hover/image-preview:scale-105 group-hover/image-preview:blur-[2px] group-hover/image-preview:brightness-50"
@@ -104,7 +105,7 @@ const isPlaylistOpen = defineModel<boolean>('isPlaylistOpen');
 
         <div
           class="min-w-0 flex-1 cursor-pointer"
-          @click="$router.push(`/monster-siren/song/${props.playerSong.cid}`)"
+          @click="emit('openSongDetail', props.playerSong)"
         >
           <div class="flex items-center gap-1.5 sm:gap-2">
             <p class="truncate text-xs font-semibold text-highlighted sm:text-sm">
