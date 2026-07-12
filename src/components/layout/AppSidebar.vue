@@ -2,93 +2,9 @@
 import logoUrl from '@/assets/images/白鸥.webp';
 import SklandOopa from '@/components/icons/SklandOopa.vue';
 import type { NavigationMenuItem } from '@nuxt/ui';
+import { computed } from 'vue';
 
 const collapsed = defineModel<boolean>('collapsed');
-
-const itemsCollapsed: NavigationMenuItem[] = [
-  {
-    label: '首页',
-    icon: 'i-lucide-home',
-    to: '/',
-  },
-  {
-    label: '排班表生成器',
-    icon: 'i-lucide-calendar-sync',
-    to: '/riic',
-  },
-  {
-    label: '基建技能',
-    icon: 'i-lucide-wrench',
-    to: '/base-skill',
-  },
-  {
-    label: '基建地图',
-    icon: 'i-lucide-map',
-    to: '/riic-map',
-  },
-  {
-    label: '干员拉满消耗',
-    icon: 'i-lucide-arrow-up-to-line',
-    to: '/char-item-cost',
-  },
-  {
-    label: '养成成本排行',
-    icon: 'i-lucide-list-ordered',
-    to: '/char-cost-ranking',
-  },
-  {
-    label: '材料信息',
-    icon: 'i-lucide-boxes',
-    to: '/material-info',
-  },
-  {
-    label: '物品价值',
-    icon: 'i-lucide-coins',
-    to: '/item-value',
-  },
-  {
-    label: '作战列表',
-    icon: 'i-lucide-swords',
-    to: '/stages',
-  },
-  {
-    label: '明日方舟游戏内公告',
-    icon: 'i-lucide-megaphone',
-    to: '/arknights-game-bulletin',
-  },
-  {
-    label: '塞壬唱片',
-    icon: 'i-lucide-disc-3',
-    to: '/monster-siren',
-  },
-  {
-    label: '明日方舟一图流',
-    icon: 'i-mdi-numeric-1-box-outline',
-    to: 'https://ark.yituliu.cn/',
-    target: '_blank',
-  },
-  {
-    label: '终末地游戏内公告',
-    icon: 'i-lucide-megaphone',
-    to: '/endfield-game-bulletin',
-  },
-  {
-    label: '终末地一图流',
-    icon: 'i-mdi-numeric-1-box-outline',
-    to: 'https://ef.yituliu.cn/',
-    target: '_blank',
-  },
-  {
-    label: 'BioBot 森空岛小助手',
-    icon: SklandOopa,
-    to: '/sklassistant',
-  },
-  {
-    label: '友情链接',
-    icon: 'i-lucide-link',
-    to: '/links',
-  },
-];
 
 const itemsExpanded: NavigationMenuItem[] = [
   {
@@ -216,6 +132,20 @@ const itemsExpanded: NavigationMenuItem[] = [
     to: '/links',
   },
 ];
+
+function flattenNavigationItems(items: NavigationMenuItem[]): NavigationMenuItem[] {
+  const result: NavigationMenuItem[] = [];
+  for (const item of items) {
+    if (item.children) {
+      result.push(...flattenNavigationItems(item.children));
+    } else {
+      result.push(item);
+    }
+  }
+  return result;
+}
+
+const itemsCollapsed = computed<NavigationMenuItem[]>(() => flattenNavigationItems(itemsExpanded));
 </script>
 
 <template>
