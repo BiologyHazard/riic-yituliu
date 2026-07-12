@@ -120,9 +120,7 @@ watch([props, operatorNameElement], () => {
                     )
                   "
                 />
-                <span class="buff-name-text">{{
-                  gameData?.buildingData.buffs[buffDataItem.buffId]!.buffName
-                }}</span>
+                <span>{{ gameData?.buildingData.buffs[buffDataItem.buffId]!.buffName }}</span>
               </div>
             </td>
             <!-- eslint-disable vue/no-v-html -->
