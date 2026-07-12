@@ -2,6 +2,8 @@
 import type { FormError, FormSubmitEvent } from '@nuxt/ui';
 import { onMounted, reactive, ref } from 'vue';
 
+const toast = useToast();
+
 interface FormState {
   qq: string;
   email: string;
@@ -16,7 +18,6 @@ const state = reactive<FormState>({
   remind: true,
 });
 const submitting = ref(false);
-const submitText = ref('提交');
 
 /**
  * 根据 QQ 号生成 QQ 邮箱地址
@@ -67,7 +68,6 @@ async function handleSubmit(
   event: FormSubmitEvent<{ qq: string; email: string; token: string; remind: boolean }>,
 ) {
   submitting.value = true;
-  submitText.value = '提交中...';
 
   try {
     const response = await fetch('https://biobot.biohazard.top/BioBot/plugins/sklassistant', {
@@ -78,12 +78,17 @@ async function handleSubmit(
       body: JSON.stringify(event.data),
     });
     const data = await response.json();
-    alert(data.message);
-    submitText.value = '提交完成';
+    toast.add({
+      title: data.message,
+      icon: 'i-lucide-circle-check',
+      color: 'success',
+    });
   } catch (error) {
-    alert(`Error: ${error}`);
-    console.log(error);
-    submitText.value = '提交失败';
+    toast.add({
+      title: `Error: ${error}`,
+      icon: 'i-lucide-x-circle',
+      color: 'error',
+    });
   } finally {
     submitting.value = false;
   }
@@ -197,8 +202,8 @@ async function handleSubmit(
                     name="remind"
                   />
 
-                  <UButton :disabled="submitting" type="submit">
-                    {{ submitText }}
+                  <UButton :disabled="submitting" :loading="submitting" type="submit">
+                    提交
                   </UButton>
                 </UForm>
               </UCard>
