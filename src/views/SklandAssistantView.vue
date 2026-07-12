@@ -99,15 +99,6 @@ async function handleSubmit(
       />
 
       <UPageBody class="space-y-8">
-        <!-- 这是什么 -->
-        <section>
-          <h2 class="mbe-4 text-2xl font-bold">这是什么</h2>
-          <p>
-            这是 BioBot
-            的森空岛小助手插件，提供森空岛自动签到、干员查询、仓库查询、森空岛小秘书等各种使用功能。
-          </p>
-        </section>
-
         <!-- 如何使用 -->
         <section>
           <h2 class="mbe-4 text-2xl font-bold">如何使用</h2>
@@ -124,7 +115,7 @@ async function handleSubmit(
                   rel="noopener noreferrer"
                   target="_blank"
                   >https://www.hypergryph.com/</ULink
-                >，并登录。
+                >，并使用鹰角网络通行证登录。
               </p>
             </div>
 
@@ -218,11 +209,9 @@ async function handleSubmit(
         <!-- 为什么我要填联系方式 -->
         <section>
           <h2 class="mbe-4 text-2xl font-bold">为什么我要填联系方式</h2>
-          <p>
-            填写邮箱是为了在签到成功或失败之后给您发送邮件提醒。<br />
-            填写QQ号是为了使您有办法停用自动签到或者删除 token。<br />
-            请您务必填写真实准确的联系方式，否则您没有办法停用自动签到！
-          </p>
+          <p>填写邮箱是为了在签到成功或失败之后给您发送邮件提醒。</p>
+          <p>填写 QQ 号是为了使您有办法停用自动签到或者删除 token。</p>
+          <p>请您务必填写真实准确的联系方式，否则您没有办法停用自动签到！</p>
         </section>
 
         <!-- 致谢 -->
