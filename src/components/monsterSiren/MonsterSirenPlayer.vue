@@ -46,7 +46,12 @@ const isPlaylistOpen = defineModel<boolean>('isPlaylistOpen');
 </script>
 
 <template>
-  <Transition name="player-slide">
+  <Transition
+    enter-active-class="transition-[translate,opacity] duration-300 ease-out"
+    enter-from-class="translate-y-full opacity-0"
+    leave-active-class="transition-[translate,opacity] duration-300 ease-in"
+    leave-to-class="translate-y-full opacity-0"
+  >
     <div
       v-if="props.playerSong"
       class="fixed bottom-0 left-0 z-70 w-full border-t border-t-default bg-default/95 shadow-2xl backdrop-blur-md"
@@ -262,18 +267,3 @@ const isPlaylistOpen = defineModel<boolean>('isPlaylistOpen');
     </div>
   </Transition>
 </template>
-
-<style scoped>
-.player-slide-enter-active,
-.player-slide-leave-active {
-  transition:
-    transform 0.3s ease,
-    opacity 0.3s ease;
-}
-
-.player-slide-enter-from,
-.player-slide-leave-to {
-  opacity: 0;
-  transform: translateY(100%);
-}
-</style>
