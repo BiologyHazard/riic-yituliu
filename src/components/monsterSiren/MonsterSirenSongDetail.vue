@@ -115,7 +115,16 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="flex h-full flex-1 flex-row items-center overflow-hidden">
+  <div class="relative flex h-full flex-1 flex-row items-center overflow-hidden">
+    <div class="absolute inset-e-4 inset-bs-4">
+      <UButton
+        class="rounded-full"
+        icon="i-lucide-x"
+        size="lg"
+        variant="ghost"
+        @click="emit('back')"
+      />
+    </div>
     <!-- Left Side: Cover & Info -->
     <div class="flex flex-1 flex-col items-center justify-center p-8 text-center">
       <div
@@ -134,10 +143,7 @@ onUnmounted(() => {
       </div>
 
       <div class="space-y-2">
-        <div class="flex items-center justify-center gap-2">
-          <UButton icon="i-lucide-arrow-left" size="sm" variant="ghost" @click="emit('back')" />
-          <h1 class="text-4xl font-bold text-highlighted">{{ song.name }}</h1>
-        </div>
+        <h1 class="text-4xl font-bold text-highlighted">{{ song.name }}</h1>
         <p class="text-xl text-toned">{{ song.artists.join(' / ') }}</p>
         <p v-if="album" class="text-sm text-muted">{{ album.name }}</p>
       </div>

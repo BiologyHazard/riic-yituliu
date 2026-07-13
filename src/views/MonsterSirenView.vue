@@ -191,7 +191,7 @@ onMounted(loadData);
 
   <div
     v-if="selectedSongCid !== null && songMap.has(selectedSongCid)"
-    class="fixed inset-0 z-60 flex flex-col overflow-hidden bg-default pt-16"
+    class="fixed inset-0 z-60 bg-default/95 backdrop-blur-md"
   >
     <MonsterSirenSongDetail
       :album="albumMap.get(songMap.get(selectedSongCid)!.albumCid) ?? null"
