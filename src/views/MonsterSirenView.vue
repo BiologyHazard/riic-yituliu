@@ -287,44 +287,46 @@ onMounted(loadData);
             </div>
           </div>
 
-          <template v-if="viewTab === 'musics'">
-            <MonsterSirenSongsTab
-              :album-map
-              :filtered-songs
-              :is-current-song
-              :is-playing
-              :loading-detail-cids
-              :search-query
-              :song-view-mode
-              @download-song="downloadSong"
-              @play-song="playSong"
-              @preview-cover="previewCover"
-            />
-          </template>
+          <KeepAlive>
+            <template v-if="viewTab === 'musics'">
+              <MonsterSirenSongsTab
+                :album-map
+                :filtered-songs
+                :is-current-song
+                :is-playing
+                :loading-detail-cids
+                :search-query
+                :song-view-mode
+                @download-song="downloadSong"
+                @play-song="playSong"
+                @preview-cover="previewCover"
+              />
+            </template>
 
-          <template v-else>
-            <MonsterSirenAlbumsTab
-              v-bind="{
-                albums,
-                songs,
-                selectedAlbumCid,
-                selectedAlbum: selectedAlbum ?? null,
-                selectedAlbumSongs,
-                currentAlbumDetail,
-                isLoadingAlbumDetail,
-                albumSongCount,
-                albumMap,
-                isPlaying,
-                loadingDetailCids,
-                isCurrentSong,
-              }"
-              @back-to-albums="selectedAlbumCid = null"
-              @download-song="downloadSong"
-              @open-album-detail="(cid: string) => (selectedAlbumCid = cid)"
-              @play-song="playSong"
-              @preview-cover="previewCover"
-            />
-          </template>
+            <template v-else>
+              <MonsterSirenAlbumsTab
+                v-bind="{
+                  albums,
+                  songs,
+                  selectedAlbumCid,
+                  selectedAlbum: selectedAlbum ?? null,
+                  selectedAlbumSongs,
+                  currentAlbumDetail,
+                  isLoadingAlbumDetail,
+                  albumSongCount,
+                  albumMap,
+                  isPlaying,
+                  loadingDetailCids,
+                  isCurrentSong,
+                }"
+                @back-to-albums="selectedAlbumCid = null"
+                @download-song="downloadSong"
+                @open-album-detail="(cid: string) => (selectedAlbumCid = cid)"
+                @play-song="playSong"
+                @preview-cover="previewCover"
+              />
+            </template>
+          </KeepAlive>
         </div>
       </UPageBody>
     </UPage>

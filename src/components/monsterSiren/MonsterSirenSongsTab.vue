@@ -31,15 +31,17 @@ const emit = defineEmits<{
     </span>
   </p>
 
-  <component
-    :is="props.songViewMode === 'list' ? MonsterSirenSongList : MonsterSirenSongGrid"
-    :album-map="props.albumMap"
-    :is-current-song="props.isCurrentSong"
-    :is-playing="props.isPlaying"
-    :loading-detail-cids="props.loadingDetailCids"
-    :songs="props.filteredSongs"
-    @download-song="(song) => emit('downloadSong', song)"
-    @play-song="(song, playlist, index) => emit('playSong', song, playlist, index)"
-    @preview-cover="(url, name) => emit('previewCover', url, name)"
-  />
+  <KeepAlive>
+    <component
+      :is="props.songViewMode === 'list' ? MonsterSirenSongList : MonsterSirenSongGrid"
+      :album-map="props.albumMap"
+      :is-current-song="props.isCurrentSong"
+      :is-playing="props.isPlaying"
+      :loading-detail-cids="props.loadingDetailCids"
+      :songs="props.filteredSongs"
+      @download-song="(song) => emit('downloadSong', song)"
+      @play-song="(song, playlist, index) => emit('playSong', song, playlist, index)"
+      @preview-cover="(url, name) => emit('previewCover', url, name)"
+    />
+  </KeepAlive>
 </template>
