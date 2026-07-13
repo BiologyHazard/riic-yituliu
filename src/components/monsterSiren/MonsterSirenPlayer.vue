@@ -65,7 +65,7 @@ const isPlaylistOpen = defineModel<boolean>('isPlaylistOpen');
         />
         <input
           class="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-          :max="props.audioDuration || 100"
+          :max="props.audioDuration"
           min="0"
           step="1"
           type="range"
