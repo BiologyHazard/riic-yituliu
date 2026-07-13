@@ -56,9 +56,7 @@ const isPlaylistOpen = defineModel<boolean>('isPlaylistOpen');
       v-if="props.playerSong"
       class="fixed bottom-0 left-0 z-70 w-full border-t border-t-default bg-default/95 shadow-2xl backdrop-blur-md"
     >
-      <div
-        class="group/progress relative h-1 w-full bg-gray-200 transition-all hover:h-1.5 dark:bg-gray-700"
-      >
+      <div class="relative h-1 w-full bg-accented transition-all hover:scale-y-150">
         <div
           class="h-full bg-primary transition-all duration-100"
           :style="{ width: `${props.progressPercent}%` }"
