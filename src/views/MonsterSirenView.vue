@@ -204,7 +204,7 @@ onMounted(loadData);
     />
   </div>
 
-  <UContainer v-else :class="{ 'pb-28': playerSong }">
+  <UContainer :class="{ 'pb-28': playerSong }">
     <UPage>
       <UPageHeader description="试听与下载塞壬唱片官网音乐" title="塞壬唱片">
         <template #headline>
