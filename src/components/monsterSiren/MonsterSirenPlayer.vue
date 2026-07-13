@@ -28,7 +28,6 @@ const props = defineProps<{
 const emit = defineEmits<{
   previewImage: [target: PreviewTarget];
   seekAudio: [event: InputEvent];
-  openSongDetail: [song: Song];
   togglePlayMode: [];
   playPrev: [];
   togglePlay: [];
@@ -43,6 +42,15 @@ const emit = defineEmits<{
 }>();
 
 const isPlaylistOpen = defineModel<boolean>('isPlaylistOpen');
+const selectedSongCid = defineModel<string | null>('selectedSongCid');
+
+function toggleSongDetail() {
+  if (selectedSongCid.value) {
+    selectedSongCid.value = null;
+  } else {
+    selectedSongCid.value = props.playerSong?.cid ?? null;
+  }
+}
 </script>
 
 <template>
@@ -76,7 +84,7 @@ const isPlaylistOpen = defineModel<boolean>('isPlaylistOpen');
         <div class="h-10 w-10 shrink-0 overflow-hidden rounded-lg shadow sm:h-12 sm:w-12">
           <div
             class="group/image-preview relative cursor-pointer overflow-hidden"
-            @click="emit('openSongDetail', props.playerSong)"
+            @click="toggleSongDetail"
           >
             <div
               class="h-full w-full transition-all group-hover/image-preview:scale-105 group-hover/image-preview:blur-[2px] group-hover/image-preview:brightness-50"
@@ -99,17 +107,17 @@ const isPlaylistOpen = defineModel<boolean>('isPlaylistOpen');
               class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover/image-preview:opacity-100"
             >
               <UIcon
-                class="dark size-1/5 min-h-4 min-w-4 text-default"
+                class="dark size-1/5 min-h-4 min-w-4 text-default transition-transform duration-200"
+                :class="{
+                  'rotate-180': selectedSongCid,
+                }"
                 name="i-lucide-chevron-up"
               />
             </div>
           </div>
         </div>
 
-        <div
-          class="min-w-0 flex-1 cursor-pointer"
-          @click="emit('openSongDetail', props.playerSong)"
-        >
+        <div class="min-w-0 flex-1 cursor-pointer" @click="toggleSongDetail">
           <div class="flex items-center gap-1.5 sm:gap-2">
             <p class="truncate text-xs font-semibold text-highlighted sm:text-sm">
               {{ props.playerSong.name }}

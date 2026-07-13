@@ -12,8 +12,6 @@ import { useRoute, useRouter } from 'vue-router';
 const route = useRoute();
 const router = useRouter();
 
-const isSongDetailOpen = ref(false);
-
 const audioRef = useTemplateRef('audioRef');
 const {
   isLoading,
@@ -172,11 +170,10 @@ onMounted(loadData);
       formatTime,
     }"
     v-model:is-playlist-open="isPlaylistOpen"
-    v-model:is-song-detail-open="isSongDetailOpen"
+    v-model:selected-song-cid="selectedSongCid"
     @clear-playlist="clearPlaylist"
     @close-player="closePlayer"
     @download-song="downloadSong"
-    @open-song-detail="(song) => (selectedSongCid = song.cid)"
     @play-next="playNext"
     @play-prev="playPrev"
     @play-song="playSong"
