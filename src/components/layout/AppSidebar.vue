@@ -190,8 +190,8 @@ const itemsCollapsed = computed<NavigationMenuItem[]>(() => flattenNavigationIte
       orientation="vertical"
       :tooltip="true"
       :ui="{
-        link: 'p-1.5 text-toned',
-        linkLeadingIcon: 'text-toned',
+        link: 'p-1.5 text-toned data-active:text-primary',
+        linkLeadingIcon: 'text-toned group-data-active:text-primary',
       }"
       variant="pill"
     />
