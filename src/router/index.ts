@@ -145,12 +145,4 @@ const router = createRouter({
   ],
 });
 
-router.afterEach((to) => {
-  if (to.meta.title) {
-    document.title = `${to.meta.title} - 明日方舟基建一图流`;
-  } else {
-    document.title = '明日方舟基建一图流';
-  }
-});
-
 export default router;

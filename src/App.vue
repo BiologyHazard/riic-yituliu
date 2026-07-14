@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useHeaderTitle } from '@/composables/useHeaderTitle';
 import { useTheme } from '@/composables/useTheme';
 import { currentGameDataBaseUrl } from '@/utils/dataSources';
 import { loadGameData } from '@/utils/gameData/gameData';
@@ -6,12 +7,21 @@ import { loadPenguinData } from '@/utils/penguinStats';
 import { zh_cn } from '@nuxt/ui/locale';
 import { useHead } from '@unhead/vue';
 import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+const { style, link } = useTheme();
 
 const collapsed = ref(false);
 const open = ref(false);
 
-const { style, link } = useTheme();
-useHead({ style, link });
+useHead({
+  style,
+  link,
+  title: () => route.meta.title as string | undefined,
+  titleTemplate: '%s - 明日方舟基建一图流',
+});
+useHeaderTitle(() => route.meta.title as string | undefined);
 
 // 在根组件挂载后通过非阻塞方式加载数据
 onMounted(() => {

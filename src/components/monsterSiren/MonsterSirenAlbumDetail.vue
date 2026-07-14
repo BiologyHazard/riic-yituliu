@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { useHeaderTitle } from '@/composables/useHeaderTitle';
 import type { Album, AlbumDetail, Song } from '@/types/monsterSiren';
+import { useHead } from '@unhead/vue';
 
 const props = defineProps<{
   album: Album;
@@ -19,6 +21,9 @@ const emit = defineEmits<{
   downloadSong: [song: Song];
   previewCover: [url: string, name: string];
 }>();
+
+useHead({ title: () => `${props.album.name} - 专辑详情 - 塞壬唱片` });
+useHeaderTitle(() => `${props.album.name} - 专辑详情 - 塞壬唱片`);
 </script>
 
 <template>

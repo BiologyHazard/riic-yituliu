@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { useHeaderTitle } from '@/composables/useHeaderTitle';
 import type { Album, Song, SongDetail } from '@/types/monsterSiren';
 import { getResizedCoverUrl } from '@/utils/aliyunOss';
+import { useHead } from '@unhead/vue';
 import { computed, onUnmounted, ref, watch } from 'vue';
 
 const props = defineProps<{
@@ -15,6 +17,9 @@ const emit = defineEmits<{
   back: [];
   seek: [time: number];
 }>();
+
+useHead({ title: () => `${props.song.name} - 乐曲详情 - 塞壬唱片` });
+useHeaderTitle(() => `${props.song.name} - 乐曲详情 - 塞壬唱片`);
 
 // ─── 歌词处理 ───────────────────────────────────────────────────────────────────
 interface LyricLine {

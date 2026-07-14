@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import { useHeaderTitle } from '@/composables/useHeaderTitle';
 import { currentGameDataBaseUrl } from '@/utils/dataSources';
 import { gameDataError, isGameDataLoading, loadGameData } from '@/utils/gameData/gameData';
 import { isPenguinDataLoading, loadPenguinData, penguinDataError } from '@/utils/penguinStats';
-import { useRoute } from 'vue-router';
 
 const open = defineModel<boolean>('open', { default: false });
 
-const route = useRoute();
+const headerTitle = useHeaderTitle();
 </script>
 
 <template>
@@ -20,7 +20,9 @@ const route = useRoute();
         @click="void (open = !open)"
       />
       <UDashboardSidebarCollapse class="max-lg:hidden" />
-      <div class="text-lg font-semibold">{{ route.meta.title || '明日方舟基建一图流' }}</div>
+      <div class="text-lg font-semibold">
+        {{ headerTitle ?? '明日方舟基建一图流' }}
+      </div>
     </template>
 
     <template #right>
