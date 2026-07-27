@@ -32,6 +32,15 @@ onMounted(() => {
 
 <template>
   <Suspense>
+    <template #fallback>
+      <div
+        class="flex min-h-screen flex-col items-center justify-center gap-4 bg-neutral-50 dark:bg-neutral-950"
+      >
+        <UIcon class="size-12 animate-spin text-primary" name="i-lucide-loader-circle" />
+        <p class="text-sm text-muted">加载中...</p>
+      </div>
+    </template>
+
     <UApp :locale="zh_cn">
       <UDashboardGroup class="bg-neutral-50 dark:bg-neutral-950" unit="rem">
         <AppSidebar v-model:collapsed="collapsed" v-model:open="open" />

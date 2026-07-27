@@ -12,6 +12,7 @@ import RiicMapView from '@/views/RiicMapView.vue';
 import RiicView from '@/views/RiicView.vue';
 import SklandAssistantView from '@/views/SklandAssistantView.vue';
 import StageList from '@/views/StageList.vue';
+import StudioAvatarView from '@/views/StudioAvatarView.vue';
 import TierMakerView from '@/views/TierMakerView.vue';
 import TierMakerView2 from '@/views/TierMakerView2.vue';
 import { createRouter, createWebHistory } from 'vue-router';
@@ -141,6 +142,12 @@ const router = createRouter({
       name: 'tier-maker2',
       component: TierMakerView2,
       meta: { title: '干员分Tier2' },
+    },
+    {
+      path: '/studio-avatar',
+      name: 'studio-avatar',
+      component: StudioAvatarView,
+      meta: { title: '工作室头像生成器' },
     },
   ],
 });
