@@ -94,11 +94,6 @@ const itemsExpanded: NavigationMenuItem[] = [
             to: '/monster-siren',
           },
           {
-            label: '工作室头像生成器',
-            icon: 'i-lucide-image',
-            to: '/studio-avatar',
-          },
-          {
             label: '明日方舟一图流',
             icon: 'i-mdi-numeric-1-box-outline',
             to: 'https://ark.yituliu.cn/',
@@ -125,6 +120,11 @@ const itemsExpanded: NavigationMenuItem[] = [
         target: '_blank',
       },
     ],
+  },
+  {
+    label: '工作室头像生成器',
+    icon: 'i-lucide-image',
+    to: '/studio-avatar',
   },
   {
     label: 'BioBot 森空岛小助手',

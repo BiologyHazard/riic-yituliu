@@ -163,169 +163,172 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="mx-auto max-w-screen-lg p-6">
-    <h1 class="mb-6 text-2xl font-bold">工作室头像生成器</h1>
+  <UContainer>
+    <UPage>
+      <UPageHeader title="工作室头像生成器" />
 
-    <div class="flex flex-col gap-8 lg:flex-row lg:items-start">
-      <!-- 左侧：预览区 -->
-      <div class="flex shrink-0 flex-col items-center gap-4">
-        <div class="overflow-hidden rounded-2xl shadow-lg ring-1 ring-default">
-          <canvas
-            ref="canvasRef"
-            class="block h-auto w-[280px] sm:w-[360px] lg:w-[400px]"
-            :height="CANVAS_BASE_SIZE"
-            :width="CANVAS_BASE_SIZE"
-          />
-        </div>
+      <UPageBody>
+        <div class="flex flex-col gap-8 lg:flex-row lg:items-start">
+          <!-- 左侧：预览区 -->
+          <div class="flex shrink-0 flex-col items-center gap-4">
+            <div class="overflow-hidden rounded-2xl shadow-lg ring-1 ring-default">
+              <canvas
+                ref="canvasRef"
+                class="block h-auto w-[280px] sm:w-[360px] lg:w-[400px]"
+                :height="CANVAS_BASE_SIZE"
+                :width="CANVAS_BASE_SIZE"
+              />
+            </div>
 
-        <div class="flex w-full items-stretch gap-0">
-          <UButton
-            class="flex-1 rounded-se-none rounded-ee-none"
-            :disabled="isExporting"
-            icon="i-lucide-download"
-            size="lg"
-            @click="exportImage"
-          >
-            保存图片
-          </UButton>
-          <UPopover
-            :content="{
-              align: 'center',
-              side: 'bottom',
-              sideOffset: 8,
-            }"
-          >
-            <UButton
-              class="rounded-ss-none rounded-es-none"
-              color="neutral"
-              :disabled="isExporting"
-              icon="i-lucide-settings-2"
-              size="lg"
-              title="调整导出格式、质量和大小"
-              variant="subtle"
-            />
+            <UFieldGroup class="w-full">
+              <UButton
+                class="flex-1 justify-center"
+                :disabled="isExporting"
+                icon="i-lucide-download"
+                size="lg"
+                variant="subtle"
+                @click="exportImage"
+              >
+                保存图片
+              </UButton>
+              <UPopover
+                :content="{
+                  align: 'center',
+                  side: 'bottom',
+                  sideOffset: 8,
+                }"
+              >
+                <UButton
+                  :disabled="isExporting"
+                  icon="i-lucide-settings-2"
+                  size="lg"
+                  title="调整导出格式、质量和大小"
+                  variant="subtle"
+                />
 
-            <template #content>
-              <div class="flex flex-col gap-4 p-4" style="min-width: 240px">
-                <!-- 导出格式 -->
-                <UFormField label="导出格式">
-                  <UTabs
-                    v-model="exportFormat"
-                    color="neutral"
-                    :content="false"
-                    :items="[
-                      { label: 'PNG', value: 'png' },
-                      { label: 'WebP', value: 'webp' },
-                      { label: 'JPEG', value: 'jpeg' },
-                      { label: 'SVG', value: 'svg' },
-                    ]"
-                    :ui="{ list: 'ring ring-accented ring-inset' }"
-                    variant="pill"
-                  />
-                </UFormField>
+                <template #content>
+                  <div class="flex flex-col gap-4 p-4" style="min-width: 240px">
+                    <!-- 导出格式 -->
+                    <UFormField label="导出格式">
+                      <UTabs
+                        v-model="exportFormat"
+                        color="neutral"
+                        :content="false"
+                        :items="[
+                          { label: 'PNG', value: 'png' },
+                          { label: 'WebP', value: 'webp' },
+                          { label: 'JPEG', value: 'jpeg' },
+                          { label: 'SVG', value: 'svg' },
+                        ]"
+                        :ui="{ list: 'ring ring-accented ring-inset' }"
+                        variant="pill"
+                      />
+                    </UFormField>
 
-                <!-- 图片质量 -->
-                <UFormField :hint="`${exportQuality}%`" label="图片质量">
-                  <USlider
-                    v-model="exportQuality"
-                    :disabled="!isQualityEnabled"
-                    :max="100"
-                    :min="1"
-                    :step="1"
-                    tooltip
-                  />
-                </UFormField>
+                    <!-- 图片质量 -->
+                    <UFormField :hint="`${exportQuality}%`" label="图片质量">
+                      <USlider
+                        v-model="exportQuality"
+                        :disabled="!isQualityEnabled"
+                        :max="100"
+                        :min="1"
+                        :step="1"
+                        tooltip
+                      />
+                    </UFormField>
 
-                <!-- 图片大小 -->
-                <UFormField label="图片大小">
-                  <UTabs
-                    v-model="exportPixelRatio"
-                    color="neutral"
-                    :content="false"
-                    :items="[
-                      { label: '0.5x', value: 0.5 },
-                      { label: '1x', value: 1 },
-                      { label: '2x', value: 2 },
-                      { label: '3x', value: 3 },
-                      { label: '4x', value: 4 },
-                    ]"
-                    :ui="{ list: 'ring ring-accented ring-inset' }"
-                    variant="pill"
-                  />
-                </UFormField>
+                    <!-- 图片大小 -->
+                    <UFormField label="图片大小">
+                      <UTabs
+                        v-model="exportPixelRatio"
+                        color="neutral"
+                        :content="false"
+                        :items="[
+                          { label: '0.5x', value: 0.5 },
+                          { label: '1x', value: 1 },
+                          { label: '2x', value: 2 },
+                          { label: '3x', value: 3 },
+                          { label: '4x', value: 4 },
+                        ]"
+                        :ui="{ list: 'ring ring-accented ring-inset' }"
+                        variant="pill"
+                      />
+                    </UFormField>
+                  </div>
+                </template>
+              </UPopover>
+            </UFieldGroup>
+          </div>
+
+          <!-- 右侧：控制面板 -->
+          <div class="flex min-w-0 flex-1 flex-col gap-6">
+            <!-- 数字 -->
+            <div class="flex flex-col gap-2">
+              <label class="text-sm font-medium text-toned">数字</label>
+              <UInputNumber v-model="number" class="w-full" :max="99" :min="0" size="lg" />
+            </div>
+
+            <!-- 背景颜色 -->
+            <div class="flex flex-col gap-2">
+              <label class="text-sm font-medium text-toned">背景颜色</label>
+              <div class="flex flex-wrap gap-2">
+                <button
+                  v-for="color in bgPresets"
+                  :key="color"
+                  class="size-9 cursor-pointer rounded-full ring-1 ring-default transition-transform hover:scale-110"
+                  :class="{ 'scale-110 ring-2! ring-primary': bgColor === color }"
+                  :style="{ backgroundColor: color }"
+                  :title="color"
+                  type="button"
+                  @click="bgColor = color"
+                />
+                <!-- 自定义颜色 -->
+                <label
+                  class="size-9 cursor-pointer rounded-full ring-1 ring-default transition-transform hover:scale-110"
+                  :class="{ 'scale-110 ring-2! ring-primary': !bgPresets.includes(bgColor) }"
+                  title="自定义颜色"
+                >
+                  <span
+                    class="flex size-full items-center justify-center rounded-full bg-muted text-toned"
+                  >
+                    <UIcon class="size-4" name="i-lucide-pipette" />
+                  </span>
+                  <input v-model="bgColor" class="sr-only" type="color" />
+                </label>
               </div>
-            </template>
-          </UPopover>
-        </div>
-      </div>
+            </div>
 
-      <!-- 右侧：控制面板 -->
-      <div class="flex min-w-0 flex-1 flex-col gap-6">
-        <!-- 数字 -->
-        <div class="flex flex-col gap-2">
-          <label class="text-sm font-medium text-toned">数字</label>
-          <UInputNumber v-model="number" class="w-full" :max="99" :min="0" size="lg" />
-        </div>
-
-        <!-- 背景颜色 -->
-        <div class="flex flex-col gap-2">
-          <label class="text-sm font-medium text-toned">背景颜色</label>
-          <div class="flex flex-wrap gap-2">
-            <button
-              v-for="color in bgPresets"
-              :key="color"
-              class="size-9 cursor-pointer rounded-full ring-1 ring-default transition-transform hover:scale-110"
-              :class="{ 'scale-110 ring-2! ring-primary': bgColor === color }"
-              :style="{ backgroundColor: color }"
-              :title="color"
-              type="button"
-              @click="bgColor = color"
-            />
-            <!-- 自定义颜色 -->
-            <label
-              class="size-9 cursor-pointer rounded-full ring-1 ring-default transition-transform hover:scale-110"
-              :class="{ 'scale-110 ring-2! ring-primary': !bgPresets.includes(bgColor) }"
-              title="自定义颜色"
-            >
-              <span
-                class="flex size-full items-center justify-center rounded-full bg-muted text-toned"
-              >
-                <UIcon class="size-4" name="i-lucide-pipette" />
-              </span>
-              <input v-model="bgColor" class="sr-only" type="color" />
-            </label>
+            <!-- 数字颜色 -->
+            <div class="flex flex-col gap-2">
+              <label class="text-sm font-medium text-toned">数字颜色</label>
+              <div class="flex flex-wrap gap-2">
+                <button
+                  v-for="color in textPresets"
+                  :key="color"
+                  class="size-9 cursor-pointer rounded-full ring-1 ring-default transition-transform hover:scale-110"
+                  :class="{ 'scale-110 ring-2! ring-primary': textColor === color }"
+                  :style="{ backgroundColor: color }"
+                  :title="color"
+                  type="button"
+                  @click="textColor = color"
+                />
+                <label
+                  class="size-9 cursor-pointer rounded-full ring-1 ring-default transition-transform hover:scale-110"
+                  :class="{ 'scale-110 ring-2! ring-primary': !textPresets.includes(textColor) }"
+                  title="自定义颜色"
+                >
+                  <span
+                    class="flex size-full items-center justify-center rounded-full bg-muted text-toned"
+                  >
+                    <UIcon class="size-4" name="i-lucide-pipette" />
+                  </span>
+                  <input v-model="textColor" class="sr-only" type="color" />
+                </label>
+              </div>
+            </div>
           </div>
         </div>
-
-        <!-- 数字颜色 -->
-        <div class="flex flex-col gap-2">
-          <label class="text-sm font-medium text-toned">数字颜色</label>
-          <div class="flex flex-wrap gap-2">
-            <button
-              v-for="color in textPresets"
-              :key="color"
-              class="size-9 cursor-pointer rounded-full ring-1 ring-default transition-transform hover:scale-110"
-              :class="{ 'scale-110 ring-2! ring-primary': textColor === color }"
-              :style="{ backgroundColor: color }"
-              :title="color"
-              type="button"
-              @click="textColor = color"
-            />
-            <label
-              class="size-9 cursor-pointer rounded-full ring-1 ring-default transition-transform hover:scale-110"
-              :class="{ 'scale-110 ring-2! ring-primary': !textPresets.includes(textColor) }"
-              title="自定义颜色"
-            >
-              <span
-                class="flex size-full items-center justify-center rounded-full bg-muted text-toned"
-              >
-                <UIcon class="size-4" name="i-lucide-pipette" />
-              </span>
-              <input v-model="textColor" class="sr-only" type="color" />
-            </label>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+      </UPageBody>
+    </UPage>
+  </UContainer>
 </template>
