@@ -75,7 +75,8 @@ watch([props, operatorNameElement], () => {
 
 <template>
   <div class="showcase-container">
-    <div class="black-rect" />
+    <div class="background" data-ignore-export />
+    <div class="black-rect" data-ignore-export />
     <div v-if="buildingCharDataRef !== undefined" class="riic-skill">
       <template
         v-for="(buffCharItem, buffCharIndex) in buildingCharDataRef.buffChar"
@@ -136,9 +137,12 @@ watch([props, operatorNameElement], () => {
   inline-size: 1920px;
   block-size: 1080px;
   overflow: hidden;
-  background-color: lime;
+}
 
-  --rect-background-color: black;
+.background {
+  position: absolute;
+  inset: 0;
+  background-color: lime;
 }
 
 .black-rect {
@@ -147,7 +151,7 @@ watch([props, operatorNameElement], () => {
   left: 50px;
   inline-size: 919px;
   block-size: 79px;
-  background-color: var(--rect-background-color);
+  background-color: black;
 }
 
 .riic-skill {

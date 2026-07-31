@@ -5,6 +5,7 @@ import { downloadFile } from '@/utils/file';
 import { getCharIdByName } from '@/utils/gameData/character';
 import { gameData } from '@/utils/gameData/gameData';
 import { getFontEmbedCSS, toCanvas, toSvg } from 'html-to-image';
+import type { Options } from 'html-to-image/lib/types';
 import { computed, nextTick, ref, useTemplateRef } from 'vue';
 
 // ─── 输入状态 ──────────────────────────────────────────────
@@ -57,13 +58,15 @@ const isQualityEnabled = computed<boolean>(
 );
 
 const cachedFontEmbedCSS = ref<string | null>(null);
-const sharedOptions = computed(() => ({
+const sharedOptions = computed<Options>(() => ({
   cacheBust: true,
   pixelRatio: exportPixelRatio.value,
   fontEmbedCSS: cachedFontEmbedCSS.value ?? undefined,
-  style: {
-    backgroundColor: 'transparent',
-    '--rect-background-color': 'transparent',
+  filter: (node) => {
+    if (node instanceof HTMLElement && node.hasAttribute('data-ignore-export')) {
+      return false;
+    }
+    return true;
   },
 }));
 
