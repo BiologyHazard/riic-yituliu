@@ -112,8 +112,11 @@ export function parseRichTextSegments(
     } else if (tagContent.startsWith('$')) {
       // 术语标签：添加下划线
       styleStack.push({ underline: true });
+    } else {
+      // 未知标签：保留原始文本
+      const rawTag = match[0];
+      segments.push({ text: rawTag, ...mergeStyleStack(styleStack) });
     }
-    // 其他未知标签静默忽略，不产生片段
 
     lastIndex = TAG_REGEX.lastIndex;
   }
