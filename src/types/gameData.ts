@@ -40,6 +40,7 @@ export type CharacterTable = Record<string, Character>;
 
 export interface CharSkin {
   avatarId: string;
+  portraitId: string;
 }
 
 export interface CharPatchTable {

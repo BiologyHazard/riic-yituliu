@@ -4,10 +4,13 @@ import CharCostRankingView from '@/views/CharCostRankingView.vue';
 import CharItemCostView from '@/views/CharItemCostView.vue';
 import EndfieldGameBulletinView from '@/views/EndfieldGameBulletinView.vue';
 import HomeView from '@/views/HomeView.vue';
+import ImageGradientView from '@/views/ImageGradientView.vue';
 import ItemValueView from '@/views/ItemValueView.vue';
 import LinksView from '@/views/LinksView.vue';
 import MaterialInfoView from '@/views/MaterialInfoView.vue';
 import MonsterSirenView from '@/views/MonsterSirenView.vue';
+import OperatorAvatarGeneratorView from '@/views/OperatorAvatarGeneratorView.vue';
+import OperatorBaseSkillShowcaseView from '@/views/OperatorBaseSkillShowcaseView.vue';
 import RiicMapView from '@/views/RiicMapView.vue';
 import RiicView from '@/views/RiicView.vue';
 import SklandAssistantView from '@/views/SklandAssistantView.vue';
@@ -148,6 +151,24 @@ const router = createRouter({
       name: 'studio-avatar',
       component: StudioAvatarView,
       meta: { title: '工作室头像生成器' },
+    },
+    {
+      path: '/operator-avatar-generator',
+      name: 'operator-avatar-generator',
+      component: OperatorAvatarGeneratorView,
+      meta: { title: '干员头像生成器' },
+    },
+    {
+      path: '/image-gradient',
+      name: 'image-gradient',
+      component: ImageGradientView,
+      meta: { title: '图片渐变工具' },
+    },
+    {
+      path: '/operator-base-skill-showcase',
+      name: 'operator-base-skill-showcase',
+      component: OperatorBaseSkillShowcaseView,
+      meta: { title: '干员基建技能展示' },
     },
   ],
 });

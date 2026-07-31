@@ -156,11 +156,31 @@ export function getCharAvatarId(charId: string, eliteLevel: number): string {
   }
 
   // Fallback to default avatarId
-  console.warn(`干员 ${charId} 的精英化等级 ${eliteLevel} 没有对应的头像 ID，尝试使用默认头像。`);
+  console.warn(
+    `干员 ${charId} 的精英化等级 ${eliteLevel} 没有对应的头像 ID，尝试使用默认头像 ID。`,
+  );
   if (eliteLevel === 2) {
     return `${charId}_2`;
   } else {
     return charId;
+  }
+}
+
+export function getCharPortraitId(charId: string, eliteLevel: number): string {
+  const skinId = getCharSkinId(charId, eliteLevel);
+  const portraitId = gameData.value?.skinTable.charSkins[skinId]?.portraitId;
+  if (portraitId !== undefined) {
+    return portraitId;
+  }
+
+  // Fallback to default portraitId
+  console.warn(
+    `干员 ${charId} 的精英化等级 ${eliteLevel} 没有对应的半身像 ID，尝试使用默认半身像 ID。`,
+  );
+  if (eliteLevel === 2) {
+    return `${charId}_2`;
+  } else {
+    return `${charId}_1`;
   }
 }
 

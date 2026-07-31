@@ -2,7 +2,6 @@
 import type { BuffUnlockCondition } from '@/types/gameData';
 import { updateText } from '@/utils/autoFontSizing';
 import { getBaseSkillIconUrl } from '@/utils/dataSources';
-import { getCharName } from '@/utils/gameData/character';
 import { gameData } from '@/utils/gameData/gameData';
 import { computed, useTemplateRef, watch } from 'vue';
 
@@ -75,116 +74,110 @@ watch([props, operatorNameElement], () => {
 </script>
 
 <template>
-  <div v-if="buildingCharDataRef !== undefined" class="riic-skill">
-    <div>
-      <OperatorAvatar
-        :char-id="props.charId"
-        :elite-level="0"
-        :is-tired="false"
-        show-profession
-        show-rarity
-      />
-      <div class="operator-name-container">
-        <span ref="operatorNameElement" class="operator-name">{{ getCharName(props.charId) }}</span>
-      </div>
-    </div>
-    <table class="riic-skill-table">
-      <tbody>
-        <template
-          v-for="(buffCharItem, buffCharIndex) in buildingCharDataRef.buffChar"
-          :key="buffCharIndex"
+  <div class="showcase-container">
+    <div class="black-rect" />
+    <div v-if="buildingCharDataRef !== undefined" class="riic-skill">
+      <template
+        v-for="(buffCharItem, buffCharIndex) in buildingCharDataRef.buffChar"
+        :key="buffCharIndex"
+      >
+        <div
+          v-for="(buffDataItem, buffDataIndex) in buffCharItem.buffData"
+          :key="buffDataIndex"
+          class="line"
         >
-          <tr v-for="(buffDataItem, buffDataIndex) in buffCharItem.buffData" :key="buffDataIndex">
-            <td
-              v-if="buffDataIndex === 0"
-              class="td-buff-index"
-              :rowspan="buffCharItem.buffData.length"
+          <div class="skill-index-cond">
+            <div
+              class="skill-index"
               :style="{
                 color: gameData?.buildingData.buffs[buffDataItem.buffId]!.textColor,
                 backgroundColor: gameData?.buildingData.buffs[buffDataItem.buffId]!.buffColor,
               }"
             >
               {{ buffCharIndex + 1 }}
-            </td>
-            <td class="td-buff-cond">{{ getCondText(buffDataItem.cond) }}</td>
-            <td class="td-buff-name">
-              <div class="skill-icon-and-name">
-                <img
-                  :alt="gameData?.buildingData.buffs[buffDataItem.buffId]!.buffName"
-                  class="skill-icon"
-                  referrerpolicy="no-referrer"
-                  :src="
-                    getBaseSkillIconUrl(
-                      gameData?.buildingData.buffs[buffDataItem.buffId]!.skillIcon ?? '',
-                    )
-                  "
-                />
-                <span>{{ gameData?.buildingData.buffs[buffDataItem.buffId]!.buffName }}</span>
-              </div>
-            </td>
+            </div>
+            <div class="skill-cond">{{ getCondText(buffDataItem.cond) }}</div>
+          </div>
+          <div class="skill-icon-name-description">
+            <div class="skill-icon-name">
+              <img
+                :alt="gameData?.buildingData.buffs[buffDataItem.buffId]!.buffName"
+                class="skill-icon"
+                referrerpolicy="no-referrer"
+                :src="
+                  getBaseSkillIconUrl(
+                    gameData?.buildingData.buffs[buffDataItem.buffId]!.skillIcon ?? '',
+                  )
+                "
+              />
+              <span class="skill-name">{{
+                gameData?.buildingData.buffs[buffDataItem.buffId]!.buffName
+              }}</span>
+            </div>
             <!-- eslint-disable vue/no-v-html -->
-            <td
-              class="td-buff-description"
+            <p
+              class="skill-description"
               v-html="
                 parseRichTextDescription(
                   gameData?.buildingData.buffs[buffDataItem.buffId]!.description ?? '',
                 )
               "
-            ></td>
-          </tr>
-        </template>
-      </tbody>
-    </table>
+            />
+          </div>
+        </div>
+      </template>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.riic-skill {
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  align-items: center;
-  inline-size: 1700px;
-}
-
-.operator-avatar {
-  inline-size: 180px;
-  block-size: 180px;
-}
-
-.operator-name-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  inline-size: 180px;
-  block-size: 40px;
-  margin-block-start: 6px;
-  background-color: white;
-}
-
-.operator-name {
+.showcase-container {
+  position: relative;
+  inline-size: 1920px;
+  block-size: 1080px;
   overflow: hidden;
-  text-overflow: ellipsis;
-  font-family: 'HarmonyOS Sans SC', sans-serif;
-  font-weight: bold;
-  color: #333333;
-  white-space: nowrap;
+  background-color: lime;
+
+  --rect-background-color: black;
 }
 
-.riic-skill-table {
+.black-rect {
+  position: absolute;
+  top: 67px;
+  left: 50px;
+  inline-size: 919px;
+  block-size: 79px;
+  background-color: var(--rect-background-color);
+}
+
+.riic-skill {
+  position: absolute;
+  bottom: 151px;
+  left: 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  inline-size: 960px;
+  padding: 10px;
+}
+
+.line {
+  display: grid;
+  grid-template-columns: 154px 1fr;
   inline-size: 100%;
-  table-layout: fixed;
-  border-collapse: collapse;
 }
 
-.td-buff-index,
-.td-buff-cond,
-.td-buff-name,
-.td-buff-description {
-  border: 10px solid #dddddd;
+.skill-index-cond {
+  display: flex;
+  overflow: hidden;
+  border-radius: 20px;
+  corner-shape: superellipse(log(3, 2));
+  box-shadow:
+    0 10px 20px 0 rgb(0 0 0 / 12.5%),
+    0 0 16px 0 rgb(0 0 0 / 12.5%);
 }
 
-.td-buff-index {
+.skill-index {
   inline-size: 54px;
   font-family: 'Outfit', sans-serif;
   font-size: 72px;
@@ -194,9 +187,8 @@ watch([props, operatorNameElement], () => {
   text-align: center;
 }
 
-.td-buff-cond,
-.td-buff-name,
-.td-buff-description {
+.skill-cond,
+.skill-icon-name-description {
   font-family: 'HarmonyOS Sans SC', sans-serif;
   font-size: 32px;
   font-weight: 500;
@@ -206,36 +198,46 @@ watch([props, operatorNameElement], () => {
   background-color: #ffffff;
 }
 
-.td-buff-cond {
-  inline-size: 128px;
-  padding-block: 20px;
-  padding-inline: 24px;
-  text-align: center;
-}
-
-.td-buff-name {
-  inline-size: 368px;
-  padding-block: 20px;
-  padding-inline: 20px;
-  text-align: left;
-}
-
-.td-buff-description {
-  padding-block: 20px;
-  padding-inline: 24px;
-  text-align: left;
-}
-
-.skill-icon-and-name {
+.skill-cond {
   display: flex;
-  gap: 20px;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.skill-icon-name-description {
+  padding-block: 24px;
+  padding-inline: 28px;
+  margin-left: 10px;
+  text-align: left;
+  border-radius: 20px;
+  corner-shape: superellipse(log(3, 2));
+  box-shadow:
+    0 10px 20px 0 rgb(0 0 0 / 12.5%),
+    0 0 16px 0 rgb(0 0 0 / 12.5%);
+}
+
+.skill-icon-name {
+  display: flex;
+  gap: 24px;
   align-items: center;
   justify-content: flex-start;
+  margin-bottom: 20px;
 }
 
 .skill-icon {
-  inline-size: 54px;
-  block-size: 54px;
+  inline-size: 64px;
+  block-size: 64px;
   filter: drop-shadow(0 0 4px rgb(0 0 0 / 50%));
+}
+
+.skill-name {
+  font-family: 'HarmonyOS Sans SC', sans-serif;
+  font-size: 36px;
+  font-weight: bold;
+  line-height: 1;
+  color: black;
+  letter-spacing: -0.02em;
 }
 </style>

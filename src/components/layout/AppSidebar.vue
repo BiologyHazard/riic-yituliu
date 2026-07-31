@@ -33,6 +33,16 @@ const itemsExpanded: NavigationMenuItem[] = [
             to: '/base-skill',
           },
           {
+            label: '干员基建技能展示',
+            icon: 'i-lucide-presentation',
+            to: '/operator-base-skill-showcase',
+          },
+          {
+            label: '干员头像生成器',
+            icon: 'i-lucide-user-round-pen',
+            to: '/operator-avatar-generator',
+          },
+          {
             label: '基建地图',
             icon: 'i-lucide-map',
             to: '/riic-map',
@@ -125,6 +135,11 @@ const itemsExpanded: NavigationMenuItem[] = [
     label: '工作室头像生成器',
     icon: 'i-lucide-image',
     to: '/studio-avatar',
+  },
+  {
+    label: '图片渐变工具',
+    icon: 'i-lucide-blend',
+    to: '/image-gradient',
   },
   {
     label: 'BioBot 森空岛小助手',

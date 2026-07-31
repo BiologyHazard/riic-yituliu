@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import {
+  artSources,
   avatarSources,
   baseSkillIconSources,
+  currentArtSource,
+  currentArtSourceId,
   currentAvatarSource,
   currentAvatarSourceId,
   currentBaseSkillIconSource,
@@ -52,6 +55,13 @@ const commonSelectProps = {
                 v-bind="commonSelectProps"
               />
             </UFormField>
+            <UFormField label="干员立绘源">
+              <USelect
+                v-model="currentArtSourceId"
+                :items="artSources"
+                v-bind="commonSelectProps"
+              />
+            </UFormField>
             <UFormField label="基建技能图标源">
               <USelect
                 v-model="currentBaseSkillIconSourceId"
@@ -70,6 +80,7 @@ const commonSelectProps = {
               v-if="
                 currentGameDataSource.isGithub ||
                 currentAvatarSource.isGithub ||
+                currentArtSource.isGithub ||
                 currentItemIconSource.isGithub ||
                 currentBaseSkillIconSource.isGithub
               "
