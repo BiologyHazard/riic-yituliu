@@ -37,6 +37,7 @@ declare module 'vue' {
     OperatorAvatar: typeof import('./src/components/riic/OperatorAvatar.vue')['default']
     OperatorBaseSkillShowcase: typeof import('./src/components/riic/OperatorBaseSkillShowcase.vue')['default']
     OperatorCard: typeof import('./src/components/riic/OperatorCard.vue')['default']
+    RichTextDescription: typeof import('./src/components/riic/RichTextDescription.vue')['default']
     RiicSchedule: typeof import('./src/components/riic/RiicSchedule.vue')['default']
     RiicStation: typeof import('./src/components/riic/RiicStation.vue')['default']
     RiicYituliuDecoration: typeof import('./src/components/icons/RiicYituliuDecoration.vue')['default']

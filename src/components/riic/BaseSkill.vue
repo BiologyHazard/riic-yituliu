@@ -4,6 +4,7 @@ import { updateText } from '@/utils/autoFontSizing';
 import { getBaseSkillIconUrl } from '@/utils/dataSources';
 import { getCharName } from '@/utils/gameData/character';
 import { gameData } from '@/utils/gameData/gameData';
+import { parseRichTextSegments } from '@/utils/richText';
 import { computed, useTemplateRef, watch } from 'vue';
 
 const props = defineProps<{ charId: string }>();
@@ -19,52 +20,6 @@ function getCondText({ phase, level }: BuffUnlockCondition): string {
   } else {
     return `精${eliteLevel}`;
   }
-}
-
-/**
- * 解析富文本描述，将标签转换为带样式的 HTML
- * @param description 富文本描述字符串
- * @returns 解析后的 HTML 字符串
- */
-function parseRichTextDescription(description: string): string {
-  let result = description;
-
-  // 解析所有标签
-  result = result.replace(/<([^>]+)>/g, (match, content) => {
-    // 结束标签
-    if (content === '/') {
-      return '</span>';
-    }
-
-    // 开始标签
-    const isStyleTag = content.startsWith('@');
-    const isTermTag = content.startsWith('$');
-
-    if (isStyleTag) {
-      const styleKey = content.substring(1);
-      const styleTemplate = gameData.value?.gameDataConst.richTextStyles[styleKey];
-
-      if (styleTemplate) {
-        // 提取颜色值
-        const colorMatch = styleTemplate.match(/<color=(#[0-9A-Fa-f]{6})>/);
-        if (colorMatch) {
-          return `<span style="color: ${colorMatch[1]}">`;
-        }
-        // 处理斜体
-        if (styleTemplate.includes('<i>')) {
-          return '<span style="font-style: italic">';
-        }
-      }
-      return '<span>';
-    } else if (isTermTag) {
-      // 术语标签 - 添加下划线
-      return '<span style="text-decoration: underline; text-underline-position: under">';
-    }
-
-    return '';
-  });
-
-  return result;
 }
 
 watch([props, operatorNameElement], () => {
@@ -122,15 +77,16 @@ watch([props, operatorNameElement], () => {
                 <span>{{ gameData?.buildingData.buffs[buffDataItem.buffId]!.buffName }}</span>
               </div>
             </td>
-            <!-- eslint-disable vue/no-v-html -->
-            <td
-              class="td-buff-description"
-              v-html="
-                parseRichTextDescription(
-                  gameData?.buildingData.buffs[buffDataItem.buffId]!.description ?? '',
-                )
-              "
-            ></td>
+            <td class="td-buff-description">
+              <RichTextDescription
+                :segments="
+                  parseRichTextSegments(
+                    gameData?.buildingData.buffs[buffDataItem.buffId]!.description ?? '',
+                    gameData?.gameDataConst.richTextStyles ?? {},
+                  )
+                "
+              />
+            </td>
           </tr>
         </template>
       </tbody>
