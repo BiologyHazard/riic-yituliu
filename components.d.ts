@@ -17,6 +17,7 @@ declare module 'vue' {
     AppSidebar: typeof import('./src/components/layout/AppSidebar.vue')['default']
     BaseSkill: typeof import('./src/components/riic/BaseSkill.vue')['default']
     BioHazard: typeof import('./src/components/icons/BioHazard.vue')['default']
+    ExportSettingsPopover: typeof import('./src/components/riic/ExportSettingsPopover.vue')['default']
     ImagePreviewContainer: typeof import('./src/components/image-preview/ImagePreviewContainer.vue')['default']
     ImagePreviewHelpMenu: typeof import('./src/components/image-preview/ImagePreviewHelpMenu.vue')['default']
     ItemWithCount: typeof import('./src/components/riic/ItemWithCount.vue')['default']

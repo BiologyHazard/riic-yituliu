@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import OperatorBaseSkillShowcase from '@/components/riic/OperatorBaseSkillShowcase.vue';
+import { useExportImage } from '@/composables/useExportImage';
 import { useToastWithProgress } from '@/composables/useToastWithProgress';
-import { downloadFile } from '@/utils/file';
 import { getCharIdByName } from '@/utils/gameData/character';
 import { gameData } from '@/utils/gameData/gameData';
-import { getFontEmbedCSS, toCanvas, toSvg } from 'html-to-image';
-import type { Options } from 'html-to-image/lib/types';
 import { computed, nextTick, ref, useTemplateRef } from 'vue';
 
 // ─── 输入状态 ──────────────────────────────────────────────
@@ -33,71 +31,15 @@ const charIdList = computed(
       ) as string[],
 );
 
-// ─── 导出设置 ──────────────────────────────────────────────
-
-const exportFormat = ref<'webp' | 'png' | 'jpeg' | 'svg'>('webp');
-const exportQuality = ref<number>(75);
-const exportPixelRatio = ref<number>(1);
-
-const mimeTypeMap: Record<'webp' | 'png' | 'jpeg' | 'svg', string> = {
-  webp: 'image/webp',
-  png: 'image/png',
-  jpeg: 'image/jpeg',
-  svg: 'image/svg+xml',
-};
-
-const fileExtensionMap: Record<'webp' | 'png' | 'jpeg' | 'svg', string> = {
-  webp: 'webp',
-  png: 'png',
-  jpeg: 'jpg',
-  svg: 'svg',
-};
-
-const isQualityEnabled = computed<boolean>(
-  () => exportFormat.value === 'webp' || exportFormat.value === 'jpeg',
-);
-
-const cachedFontEmbedCSS = ref<string | null>(null);
-const sharedOptions = computed<Options>(() => ({
-  cacheBust: true,
-  pixelRatio: exportPixelRatio.value,
-  fontEmbedCSS: cachedFontEmbedCSS.value ?? undefined,
-  filter: (node) => {
-    if (node instanceof HTMLElement && node.hasAttribute('data-ignore-export')) {
-      return false;
-    }
-    return true;
-  },
-}));
-
-async function ensureFontEmbedCSS(target: HTMLElement): Promise<void> {
-  if (!cachedFontEmbedCSS.value) {
-    cachedFontEmbedCSS.value = await getFontEmbedCSS(target);
-  }
-}
-
-async function exportTargetAsImage(target: HTMLElement, filenameBase: string): Promise<void> {
-  const timestamp = new Date().getTime();
-  const ext = fileExtensionMap[exportFormat.value];
-
-  if (exportFormat.value === 'svg') {
-    const dataUrl = await toSvg(target, sharedOptions.value);
-    await downloadFile(dataUrl, `${filenameBase}-${timestamp}.${ext}`);
-    return;
-  }
-
-  const canvas = await toCanvas(target, sharedOptions.value);
-  const quality = exportFormat.value !== 'png' ? exportQuality.value / 100 : undefined;
-  const blob = await new Promise<Blob | null>((resolve) =>
-    canvas.toBlob(resolve, mimeTypeMap[exportFormat.value], quality),
-  );
-
-  if (!blob) {
-    throw new Error('Failed to create image blob');
-  }
-
-  await downloadFile(blob, `${filenameBase}-${timestamp}.${ext}`);
-}
+const { exportFormat, exportQuality, exportPixelRatio, ensureFontEmbedCSS, exportTargetAsImage } =
+  useExportImage({
+    filter: (node) => {
+      if (node instanceof HTMLElement && node.hasAttribute('data-ignore-export')) {
+        return false;
+      }
+      return true;
+    },
+  });
 
 async function exportAsImage(): Promise<void> {
   if (!exportContainer.value || isExportingAll.value || exportIndividualProgress.value !== null)
@@ -202,68 +144,12 @@ async function exportEachAsImage(): Promise<void> {
             @click="exportEachAsImage"
           />
 
-          <UPopover
-            :content="{
-              align: 'center',
-              side: 'bottom',
-              sideOffset: 8,
-            }"
-          >
-            <UButton
-              :disabled="isExportingAll || exportIndividualProgress !== null"
-              icon="i-lucide-settings-2"
-              title="调整导出格式、质量和大小"
-              variant="subtle"
-            />
-
-            <template #content>
-              <div class="flex flex-col gap-4 p-4" style="min-width: 240px">
-                <UFormField label="导出格式">
-                  <UTabs
-                    v-model="exportFormat"
-                    color="neutral"
-                    :content="false"
-                    :items="[
-                      { label: 'WebP', value: 'webp' },
-                      { label: 'PNG', value: 'png' },
-                      { label: 'JPEG', value: 'jpeg' },
-                      { label: 'SVG', value: 'svg' },
-                    ]"
-                    :ui="{ list: 'ring ring-accented ring-inset' }"
-                    variant="pill"
-                  />
-                </UFormField>
-
-                <UFormField :hint="`${exportQuality}%`" label="图片质量">
-                  <USlider
-                    v-model="exportQuality"
-                    :disabled="!isQualityEnabled"
-                    :max="100"
-                    :min="1"
-                    :step="1"
-                    tooltip
-                  />
-                </UFormField>
-
-                <UFormField label="图片大小">
-                  <UTabs
-                    v-model="exportPixelRatio"
-                    color="neutral"
-                    :content="false"
-                    :items="[
-                      { label: '0.5x', value: 0.5 },
-                      { label: '1x', value: 1 },
-                      { label: '2x', value: 2 },
-                      { label: '3x', value: 3 },
-                      { label: '4x', value: 4 },
-                    ]"
-                    :ui="{ list: 'ring ring-accented ring-inset' }"
-                    variant="pill"
-                  />
-                </UFormField>
-              </div>
-            </template>
-          </UPopover>
+          <ExportSettingsPopover
+            v-model:export-format="exportFormat"
+            v-model:export-pixel-ratio="exportPixelRatio"
+            v-model:export-quality="exportQuality"
+            :disabled="isExportingAll || exportIndividualProgress !== null"
+          />
         </div>
 
         <!-- 导出容器 -->

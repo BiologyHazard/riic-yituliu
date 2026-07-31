@@ -1,10 +1,9 @@
 <script setup lang="ts">
+import { useExportImage } from '@/composables/useExportImage';
 import { useToastWithProgress } from '@/composables/useToastWithProgress';
-import { downloadFile } from '@/utils/file';
 import { parseSchedule } from '@/utils/riic/parseScheduleInput';
 import type { NavigationMenuItem } from '@nuxt/ui';
 import { refThrottled, useElementSize } from '@vueuse/core';
-import { getFontEmbedCSS, toCanvas, toSvg } from 'html-to-image';
 import { computed, nextTick, onMounted, ref, useTemplateRef } from 'vue';
 
 // --- 排班表预设 ---
@@ -150,37 +149,8 @@ const effectiveZoom = computed<number>(() => {
 
 const isExporting = ref<boolean>(false);
 
-// 导出选项
-const exportFormat = ref<'webp' | 'png' | 'jpeg' | 'svg'>('webp');
-const exportQuality = ref<number>(75);
-const exportPixelRatio = ref<number>(1);
-
-const mimeTypeMap: Record<string, string> = {
-  webp: 'image/webp',
-  png: 'image/png',
-  jpeg: 'image/jpeg',
-  svg: 'image/svg+xml',
-};
-
-const fileExtensionMap: Record<string, string> = {
-  webp: 'webp',
-  png: 'png',
-  jpeg: 'jpg',
-  svg: 'svg',
-};
-
-const isQualityEnabled = computed<boolean>(
-  () => exportFormat.value === 'webp' || exportFormat.value === 'jpeg',
-);
-
-/**
- * 缓存字体嵌入 CSS，避免每次导出都重新下载和编码字体
- */
-const cachedFontEmbedCSS = ref<string | null>(null);
-const sharedOptions = computed(() => ({
-  pixelRatio: exportPixelRatio.value,
-  fontEmbedCSS: cachedFontEmbedCSS.value ?? undefined,
-}));
+const { exportFormat, exportQuality, exportPixelRatio, ensureFontEmbedCSS, exportTargetAsImage } =
+  useExportImage();
 
 async function exportAsImage(): Promise<void> {
   if (!riicScheduleRef.value || isExporting.value) {
@@ -189,45 +159,18 @@ async function exportAsImage(): Promise<void> {
 
   isExporting.value = true;
 
-  // 创建初始 toast
   const { initToast, updateProgress, completeToast, failToast } = useToastWithProgress();
   initToast({ title: '导出排班表图片', description: '正在准备…' });
   await nextTick();
 
   try {
-    // Step 1: 嵌入字体
     updateProgress(1 / 10, { description: '正在嵌入字体…' });
-    if (!cachedFontEmbedCSS.value) {
-      cachedFontEmbedCSS.value = await getFontEmbedCSS(riicScheduleRef.value);
-    }
+    await ensureFontEmbedCSS(riicScheduleRef.value);
 
-    const timestamp = new Date().getTime();
-    const ext = fileExtensionMap[exportFormat.value];
+    updateProgress(4 / 10, { description: '正在生成图片…' });
+    await exportTargetAsImage(riicScheduleRef.value, 'arknights-schedule');
 
-    if (exportFormat.value === 'svg') {
-      // Step 2: 生成图片
-      updateProgress(4 / 10, { description: '正在生成图片…' });
-      const svgDataUrl = await toSvg(riicScheduleRef.value, sharedOptions.value);
-      // Step 3: 下载
-      updateProgress(8 / 10, { description: '正在下载…' });
-      await downloadFile(svgDataUrl, `arknights-schedule-${timestamp}.${ext}`);
-    } else {
-      // Step 2: 生成图片
-      updateProgress(4 / 10, { description: '正在生成图片…' });
-      const canvas = await toCanvas(riicScheduleRef.value, sharedOptions.value);
-      const quality = exportFormat.value !== 'png' ? exportQuality.value / 100 : undefined;
-      const blob = await new Promise<Blob | null>((resolve) =>
-        canvas.toBlob(resolve, mimeTypeMap[exportFormat.value], quality),
-      );
-      if (!blob) {
-        throw new Error('Failed to create image blob');
-      }
-      // Step 3: 下载
-      updateProgress(8 / 10, { description: '正在下载…' });
-      await downloadFile(blob, `arknights-schedule-${timestamp}.${ext}`);
-    }
-
-    // 完成
+    updateProgress(8 / 10, { description: '正在下载…' });
     completeToast({ title: '导出完成', description: '排班表图片已成功导出！' });
   } catch (error) {
     console.error('Failed to export image:', error);
@@ -330,7 +273,6 @@ async function exportAsImage(): Promise<void> {
               <UFieldGroup>
                 <UButton
                   class="rounded-lg"
-                  color="neutral"
                   icon="i-lucide-download"
                   label="导出图片"
                   :loading="isExporting"
@@ -338,69 +280,12 @@ async function exportAsImage(): Promise<void> {
                   @click="exportAsImage"
                 />
 
-                <UPopover
-                  :content="{
-                    align: 'center',
-                    side: 'bottom',
-                    sideOffset: 8,
-                  }"
-                >
-                  <UButton
-                    class="rounded-lg"
-                    color="neutral"
-                    :disabled="isExporting"
-                    icon="i-lucide-chevron-down"
-                    variant="subtle"
-                  />
-
-                  <template #content>
-                    <div class="flex flex-col gap-4 p-4" style="min-width: 220px">
-                      <UFormField label="导出格式">
-                        <UTabs
-                          v-model="exportFormat"
-                          color="neutral"
-                          :content="false"
-                          :items="[
-                            { label: 'WebP', value: 'webp' },
-                            { label: 'PNG', value: 'png' },
-                            { label: 'JPEG', value: 'jpeg' },
-                            { label: 'SVG', value: 'svg' },
-                          ]"
-                          :ui="{ list: 'ring ring-accented ring-inset' }"
-                          variant="pill"
-                        />
-                      </UFormField>
-
-                      <UFormField :hint="`${exportQuality}%`" label="图片质量">
-                        <USlider
-                          v-model="exportQuality"
-                          :disabled="!isQualityEnabled"
-                          :max="100"
-                          :min="1"
-                          :step="1"
-                          tooltip
-                        />
-                      </UFormField>
-
-                      <UFormField label="图片大小">
-                        <UTabs
-                          v-model="exportPixelRatio"
-                          color="neutral"
-                          :content="false"
-                          :items="[
-                            { label: '0.5x', value: 0.5 },
-                            { label: '1x', value: 1 },
-                            { label: '2x', value: 2 },
-                            { label: '3x', value: 3 },
-                            { label: '4x', value: 4 },
-                          ]"
-                          :ui="{ list: 'ring ring-accented ring-inset' }"
-                          variant="pill"
-                        />
-                      </UFormField>
-                    </div>
-                  </template>
-                </UPopover>
+                <ExportSettingsPopover
+                  v-model:export-format="exportFormat"
+                  v-model:export-pixel-ratio="exportPixelRatio"
+                  v-model:export-quality="exportQuality"
+                  :disabled="isExporting"
+                />
               </UFieldGroup>
             </div>
 
