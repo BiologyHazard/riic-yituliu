@@ -280,7 +280,7 @@ async function exportAsImage(): Promise<void> {
                   @click="exportAsImage"
                 />
 
-                <ExportSettingsPopover
+                <ExportImageSettings
                   v-model:export-format="exportFormat"
                   v-model:export-pixel-ratio="exportPixelRatio"
                   v-model:export-quality="exportQuality"

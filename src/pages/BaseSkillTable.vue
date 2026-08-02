@@ -133,7 +133,7 @@ async function exportEachAsImage(): Promise<void> {
             @click="exportEachAsImage"
           />
 
-          <ExportSettingsPopover
+          <ExportImageSettings
             v-model:export-format="exportFormat"
             v-model:export-pixel-ratio="exportPixelRatio"
             v-model:export-quality="exportQuality"
@@ -142,7 +142,7 @@ async function exportEachAsImage(): Promise<void> {
         </div>
         <div ref="exportContainer" class="w-fit">
           <div v-for="charId in charIdList" :key="charId" ref="individualContainers" class="w-fit">
-            <BaseSkill :char-id="charId" />
+            <RiicSkillTable :char-id="charId" />
           </div>
         </div>
       </UPageBody>

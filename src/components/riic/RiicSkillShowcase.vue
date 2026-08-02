@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import type { BuffUnlockCondition } from '@/types/gameData';
-import { updateText } from '@/utils/autoFontSizing';
 import { getBaseSkillIconUrl } from '@/utils/dataSources';
 import { gameData } from '@/utils/gameData/gameData';
 import { parseRichTextSegments } from '@/utils/richText';
-import { computed, useTemplateRef, watch } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps<{ charId: string }>();
-const buildingCharDataRef = computed(() => gameData.value?.buildingData.chars[props.charId]);
-const operatorNameElement = useTemplateRef('operatorNameElement');
+const buildingDataChars = computed(() => gameData.value?.buildingData.chars[props.charId]);
 
 function getCondText({ phase, level }: BuffUnlockCondition): string {
   const eliteLevel = typeof phase === 'number' ? phase : Number(phase.replace(/^PHASE_/, ''));
@@ -20,21 +18,15 @@ function getCondText({ phase, level }: BuffUnlockCondition): string {
     return `精${eliteLevel}`;
   }
 }
-
-watch([props, operatorNameElement], () => {
-  if (operatorNameElement.value) {
-    updateText(operatorNameElement.value, 180 * 0.95, 16, 32);
-  }
-});
 </script>
 
 <template>
   <div class="showcase-container">
     <div class="background" data-ignore-export />
     <div class="black-rect" data-ignore-export />
-    <div v-if="buildingCharDataRef !== undefined" class="riic-skill">
+    <div v-if="buildingDataChars !== undefined" class="riic-skill">
       <template
-        v-for="(buffCharItem, buffCharIndex) in buildingCharDataRef.buffChar"
+        v-for="(buffCharItem, buffCharIndex) in buildingDataChars.buffChar"
         :key="buffCharIndex"
       >
         <div

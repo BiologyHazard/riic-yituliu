@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import OperatorBaseSkillShowcase from '@/components/riic/OperatorBaseSkillShowcase.vue';
 import { useExportImage } from '@/composables/useExportImage';
 import { useToastWithProgress } from '@/composables/useToastWithProgress';
 import { getCharIdByName } from '@/utils/gameData/character';
@@ -144,7 +143,7 @@ async function exportEachAsImage(): Promise<void> {
             @click="exportEachAsImage"
           />
 
-          <ExportSettingsPopover
+          <ExportImageSettings
             v-model:export-format="exportFormat"
             v-model:export-pixel-ratio="exportPixelRatio"
             v-model:export-quality="exportQuality"
@@ -155,7 +154,7 @@ async function exportEachAsImage(): Promise<void> {
         <!-- 导出容器 -->
         <div ref="exportContainer" class="w-fit">
           <div v-for="charId in charIdList" :key="charId" ref="individualContainers" class="w-fit">
-            <OperatorBaseSkillShowcase :char-id="charId" />
+            <RiicSkillShowcase :char-id="charId" />
           </div>
         </div>
       </UPageBody>
