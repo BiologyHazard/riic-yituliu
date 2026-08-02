@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getCharArtUrl } from '@/utils/dataSources';
+import { getCharSkinUrl } from '@/utils/dataSources';
 import { getCharIdByName, getCharMaxEliteLevel } from '@/utils/gameData/character';
 import { computed, nextTick, ref, watch } from 'vue';
 
@@ -69,7 +69,7 @@ function resolveOperator(): void {
     }
   }
 
-  const url = getCharArtUrl(charId, eliteLevel.value);
+  const url = getCharSkinUrl(charId, eliteLevel.value);
   if (!url) {
     operatorError.value = '无法获取立绘地址';
     return;

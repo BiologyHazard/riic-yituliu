@@ -21,8 +21,12 @@ export interface GameDataSource extends DataSource {
   baseUrl: string;
 }
 
-export interface AvatarSource extends DataSource {
+export interface CharAvatarSource extends DataSource {
   getCharAvatarUrl: (charId: string, eliteLevel: number) => string | undefined;
+}
+
+export interface CharSkinSource extends DataSource {
+  getCharSkinUrl: (charId: string, eliteLevel: number) => string | undefined;
 }
 
 export interface ItemIconSource extends DataSource {
@@ -31,10 +35,6 @@ export interface ItemIconSource extends DataSource {
 
 export interface BaseSkillIconSource extends DataSource {
   getBaseSkillIconUrl: (skillIcon: string) => string;
-}
-
-export interface ArtSource extends DataSource {
-  getCharArtUrl: (charId: string, eliteLevel: number) => string | undefined;
 }
 
 export interface GithubMirror {
@@ -89,7 +89,7 @@ export const gameDataSources: GameDataSource[] = [
   },
 ];
 
-export const avatarSources: AvatarSource[] = [
+export const charAvatarSources: CharAvatarSource[] = [
   {
     id: 'torappu',
     label: 'Torappu',
@@ -140,6 +140,35 @@ export const avatarSources: AvatarSource[] = [
     isGithub: false,
     getCharAvatarUrl(charId: string, _eliteLevel: number): string {
       return `https://web.hycdn.cn/arknights/game/assets/char/avatar/${charId}.png`;
+    },
+  },
+];
+
+export const charSkinSources: CharSkinSource[] = [
+  {
+    id: 'torappu',
+    label: 'Torappu',
+    isGithub: false,
+    getCharSkinUrl(charId: string, eliteLevel: number): string {
+      return `https://torappu.prts.wiki/assets/char_arts/${encodeURIComponent(getCharPortraitId(charId, eliteLevel))}.png`;
+    },
+  },
+  {
+    id: 'fexli/ArknightsResource',
+    label: 'fexli/ArknightsResource',
+    isGithub: true,
+    getCharSkinUrl(charId: string, eliteLevel: number): string {
+      const skinId = getCharSkinId(charId, eliteLevel);
+      return `https://raw.githubusercontent.com/fexli/ArknightsResource/refs/heads/main/charpack/${skinId.replace('#', '_')}.png`;
+    },
+  },
+  {
+    id: 'yuanyan3060/ArknightsGameResource',
+    label: 'yuanyan3060/ArknightsGameResource',
+    isGithub: true,
+    getCharSkinUrl(charId: string, eliteLevel: number): string {
+      const skinId = getCharSkinId(charId, eliteLevel);
+      return `https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/refs/heads/main/skin/${encodeURIComponent(skinId)}b.png`;
     },
   },
 ];
@@ -222,35 +251,6 @@ export const baseSkillIconSources: BaseSkillIconSource[] = [
   },
 ];
 
-export const artSources: ArtSource[] = [
-  {
-    id: 'torappu',
-    label: 'Torappu',
-    isGithub: false,
-    getCharArtUrl(charId: string, eliteLevel: number): string {
-      return `https://torappu.prts.wiki/assets/char_arts/${encodeURIComponent(getCharPortraitId(charId, eliteLevel))}.png`;
-    },
-  },
-  {
-    id: 'fexli/ArknightsResource',
-    label: 'fexli/ArknightsResource',
-    isGithub: true,
-    getCharArtUrl(charId: string, eliteLevel: number): string {
-      const skinId = getCharSkinId(charId, eliteLevel);
-      return `https://raw.githubusercontent.com/fexli/ArknightsResource/refs/heads/main/charpack/${skinId.replace('#', '_')}.png`;
-    },
-  },
-  {
-    id: 'yuanyan3060/ArknightsGameResource',
-    label: 'yuanyan3060/ArknightsGameResource',
-    isGithub: true,
-    getCharArtUrl(charId: string, eliteLevel: number): string {
-      const skinId = getCharSkinId(charId, eliteLevel);
-      return `https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/refs/heads/main/skin/${encodeURIComponent(skinId)}b.png`;
-    },
-  },
-];
-
 export const githubMirrors: GithubMirror[] = [
   {
     id: 'none',
@@ -282,28 +282,32 @@ export const githubMirrors: GithubMirror[] = [
 // ─── defaults ─────────────────────────────────────────────────
 
 export const defaultGameDataSourceId = 'torappu';
-export const defaultAvatarSourceId = 'torappu';
+export const defaultCharAvatarSourceId = 'torappu';
+export const defaultCharSkinSourceId = 'torappu';
 export const defaultItemIconSourceId = 'torappu';
 export const defaultBaseSkillIconSourceId = 'torappu';
-export const defaultArtSourceId = 'torappu';
 export const defaultGithubMirrorId = 'none';
 
 // ─── state (persisted via localStorage) ───────────────────────
 
 const GAME_DATA_SOURCE_STORAGE_KEY = 'riic_game_data_source_id';
-const AVATAR_SOURCE_STORAGE_KEY = 'riic_avatar_source_id';
+const CHAR_AVATAR_SOURCE_STORAGE_KEY = 'riic_avatar_source_id';
+const CHAR_SKIN_SOURCE_STORAGE_KEY = 'riic_art_source_id';
 const ITEM_ICON_SOURCE_STORAGE_KEY = 'riic_item_icon_source_id';
 const BASE_SKILL_ICON_SOURCE_STORAGE_KEY = 'riic_base_skill_icon_source_id';
-const ART_SOURCE_STORAGE_KEY = 'riic_art_source_id';
 const GITHUB_MIRROR_STORAGE_KEY = 'riic_github_mirror_id';
 
 export const currentGameDataSourceId = useLocalStorage<string>(
   GAME_DATA_SOURCE_STORAGE_KEY,
   defaultGameDataSourceId,
 );
-export const currentAvatarSourceId = useLocalStorage<string>(
-  AVATAR_SOURCE_STORAGE_KEY,
-  defaultAvatarSourceId,
+export const currentCharAvatarSourceId = useLocalStorage<string>(
+  CHAR_AVATAR_SOURCE_STORAGE_KEY,
+  defaultCharAvatarSourceId,
+);
+export const currentCharSkinSourceId = useLocalStorage<string>(
+  CHAR_SKIN_SOURCE_STORAGE_KEY,
+  defaultCharSkinSourceId,
 );
 export const currentItemIconSourceId = useLocalStorage<string>(
   ITEM_ICON_SOURCE_STORAGE_KEY,
@@ -312,10 +316,6 @@ export const currentItemIconSourceId = useLocalStorage<string>(
 export const currentBaseSkillIconSourceId = useLocalStorage<string>(
   BASE_SKILL_ICON_SOURCE_STORAGE_KEY,
   defaultBaseSkillIconSourceId,
-);
-export const currentArtSourceId = useLocalStorage<string>(
-  ART_SOURCE_STORAGE_KEY,
-  defaultArtSourceId,
 );
 export const currentMirrorId = useLocalStorage<string>(
   GITHUB_MIRROR_STORAGE_KEY,
@@ -331,11 +331,11 @@ export const currentGameDataSource = computed<GameDataSource>(() => {
     gameDataSources[0]!
   );
 });
-export const currentAvatarSource = computed<AvatarSource>(() => {
+export const currentCharAvatarSource = computed<CharAvatarSource>(() => {
   return (
-    avatarSources.find((s) => s.id === currentAvatarSourceId.value) ??
-    avatarSources.find((s) => s.id === defaultAvatarSourceId) ??
-    avatarSources[0]!
+    charAvatarSources.find((s) => s.id === currentCharAvatarSourceId.value) ??
+    charAvatarSources.find((s) => s.id === defaultCharAvatarSourceId) ??
+    charAvatarSources[0]!
   );
 });
 export const currentItemIconSource = computed<ItemIconSource>(() => {
@@ -352,11 +352,11 @@ export const currentBaseSkillIconSource = computed<BaseSkillIconSource>(() => {
     baseSkillIconSources[0]!
   );
 });
-export const currentArtSource = computed<ArtSource>(() => {
+export const currentCharSkinSource = computed<CharSkinSource>(() => {
   return (
-    artSources.find((s) => s.id === currentArtSourceId.value) ??
-    artSources.find((s) => s.id === defaultArtSourceId) ??
-    artSources[0]!
+    charSkinSources.find((s) => s.id === currentCharSkinSourceId.value) ??
+    charSkinSources.find((s) => s.id === defaultCharSkinSourceId) ??
+    charSkinSources[0]!
   );
 });
 export const currentGithubMirror = computed<GithubMirror>(() => {
@@ -383,19 +383,19 @@ export const currentGameDataBaseUrl = computed<string>(() => {
 // ─── image URL builders ───────────────────────────────────────
 
 export function getCharAvatarUrl(charId: string, eliteLevel: number): string | undefined {
-  const url = currentAvatarSource.value.getCharAvatarUrl(charId, eliteLevel);
+  const url = currentCharAvatarSource.value.getCharAvatarUrl(charId, eliteLevel);
   if (url === undefined) {
     return undefined;
   }
-  return applyGithubMirror(url, currentAvatarSource.value.isGithub);
+  return applyGithubMirror(url, currentCharAvatarSource.value.isGithub);
 }
 
-export function getCharArtUrl(charId: string, eliteLevel: number): string | undefined {
-  const url = currentArtSource.value.getCharArtUrl(charId, eliteLevel);
+export function getCharSkinUrl(charId: string, eliteLevel: number): string | undefined {
+  const url = currentCharSkinSource.value.getCharSkinUrl(charId, eliteLevel);
   if (url === undefined) {
     return undefined;
   }
-  return applyGithubMirror(url, currentArtSource.value.isGithub);
+  return applyGithubMirror(url, currentCharSkinSource.value.isGithub);
 }
 
 export function getItemIconUrl(itemId: string): string | undefined {
@@ -409,4 +409,12 @@ export function getItemIconUrl(itemId: string): string | undefined {
 export function getBaseSkillIconUrl(skillIcon: string): string {
   const url = currentBaseSkillIconSource.value.getBaseSkillIconUrl(skillIcon);
   return applyGithubMirror(url, currentBaseSkillIconSource.value.isGithub);
+}
+
+export function getEliteIconUrl(eliteLevel: number): string {
+  return `https://torappu.prts.wiki/assets/elite_icon/elite_${eliteLevel}_large.png`;
+}
+
+export function getRarityIconUrl(rarity: number): string {
+  return `https://torappu.prts.wiki/assets/rarity_icon/rarity_yellow_${rarity}.png`;
 }

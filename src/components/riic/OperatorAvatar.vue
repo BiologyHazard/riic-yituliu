@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getCharAvatarUrl } from '@/utils/dataSources';
+import { getCharAvatarUrl, getEliteIconUrl, getRarityIconUrl } from '@/utils/dataSources';
 import { getCharName, getCharProfessionName, getCharRarity } from '@/utils/gameData/character';
 import { getPrtsWikiMediaUrl } from '@/utils/prtsWiki';
 import { computed } from 'vue';
@@ -45,9 +45,7 @@ const imageAltName = computed<string>(() => {
 });
 
 /** 精英阶段角标 URL */
-const eliteUrl = computed<string>(
-  () => `https://torappu.prts.wiki/assets/elite_icon/elite_${props.eliteLevel}_large.png`,
-);
+const eliteUrl = computed<string>(() => getEliteIconUrl(props.eliteLevel));
 
 /** 职业名称 */
 const professionName = computed<string | undefined>(() => {
@@ -86,7 +84,7 @@ const rarityUrl = computed<string | undefined>(() => {
   if (rarity.value === undefined) {
     return undefined;
   }
-  return `https://torappu.prts.wiki/assets/rarity_icon/rarity_yellow_${rarity.value}.png`;
+  return getRarityIconUrl(rarity.value);
 });
 
 /** 头像 URL */
