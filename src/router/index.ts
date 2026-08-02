@@ -1,23 +1,23 @@
-import ArknightsGameBulletinView from '@/views/ArknightsGameBulletinView.vue';
-import BaseSkillView from '@/views/BaseSkillView.vue';
-import CharCostRankingView from '@/views/CharCostRankingView.vue';
-import CharItemCostView from '@/views/CharItemCostView.vue';
-import EndfieldGameBulletinView from '@/views/EndfieldGameBulletinView.vue';
-import HomeView from '@/views/HomeView.vue';
-import ImageGradientView from '@/views/ImageGradientView.vue';
-import ItemValueView from '@/views/ItemValueView.vue';
-import LinksView from '@/views/LinksView.vue';
-import MaterialInfoView from '@/views/MaterialInfoView.vue';
-import MonsterSirenView from '@/views/MonsterSirenView.vue';
-import OperatorAvatarGeneratorView from '@/views/OperatorAvatarGeneratorView.vue';
-import OperatorBaseSkillShowcaseView from '@/views/OperatorBaseSkillShowcaseView.vue';
-import RiicMapView from '@/views/RiicMapView.vue';
-import RiicView from '@/views/RiicView.vue';
-import SklandAssistantView from '@/views/SklandAssistantView.vue';
-import StageList from '@/views/StageList.vue';
-import StudioAvatarView from '@/views/StudioAvatarView.vue';
-import TierMakerView from '@/views/TierMakerView.vue';
-import TierMakerView2 from '@/views/TierMakerView2.vue';
+import ArknightsGameBulletin from '@/pages/ArknightsGameBulletin.vue';
+import AvatarGenerator from '@/pages/AvatarGenerator.vue';
+import BaseMap from '@/pages/BaseMap.vue';
+import BaseSchedule from '@/pages/BaseSchedule.vue';
+import BaseSkillShowcase from '@/pages/BaseSkillShowcase.vue';
+import BaseSkillTable from '@/pages/BaseSkillTable.vue';
+import CharCostRanking from '@/pages/CharCostRanking.vue';
+import CharItemCost from '@/pages/CharItemCost.vue';
+import EndfieldGameBulletin from '@/pages/EndfieldGameBulletin.vue';
+import FriendLinks from '@/pages/FriendLinks.vue';
+import ImageGradient from '@/pages/ImageGradient.vue';
+import IndexPage from '@/pages/IndexPage.vue';
+import ItemValue from '@/pages/ItemValue.vue';
+import MaterialInfo from '@/pages/MaterialInfo.vue';
+import MonsterSiren from '@/pages/MonsterSiren.vue';
+import SklandAssistant from '@/pages/SklandAssistant.vue';
+import StageList from '@/pages/StageList.vue';
+import StudioAvatar from '@/pages/StudioAvatar.vue';
+import TierMaker from '@/pages/TierMaker.vue';
+import TierMaker2 from '@/pages/TierMaker2.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
@@ -26,49 +26,49 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
+      component: IndexPage,
       meta: { title: '首页' },
     },
     {
       path: '/riic',
       name: 'riic',
-      component: RiicView,
+      component: BaseSchedule,
       meta: { title: '排班表生成器' },
     },
     {
       path: '/base-skill',
       name: 'base-skill',
-      component: BaseSkillView,
+      component: BaseSkillTable,
       meta: { title: '基建技能' },
     },
     {
       path: '/riic-map',
       name: 'riic-map',
-      component: RiicMapView,
+      component: BaseMap,
       meta: { title: '基建地图' },
     },
     {
       path: '/char-item-cost',
       name: 'char-item-cost',
-      component: CharItemCostView,
+      component: CharItemCost,
       meta: { title: '干员材料消耗' },
     },
     {
       path: '/char-cost-ranking',
       name: 'char-cost-ranking',
-      component: CharCostRankingView,
+      component: CharCostRanking,
       meta: { title: '养成成本排行' },
     },
     {
       path: '/material-info',
       name: 'material-info',
-      component: MaterialInfoView,
+      component: MaterialInfo,
       meta: { title: '材料信息' },
     },
     {
       path: '/item-value',
       name: 'item-value',
-      component: ItemValueView,
+      component: ItemValue,
       meta: { title: '物品价值' },
     },
     {
@@ -80,38 +80,38 @@ const router = createRouter({
     {
       path: '/arknights-game-bulletin',
       name: 'arknights-game-bulletin',
-      component: ArknightsGameBulletinView,
+      component: ArknightsGameBulletin,
       meta: { title: '明日方舟游戏内公告' },
     },
     {
       path: '/monster-siren',
       name: 'monster-siren',
-      component: MonsterSirenView,
+      component: MonsterSiren,
       meta: { title: '塞壬唱片' },
       redirect: '/monster-siren/musics',
       children: [
         {
           path: 'musics',
           name: 'monster-siren-musics',
-          component: MonsterSirenView,
+          component: MonsterSiren,
           meta: { title: '塞壬唱片 - 乐曲' },
         },
         {
           path: 'albums',
           name: 'monster-siren-albums',
-          component: MonsterSirenView,
+          component: MonsterSiren,
           meta: { title: '塞壬唱片 - 专辑' },
         },
         {
           path: 'album/:cid',
           name: 'monster-siren-album-detail',
-          component: MonsterSirenView,
+          component: MonsterSiren,
           meta: { title: '塞壬唱片 - 专辑详情' },
         },
         {
           path: 'song/:cid',
           name: 'monster-siren-song-detail',
-          component: MonsterSirenView,
+          component: MonsterSiren,
           meta: { title: '塞壬唱片 - 乐曲详情' },
         },
       ],
@@ -119,55 +119,55 @@ const router = createRouter({
     {
       path: '/endfield-game-bulletin',
       name: 'endfield-game-bulletin',
-      component: EndfieldGameBulletinView,
+      component: EndfieldGameBulletin,
       meta: { title: '明日方舟：终末地游戏内公告' },
     },
     {
       path: '/sklassistant',
       name: 'sklassistant',
-      component: SklandAssistantView,
+      component: SklandAssistant,
       meta: { title: '森空岛签到' },
     },
     {
       path: '/links',
       name: 'links',
-      component: LinksView,
+      component: FriendLinks,
       meta: { title: '友情链接' },
     },
     {
       path: '/tier',
       name: 'tier-maker',
-      component: TierMakerView,
+      component: TierMaker,
       meta: { title: '干员分Tier' },
     },
     {
       path: '/tier2',
       name: 'tier-maker2',
-      component: TierMakerView2,
+      component: TierMaker2,
       meta: { title: '干员分Tier2' },
     },
     {
       path: '/studio-avatar',
       name: 'studio-avatar',
-      component: StudioAvatarView,
+      component: StudioAvatar,
       meta: { title: '工作室头像生成器' },
     },
     {
       path: '/operator-avatar-generator',
       name: 'operator-avatar-generator',
-      component: OperatorAvatarGeneratorView,
+      component: AvatarGenerator,
       meta: { title: '干员头像生成器' },
     },
     {
       path: '/image-gradient',
       name: 'image-gradient',
-      component: ImageGradientView,
+      component: ImageGradient,
       meta: { title: '图片渐变工具' },
     },
     {
       path: '/operator-base-skill-showcase',
       name: 'operator-base-skill-showcase',
-      component: OperatorBaseSkillShowcaseView,
+      component: BaseSkillShowcase,
       meta: { title: '干员基建技能展示' },
     },
   ],
