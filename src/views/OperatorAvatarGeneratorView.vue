@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { useToastWithProgress } from '@/composables/useToastWithProgress';
-import type { OperatorSpec } from '@/types/riic';
-import { getCharIdByName } from '@/utils/gameData/character';
+import type { CharDataType } from '@/types/riic';
 import { computed, ref, useTemplateRef } from 'vue';
 
 // ─── 解析逻辑 ───────────────────────────────────────────────
 
-function parseToken(token: string): OperatorSpec | null {
+function parseToken(token: string): CharDataType | null {
   let remaining = token.trim();
 
   // 1. 检查末尾的 !
@@ -24,21 +23,17 @@ function parseToken(token: string): OperatorSpec | null {
     remaining = remaining.slice(0, -1);
   }
 
-  const charName = remaining.trim();
-
-  // 3. 查找干员
-  const charId = getCharIdByName(charName);
-  if (!charId) return null;
+  const displayName = remaining.trim();
+  if (!displayName) return null;
 
   return {
-    charId,
-    charName,
+    displayName,
     eliteLevel,
     isTired,
   };
 }
 
-function parseInput(text: string): OperatorSpec[] {
+function parseInput(text: string): CharDataType[] {
   return text
     .split(/[\s]+/)
     .map(parseToken)
@@ -48,7 +43,7 @@ function parseInput(text: string): OperatorSpec[] {
 const inputText = ref<string>('');
 const isCopying = ref<boolean>(false);
 
-const operatorSpecs = computed<OperatorSpec[]>(() => parseInput(inputText.value));
+const chars = computed<CharDataType[]>(() => parseInput(inputText.value));
 
 // ─── 显示开关 ───────────────────────────────────────────────
 
@@ -105,7 +100,7 @@ async function copyToClipboard(): Promise<void> {
             >
               <OperatorAvatarCanvas
                 ref="avatarCanvasRef"
-                :operator-specs
+                :chars="chars"
                 :show-background
                 :show-edge-padding
                 :show-elite-level
@@ -143,23 +138,18 @@ async function copyToClipboard(): Promise<void> {
                 />
               </div>
 
-              <!-- 已识别干员 -->
-              <div
-                v-if="operatorSpecs.filter((s) => s.charId).length > 0"
-                class="flex flex-col gap-1.5"
-              >
-                <span class="text-xs font-medium text-toned"
-                  >已识别 {{ operatorSpecs.filter((s) => s.charId).length }} 名干员</span
-                >
+              <!-- 已解析干员 -->
+              <div v-if="chars.length > 0" class="flex flex-col gap-1.5">
+                <span class="text-xs font-medium text-toned">已解析 {{ chars.length }} 名干员</span>
                 <div class="flex flex-wrap gap-1">
                   <UBadge
-                    v-for="({ charName, isTired, eliteLevel }, i) in operatorSpecs"
+                    v-for="({ displayName, isTired, eliteLevel }, i) in chars"
                     :key="i"
                     color="neutral"
                     size="sm"
                     variant="soft"
                   >
-                    {{ charName }}
+                    {{ displayName }}
                     <template v-if="eliteLevel !== null"> · 精英{{ eliteLevel }}</template>
                     <template v-if="isTired"> · 涣散</template>
                   </UBadge>

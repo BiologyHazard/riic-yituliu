@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import backgroundImageUrl from '@/assets/images/riic/基建解析UI_干员头像底图_180x180_2510101215_BioHazard.webp';
-import type { OperatorSpec } from '@/types/riic';
+import type { CharDataType } from '@/types/riic';
 import {
   getCharAvatarUrl,
   getEliteIconUrl,
   getProfessionIconUrl,
   getRarityIconUrl,
 } from '@/utils/dataSources';
-import { getCharProfessionId, getCharRarity } from '@/utils/gameData/character';
+import { getCharIdByName, getCharProfessionId, getCharRarity } from '@/utils/gameData/character';
 import { useTemplateRef, watch } from 'vue';
 
 const CANVAS_SIZE = 360;
@@ -23,7 +23,7 @@ const SLOT_HEIGHT = CANVAS_SIZE + NAME_GAP + NAME_RECT_HEIGHT; // 每个干员�
 
 interface OperatorAvatarCanvasProps {
   /** 要绘制的干员列表 */
-  operatorSpecs?: OperatorSpec[];
+  chars?: CharDataType[];
   /** 相邻干员间距（1 单位 = 头像宽度） */
   spacing?: number;
   /** 是否在最左和最右添加间距的一半作为边距 */
@@ -39,7 +39,7 @@ interface OperatorAvatarCanvasProps {
 }
 
 const props = withDefaults(defineProps<OperatorAvatarCanvasProps>(), {
-  operatorSpecs: () => [],
+  chars: () => [],
   spacing: 0,
   showEdgePadding: false,
   showBackground: false,
@@ -50,15 +50,20 @@ const props = withDefaults(defineProps<OperatorAvatarCanvasProps>(), {
 
 // ─── 图片加载 ───────────────────────────────────────────────
 
-function loadImage(url: string): Promise<HTMLImageElement> {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.referrerPolicy = 'no-referrer';
-    img.onload = () => resolve(img);
-    img.onerror = () => reject(new Error(`Failed to load image: ${url}`));
-    img.src = url;
-  });
+async function loadImage(url: string): Promise<HTMLImageElement> {
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.referrerPolicy = 'no-referrer';
+  img.src = url;
+  await img.decode();
+  return img;
+}
+
+async function maybeLoadImage(url: string | undefined): Promise<HTMLImageElement | undefined> {
+  if (url === undefined) {
+    return undefined;
+  }
+  return await loadImage(url);
 }
 
 interface LoadedSlotImages {
@@ -69,29 +74,44 @@ interface LoadedSlotImages {
   rarityImage: HTMLImageElement | undefined;
 }
 
-async function loadImagesForOperator(operatorSpec: OperatorSpec): Promise<LoadedSlotImages | null> {
-  const { charId, eliteLevel } = operatorSpec;
+async function loadImagesForOperator(char: CharDataType): Promise<LoadedSlotImages> {
+  const { eliteLevel, displayName } = char;
+  const charId = getCharIdByName(displayName);
 
-  const effectiveElite = eliteLevel ?? 0;
+  // 无论是否有 charId，都可以加载精英化角标
+  const effectiveEliteLevel = eliteLevel ?? 0;
+  const eliteIconUrl = eliteLevel !== null ? getEliteIconUrl(eliteLevel) : undefined;
 
-  const avatarUrl = getCharAvatarUrl(charId, effectiveElite);
+  // 如果没有 charId，则无法加载头像、职业角标和稀有度角标，只能加载背景图和精英化角标
+  if (charId === undefined) {
+    const [backgroundImage, eliteImage] = await Promise.all([
+      loadImage(backgroundImageUrl),
+      maybeLoadImage(eliteIconUrl),
+    ]);
+    return {
+      backgroundImage,
+      avatarImage: undefined,
+      professionImage: undefined,
+      eliteImage,
+      rarityImage: undefined,
+    };
+  }
 
+  // 有 charId 的情况下，加载所有相关图片
   const professionId = getCharProfessionId(charId);
   const rarity = getCharRarity(charId);
 
+  const avatarUrl = getCharAvatarUrl(charId, effectiveEliteLevel);
   const professionUrl = professionId !== undefined ? getProfessionIconUrl(professionId) : undefined;
-
-  const eliteIconUrl = eliteLevel !== null ? getEliteIconUrl(eliteLevel) : undefined;
-
   const rarityUrl = rarity !== undefined ? getRarityIconUrl(rarity) : undefined;
 
   const [backgroundImage, avatarImage, professionImage, eliteImage, rarityImage] =
     await Promise.all([
       loadImage(backgroundImageUrl),
-      avatarUrl ? loadImage(avatarUrl) : Promise.resolve(undefined),
-      professionUrl ? loadImage(professionUrl) : Promise.resolve(undefined),
-      eliteIconUrl ? loadImage(eliteIconUrl) : Promise.resolve(undefined),
-      rarityUrl ? loadImage(rarityUrl) : Promise.resolve(undefined),
+      maybeLoadImage(avatarUrl),
+      maybeLoadImage(professionUrl),
+      maybeLoadImage(eliteIconUrl),
+      maybeLoadImage(rarityUrl),
     ]);
 
   return {
@@ -129,11 +149,11 @@ function drawSlotOnCanvas(
   ctx: CanvasRenderingContext2D,
   images: LoadedSlotImages,
   x: number,
-  operatorSpec: OperatorSpec,
+  char: CharDataType,
   drawOptions: DrawOptions,
 ): void {
   const { backgroundImage, avatarImage, professionImage, eliteImage, rarityImage } = images;
-  const { charName, isTired } = operatorSpec;
+  const { displayName, isTired } = char;
   const { showBackground, showProfession, showRarity, showEliteLevel } = drawOptions;
 
   const size = CANVAS_SIZE;
@@ -185,7 +205,7 @@ function drawSlotOnCanvas(
   }
 
   // 7. 名字标签
-  if (charName) {
+  if (displayName) {
     const nameY = CANVAS_SIZE + NAME_GAP;
 
     // 绘制白色背景矩形
@@ -193,14 +213,14 @@ function drawSlotOnCanvas(
     ctx.fillRect(x, nameY, size, NAME_RECT_HEIGHT);
 
     // 计算合适的字号
-    const fontSize = fitFontSize(ctx, charName, MAX_FONT_SIZE, MAX_TEXT_WIDTH);
+    const fontSize = fitFontSize(ctx, displayName, MAX_FONT_SIZE, MAX_TEXT_WIDTH);
 
     // 绘制文字（居中）
     ctx.fillStyle = '#000000';
     ctx.font = `bold ${fontSize}px "HarmonyOS Sans SC", sans-serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(charName, x + size / 2, nameY + NAME_RECT_HEIGHT / 2);
+    ctx.fillText(displayName, x + size / 2, nameY + NAME_RECT_HEIGHT / 2);
   }
 }
 
@@ -210,7 +230,7 @@ async function generateAll(): Promise<void> {
     if (!canvas) return;
 
     // 并行加载所有干员的图片
-    const allImages = await Promise.all(props.operatorSpecs.map(loadImagesForOperator));
+    const allImages = await Promise.all(props.chars.map(loadImagesForOperator));
 
     // 间距（单位 → 像素）
     const gapPx = props.spacing * CANVAS_SIZE;
@@ -221,9 +241,7 @@ async function generateAll(): Promise<void> {
 
     // 创建合并画布
     const totalWidth = Math.round(
-      edgePad * 2 +
-        CANVAS_SIZE * props.operatorSpecs.length +
-        gapPx * (props.operatorSpecs.length - 1),
+      edgePad * 2 + CANVAS_SIZE * props.chars.length + gapPx * (props.chars.length - 1),
     );
     canvas.width = Math.max(totalWidth, 0);
     canvas.height = SLOT_HEIGHT;
@@ -239,13 +257,11 @@ async function generateAll(): Promise<void> {
     };
 
     // 从左到右依次绘制每个干员
-    for (let i = 0; i < props.operatorSpecs.length; i++) {
-      const images = allImages[i];
-      const operatorSpec = props.operatorSpecs[i]!;
-      if (images) {
-        const x = Math.round(edgePad + i * slotStride);
-        drawSlotOnCanvas(ctx, images, x, operatorSpec, drawOptions);
-      }
+    for (let i = 0; i < props.chars.length; i++) {
+      const images = allImages[i]!;
+      const char = props.chars[i]!;
+      const x = Math.round(edgePad + i * slotStride);
+      drawSlotOnCanvas(ctx, images, x, char, drawOptions);
     }
   } catch (error) {
     console.error('Failed to generate avatars:', error);
