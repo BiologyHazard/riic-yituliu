@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ScheduleType } from '@/types/riic';
+import { getItemIconUrl } from '@/utils/dataSources';
 import type { ColorInstance } from 'color';
 import Color from 'color';
 import { nextTick, onMounted, useTemplateRef, watch } from 'vue';
@@ -9,31 +10,29 @@ const props = defineProps<ScheduleType>();
 const contentElement = useTemplateRef('contentElement');
 
 interface itemInfo {
-  imageUrl: string;
+  imageUrl: string | undefined;
   backgroundColor: ColorInstance;
 }
 
-// const baseApIconUrl = 'https://torappu.prts.wiki/assets/item_icon/raw/AP_BASE.png';
-
 const itemInfoMap: Record<string, itemInfo> = {
   EXP: {
-    imageUrl: 'https://torappu.prts.wiki/assets/item_icon/sprite_exp_card_t3.png',
+    imageUrl: getItemIconUrl('2003'),
     backgroundColor: Color('#ffd80080'),
   },
   贵金属: {
-    imageUrl: 'https://torappu.prts.wiki/assets/item_icon/MTL_GOLD3.png',
+    imageUrl: getItemIconUrl('3003'),
     backgroundColor: Color('#dd653f80'),
   },
   龙门币: {
-    imageUrl: 'https://torappu.prts.wiki/assets/item_icon/GOLD.png',
+    imageUrl: getItemIconUrl('4001'),
     backgroundColor: Color('#0075a980'),
   },
   合成玉: {
-    imageUrl: 'https://torappu.prts.wiki/assets/item_icon/DIAMOND_SHD.png',
+    imageUrl: getItemIconUrl('4003'),
     backgroundColor: Color('#ea161680'),
   },
   高级凭证: {
-    imageUrl: 'https://torappu.prts.wiki/assets/item_icon/HGG_SHD.png',
+    imageUrl: getItemIconUrl('4004'),
     backgroundColor: Color('#ffd80080'),
   },
 };
