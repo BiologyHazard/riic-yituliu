@@ -36,6 +36,7 @@ declare module 'vue' {
     MonsterSirenSongsTab: typeof import('./src/components/monsterSiren/MonsterSirenSongsTab.vue')['default']
     NgaIcon: typeof import('./src/components/icons/NgaIcon.vue')['default']
     OperatorAvatar: typeof import('./src/components/riic/OperatorAvatar.vue')['default']
+    OperatorAvatarCanvas: typeof import('./src/components/riic/OperatorAvatarCanvas.vue')['default']
     OperatorBaseSkillShowcase: typeof import('./src/components/riic/OperatorBaseSkillShowcase.vue')['default']
     OperatorCard: typeof import('./src/components/riic/OperatorCard.vue')['default']
     RichTextDescription: typeof import('./src/components/riic/RichTextDescription.vue')['default']

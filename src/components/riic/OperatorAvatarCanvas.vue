@@ -1,0 +1,305 @@
+<script setup lang="ts">
+import backgroundImageUrl from '@/assets/images/riic/基建解析UI_干员头像底图_180x180_2510101215_BioHazard.webp';
+import type { OperatorSpec } from '@/types/riic';
+import {
+  getCharAvatarUrl,
+  getEliteIconUrl,
+  getProfessionIconUrl,
+  getRarityIconUrl,
+} from '@/utils/dataSources';
+import { getCharProfessionId, getCharRarity } from '@/utils/gameData/character';
+import { computed, useTemplateRef, watch } from 'vue';
+
+const CANVAS_SIZE = 360;
+
+// 名字标签几何常量（以 CANVAS_SIZE 为 1 单位）
+const NAME_GAP = Math.round((6 / 180) * CANVAS_SIZE); // 头像底边到名字矩形的间距
+const NAME_RECT_HEIGHT = Math.round((40 / 180) * CANVAS_SIZE); // 名字矩形高度
+const MAX_FONT_SIZE = Math.round((28 / 180) * CANVAS_SIZE); // 最大字号
+const MAX_TEXT_WIDTH = 0.95 * CANVAS_SIZE; // 名字文字最大宽度
+const SLOT_HEIGHT = CANVAS_SIZE + NAME_GAP + NAME_RECT_HEIGHT; // 每个干员的总高度
+
+// ─── Props ──────────────────────────────────────────────────
+
+interface OperatorAvatarCanvasProps {
+  /** 要绘制的干员列表 */
+  operatorSpecs?: OperatorSpec[];
+  /** 相邻干员间距（1 单位 = 头像宽度） */
+  spacing?: number;
+  /** 是否在最左和最右添加间距的一半作为边距 */
+  showEdgePadding?: boolean;
+  /** 是否绘制背景底图 */
+  showBackground?: boolean;
+  /** 是否绘制职业角标 */
+  showProfession?: boolean;
+  /** 是否绘制稀有度角标 */
+  showRarity?: boolean;
+  /** 是否绘制精英化角标 */
+  showEliteLevel?: boolean;
+}
+
+const props = withDefaults(defineProps<OperatorAvatarCanvasProps>(), {
+  operatorSpecs: () => [],
+  spacing: 0,
+  showEdgePadding: false,
+  showBackground: false,
+  showProfession: true,
+  showRarity: true,
+  showEliteLevel: true,
+});
+
+// ─── 图片加载 ───────────────────────────────────────────────
+
+function loadImage(url: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.referrerPolicy = 'no-referrer';
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error(`Failed to load image: ${url}`));
+    img.src = url;
+  });
+}
+
+interface LoadedSlotImages {
+  backgroundImage: HTMLImageElement;
+  avatarImage: HTMLImageElement | undefined;
+  professionImage: HTMLImageElement | undefined;
+  eliteImage: HTMLImageElement | undefined;
+  rarityImage: HTMLImageElement | undefined;
+}
+
+async function loadImagesForOperator(operatorSpec: OperatorSpec): Promise<LoadedSlotImages | null> {
+  const { charId, eliteLevel } = operatorSpec;
+
+  const effectiveElite = eliteLevel ?? 0;
+
+  const avatarUrl = getCharAvatarUrl(charId, effectiveElite);
+
+  const professionId = getCharProfessionId(charId);
+  const rarity = getCharRarity(charId);
+
+  const professionUrl = professionId !== undefined ? getProfessionIconUrl(professionId) : undefined;
+
+  const eliteIconUrl = eliteLevel !== null ? getEliteIconUrl(eliteLevel) : undefined;
+
+  const rarityUrl = rarity !== undefined ? getRarityIconUrl(rarity) : undefined;
+
+  const [backgroundImage, avatarImage, professionImage, eliteImage, rarityImage] =
+    await Promise.all([
+      loadImage(backgroundImageUrl),
+      avatarUrl ? loadImage(avatarUrl) : Promise.resolve(undefined),
+      professionUrl ? loadImage(professionUrl) : Promise.resolve(undefined),
+      eliteIconUrl ? loadImage(eliteIconUrl) : Promise.resolve(undefined),
+      rarityUrl ? loadImage(rarityUrl) : Promise.resolve(undefined),
+    ]);
+
+  return {
+    backgroundImage,
+    avatarImage,
+    professionImage,
+    eliteImage,
+    rarityImage,
+  };
+}
+
+function fitFontSize(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  maxSize: number,
+  maxWidth: number,
+): number {
+  ctx.font = `bold ${maxSize}px "HarmonyOS Sans SC", sans-serif`;
+  const measuredWidth = ctx.measureText(text).width;
+  if (measuredWidth <= maxWidth) {
+    return maxSize;
+  }
+  // 文字宽度与字号成正比，直接缩放即可
+  return maxSize * (maxWidth / measuredWidth);
+}
+
+interface DrawOptions {
+  showBackground: boolean;
+  showProfession: boolean;
+  showRarity: boolean;
+  showEliteLevel: boolean;
+}
+
+function drawSlotOnCanvas(
+  ctx: CanvasRenderingContext2D,
+  images: LoadedSlotImages,
+  x: number,
+  operatorSpec: OperatorSpec,
+  drawOptions: DrawOptions,
+): void {
+  const { backgroundImage, avatarImage, professionImage, eliteImage, rarityImage } = images;
+  const { charName, isTired } = operatorSpec;
+  const { showBackground, showProfession, showRarity, showEliteLevel } = drawOptions;
+
+  const size = CANVAS_SIZE;
+
+  // 1. 底图
+  if (showBackground) {
+    ctx.drawImage(backgroundImage, x, 0, size, size);
+  }
+
+  // 2. 头像
+  if (avatarImage) {
+    ctx.drawImage(avatarImage, x, 0, size, size);
+  }
+
+  // 3. 注意力涣散蒙层（位于头像上方、角标下方）
+  if (isTired) {
+    ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+    ctx.fillRect(x, 0, size, size);
+  }
+
+  // 4. 职业角标（左上 25%）
+  if (showProfession && professionImage) {
+    const profSize = Math.round(size * 0.25);
+    ctx.drawImage(professionImage, x, 0, profSize, profSize);
+  }
+
+  // 5. 精英化角标（左下 35% 宽）
+  if (showEliteLevel && eliteImage) {
+    const eliteImg = eliteImage;
+    const eliteWidth = Math.round(size * 0.35);
+    const eliteHeight = Math.round(eliteWidth * (eliteImg.naturalHeight / eliteImg.naturalWidth));
+    ctx.drawImage(eliteImg, x, size - eliteHeight, eliteWidth, eliteHeight);
+  }
+
+  // 6. 稀有度角标（右下 18% 高）
+  if (showRarity && rarityImage) {
+    const rarityImg = rarityImage;
+    const rarityHeight = Math.round(size * 0.18);
+    const rarityWidth = Math.round(
+      rarityHeight * (rarityImg.naturalWidth / rarityImg.naturalHeight),
+    );
+    ctx.drawImage(
+      rarityImg,
+      x + size - rarityWidth,
+      size - rarityHeight,
+      rarityWidth,
+      rarityHeight,
+    );
+  }
+
+  // 7. 名字标签
+  if (charName) {
+    const nameY = CANVAS_SIZE + NAME_GAP;
+
+    // 绘制白色背景矩形
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(x, nameY, size, NAME_RECT_HEIGHT);
+
+    // 计算合适的字号
+    const fontSize = fitFontSize(ctx, charName, MAX_FONT_SIZE, MAX_TEXT_WIDTH);
+
+    // 绘制文字（居中）
+    ctx.fillStyle = '#000000';
+    ctx.font = `bold ${fontSize}px "HarmonyOS Sans SC", sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(charName, x + size / 2, nameY + NAME_RECT_HEIGHT / 2);
+  }
+}
+
+async function generateAll(): Promise<void> {
+  try {
+    const canvas = canvasRef.value;
+    if (!canvas) return;
+
+    // 并行加载所有干员的图片
+    const allImages = await Promise.all(props.operatorSpecs.map(loadImagesForOperator));
+
+    // 间距（单位 → 像素）
+    const gapPx = props.spacing * CANVAS_SIZE;
+    const edgePad = props.showEdgePadding ? gapPx / 2 : 0;
+
+    // 每个槽位宽度 = 头像 + 间距
+    const slotStride = CANVAS_SIZE + gapPx;
+
+    // 创建合并画布
+    const totalWidth = Math.round(
+      edgePad * 2 +
+        CANVAS_SIZE * props.operatorSpecs.length +
+        gapPx * (props.operatorSpecs.length - 1),
+    );
+    canvas.width = Math.max(totalWidth, 0);
+    canvas.height = SLOT_HEIGHT;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // 绘制选项
+    const drawOptions: DrawOptions = {
+      showBackground: props.showBackground,
+      showProfession: props.showProfession,
+      showRarity: props.showRarity,
+      showEliteLevel: props.showEliteLevel,
+    };
+
+    // 从左到右依次绘制每个干员
+    for (let i = 0; i < props.operatorSpecs.length; i++) {
+      const images = allImages[i];
+      const operatorSpec = props.operatorSpecs[i]!;
+      if (images) {
+        const x = Math.round(edgePad + i * slotStride);
+        drawSlotOnCanvas(ctx, images, x, operatorSpec, drawOptions);
+      }
+    }
+  } catch (error) {
+    console.error('Failed to generate avatars:', error);
+  }
+}
+
+// 串行化生成任务：同一时刻只有一个生成在跑，保证绘制顺序与输入顺序一致
+let renderChain: Promise<void> = Promise.resolve();
+
+function queueRender(): void {
+  renderChain = renderChain.then(() => generateAll()).catch(() => {});
+}
+
+const canvasRef = useTemplateRef('canvasRef');
+
+// ─── 合成渲染状态用于 watch ─────────────────────────────────
+
+const generationInput = computed(() => ({
+  operatorSpecs: props.operatorSpecs,
+  spacing: props.spacing,
+  showEdgePadding: props.showEdgePadding,
+  showBackground: props.showBackground,
+  showProfession: props.showProfession,
+  showRarity: props.showRarity,
+  showEliteLevel: props.showEliteLevel,
+}));
+
+watch(
+  generationInput,
+  () => {
+    queueRender();
+  },
+  { deep: true },
+);
+
+// ─── 对外方法 ───────────────────────────────────────────────
+
+function toBlob(): Promise<Blob> {
+  const canvas = canvasRef.value;
+  if (!canvas) throw new Error('Canvas not found');
+  return new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/png')).then((blob) => {
+    if (!blob) throw new Error('Failed to convert canvas to blob');
+    return blob;
+  });
+}
+
+defineExpose({ toBlob });
+</script>
+
+<template>
+  <canvas
+    ref="canvasRef"
+    class="h-auto max-h-full min-h-0 w-auto max-w-full min-w-0"
+    height="0"
+    width="0"
+  />
+</template>
