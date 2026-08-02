@@ -9,8 +9,7 @@ import {
   getCharRarity,
 } from '@/utils/gameData/character';
 import { getPrtsWikiMediaUrl } from '@/utils/prtsWiki';
-import { watchThrottled } from '@vueuse/core';
-import { computed, ref } from 'vue';
+import { computed, ref, useTemplateRef, watch } from 'vue';
 
 const CANVAS_SIZE = 360;
 
@@ -122,8 +121,6 @@ function parseInput(text: string): OperatorSpec[] {
 // ─── 输入状态 ───────────────────────────────────────────────
 
 const inputText = ref<string>('');
-const combinedBlobUrl = ref<string | undefined>(undefined);
-const isGenerating = ref<boolean>(false);
 const isCopying = ref<boolean>(false);
 
 const operatorSpecs = computed<OperatorSpec[]>(() => parseInput(inputText.value));
@@ -132,7 +129,7 @@ const operatorSpecs = computed<OperatorSpec[]>(() => parseInput(inputText.value)
 
 const spacing = ref<number>(0);
 const showEdgePadding = ref<boolean>(false);
-const showBackground = ref<boolean>(true);
+const showBackground = ref<boolean>(false);
 const showProfession = ref<boolean>(true);
 const showRarity = ref<boolean>(true);
 const showEliteLevelGlobal = ref<boolean>(true);
@@ -142,7 +139,7 @@ const showEliteLevelGlobal = ref<boolean>(true);
 const generationInput = computed(() => ({
   operatorSpecs: operatorSpecs.value,
   spacing: spacing.value,
-  edgePadding: showEdgePadding.value,
+  showEdgePadding: showEdgePadding.value,
   showBackground: showBackground.value,
   showProfession: showProfession.value,
   showRarity: showRarity.value,
@@ -303,19 +300,11 @@ function drawSlotOnCanvas(
 }
 
 async function generateAll(): Promise<void> {
-  if (isGenerating.value) return;
-  isGenerating.value = true;
-
   try {
+    const canvas = canvasRef.value;
+    if (!canvas) return;
+
     const validOperatorSpecs = operatorSpecs.value.filter((s) => s.charId !== undefined);
-    if (validOperatorSpecs.length === 0) {
-      // 无有效干员时清除预览
-      if (combinedBlobUrl.value) {
-        URL.revokeObjectURL(combinedBlobUrl.value);
-        combinedBlobUrl.value = undefined;
-      }
-      return;
-    }
 
     // 并行加载所有干员的图片
     const allImages = await Promise.all(validOperatorSpecs.map(loadImagesForOperator));
@@ -333,8 +322,7 @@ async function generateAll(): Promise<void> {
         CANVAS_SIZE * validOperatorSpecs.length +
         gapPx * (validOperatorSpecs.length - 1),
     );
-    const canvas = document.createElement('canvas');
-    canvas.width = totalWidth;
+    canvas.width = Math.max(totalWidth, 0);
     canvas.height = SLOT_HEIGHT;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -356,29 +344,21 @@ async function generateAll(): Promise<void> {
         drawSlotOnCanvas(ctx, images, x, operatorSpec, drawOptions);
       }
     }
-
-    // 先生成新 blob URL，再原子替换，避免闪烁
-    const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/png'));
-    if (blob) {
-      const newUrl = URL.createObjectURL(blob);
-      const oldUrl = combinedBlobUrl.value;
-      combinedBlobUrl.value = newUrl;
-      if (oldUrl) {
-        URL.revokeObjectURL(oldUrl);
-      }
-    }
   } catch (error) {
     console.error('Failed to generate avatars:', error);
-  } finally {
-    isGenerating.value = false;
   }
+}
+
+// 串行化生成任务：同一时刻只有一个生成在跑，保证绘制顺序与输入顺序一致
+let renderChain: Promise<void> = Promise.resolve();
+
+function queueRender(): void {
+  renderChain = renderChain.then(() => generateAll()).catch(() => {});
 }
 
 // ─── 复制到剪贴板 ───────────────────────────────────────────
 
 async function copyToClipboard(): Promise<void> {
-  if (isCopying.value || !combinedBlobUrl.value) return;
-
   const { initToast, updateProgress, completeToast, failToast } = useToastWithProgress();
 
   try {
@@ -386,7 +366,10 @@ async function copyToClipboard(): Promise<void> {
     initToast({ title: '复制到剪贴板', description: '正在获取图片…' });
 
     updateProgress(0.3, { description: '正在获取图片…' });
-    const blob = await fetch(combinedBlobUrl.value).then((res) => res.blob());
+    const canvas = canvasRef.value;
+    if (!canvas) throw new Error('Canvas not found');
+    const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/png'));
+    if (!blob) throw new Error('Failed to convert canvas to blob');
 
     updateProgress(0.7, { description: '正在写入剪贴板…' });
     await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
@@ -403,14 +386,16 @@ async function copyToClipboard(): Promise<void> {
   }
 }
 
+const canvasRef = useTemplateRef('canvasRef');
+
 // ─── 监听变化自动重绘 ─────────────────────────────────────
 
-watchThrottled(
+watch(
   generationInput,
   () => {
-    generateAll();
+    queueRender();
   },
-  { throttle: 300, deep: true },
+  { deep: true },
 );
 </script>
 
@@ -424,24 +409,18 @@ watchThrottled(
           <!-- 预览区 -->
           <div class="flex flex-col items-center gap-4">
             <div
-              class="flex w-full items-center justify-center overflow-hidden rounded-2xl shadow-lg ring-1 ring-default"
-              style="height: 280px"
+              class="flex h-64 w-full items-center justify-center overflow-hidden rounded-2xl shadow-lg ring-1 ring-default"
             >
-              <img
-                v-if="combinedBlobUrl"
-                :alt="'干员头像合并图'"
-                class="block h-full w-auto max-w-full object-contain"
-                :src="combinedBlobUrl"
-              />
-              <UIcon
-                v-else-if="isGenerating"
-                class="size-6 animate-spin text-toned"
-                name="i-lucide-loader-circle"
+              <canvas
+                ref="canvasRef"
+                class="h-auto max-h-full min-h-0 w-auto max-w-full min-w-0"
+                height="0"
+                width="0"
               />
             </div>
 
             <UButton
-              :disabled="!combinedBlobUrl || isCopying"
+              :disabled="isCopying"
               icon="i-lucide-clipboard-copy"
               size="lg"
               variant="subtle"
