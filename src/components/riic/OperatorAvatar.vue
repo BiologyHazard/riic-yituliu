@@ -1,7 +1,16 @@
 <script setup lang="ts">
-import { getCharAvatarUrl, getEliteIconUrl, getRarityIconUrl } from '@/utils/dataSources';
-import { getCharName, getCharProfessionName, getCharRarity } from '@/utils/gameData/character';
-import { getPrtsWikiMediaUrl } from '@/utils/prtsWiki';
+import {
+  getCharAvatarUrl,
+  getEliteIconUrl,
+  getProfessionIconUrl,
+  getRarityIconUrl,
+} from '@/utils/dataSources';
+import {
+  getCharName,
+  getCharProfessionId,
+  getCharRarity,
+  getProfessionName,
+} from '@/utils/gameData/character';
 import { computed } from 'vue';
 
 interface OperatorAvatarProps {
@@ -10,7 +19,7 @@ interface OperatorAvatarProps {
   eliteLevel?: number; // 精英化等级，0/1/2，默认为 0（可选）
   isTired?: boolean; // 是否注意力涣散（可选）
   rarity?: number; // 稀有度（可选）
-  profession?: string; // 职业（可选）
+  professionId?: string; // 职业（可选）
   showBackgroundImage?: boolean; // 是否显示背景图
   showRarity?: boolean; // 是否显示稀有度角标
   showProfession?: boolean; // 是否显示职业角标
@@ -23,7 +32,7 @@ const props = withDefaults(defineProps<OperatorAvatarProps>(), {
   eliteLevel: 0,
   isTired: false,
   rarity: undefined,
-  profession: undefined,
+  professionId: undefined,
   showBackgroundImage: false,
   showRarity: false,
   showProfession: false,
@@ -47,25 +56,31 @@ const imageAltName = computed<string>(() => {
 /** 精英阶段角标 URL */
 const eliteUrl = computed<string>(() => getEliteIconUrl(props.eliteLevel));
 
-/** 职业名称 */
-const professionName = computed<string | undefined>(() => {
-  if (props.profession !== undefined) {
-    return props.profession;
+/** 职业 ID */
+const professionId = computed<string | undefined>(() => {
+  if (props.professionId !== undefined) {
+    return props.professionId;
   }
   if (props.charId !== undefined) {
-    return getCharProfessionName(props.charId);
+    return getCharProfessionId(props.charId);
   }
   return undefined;
 });
 
-/** 职业角标 URL */
-const professionUrl = computed<string | undefined>(() => {
-  if (professionName.value === undefined) {
+/** 职业名称 */
+const professionName = computed<string | undefined>(() => {
+  if (professionId.value === undefined) {
     return undefined;
   }
-  const fileName = `图标_职业_${professionName.value}.png`;
-  const url = getPrtsWikiMediaUrl(fileName);
-  return url;
+  return getProfessionName(professionId.value);
+});
+
+/** 职业角标 URL */
+const professionUrl = computed<string | undefined>(() => {
+  if (professionId.value === undefined) {
+    return undefined;
+  }
+  return getProfessionIconUrl(professionId.value);
 });
 
 /** 稀有度 */

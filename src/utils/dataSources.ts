@@ -3,9 +3,14 @@ import {
   getCharName,
   getCharPortraitId,
   getCharSkinId,
+  getProfessionName,
 } from '@/utils/gameData/character';
 import { getItemIconId, getItemName } from '@/utils/gameData/item';
-import { getPrtsWikiCharAvatarUrl, getPrtsWikiItemIconUrl } from '@/utils/prtsWiki';
+import {
+  getPrtsWikiCharAvatarUrl,
+  getPrtsWikiItemIconUrl,
+  getPrtsWikiMediaUrl,
+} from '@/utils/prtsWiki';
 import { useLocalStorage } from '@vueuse/core';
 import { computed } from 'vue';
 
@@ -417,4 +422,9 @@ export function getEliteIconUrl(eliteLevel: number): string {
 
 export function getRarityIconUrl(rarity: number): string {
   return `https://torappu.prts.wiki/assets/rarity_icon/rarity_yellow_${rarity}.png`;
+}
+
+export function getProfessionIconUrl(professionId: string): string {
+  const professionName = getProfessionName(professionId);
+  return getPrtsWikiMediaUrl(`图标_职业_${professionName}.png`);
 }

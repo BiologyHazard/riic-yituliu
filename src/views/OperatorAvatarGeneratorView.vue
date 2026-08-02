@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import backgroundSrc from '@/assets/images/riic/基建解析UI_干员头像底图_180x180_2510101215_BioHazard.webp';
+import backgroundImageUrl from '@/assets/images/riic/基建解析UI_干员头像底图_180x180_2510101215_BioHazard.webp';
 import { useToastWithProgress } from '@/composables/useToastWithProgress';
-import { getCharAvatarUrl } from '@/utils/dataSources';
 import {
-  getCharIdByName,
-  getCharName,
-  getCharProfessionName,
-  getCharRarity,
-} from '@/utils/gameData/character';
-import { getPrtsWikiMediaUrl } from '@/utils/prtsWiki';
+  getCharAvatarUrl,
+  getEliteIconUrl,
+  getProfessionIconUrl,
+  getRarityIconUrl,
+} from '@/utils/dataSources';
+import { getCharIdByName, getCharProfessionId, getCharRarity } from '@/utils/gameData/character';
 import { computed, ref, useTemplateRef, watch } from 'vue';
 
 const CANVAS_SIZE = 360;
@@ -23,37 +22,20 @@ const SLOT_HEIGHT = CANVAS_SIZE + NAME_GAP + NAME_RECT_HEIGHT; // 每个干员�
 // ─── 解析类型 ───────────────────────────────────────────────
 
 interface OperatorSpec {
-  /** 用户输入的原始名称（如 "谬因"） */
-  rawName: string;
-  /** 干员实际显示名称（从数据表解析） */
-  charName: string | undefined;
-  /** 精英化等级，undefined 表示不显示 */
-  eliteLevel: number | undefined;
+  /** 干员 ID */
+  charId: string;
+  /** 干员名称 */
+  charName: string;
+  /** 精英化等级，`null` 表示不显示 */
+  eliteLevel: number | null;
   /** 是否注意力涣散 */
   isTired: boolean;
-  /** 是否显示精英化角标 */
-  showEliteLevel: boolean;
-  /** 匹配到的干员 ID */
-  charId: string | undefined;
-  /** 解析错误信息 */
-  error: string | undefined;
 }
 
 // ─── 解析逻辑 ───────────────────────────────────────────────
 
-function parseToken(token: string): OperatorSpec {
+function parseToken(token: string): OperatorSpec | null {
   let remaining = token.trim();
-  if (!remaining) {
-    return {
-      rawName: '',
-      charName: undefined,
-      eliteLevel: undefined,
-      isTired: false,
-      showEliteLevel: false,
-      charId: undefined,
-      error: '空输入',
-    };
-  }
 
   // 1. 检查末尾的 !
   let isTired = false;
@@ -63,62 +45,33 @@ function parseToken(token: string): OperatorSpec {
   }
 
   // 2. 检查末尾的数字 (0/1/2)
-  let eliteLevel: number | undefined;
-  let showEliteLevel = false;
+  let eliteLevel: number | null = null;
   const lastChar = remaining.charAt(remaining.length - 1);
-  if (lastChar === '0' || lastChar === '1' || lastChar === '2') {
+  if (['0', '1', '2'].includes(lastChar)) {
     eliteLevel = parseInt(lastChar);
-    showEliteLevel = true;
     remaining = remaining.slice(0, -1);
   }
 
-  const rawName = remaining.trim();
-  if (!rawName) {
-    return {
-      rawName: '',
-      charName: undefined,
-      eliteLevel,
-      isTired,
-      showEliteLevel,
-      charId: undefined,
-      error: '干员名称为空',
-    };
-  }
+  const charName = remaining.trim();
 
   // 3. 查找干员
-  const charId = getCharIdByName(rawName);
-  if (charId === undefined) {
-    return {
-      rawName,
-      charName: undefined,
-      eliteLevel,
-      isTired,
-      showEliteLevel,
-      charId: undefined,
-      error: `未找到干员 "${rawName}"`,
-    };
-  }
+  const charId = getCharIdByName(charName);
+  if (!charId) return null;
 
   return {
-    rawName,
-    charName: getCharName(charId) ?? rawName,
+    charId,
+    charName,
     eliteLevel,
     isTired,
-    showEliteLevel,
-    charId,
-    error: undefined,
   };
 }
 
 function parseInput(text: string): OperatorSpec[] {
   return text
     .split(/[\s]+/)
-    .map((token) => token.trim())
-    .filter((token) => token.length > 0)
-    .map(parseToken);
+    .map(parseToken)
+    .filter((x) => x !== null);
 }
-
-// ─── 输入状态 ───────────────────────────────────────────────
 
 const inputText = ref<string>('');
 const isCopying = ref<boolean>(false);
@@ -160,47 +113,46 @@ function loadImage(url: string): Promise<HTMLImageElement> {
 }
 
 interface LoadedSlotImages {
-  background: HTMLImageElement;
-  avatar: HTMLImageElement;
-  profession: HTMLImageElement | undefined;
-  elite: HTMLImageElement | undefined;
-  rarity: HTMLImageElement | undefined;
+  backgroundImage: HTMLImageElement;
+  avatarImage: HTMLImageElement | undefined;
+  professionImage: HTMLImageElement | undefined;
+  eliteImage: HTMLImageElement | undefined;
+  rarityImage: HTMLImageElement | undefined;
 }
 
 async function loadImagesForOperator(operatorSpec: OperatorSpec): Promise<LoadedSlotImages | null> {
-  const { charId, eliteLevel: inputEliteLevel, showEliteLevel } = operatorSpec;
+  const { charId, eliteLevel } = operatorSpec;
   if (!charId) return null;
 
-  const effectiveElite = inputEliteLevel ?? 0;
+  const effectiveElite = eliteLevel ?? 0;
 
   const avatarUrl = getCharAvatarUrl(charId, effectiveElite);
-  if (!avatarUrl) return null;
 
-  const professionName = getCharProfessionName(charId);
+  const professionId = getCharProfessionId(charId);
   const rarity = getCharRarity(charId);
 
-  const professionUrl = professionName
-    ? getPrtsWikiMediaUrl(`图标_职业_${professionName}.png`)
-    : undefined;
+  const professionUrl = professionId !== undefined ? getProfessionIconUrl(professionId) : undefined;
 
-  const eliteIconUrl = showEliteLevel
-    ? `https://torappu.prts.wiki/assets/elite_icon/elite_${effectiveElite}_large.png`
-    : undefined;
+  const eliteIconUrl = eliteLevel !== null ? getEliteIconUrl(eliteLevel) : undefined;
 
-  const rarityUrl =
-    rarity !== undefined
-      ? `https://torappu.prts.wiki/assets/rarity_icon/rarity_yellow_${rarity}.png`
-      : undefined;
+  const rarityUrl = rarity !== undefined ? getRarityIconUrl(rarity) : undefined;
 
-  const [background, avatar] = await Promise.all([loadImage(backgroundSrc), loadImage(avatarUrl)]);
+  const [backgroundImage, avatarImage, professionImage, eliteImage, rarityImage] =
+    await Promise.all([
+      loadImage(backgroundImageUrl),
+      avatarUrl ? loadImage(avatarUrl) : Promise.resolve(undefined),
+      professionUrl ? loadImage(professionUrl) : Promise.resolve(undefined),
+      eliteIconUrl ? loadImage(eliteIconUrl) : Promise.resolve(undefined),
+      rarityUrl ? loadImage(rarityUrl) : Promise.resolve(undefined),
+    ]);
 
-  const [profession, elite, rarityImg] = await Promise.all([
-    professionUrl ? loadImage(professionUrl) : Promise.resolve(undefined),
-    eliteIconUrl ? loadImage(eliteIconUrl) : Promise.resolve(undefined),
-    rarityUrl ? loadImage(rarityUrl) : Promise.resolve(undefined),
-  ]);
-
-  return { background, avatar, profession, elite, rarity: rarityImg };
+  return {
+    backgroundImage,
+    avatarImage,
+    professionImage,
+    eliteImage,
+    rarityImage,
+  };
 }
 
 function fitFontSize(
@@ -232,39 +184,45 @@ function drawSlotOnCanvas(
   operatorSpec: OperatorSpec,
   drawOptions: DrawOptions,
 ): void {
+  const { backgroundImage, avatarImage, professionImage, eliteImage, rarityImage } = images;
+  const { charName, isTired } = operatorSpec;
+  const { showBackground, showProfession, showRarity, showEliteLevel } = drawOptions;
+
   const size = CANVAS_SIZE;
 
   // 1. 底图
-  if (drawOptions.showBackground) {
-    ctx.drawImage(images.background, x, 0, size, size);
+  if (showBackground) {
+    ctx.drawImage(backgroundImage, x, 0, size, size);
   }
 
   // 2. 头像
-  ctx.drawImage(images.avatar, x, 0, size, size);
+  if (avatarImage) {
+    ctx.drawImage(avatarImage, x, 0, size, size);
+  }
 
   // 3. 注意力涣散蒙层（位于头像上方、角标下方）
-  if (operatorSpec.isTired) {
+  if (isTired) {
     ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
     ctx.fillRect(x, 0, size, size);
   }
 
   // 4. 职业角标（左上 25%）
-  if (drawOptions.showProfession && images.profession) {
+  if (showProfession && professionImage) {
     const profSize = Math.round(size * 0.25);
-    ctx.drawImage(images.profession, x, 0, profSize, profSize);
+    ctx.drawImage(professionImage, x, 0, profSize, profSize);
   }
 
   // 5. 精英化角标（左下 35% 宽）
-  if (drawOptions.showEliteLevel && operatorSpec.showEliteLevel && images.elite) {
-    const eliteImg = images.elite;
+  if (showEliteLevel && eliteImage) {
+    const eliteImg = eliteImage;
     const eliteWidth = Math.round(size * 0.35);
     const eliteHeight = Math.round(eliteWidth * (eliteImg.naturalHeight / eliteImg.naturalWidth));
     ctx.drawImage(eliteImg, x, size - eliteHeight, eliteWidth, eliteHeight);
   }
 
   // 6. 稀有度角标（右下 18% 高）
-  if (drawOptions.showRarity && images.rarity) {
-    const rarityImg = images.rarity;
+  if (showRarity && rarityImage) {
+    const rarityImg = rarityImage;
     const rarityHeight = Math.round(size * 0.18);
     const rarityWidth = Math.round(
       rarityHeight * (rarityImg.naturalWidth / rarityImg.naturalHeight),
@@ -279,8 +237,7 @@ function drawSlotOnCanvas(
   }
 
   // 7. 名字标签
-  const nameText = operatorSpec.charName ?? operatorSpec.rawName;
-  if (nameText) {
+  if (charName) {
     const nameY = CANVAS_SIZE + NAME_GAP;
 
     // 绘制白色背景矩形
@@ -288,14 +245,14 @@ function drawSlotOnCanvas(
     ctx.fillRect(x, nameY, size, NAME_RECT_HEIGHT);
 
     // 计算合适的字号
-    const fontSize = fitFontSize(ctx, nameText, MAX_FONT_SIZE, MAX_TEXT_WIDTH);
+    const fontSize = fitFontSize(ctx, charName, MAX_FONT_SIZE, MAX_TEXT_WIDTH);
 
     // 绘制文字（居中）
     ctx.fillStyle = '#000000';
     ctx.font = `bold ${fontSize}px "HarmonyOS Sans SC", sans-serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(nameText, x + size / 2, nameY + NAME_RECT_HEIGHT / 2);
+    ctx.fillText(charName, x + size / 2, nameY + NAME_RECT_HEIGHT / 2);
   }
 }
 
@@ -447,16 +404,6 @@ watch(
                 />
               </div>
 
-              <!-- 解析错误 -->
-              <div
-                v-for="(operatorSpec, i) in operatorSpecs.filter((s) => s.error)"
-                :key="`err-${i}`"
-                class="flex items-center gap-2 rounded-lg border border-error/30 bg-error/10 px-3 py-1.5 text-sm text-error"
-              >
-                <UIcon class="size-3.5 shrink-0" name="i-lucide-triangle-alert" />
-                <span>{{ operatorSpec.error }}</span>
-              </div>
-
               <!-- 已识别干员 -->
               <div
                 v-if="operatorSpecs.filter((s) => s.charId).length > 0"
@@ -467,17 +414,15 @@ watch(
                 >
                 <div class="flex flex-wrap gap-1">
                   <UBadge
-                    v-for="(operatorSpec, i) in operatorSpecs.filter((s) => s.charId)"
+                    v-for="({ charName, isTired, eliteLevel }, i) in operatorSpecs"
                     :key="i"
                     color="neutral"
                     size="sm"
                     variant="soft"
                   >
-                    {{ operatorSpec.rawName }}
-                    <template v-if="operatorSpec.showEliteLevel">
-                      · 精英{{ operatorSpec.eliteLevel }}</template
-                    >
-                    <template v-if="operatorSpec.isTired"> · 涣散</template>
+                    {{ charName }}
+                    <template v-if="eliteLevel !== null"> · 精英{{ eliteLevel }}</template>
+                    <template v-if="isTired"> · 涣散</template>
                   </UBadge>
                 </div>
               </div>
