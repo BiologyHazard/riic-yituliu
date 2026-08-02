@@ -8,7 +8,7 @@ import {
   getRarityIconUrl,
 } from '@/utils/dataSources';
 import { getCharProfessionId, getCharRarity } from '@/utils/gameData/character';
-import { computed, useTemplateRef, watch } from 'vue';
+import { useTemplateRef, watch } from 'vue';
 
 const CANVAS_SIZE = 360;
 
@@ -261,35 +261,18 @@ function queueRender(): void {
 
 const canvasRef = useTemplateRef('canvasRef');
 
-// ─── 合成渲染状态用于 watch ─────────────────────────────────
-
-const generationInput = computed(() => ({
-  operatorSpecs: props.operatorSpecs,
-  spacing: props.spacing,
-  showEdgePadding: props.showEdgePadding,
-  showBackground: props.showBackground,
-  showProfession: props.showProfession,
-  showRarity: props.showRarity,
-  showEliteLevel: props.showEliteLevel,
-}));
-
-watch(
-  generationInput,
-  () => {
-    queueRender();
-  },
-  { deep: true },
-);
+watch(props, queueRender);
 
 // ─── 对外方法 ───────────────────────────────────────────────
 
-function toBlob(): Promise<Blob> {
+async function toBlob(): Promise<Blob> {
+  // 等待所有已排队的渲染完成，确保导出的是最新画面而非渲染中的旧帧
+  await renderChain;
   const canvas = canvasRef.value;
   if (!canvas) throw new Error('Canvas not found');
-  return new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/png')).then((blob) => {
-    if (!blob) throw new Error('Failed to convert canvas to blob');
-    return blob;
-  });
+  const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/png'));
+  if (!blob) throw new Error('Failed to convert canvas to blob');
+  return blob;
 }
 
 defineExpose({ toBlob });
