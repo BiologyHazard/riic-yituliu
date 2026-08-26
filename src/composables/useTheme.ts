@@ -1,17 +1,39 @@
 import { defaultTheme } from '@/utils/theme/defaultTheme';
 import type { ResolvableLink, ResolvableStyle } from '@unhead/vue';
+import { useStorage } from '@vueuse/core';
 import colors from 'tailwindcss/colors';
-import { computed, ref, type CSSProperties } from 'vue';
+import { computed, ref, watch, type CSSProperties } from 'vue';
 
 const appConfig = useAppConfig();
-
-const colorsToOmit = ['inherit', 'current', 'transparent', 'black', 'white'];
 
 interface ColorEntry {
   id: string;
   lightLabel: string;
   darkLabel: string;
   chipStyle: CSSProperties;
+}
+
+interface RadiusPreset {
+  value: number;
+  label: string;
+}
+
+interface CornerShapePreset {
+  label: string;
+  value: string;
+  cssValue: string;
+  coefficient: number;
+}
+
+interface FontOption {
+  label: string;
+  value: string;
+  family: string;
+  source:
+    | { type: 'use-chinese' }
+    | { type: 'keyword' }
+    | { type: 'local' }
+    | { type: 'link'; links: { id: string; rel: string; href: string }[] };
 }
 
 /**
@@ -48,11 +70,48 @@ function getColorCSSProperty(colorName: string, shade: number): string {
   }
 }
 
+/** Tailwind 颜色 id 对应的中文显示名。 */
+const COLOR_ZH_NAMES: Record<string, string> = {
+  red: '胭脂红',
+  orange: '丹霞橙',
+  amber: '琥珀黄',
+  yellow: '鎏金黄',
+  lime: '青柠绿',
+  green: '帽子绿',
+  emerald: '松石绿',
+  teal: '孔雀青',
+  cyan: '琉璃青',
+  sky: '星河蓝',
+  blue: '霜月蓝',
+  indigo: '星夜靛',
+  violet: '鸢尾紫',
+  purple: '霞光紫',
+  fuchsia: '丁香紫',
+  pink: '少女粉',
+  rose: '玫瑰红',
+  slate: '烟青灰',
+  gray: '钛金灰',
+  zinc: '铅华灰',
+  neutral: '珍珠灰',
+  stone: '暖石灰',
+  taupe: '亚麻褐',
+  mauve: '淡霞紫',
+  mist: '茶褐绿',
+  olive: '橄榄绿',
+  black: '玄墨黑',
+  white: '象牙白',
+};
+
+/** 返回颜色的中文显示名，未收录时回退到英文 id。 */
+function colorZhName(colorName: string): string {
+  return COLOR_ZH_NAMES[colorName] ?? colorName;
+}
+
 function toColorEntry(colorName: string): ColorEntry {
   return {
     id: colorName,
-    lightLabel: colorName,
-    darkLabel: colorName,
+    lightLabel: colorZhName(colorName),
+    darkLabel: colorZhName(colorName),
     chipStyle: {
       // 优先使用 CSS 变量（尊重 @theme 覆盖），被 tree-shake 时 fallback 到具体值
       '--color-light': getColorCSSProperty(colorName, 500),
@@ -61,21 +120,7 @@ function toColorEntry(colorName: string): ColorEntry {
   };
 }
 
-const primaryColors: ColorEntry[] = [
-  {
-    id: 'grayscale',
-    lightLabel: 'black',
-    darkLabel: 'white',
-    chipStyle: {
-      '--color-light': 'black',
-      '--color-dark': 'white',
-    },
-  },
-  ...Object.keys(colors)
-    .filter((colorName) => !colorsToOmit.includes(colorName))
-    .map(toColorEntry),
-];
-const secondaryColors = [...primaryColors];
+const colorsToOmit = ['inherit', 'current', 'transparent', 'black', 'white'];
 const neutralColorNames = [
   'slate',
   'gray',
@@ -87,44 +132,59 @@ const neutralColorNames = [
   'mist',
   'olive',
 ];
-const neutralColors = primaryColors.filter((color) => neutralColorNames.includes(color.id));
+const primaryColors: ColorEntry[] = [
+  {
+    id: 'grayscale',
+    lightLabel: colorZhName('black'),
+    darkLabel: colorZhName('white'),
+    chipStyle: {
+      '--color-light': 'black',
+      '--color-dark': 'white',
+    },
+  },
+  ...Object.keys(colors)
+    .filter((colorName) => !colorsToOmit.includes(colorName))
+    .filter((colorName) => !neutralColorNames.includes(colorName))
+    .map(toColorEntry),
+];
+const secondaryColors = [...primaryColors];
+const neutralColors = neutralColorNames.map(toColorEntry);
 
-const radiuses = [0, 0.125, 0.25, 0.375, 0.5];
-
-interface CornerShapePreset {
-  label: string;
-  value: string;
-  cssValue: string;
-  coefficient: number;
-}
+const radiuses: RadiusPreset[] = [
+  { value: 0, label: '无' },
+  { value: 0.125, label: '小' },
+  { value: 0.25, label: '中' },
+  { value: 0.375, label: '较大' },
+  { value: 0.5, label: '大' },
+];
 
 const cornerShapePresets: CornerShapePreset[] = [
   {
-    label: '-∞',
+    label: '内凹',
     value: '-infinity',
     cssValue: 'notch',
     coefficient: 0.46325137517610426,
   },
   {
-    label: '0',
+    label: '斜切',
     value: '0',
     cssValue: 'bevel',
     coefficient: 0.6551363775620336,
   },
   {
-    label: '1',
+    label: '标准',
     value: '1',
     cssValue: 'round',
     coefficient: 1,
   },
   {
-    label: 'log₂(3)',
+    label: '柔和',
     value: 'log2(3)',
     cssValue: 'superellipse(log(3, 2))',
     coefficient: 1.3561800271129498,
   },
   {
-    label: '2',
+    label: '平滑',
     value: '2',
     cssValue: 'squircle',
     coefficient: 1.7150089225301701,
@@ -132,17 +192,6 @@ const cornerShapePresets: CornerShapePreset[] = [
 ];
 
 const supportsCornerShape = CSS.supports('corner-shape: squircle');
-
-interface FontOption {
-  label: string;
-  value: string;
-  family: string;
-  source:
-    | { type: 'use-chinese' }
-    | { type: 'keyword' }
-    | { type: 'local' }
-    | { type: 'link'; links: { id: string; rel: string; href: string }[] };
-}
 
 const englishFontOptions: FontOption[] = [
   { label: '（使用中文字体）', value: 'use-chinese', family: '', source: { type: 'use-chinese' } },
@@ -154,7 +203,7 @@ const englishFontOptions: FontOption[] = [
       type: 'link',
       links: [
         {
-          id: `font-public-sans`,
+          id: 'font-public-sans',
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap',
         },
@@ -169,7 +218,7 @@ const englishFontOptions: FontOption[] = [
       type: 'link',
       links: [
         {
-          id: `font-dm-sans`,
+          id: 'font-dm-sans',
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,100..900;1,100..900&display=swap',
         },
@@ -184,7 +233,7 @@ const englishFontOptions: FontOption[] = [
       type: 'link',
       links: [
         {
-          id: `font-geist`,
+          id: 'font-geist',
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css2?family=Geist:ital,wght@0,100..900;1,100..900&display=swap',
         },
@@ -199,7 +248,7 @@ const englishFontOptions: FontOption[] = [
       type: 'link',
       links: [
         {
-          id: `font-inter`,
+          id: 'font-inter',
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap',
         },
@@ -214,7 +263,7 @@ const englishFontOptions: FontOption[] = [
       type: 'link',
       links: [
         {
-          id: `font-poppins`,
+          id: 'font-poppins',
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap',
         },
@@ -229,7 +278,7 @@ const englishFontOptions: FontOption[] = [
       type: 'link',
       links: [
         {
-          id: `font-outfit`,
+          id: 'font-outfit',
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap',
         },
@@ -244,7 +293,7 @@ const englishFontOptions: FontOption[] = [
       type: 'link',
       links: [
         {
-          id: `font-raleway`,
+          id: 'font-raleway',
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap',
         },
@@ -259,7 +308,7 @@ const englishFontOptions: FontOption[] = [
       type: 'link',
       links: [
         {
-          id: `font-google-sans-flex`,
+          id: 'font-google-sans-flex',
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,slnt,wdth,wght,GRAD,ROND@6..144,-10..0,25..151,1..1000,0..100,0..100&display=swap',
         },
@@ -274,7 +323,7 @@ const englishFontOptions: FontOption[] = [
       type: 'link',
       links: [
         {
-          id: `font-space-grotesk`,
+          id: 'font-space-grotesk',
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap',
         },
@@ -289,7 +338,7 @@ const englishFontOptions: FontOption[] = [
       type: 'link',
       links: [
         {
-          id: `font-open-sans`,
+          id: 'font-open-sans',
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap',
         },
@@ -304,7 +353,7 @@ const englishFontOptions: FontOption[] = [
       type: 'link',
       links: [
         {
-          id: `font-cmu-serif`,
+          id: 'font-cmu-serif',
           rel: 'stylesheet',
           href: 'https://cdn.jsdelivr.net/npm/computer-modern@0.1.3/index.min.css',
         },
@@ -319,7 +368,7 @@ const englishFontOptions: FontOption[] = [
       type: 'link',
       links: [
         {
-          id: `font-cmu-bright`,
+          id: 'font-cmu-bright',
           rel: 'stylesheet',
           href: 'https://cdn.jsdelivr.net/npm/computer-modern@0.1.3/index.min.css',
         },
@@ -334,7 +383,7 @@ const englishFontOptions: FontOption[] = [
       type: 'link',
       links: [
         {
-          id: `font-cmu-sans-serif`,
+          id: 'font-cmu-sans-serif',
           rel: 'stylesheet',
           href: 'https://cdn.jsdelivr.net/npm/computer-modern@0.1.3/index.min.css',
         },
@@ -349,7 +398,7 @@ const englishFontOptions: FontOption[] = [
       type: 'link',
       links: [
         {
-          id: `font-latin-modern-roman`,
+          id: 'font-latin-modern-roman',
           rel: 'stylesheet',
           href: 'https://cdn.jsdelivr.net/npm/@typopro/web-latin-modern@3.7.5/TypoPRO-LatinModern.min.css',
         },
@@ -364,7 +413,7 @@ const englishFontOptions: FontOption[] = [
       type: 'link',
       links: [
         {
-          id: `font-latin-modern-sans`,
+          id: 'font-latin-modern-sans',
           rel: 'stylesheet',
           href: 'https://cdn.jsdelivr.net/npm/@typopro/web-latin-modern@3.7.5/TypoPRO-LatinModern.min.css',
         },
@@ -401,7 +450,7 @@ const chineseFontOptions: FontOption[] = [
       type: 'link',
       links: [
         {
-          id: `font-noto-sans-sc`,
+          id: 'font-noto-sans-sc',
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&display=swap',
         },
@@ -416,7 +465,7 @@ const chineseFontOptions: FontOption[] = [
       type: 'link',
       links: [
         {
-          id: `font-noto-serif-sc`,
+          id: 'font-noto-serif-sc',
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200..900&display=swap',
         },
@@ -431,7 +480,7 @@ const chineseFontOptions: FontOption[] = [
       type: 'link',
       links: [
         {
-          id: `font-lxgw-wenkai`,
+          id: 'font-lxgw-wenkai',
           rel: 'stylesheet',
           href: 'https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.min.css',
           // href: 'https://cn-font.claude-code-best.win/packages/lxgwwenkai/dist/LXGWWenKai-Regular/result.css',
@@ -449,7 +498,7 @@ const chineseFontOptions: FontOption[] = [
       type: 'link',
       links: [
         {
-          id: `font-lxgw-wenkai-screen`,
+          id: 'font-lxgw-wenkai-screen',
           rel: 'stylesheet',
           href: 'https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.min.css',
           // href: 'https://cn-font.claude-code-best.win/packages/lywkpmydb/dist/LXGWWenKaiScreen/result.css',
@@ -481,7 +530,7 @@ const monospaceFontOptions: FontOption[] = [
       type: 'link',
       links: [
         {
-          id: `font-google-sans-code`,
+          id: 'font-google-sans-code',
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght,MONO@0,300..800,0..1;1,300..800,0..1&display=swap',
         },
@@ -655,48 +704,33 @@ const colorModes = computed<{ label: string; value: 'light' | 'dark' | 'auto'; i
   ],
 );
 
-const _primary = ref<string>(appConfig.ui.colors.primary);
-const primary = computed<string>({
-  get() {
-    return _primary.value;
-  },
-  set(option) {
-    _primary.value = option;
-    if (option !== 'grayscale') {
-      appConfig.ui.colors.primary = option;
-    }
-  },
-});
+// 主题设置持久化：所有可自定义的选项都通过 useStorage 写入 localStorage，重启应用后自动恢复。
+const primary = useStorage<string>('theme.primary', appConfig.ui.colors.primary);
+const secondary = useStorage<string>('theme.secondary', appConfig.ui.colors.secondary);
+const neutral = useStorage<string>('theme.neutral', appConfig.ui.colors.neutral);
 
-const _secondary = ref<string>(appConfig.ui.colors.secondary);
-const secondary = computed<string>({
-  get() {
-    return _secondary.value;
-  },
-  set(option) {
-    _secondary.value = option;
-    if (option !== 'grayscale') {
-      appConfig.ui.colors.secondary = option;
+// 颜色变更时同步到 appConfig（Nuxt UI 依赖 appConfig.ui.colors 应用主题色）。
+// immediate: true 使启动时也执行一次，用持久化的值初始化 appConfig。
+// grayscale 不写 appConfig，由注入的 CSS 变量覆盖 --ui-primary/--ui-secondary。
+watch(
+  [primary, secondary, neutral],
+  ([newPrimary, newSecondary, newNeutral]) => {
+    if (newPrimary !== 'grayscale') {
+      appConfig.ui.colors.primary = newPrimary;
     }
+    if (newSecondary !== 'grayscale') {
+      appConfig.ui.colors.secondary = newSecondary;
+    }
+    appConfig.ui.colors.neutral = newNeutral;
   },
-});
-
-const _neutral = ref<string>(appConfig.ui.colors.neutral);
-const neutral = computed<string>({
-  get() {
-    return _neutral.value;
-  },
-  set(option) {
-    _neutral.value = option;
-    appConfig.ui.colors.neutral = option;
-  },
-});
+  { immediate: true },
+);
 
 /** 圆角半径（单位：rem） */
-const radius = ref<number>(0.25);
+const radius = useStorage<number>('theme.radius', 0.25);
 
 /** 圆角形状预设值（对应 cornerShapePresets 中的 value） */
-const cornerShape = ref<string>(supportsCornerShape ? 'log2(3)' : '1');
+const cornerShape = useStorage<string>('theme.cornerShape', supportsCornerShape ? 'log2(3)' : '1');
 
 /** 当前选中的圆角形状 */
 const selectedCornerShape = computed<CornerShapePreset | undefined>(() =>
@@ -713,11 +747,11 @@ const cornerShapeCoefficient = computed<number>(() => {
 });
 
 /** 选中的英文字体 ID */
-const englishFont = ref<string>('use-chinese');
+const englishFont = useStorage<string>('theme.englishFont', 'use-chinese');
 /** 选中的中文字体 ID */
-const chineseFont = ref<string>('harmonyos-sans-sc');
+const chineseFont = useStorage<string>('theme.chineseFont', 'harmonyos-sans-sc');
 /** 选中的等宽字体 ID */
-const monospaceFont = ref<string>('jetbrains-mono');
+const monospaceFont = useStorage<string>('theme.monospaceFont', 'jetbrains-mono');
 
 /** 选中的英文字体配置 */
 const englishFontOption = computed<FontOption | undefined>(() =>
@@ -747,18 +781,20 @@ const style = computed<ResolvableStyle[]>(() => {
   const style: ResolvableStyle[] = [];
 
   // 主题色为 grayscale 时，设置 --ui-primary 和 --ui-secondary 变量为黑白色
+  // tagPriority 必须大于 nuxt-ui-colors 的实际权重（"critical" = style 基础 60 + (-8) = 52），
+  // 否则 unhead 首次渲染时我们的覆盖会排在它前面，同一 @layer theme 内被它覆盖（刷新后失效）。
   if (primary.value === 'grayscale') {
     style.push({
       innerHTML: `@layer theme { :root { --ui-primary: black; } .dark { --ui-primary: white; } }`,
       id: 'nuxt-ui-primary-grayscale',
-      tagPriority: -2,
+      tagPriority: 60,
     });
   }
   if (secondary.value === 'grayscale') {
     style.push({
       innerHTML: `@layer theme { :root { --ui-secondary: black; } .dark { --ui-secondary: white; } }`,
       id: 'nuxt-ui-secondary-grayscale',
-      tagPriority: -2,
+      tagPriority: 60,
     });
   }
 
