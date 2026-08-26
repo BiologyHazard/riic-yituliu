@@ -202,7 +202,7 @@ const itemsCollapsed = computed<NavigationMenuItem[]>(() => flattenNavigationIte
             class: 'rounded-none bg-transparent',
           }"
           class="shrink-0 p-1.5"
-          to="/"
+          :to="{ name: 'home' }"
           variant="ghost"
         />
         <div v-if="!collapsed" class="truncate font-bold">明日方舟基建一图流</div>
