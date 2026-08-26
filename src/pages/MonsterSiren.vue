@@ -5,7 +5,8 @@ import { useMusicPlayer } from '@/composables/monsterSiren/useMusicPlayer';
 import { useSongFilter } from '@/composables/monsterSiren/useSongFilter';
 import { useViewMode } from '@/composables/monsterSiren/useViewMode';
 import type { SongDetail } from '@/types/monsterSiren';
-import { computed, onMounted, ref, useTemplateRef, watch } from 'vue';
+import { openImagePreviewKey } from '@/utils/provideInject';
+import { computed, inject, onMounted, ref, useTemplateRef, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 // ─── 界面状态 ─────────────────────────────────────────────────────────────────────
@@ -124,19 +125,15 @@ watch(
 );
 
 // ─── 图片预览 ────────────────────────────────────────────────────────────────────────
-const imagePreview = useTemplateRef('imagePreview');
-
-function previewCover(url: string, name: string) {
-  imagePreview.value?.open({ url, name, downloadName: name });
-}
+const openImagePreview = inject(openImagePreviewKey, () => {
+  console.warn('未提供 `openImagePreview` 方法');
+});
 
 // ─── 生命周期 ──────────────────────────────────────────────────────────────────────
 onMounted(loadData);
 </script>
 
 <template>
-  <AppImagePreview ref="imagePreview" />
-
   <audio
     ref="audioRef"
     class="hidden"
@@ -177,7 +174,7 @@ onMounted(loadData);
     @play-next="playNext"
     @play-prev="playPrev"
     @play-song="playSong"
-    @preview-image="imagePreview?.open"
+    @preview-image="openImagePreview"
     @remove-from-playlist="removeFromPlaylist"
     @seek-audio="seekAudio"
     @set-volume="setVolume"
@@ -299,7 +296,6 @@ onMounted(loadData);
                 :song-view-mode
                 @download-song="downloadSong"
                 @play-song="playSong"
-                @preview-cover="previewCover"
               />
             </template>
 
@@ -323,7 +319,6 @@ onMounted(loadData);
                 @download-song="downloadSong"
                 @open-album-detail="(cid: string) => (selectedAlbumCid = cid)"
                 @play-song="playSong"
-                @preview-cover="previewCover"
               />
             </template>
           </KeepAlive>

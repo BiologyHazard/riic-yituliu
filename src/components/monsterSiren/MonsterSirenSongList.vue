@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { Album, Song } from '@/types/monsterSiren';
 import { getResizedCoverUrl } from '@/utils/aliyunOss';
+import { openImagePreviewKey } from '@/utils/provideInject';
 import { useVirtualizer } from '@tanstack/vue-virtual';
-import { computed, useTemplateRef } from 'vue';
+import { computed, inject, useTemplateRef } from 'vue';
 
 const props = defineProps<{
   albumMap: Map<string, Album>;
@@ -14,7 +15,6 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   playSong: [song: Song, playlist: Song[], index: number];
-  previewCover: [coverUrl: string, albumName: string];
   downloadSong: [song: Song];
 }>();
 
@@ -45,6 +45,10 @@ const virtualItems = computed(() => {
     ...item,
     song: props.songs[item.index],
   }));
+});
+
+const openImagePreview = inject(openImagePreviewKey, () => {
+  console.warn('未提供 `openImagePreview` 方法');
 });
 </script>
 
@@ -118,11 +122,11 @@ const virtualItems = computed(() => {
               v-if="props.albumMap.get(song.albumCid)?.coverUrl"
               class="h-10 w-10 shrink-0 rounded-md shadow-sm"
               @click.stop="
-                emit(
-                  'previewCover',
-                  props.albumMap.get(song.albumCid)!.coverUrl,
-                  props.albumMap.get(song.albumCid)!.name,
-                )
+                openImagePreview({
+                  url: props.albumMap.get(song.albumCid)!.coverUrl,
+                  name: props.albumMap.get(song.albumCid)!.name,
+                  downloadName: props.albumMap.get(song.albumCid)!.name,
+                })
               "
             >
               <img

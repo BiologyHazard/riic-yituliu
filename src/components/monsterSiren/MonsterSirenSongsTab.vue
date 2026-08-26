@@ -17,7 +17,6 @@ const props = defineProps<{
 const emit = defineEmits<{
   playSong: [song: Song, playlist: Song[], index: number];
   downloadSong: [song: Song];
-  previewCover: [url: string, name: string];
 }>();
 </script>
 
@@ -41,7 +40,6 @@ const emit = defineEmits<{
       :songs="props.filteredSongs"
       @download-song="(song) => emit('downloadSong', song)"
       @play-song="(song, playlist, index) => emit('playSong', song, playlist, index)"
-      @preview-cover="(url, name) => emit('previewCover', url, name)"
     />
   </KeepAlive>
 </template>

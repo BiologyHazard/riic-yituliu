@@ -19,7 +19,6 @@ const emit = defineEmits<{
   openAlbumDetail: [cid: string];
   playSong: [song: Song, playlist: Song[], index: number];
   downloadSong: [song: Song];
-  previewCover: [url: string, name: string];
 }>();
 
 useHead({ title: () => `${props.album.name} - 专辑详情 - 塞壬唱片` });
@@ -45,10 +44,6 @@ useHeaderTitle(() => `${props.album.name} - 专辑详情 - 塞壬唱片`);
         }
       }
     "
-    @preview-cover="emit('previewCover', props.album.coverUrl, props.album.name)"
-    @preview-cover-de="
-      emit('previewCover', props.albumDetail?.coverDeUrl || props.album.coverUrl, props.album.name)
-    "
   />
 
   <MonsterSirenSongList
@@ -61,6 +56,5 @@ useHeaderTitle(() => `${props.album.name} - 专辑详情 - 塞壬唱片`);
     @play-song="
       (song: Song, playlist: Song[], index: number) => emit('playSong', song, playlist, index)
     "
-    @preview-cover="(url: string, name: string) => emit('previewCover', url, name)"
   />
 </template>

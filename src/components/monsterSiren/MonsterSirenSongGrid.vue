@@ -15,7 +15,6 @@ const props = defineProps<{
 const emit = defineEmits<{
   playSong: [song: Song, playlist: Song[], index: number];
   downloadSong: [song: Song];
-  previewCover: [url: string, name: string];
 }>();
 
 // 增量加载逻辑（无限滚动）

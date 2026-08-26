@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { useImagePreview } from '@/composables/image-preview/useImagePreview';
+import { app } from '@/main';
+import { openImagePreviewKey } from '@/utils/provideInject';
 import { useTemplateRef } from 'vue';
 
 const overlayRef = useTemplateRef('overlayRef');
+const imgRef = useTemplateRef('imgRef');
 
 const {
   preview,
@@ -24,9 +27,9 @@ const {
   onMousemove,
   onMouseup,
   onKeydown,
-} = useImagePreview(overlayRef);
+} = useImagePreview(overlayRef, imgRef);
 
-defineExpose({ open });
+app.provide(openImagePreviewKey, open);
 </script>
 
 <template>
@@ -52,18 +55,21 @@ defineExpose({ open });
         <div
           class="flex shrink-0 items-center justify-end gap-4 bg-default px-4 py-2 sm:justify-between"
         >
-          <div class="hidden min-w-0 flex-col sm:flex">
+          <div class="hidden min-w-0 flex-1 flex-col sm:flex">
             <p class="truncate text-sm font-medium text-highlighted">{{ preview.name }}</p>
             <ULink
-              class="text-xs text-muted"
+              class="truncate text-xs text-muted"
               rel="noopener noreferrer"
               target="_blank"
               :to="preview.url"
             >
-              {{ preview.url }}
+              {{ preview.url.slice(0, 256) }}
             </ULink>
           </div>
-          <p v-if="naturalWidth && naturalHeight" class="hidden text-sm text-muted sm:block">
+          <p
+            v-if="naturalWidth && naturalHeight"
+            class="hidden shrink-0 text-sm whitespace-nowrap text-muted sm:block"
+          >
             {{ naturalWidth }} × {{ naturalHeight }}
           </p>
           <div class="flex shrink-0 items-center gap-1">
@@ -139,6 +145,7 @@ defineExpose({ open });
           @wheel.prevent="onWheel"
         >
           <img
+            ref="imgRef"
             :alt="preview.name"
             class="max-w-none"
             draggable="false"

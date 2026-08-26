@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { Album, AlbumDetail } from '@/types/monsterSiren';
 import { getResizedCoverUrl } from '@/utils/aliyunOss';
+import { openImagePreviewKey } from '@/utils/provideInject';
+import { inject } from 'vue';
 
 const props = defineProps<{
   album: Album;
@@ -11,9 +13,11 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   play: [];
-  previewCover: [];
-  previewCoverDe: [];
 }>();
+
+const openImagePreview = inject(openImagePreviewKey, () => {
+  console.warn('未提供 `openImagePreview` 方法');
+});
 </script>
 
 <template>
@@ -51,7 +55,13 @@ const emit = defineEmits<{
       <!-- 专辑封面预览：点击可触发大图预览 -->
       <ImagePreviewContainer
         class="h-36 w-36 shrink-0 rounded-2xl shadow-xl ring-2 ring-white/20 hover:ring-white/40 sm:h-44 sm:w-44"
-        @click="emit('previewCover')"
+        @click="
+          openImagePreview({
+            url: props.album.coverUrl,
+            name: props.album.name,
+            downloadName: props.album.name,
+          })
+        "
       >
         <img
           :alt="props.album.name"
@@ -116,7 +126,13 @@ const emit = defineEmits<{
           color="neutral"
           icon="i-lucide-zoom-in"
           variant="soft"
-          @click="emit('previewCoverDe')"
+          @click="
+            openImagePreview({
+              url: props.albumDetail?.coverDeUrl || props.album.coverUrl,
+              name: props.album.name,
+              downloadName: props.album.name,
+            })
+          "
         />
       </div>
     </div>

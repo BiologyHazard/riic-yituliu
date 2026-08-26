@@ -78,6 +78,8 @@ onMounted(() => {
           </div>
         </div>
       </UDashboardGroup>
+
+      <AppImagePreview />
     </UApp>
   </Suspense>
 </template>

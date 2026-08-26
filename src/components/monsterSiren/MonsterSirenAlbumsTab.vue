@@ -21,7 +21,6 @@ const emit = defineEmits<{
   openAlbumDetail: [cid: string];
   playSong: [song: Song, playlist: Song[], index: number];
   downloadSong: [song: Song];
-  previewCover: [url: string, name: string];
 }>();
 </script>
 
@@ -42,7 +41,6 @@ const emit = defineEmits<{
     @play-song="
       (song: Song, playlist: Song[], index: number) => emit('playSong', song, playlist, index)
     "
-    @preview-cover="(url: string, name: string) => emit('previewCover', url, name)"
   />
 
   <MonsterSirenAlbumsGrid
