@@ -13,6 +13,7 @@ import IndexPage from '@/pages/IndexPage.vue';
 import ItemValue from '@/pages/ItemValue.vue';
 import MaterialInfo from '@/pages/MaterialInfo.vue';
 import MonsterSiren from '@/pages/MonsterSiren.vue';
+import Oea from '@/pages/Oea.vue';
 import SklandAssistant from '@/pages/SklandAssistant.vue';
 import StageList from '@/pages/StageList.vue';
 import StudioAvatar from '@/pages/StudioAvatar.vue';
@@ -121,6 +122,12 @@ const router = createRouter({
       name: 'endfield-game-bulletin',
       component: EndfieldGameBulletin,
       meta: { title: '明日方舟：终末地游戏内公告' },
+    },
+    {
+      path: '/oea',
+      name: 'oea',
+      component: Oea,
+      meta: { title: 'OEA 终末地档案查漏补缺' },
     },
     {
       path: '/sklassistant',

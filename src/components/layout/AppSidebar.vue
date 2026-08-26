@@ -124,6 +124,11 @@ const itemsExpanded: NavigationMenuItem[] = [
         to: '/endfield-game-bulletin',
       },
       {
+        label: 'OEA 档案查漏补缺',
+        icon: 'i-lucide-scan-line',
+        to: '/oea',
+      },
+      {
         label: '终末地一图流',
         icon: 'i-mdi-numeric-1-box-outline',
         to: 'https://ef.yituliu.cn/',
@@ -182,7 +187,7 @@ const itemsCollapsed = computed<NavigationMenuItem[]>(() => flattenNavigationIte
     side="left"
     :ui="{
       overlay: 'lg:block',
-      body: 'scrollbar-thin group-data-[collapsed=true]/sidebar:scrollbar-none',
+      body: 'group-data-[collapsed=true]/sidebar:scrollbar-none',
       content:
         'fixed inset-y-4 left-4 flex w-[calc(100%-(--spacing(8)))] rounded-lg ring-default sm:shadow-lg sm:ring lg:flex',
     }"

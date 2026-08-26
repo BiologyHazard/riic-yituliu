@@ -77,6 +77,7 @@ declare module 'vue' {
     UMain: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Main.vue')['default']
     UNavigationMenu: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/NavigationMenu.vue')['default']
     UPage: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Page.vue')['default']
+    UPageAside: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/PageAside.vue')['default']
     UPageBody: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/PageBody.vue')['default']
     UPageHeader: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/PageHeader.vue')['default']
     UPagination: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Pagination.vue')['default']
