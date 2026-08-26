@@ -22,13 +22,6 @@ import TierMaker2 from '@/pages/TierMaker2.vue';
 import type { RouteRecordRaw } from 'vue-router';
 import { createRouter, createWebHistory } from 'vue-router';
 
-/**
- * OEA 专属域名。
- * 在该域名下，`/` 与 `/oea` 均渲染 OEA 页面，首页迁移到 `/index`。
- */
-const OEA_DOMAIN = 'oea.biohazard.top';
-const isOeaDomain = typeof window !== 'undefined' && window.location.hostname === OEA_DOMAIN;
-
 /** 与域名无关的其余路由。 */
 const otherRoutes: RouteRecordRaw[] = [
   {
@@ -174,21 +167,53 @@ const otherRoutes: RouteRecordRaw[] = [
   },
 ];
 
+/** OEA 专属域名的入口路由：`/` 与 `/oea` 均渲染 OEA 页面，首页迁移到 `/index`。 */
+const oeaEntryRoutes: RouteRecordRaw[] = [
+  {
+    path: '/',
+    name: 'oea',
+    component: Oea,
+    meta: { title: 'OEA 终末地档案查漏补缺' },
+  },
+  {
+    path: '/oea',
+    name: 'oea-alt',
+    component: Oea,
+    meta: { title: 'OEA 终末地档案查漏补缺' },
+  },
+  {
+    path: '/index',
+    name: 'home',
+    component: IndexPage,
+    meta: { title: '首页' },
+  },
+];
+
+/** 常规域名的入口路由：`/` 为首页，`/oea` 为 OEA 页面。 */
+const regularEntryRoutes: RouteRecordRaw[] = [
+  {
+    path: '/',
+    name: 'home',
+    component: IndexPage,
+    meta: { title: '首页' },
+  },
+  {
+    path: '/oea',
+    name: 'oea',
+    component: Oea,
+    meta: { title: 'OEA 终末地档案查漏补缺' },
+  },
+];
+
 /**
- * 首页与 OEA 入口路由。
- * - 常规域名（如 riic.biohazard.top）：`/` 为首页，`/oea` 为 OEA 页面。
- * - OEA 专属域名（oea.biohazard.top）：`/` 与 `/oea` 均为 OEA 页面，首页迁移到 `/index`。
+ * OEA 专属域名。
+ * 在该域名下，`/` 与 `/oea` 均渲染 OEA 页面，首页迁移到 `/index`。
  */
-const entryRoutes: RouteRecordRaw[] = isOeaDomain
-  ? [
-      { path: '/', name: 'oea', component: Oea, meta: { title: 'OEA 终末地档案查漏补缺' } },
-      { path: '/oea', name: 'oea-alt', component: Oea, meta: { title: 'OEA 终末地档案查漏补缺' } },
-      { path: '/index', name: 'home', component: IndexPage, meta: { title: '首页' } },
-    ]
-  : [
-      { path: '/', name: 'home', component: IndexPage, meta: { title: '首页' } },
-      { path: '/oea', name: 'oea', component: Oea, meta: { title: 'OEA 终末地档案查漏补缺' } },
-    ];
+const OEA_DOMAIN = 'oea.biohazard.top';
+const isOeaDomain = typeof window !== 'undefined' && window.location.hostname === OEA_DOMAIN;
+
+/** 按当前域名选择入口路由。 */
+const entryRoutes: RouteRecordRaw[] = isOeaDomain ? oeaEntryRoutes : regularEntryRoutes;
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
