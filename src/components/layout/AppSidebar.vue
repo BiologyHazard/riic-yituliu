@@ -10,7 +10,7 @@ const itemsExpanded: NavigationMenuItem[] = [
   {
     label: '首页',
     icon: 'i-lucide-home',
-    to: '/',
+    to: { name: 'home' },
   },
   {
     label: '明日方舟',
@@ -126,7 +126,7 @@ const itemsExpanded: NavigationMenuItem[] = [
       {
         label: 'OEA 档案查漏补缺',
         icon: 'i-lucide-scan-line',
-        to: '/oea',
+        to: { name: 'oea' },
       },
       {
         label: '终末地一图流',
