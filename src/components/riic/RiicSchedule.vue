@@ -3,7 +3,7 @@ import type { ScheduleType } from '@/types/riic';
 import { getItemIconUrl } from '@/utils/dataSources';
 import type { ColorInstance } from 'color';
 import Color from 'color';
-import { nextTick, onMounted, useTemplateRef, watch } from 'vue';
+import { computed, nextTick, onMounted, useTemplateRef, watch } from 'vue';
 
 const props = defineProps<ScheduleType>();
 
@@ -14,7 +14,7 @@ interface itemInfo {
   backgroundColor: ColorInstance;
 }
 
-const itemInfoMap: Record<string, itemInfo> = {
+const itemInfoMap = computed<Record<string, itemInfo>>(() => ({
   EXP: {
     imageUrl: getItemIconUrl('2003'),
     backgroundColor: Color('#ffd80080'),
@@ -35,7 +35,7 @@ const itemInfoMap: Record<string, itemInfo> = {
     imageUrl: getItemIconUrl('4004'),
     backgroundColor: Color('#ffd80080'),
   },
-};
+}));
 
 async function adjustContentZoom() {
   if (contentElement.value) {
@@ -63,75 +63,53 @@ watch(props, () => {
       alt="背景"
       class="background-image"
       referrerpolicy="no-referrer"
-      src="https://cos.biohazard.top/arknights/riic-yituliu/main-bg.d7c8c2.jpg"
+      src="https://i.postimg.cc/Mq3dL6tP/main-bg.jpg"
     />
 
     <!-- 排班表标题 -->
-    <div class="mt-3 ml-3.25 flex h-30 flex-row items-stretch gap-10">
+    <div class="mt-3 ml-3.25 flex h-30 flex-row items-stretch">
       <!-- 左侧块 -->
-      <!-- <div class="flex flex-row">
-        <div class="w-4.25 bg-primary"></div>
-        <div
-          class="flex flex-row items-center bg-[#353535] pr-16 pl-5 font-['Alibaba_PuHuiTi_3.0',sans-serif] text-[48px] leading-[1.1] font-[1000] tracking-[-0.03em] whitespace-pre-wrap"
+      <div class="flex items-center rounded-l-md border-b-12 border-[#00B8F4] bg-black pr-8 pl-4">
+        <RhodesIsland class="mr-4 h-13.5 w-auto text-[#09F8C4]" />
+        <p
+          class="mb-1 font-['Alibaba_PuHuiTi_3.0',sans-serif] text-[44px] leading-[1.1] font-[1000] tracking-[-0.03em] whitespace-pre-wrap text-white"
         >
           {{ props.title }}
-        </div>
-        <RhodesIsland class="-ml-11.75 h-13.5 w-auto" />
-      </div> -->
-      <div
-        class="relative mt-4 flex items-end rounded-l-md border-b-12 border-[#00B8F4] bg-black pr-16 pl-16"
-      >
-        <p
-          class="mb-1 font-['Alibaba_PuHuiTi_3.0',sans-serif] text-[44px] leading-[1.1] font-[1000] tracking-[-0.03em]"
-        >
-          <span
-            v-for="(titleLine, titleLineIndex) in props.title.split(/\r?\n/)"
-            :key="titleLineIndex"
-            class="relative block whitespace-pre"
-          >
-            <span class="opacity-0">{{ titleLine || '\u00a0' }}</span>
-            <svg
-              aria-hidden="true"
-              class="pointer-events-none absolute inset-0 h-full w-full overflow-visible select-none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <text
-                dominant-baseline="central"
-                fill="currentColor"
-                paint-order="stroke fill"
-                stroke="#212121"
-                stroke-linejoin="round"
-                stroke-width="8"
-                x="0"
-                y="50%"
-              >
-                {{ titleLine }}
-              </text>
-            </svg>
-          </span>
         </p>
-        <RhodesIsland
-          class="absolute top-1/2 left-2 h-13.5 w-auto -translate-y-1/2 text-[#09F8C4]"
+        <img
+          class="mb-4 ml-4 h-10 w-auto self-end"
+          referrerpolicy="no-referrer"
+          src="@/assets/images/riic/rhodes.svg"
         />
       </div>
 
       <!-- 中间说明 -->
       <div
         v-if="props.description"
-        class="flex min-w-90 flex-row items-center justify-center bg-[#353535] px-5 text-center font-['HarmonyOS_Sans_SC',sans-serif] text-[22px] leading-[1.3] font-medium whitespace-pre-wrap"
+        class="relative flex min-w-90 items-center justify-center overflow-hidden rounded-r-md bg-[#90f6ff] px-5"
       >
-        {{ props.description }}
+        <img
+          class="absolute inset-0 z-0 h-full w-full object-contain object-top-right"
+          referrerpolicy="no-referrer"
+          src="https://i.postimg.cc/Hk5wcCq8/header-title-tex.png"
+        />
+        <span
+          class="z-1 text-center font-['HarmonyOS_Sans_SC',sans-serif] text-[22px] leading-[1.3] font-medium whitespace-pre-wrap text-black"
+          >{{ props.description }}</span
+        >
       </div>
 
       <!-- 右侧统计 -->
-      <div class="grid auto-cols-max grid-flow-col grid-rows-2 content-center gap-x-6.5 gap-y-5.5">
+      <div
+        class="ml-10 grid auto-cols-max grid-flow-col grid-rows-2 content-center gap-x-6.5 gap-y-5.5"
+      >
         <div
           v-for="(stat, index) in props.stats"
           :key="index"
           class="relative flex flex-row items-center"
         >
           <div
-            class="relative ml-7.5 flex h-10.25 min-w-30 items-center justify-end bg-[#353535] ps-10 pe-5 font-['HarmonyOS_Sans_SC',sans-serif] text-[28px] font-medium"
+            class="relative ml-7.5 flex h-10.25 min-w-30 items-center justify-end bg-[#353535] ps-10 pe-5 font-['HarmonyOS_Sans_SC',sans-serif] text-[28px] font-medium text-black"
             :style="{
               backgroundColor: itemInfoMap[stat.itemName]?.backgroundColor.string(),
             }"
@@ -142,7 +120,7 @@ watch(props, () => {
               +
               <img
                 alt="无人机"
-                class="mx-1 h-[30px] w-auto drop-shadow-[0_0_2px_black]"
+                class="mx-1 h-[30px] w-auto"
                 referrerpolicy="no-referrer"
                 src="@/assets/images/riic/icon_labor.webp"
               />
