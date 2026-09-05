@@ -82,9 +82,33 @@ watch(props, () => {
         class="relative mt-4 flex items-end rounded-l-md border-b-12 border-[#00B8F4] bg-black pr-16 pl-16"
       >
         <p
-          class="mb-1 font-['Alibaba_PuHuiTi_3.0',sans-serif] text-[44px] leading-[1.1] font-[1000] tracking-[-0.03em] whitespace-pre-wrap text-stroke-8 text-stroke-[#212121] text-stroke-outer"
+          class="mb-1 font-['Alibaba_PuHuiTi_3.0',sans-serif] text-[44px] leading-[1.1] font-[1000] tracking-[-0.03em]"
         >
-          {{ props.title }}
+          <span
+            v-for="(titleLine, titleLineIndex) in props.title.split(/\r?\n/)"
+            :key="titleLineIndex"
+            class="relative block whitespace-pre"
+          >
+            <span class="opacity-0">{{ titleLine || '\u00a0' }}</span>
+            <svg
+              aria-hidden="true"
+              class="pointer-events-none absolute inset-0 h-full w-full overflow-visible select-none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <text
+                dominant-baseline="central"
+                fill="currentColor"
+                paint-order="stroke fill"
+                stroke="#212121"
+                stroke-linejoin="round"
+                stroke-width="8"
+                x="0"
+                y="50%"
+              >
+                {{ titleLine }}
+              </text>
+            </svg>
+          </span>
         </p>
         <RhodesIsland
           class="absolute top-1/2 left-2 h-13.5 w-auto -translate-y-1/2 text-[#09F8C4]"
