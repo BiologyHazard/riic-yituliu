@@ -41,7 +41,7 @@ async function adjustContentZoom() {
   if (contentElement.value) {
     contentElement.value.style.zoom = '1';
     await nextTick();
-    const scaleX = (2160 * 0.95) / contentElement.value.clientWidth;
+    const scaleX = (1920 * 0.95) / contentElement.value.clientWidth;
     const scaleY = (920 * 0.95) / contentElement.value.clientHeight;
     const scale = Math.min(scaleX, scaleY, 1);
     contentElement.value!.style.zoom = scale.toString();
@@ -63,26 +63,51 @@ watch(props, () => {
       alt="背景"
       class="background-image"
       referrerpolicy="no-referrer"
-      src="@/assets/images/riic/基建解析UI_背景_2511111452_BioHazard.webp"
+      src="https://cos.biohazard.top/arknights/riic-yituliu/main-bg.d7c8c2.jpg"
     />
 
     <!-- 排班表标题 -->
-    <div class="schedule-title">
+    <div class="mt-3 ml-3.25 flex h-30 flex-row items-stretch gap-10">
       <!-- 左侧块 -->
-      <div class="left-block">
-        <div class="bar"></div>
-        <div class="left-content">{{ props.title }}</div>
-        <RiicYituliuDecoration class="decoration" />
+      <!-- <div class="flex flex-row">
+        <div class="w-4.25 bg-primary"></div>
+        <div
+          class="flex flex-row items-center bg-[#353535] pr-16 pl-5 font-['Alibaba_PuHuiTi_3.0',sans-serif] text-[48px] leading-[1.1] font-[1000] tracking-[-0.03em] whitespace-pre-wrap"
+        >
+          {{ props.title }}
+        </div>
+        <RhodesIsland class="-ml-11.75 h-13.5 w-auto" />
+      </div> -->
+      <div
+        class="relative mt-4 flex items-end rounded-l-md border-b-12 border-[#00B8F4] bg-black pr-16 pl-16"
+      >
+        <p
+          class="mb-1 font-['Alibaba_PuHuiTi_3.0',sans-serif] text-[44px] leading-[1.1] font-[1000] tracking-[-0.03em] whitespace-pre-wrap text-stroke-8 text-stroke-[#212121] text-stroke-outer"
+        >
+          {{ props.title }}
+        </p>
+        <RhodesIsland
+          class="absolute top-1/2 left-2 h-13.5 w-auto -translate-y-1/2 text-[#09F8C4]"
+        />
       </div>
 
       <!-- 中间说明 -->
-      <div v-if="props.description" class="middle-block">{{ props.description }}</div>
+      <div
+        v-if="props.description"
+        class="flex min-w-90 flex-row items-center justify-center bg-[#353535] px-5 text-center font-['HarmonyOS_Sans_SC',sans-serif] text-[22px] leading-[1.3] font-medium whitespace-pre-wrap"
+      >
+        {{ props.description }}
+      </div>
 
       <!-- 右侧统计 -->
-      <div class="stats-block">
-        <div v-for="(stat, index) in props.stats" :key="index" class="stats-item">
+      <div class="grid auto-cols-max grid-flow-col grid-rows-2 content-center gap-x-6.5 gap-y-5.5">
+        <div
+          v-for="(stat, index) in props.stats"
+          :key="index"
+          class="relative flex flex-row items-center"
+        >
           <div
-            class="item-count"
+            class="relative ml-7.5 flex h-10.25 min-w-30 items-center justify-end bg-[#353535] ps-10 pe-5 font-['HarmonyOS_Sans_SC',sans-serif] text-[28px] font-medium"
             :style="{
               backgroundColor: itemInfoMap[stat.itemName]?.backgroundColor.string(),
             }"
@@ -93,7 +118,7 @@ watch(props, () => {
               +
               <img
                 alt="无人机"
-                class="base-ap-icon"
+                class="mx-1 h-[30px] w-auto drop-shadow-[0_0_2px_black]"
                 referrerpolicy="no-referrer"
                 src="@/assets/images/riic/icon_labor.webp"
               />
@@ -106,7 +131,7 @@ watch(props, () => {
           </div>
           <img
             :alt="stat.itemName"
-            class="item-image"
+            class="absolute size-15"
             referrerpolicy="no-referrer"
             :src="itemInfoMap[stat.itemName]?.imageUrl"
           />
@@ -146,11 +171,11 @@ watch(props, () => {
   position: relative;
   display: flex;
   flex-direction: column;
-  inline-size: 2160px;
+  inline-size: 1920px;
   block-size: 1080px;
   overflow: hidden;
-  pointer-events: none; /* 禁止交互 */
-  user-select: none; /* 禁止选中 */
+  /* pointer-events: none; */ /* 禁止交互 */
+  /* user-select: none; */ /* 禁止选中 */
   background-color: black;
   isolation: isolate; /* 创建新的堆叠上下文，确保子元素的 z-index 不受外部影响 */
 }
@@ -160,108 +185,6 @@ watch(props, () => {
   z-index: -1;
   inline-size: 100%;
   block-size: 100%;
-}
-
-.schedule-title {
-  display: flex;
-  flex-direction: row;
-  gap: 40px;
-  align-items: stretch;
-  block-size: 120px;
-  margin-block-start: 12px;
-  margin-inline-start: 13px;
-  color: #ededed;
-}
-
-.left-block {
-  display: flex;
-  flex-direction: row;
-}
-
-.bar {
-  inline-size: 17px;
-  background: var(--color-primary);
-}
-
-.left-content {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding-inline: 20px 80px;
-  font-family: 'Alibaba PuHuiTi 3.0', sans-serif;
-  font-size: 48px;
-  font-weight: 1000;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  white-space: pre-wrap;
-  background-color: #353535;
-}
-
-.decoration {
-  inline-size: auto;
-  block-size: 54px;
-  margin-inline-start: -47px;
-}
-
-.middle-block {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  min-inline-size: 360px;
-  padding-inline: 20px;
-  font-family: 'HarmonyOS Sans SC', sans-serif;
-  font-size: 22px;
-  font-weight: 500;
-  line-height: 1.3;
-  text-align: center;
-  white-space: pre-wrap;
-  background-color: #353535;
-}
-
-.stats-block {
-  display: grid;
-  grid-template-rows: repeat(2, auto); /* 2 行 */
-  grid-auto-columns: max-content; /* 列宽随内容 */
-  grid-auto-flow: column; /* 列优先 */
-  gap: 22px 26px;
-  align-content: center; /* 整个表格居中 */
-}
-
-.stats-item {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.item-count {
-  position: relative;
-  display: flex;
-  align-items: center; /* 垂直居中 */
-  justify-content: flex-end; /* 右对齐 */
-  min-inline-size: 120px;
-  block-size: 41px;
-  padding-inline: 40px 20px;
-  margin-inline-start: 30px;
-  font-family: 'HarmonyOS Sans SC', sans-serif;
-  font-size: 28px;
-  font-weight: 500;
-  background-color: #353535; /* 由具体物品决定 */
-}
-
-.base-ap-icon {
-  inline-size: auto;
-  block-size: 30px;
-  margin-inline: 4px;
-  filter: drop-shadow(0 0 2px black);
-}
-
-.item-image {
-  position: absolute;
-  inline-size: 60px;
-  block-size: 60px;
 }
 
 .schedule-content-container {
@@ -297,7 +220,7 @@ watch(props, () => {
   font-size: 50px;
   font-weight: 600;
   line-height: 1.3em;
-  color: white;
+  color: black;
   text-align: center;
   text-wrap: nowrap;
 }

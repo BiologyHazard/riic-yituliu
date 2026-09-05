@@ -118,7 +118,7 @@ const { width: viewportWidth } = useElementSize(() => document.getElementById('m
 const containerWidthThrottled = refThrottled(containerWidth, 250);
 const viewportWidthThrottled = refThrottled(viewportWidth, 250);
 // 只在组件挂载时获取一次排班表宽度，避免抖动
-const scheduleWidth = ref<number>(2160);
+const scheduleWidth = ref<number>(1920);
 onMounted(() => {
   if (riicScheduleRef.value) {
     scheduleWidth.value = riicScheduleRef.value.clientWidth;

@@ -31,7 +31,6 @@ watch([props, operatorNameRef], () => {
         :char-name="props.displayName"
         :elite-level="props.eliteLevel ?? 0"
         :is-tired="props.isTired"
-        show-background-image
         :show-elite-level="props.eliteLevel !== null"
       />
     </div>
@@ -55,7 +54,7 @@ watch([props, operatorNameRef], () => {
   inline-size: 180px;
   block-size: 46px;
   text-align: center;
-  background-color: #1f1f1f;
+  background-color: #ffffff;
 }
 
 .operator-name {
@@ -67,7 +66,7 @@ watch([props, operatorNameRef], () => {
   font-size: 36px;
   font-weight: 500;
   line-height: 46px;
-  color: white;
+  color: black;
   white-space: nowrap;
 }
 </style>

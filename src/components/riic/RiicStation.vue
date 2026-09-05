@@ -16,7 +16,7 @@ function getLeftBackgroundColor(stationType: string): ColorInstance {
  */
 function getRightBackgroundColor(stationType: string): ColorInstance {
   const leftBackgroundColor = getLeftBackgroundColor(stationType);
-  return leftBackgroundColor.alpha(leftBackgroundColor.alpha() * 0.5);
+  return leftBackgroundColor.alpha(leftBackgroundColor.alpha() * 0.25);
 }
 
 /**
@@ -30,7 +30,7 @@ function getLeftTextColor(stationType: string): ColorInstance {
  * 获取右侧内容区文本颜色
  */
 function getRightTextColor(): ColorInstance {
-  return Color('white');
+  return Color('black');
 }
 
 const props = defineProps<StationType>();

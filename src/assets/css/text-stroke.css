@@ -1,0 +1,10 @@
+@utility text-stroke-* {
+  -webkit-text-stroke-width: calc(--value(number) * 1px);
+  -webkit-text-stroke-width: --value([number]);
+  -webkit-text-stroke-color: --value(color);
+  -webkit-text-stroke-color: --value([color]);
+}
+
+@utility text-stroke-outer {
+  paint-order: stroke fill;
+}
