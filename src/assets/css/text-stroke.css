@@ -1,8 +1,8 @@
 @utility text-stroke-* {
-  -webkit-text-stroke-width: calc(--value(number) * 1px);
-  -webkit-text-stroke-width: --value([number]);
-  -webkit-text-stroke-color: --value(color);
+  -webkit-text-stroke-color: --value(--color-*);
   -webkit-text-stroke-color: --value([color]);
+  -webkit-text-stroke-width: calc(--value(number) * 1px);
+  -webkit-text-stroke-width: --value([length]);
 }
 
 @utility text-stroke-outer {
