@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import iconLabor from '@/assets/images/riic/icon_labor.webp';
 import type { ScheduleType } from '@/types/riic';
 import { getItemIconUrl } from '@/utils/dataSources';
 import type { ColorInstance } from 'color';
@@ -12,28 +13,34 @@ const contentElement = useTemplateRef('contentElement');
 interface itemInfo {
   imageUrl: string | undefined;
   backgroundColor: ColorInstance;
+  textColor: ColorInstance;
 }
 
 const itemInfoMap = computed<Record<string, itemInfo>>(() => ({
   EXP: {
     imageUrl: getItemIconUrl('2003'),
-    backgroundColor: Color('#ffd80080'),
+    backgroundColor: Color('#ffd800'),
+    textColor: Color('black'),
   },
   贵金属: {
     imageUrl: getItemIconUrl('3003'),
-    backgroundColor: Color('#dd653f80'),
+    backgroundColor: Color('#dd653f'),
+    textColor: Color('white'),
   },
   龙门币: {
     imageUrl: getItemIconUrl('4001'),
-    backgroundColor: Color('#0075a980'),
+    backgroundColor: Color('#0075a9'),
+    textColor: Color('white'),
   },
   合成玉: {
     imageUrl: getItemIconUrl('4003'),
-    backgroundColor: Color('#ea161680'),
+    backgroundColor: Color('#ea1616'),
+    textColor: Color('white'),
   },
   高级凭证: {
     imageUrl: getItemIconUrl('4004'),
-    backgroundColor: Color('#ffd80080'),
+    backgroundColor: Color('#ffd800'),
+    textColor: Color('black'),
   },
 }));
 
@@ -69,15 +76,15 @@ watch(props, () => {
     <!-- 排班表标题 -->
     <div class="mt-3 ml-3.25 flex h-30 flex-row items-stretch">
       <!-- 左侧块 -->
-      <div class="flex items-center rounded-l-md border-b-12 border-[#00B8F4] bg-black pr-8 pl-4">
-        <RhodesIsland class="mr-4 h-13.5 w-auto text-[#09F8C4]" />
+      <div class="flex items-center rounded-l-md border-b-12 border-[#00B8F4] bg-black pr-4 pl-4">
+        <RhodesIsland class="mr-4 h-12 w-auto text-[#09F8C4]" />
         <p
           class="mb-1 font-['Alibaba_PuHuiTi_3.0',sans-serif] text-[44px] leading-[1.1] font-[1000] tracking-[-0.03em] whitespace-pre-wrap text-white"
         >
           {{ props.title }}
         </p>
         <img
-          class="mb-4 ml-4 h-10 w-auto self-end"
+          class="mb-4 ml-4 h-9 w-auto self-end"
           referrerpolicy="no-referrer"
           src="@/assets/images/riic/rhodes.svg"
         />
@@ -101,7 +108,7 @@ watch(props, () => {
 
       <!-- 右侧统计 -->
       <div
-        class="ml-10 grid auto-cols-max grid-flow-col grid-rows-2 content-center gap-x-6.5 gap-y-5.5"
+        class="ml-10 grid auto-cols-max grid-flow-col grid-rows-2 content-center gap-x-6 gap-y-5"
       >
         <div
           v-for="(stat, index) in props.stats"
@@ -109,20 +116,24 @@ watch(props, () => {
           class="relative flex flex-row items-center"
         >
           <div
-            class="relative ml-7.5 flex h-10.25 min-w-30 items-center justify-end bg-[#353535] ps-10 pe-5 font-['HarmonyOS_Sans_SC',sans-serif] text-[28px] font-medium text-black"
+            class="relative ml-7.5 flex h-10.25 items-center justify-end bg-[#353535] ps-10 pe-5 font-['HarmonyOS_Sans_SC',sans-serif] text-[28px] font-medium"
             :style="{
               backgroundColor: itemInfoMap[stat.itemName]?.backgroundColor.string(),
+              color: itemInfoMap[stat.itemName]?.textColor.string(),
             }"
           >
             <!-- 带无人机加成的格式：例如 "3.6k + 12.5k" -->
             <template v-if="stat.itemCount.includes(' + ')">
               {{ stat.itemCount.split(' + ')[0] }}
               +
-              <img
-                alt="无人机"
-                class="mx-1 h-[30px] w-auto"
-                referrerpolicy="no-referrer"
-                src="@/assets/images/riic/icon_labor.webp"
+              <div
+                class="mx-1 h-[30px] w-[30px]"
+                :style="{
+                  backgroundColor: itemInfoMap[stat.itemName]?.textColor.string(),
+                  maskImage: `url(${iconLabor})`,
+                  maskSize: 'contain',
+                  maskMode: 'alpha',
+                }"
               />
               {{ stat.itemCount.split(' + ')[1] }}
             </template>
@@ -199,7 +210,7 @@ watch(props, () => {
 .schedule-content {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 80px;
 }
 
 .schedule-line {
@@ -230,7 +241,7 @@ watch(props, () => {
 .stations {
   display: flex;
   flex-direction: row;
-  gap: 80px;
+  gap: 64px;
 }
 
 .watermark {
