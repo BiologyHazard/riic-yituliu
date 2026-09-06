@@ -74,49 +74,35 @@ watch(props, () => {
     />
 
     <!-- 排班表标题 -->
-    <div class="mt-3 ml-3.25 flex h-30 flex-row items-stretch">
+    <div class="schedule-title">
       <!-- 左侧块 -->
-      <div class="flex items-center rounded-l-md border-b-12 border-[#00B8F4] bg-black pr-4 pl-4">
-        <RhodesIsland class="mr-4 h-12 w-auto text-[#09F8C4]" />
-        <p
-          class="mb-1 font-['Alibaba_PuHuiTi_3.0',sans-serif] text-[44px] leading-[1.1] font-[1000] tracking-[-0.03em] whitespace-pre-wrap text-white"
-        >
+      <div class="left-block">
+        <RhodesIsland class="left-icon" />
+        <p class="title-text">
           {{ props.title }}
         </p>
         <img
-          class="mb-4 ml-4 h-9 w-auto self-end"
+          class="title-decoration"
           referrerpolicy="no-referrer"
           src="@/assets/images/riic/rhodes.svg"
         />
       </div>
 
       <!-- 中间说明 -->
-      <div
-        v-if="props.description"
-        class="relative flex min-w-90 items-center justify-center overflow-hidden rounded-r-md bg-[#90f6ff] px-5"
-      >
+      <div v-if="props.description" class="middle-block">
         <img
-          class="absolute inset-0 z-0 h-full w-full object-contain object-top-right"
+          class="middle-bg"
           referrerpolicy="no-referrer"
           src="https://i.postimg.cc/Hk5wcCq8/header-title-tex.png"
         />
-        <span
-          class="z-1 text-center font-['HarmonyOS_Sans_SC',sans-serif] text-[22px] leading-[1.3] font-medium whitespace-pre-wrap text-black"
-          >{{ props.description }}</span
-        >
+        <span class="middle-text">{{ props.description }}</span>
       </div>
 
       <!-- 右侧统计 -->
-      <div
-        class="ml-10 grid auto-cols-max grid-flow-col grid-rows-2 content-center gap-x-6 gap-y-5"
-      >
-        <div
-          v-for="(stat, index) in props.stats"
-          :key="index"
-          class="relative flex flex-row items-center"
-        >
+      <div class="stats-block">
+        <div v-for="(stat, index) in props.stats" :key="index" class="stats-item">
           <div
-            class="relative ml-7.5 flex h-10.25 items-center justify-end bg-[#353535] ps-10 pe-5 font-['HarmonyOS_Sans_SC',sans-serif] text-[28px] font-medium"
+            class="item-count"
             :style="{
               backgroundColor: itemInfoMap[stat.itemName]?.backgroundColor.string(),
               color: itemInfoMap[stat.itemName]?.textColor.string(),
@@ -127,7 +113,7 @@ watch(props, () => {
               {{ stat.itemCount.split(' + ')[0] }}
               +
               <div
-                class="mx-1 h-[30px] w-[30px]"
+                class="base-ap-icon"
                 :style="{
                   backgroundColor: itemInfoMap[stat.itemName]?.textColor.string(),
                   maskImage: `url(${iconLabor})`,
@@ -144,7 +130,7 @@ watch(props, () => {
           </div>
           <img
             :alt="stat.itemName"
-            class="absolute size-15"
+            class="item-image"
             referrerpolicy="no-referrer"
             :src="itemInfoMap[stat.itemName]?.imageUrl"
           />
@@ -198,6 +184,130 @@ watch(props, () => {
   z-index: -1;
   inline-size: 100%;
   block-size: 100%;
+}
+
+.schedule-title {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  block-size: 120px;
+  margin-block-start: 12px;
+  margin-inline-start: 13px;
+}
+
+.left-block {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-inline: 16px;
+  background-color: black;
+  border-bottom: 12px solid #00b8f4;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.left-icon {
+  width: auto;
+  height: 48px;
+  margin-right: 16px;
+  color: #09f8c4;
+}
+
+.title-text {
+  font-family: 'Alibaba PuHuiTi 3.0', sans-serif;
+  font-size: 44px;
+  font-weight: 1000;
+  line-height: 1.1;
+  color: white;
+  letter-spacing: -0.03em;
+  white-space: pre-wrap;
+}
+
+.title-decoration {
+  align-self: flex-end;
+  width: auto;
+  height: 36px;
+  margin-bottom: 16px;
+  margin-left: 16px;
+}
+
+.middle-block {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: 360px;
+  padding-inline: 20px;
+  overflow: hidden;
+  background-color: #90f6ff;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.middle-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: top right;
+}
+
+.middle-text {
+  position: relative;
+  z-index: 1;
+  font-family: 'HarmonyOS Sans SC', sans-serif;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: black;
+  text-align: center;
+  white-space: pre-wrap;
+}
+
+.stats-block {
+  display: grid;
+  grid-template-rows: repeat(2, auto); /* 2 行 */
+  grid-auto-columns: max-content; /* 列宽随内容 */
+  grid-auto-flow: column; /* 列优先 */
+  gap: 20px 24px;
+  align-content: center; /* 整个表格居中 */
+  margin-left: 40px;
+}
+
+.stats-item {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.item-count {
+  position: relative;
+  display: flex;
+  align-items: center; /* 垂直居中 */
+  justify-content: flex-end; /* 右对齐 */
+  min-inline-size: 120px;
+  block-size: 41px;
+  padding-inline: 40px 20px;
+  margin-inline-start: 30px;
+  font-family: 'HarmonyOS Sans SC', sans-serif;
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.base-ap-icon {
+  inline-size: auto;
+  block-size: 30px;
+  margin-inline: 4px;
+  filter: drop-shadow(0 0 2px black);
+}
+
+.item-image {
+  position: absolute;
+  inline-size: 60px;
+  block-size: 60px;
 }
 
 .schedule-content-container {
