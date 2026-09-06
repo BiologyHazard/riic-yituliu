@@ -15,7 +15,7 @@
   }
 
   ::-webkit-scrollbar {
-    @apply w-1.75;
+    @apply h-1.75 w-1.75;
   }
 
   ::-webkit-scrollbar-thumb {
