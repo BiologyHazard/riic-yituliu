@@ -214,12 +214,12 @@ watch(props, () => {
 }
 
 .title-text {
-  font-family: 'Alibaba PuHuiTi 3.0', sans-serif;
+  font-family: 'HarmonyOS Sans SC', sans-serif;
   font-size: 44px;
-  font-weight: 1000;
+  font-weight: 844;
   line-height: 1.1;
   color: white;
-  letter-spacing: -0.03em;
+  letter-spacing: -2%;
   white-space: pre-wrap;
 }
 
