@@ -27,12 +27,14 @@ watch([props, operatorNameRef], () => {
   <div class="operator-card">
     <div class="avatar-container">
       <OperatorAvatar
+        v-if="charId"
         :char-id="charId"
         :char-name="props.displayName"
         :elite-level="props.eliteLevel ?? 0"
         :is-tired="props.isTired"
         :show-elite-level="props.eliteLevel !== null"
       />
+      <div v-else aria-label="未知干员头像" class="unknown-avatar" role="img">?</div>
     </div>
     <div id="operatorNameContainer" ref="operatorNameContainerRef" class="operator-name-container">
       <span id="operatorName" ref="operatorNameRef" class="operator-name">{{
@@ -47,6 +49,20 @@ watch([props, operatorNameRef], () => {
 .avatar-container {
   inline-size: 180px;
   block-size: 180px;
+}
+
+.unknown-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 100%;
+  block-size: 100%;
+  font-family: 'Outfit', sans-serif;
+  font-size: 112px;
+  font-weight: 700;
+  color: #666666;
+  background-color: #f2f2f2;
+  border: 8px solid #ffffff;
 }
 
 /* 干员名称样式 */
