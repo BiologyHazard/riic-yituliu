@@ -33,6 +33,7 @@ watch([props, operatorNameRef], () => {
         :elite-level="props.eliteLevel ?? 0"
         :is-tired="props.isTired"
         :show-elite-level="props.eliteLevel !== null"
+        show-profession
       />
       <div v-else aria-label="未知干员头像" class="unknown-avatar" role="img">?</div>
     </div>
