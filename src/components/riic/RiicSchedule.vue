@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import iconLabor from '@/assets/images/riic/icon_labor.webp';
 import type { ScheduleType } from '@/types/riic';
 import { getItemIconUrl } from '@/utils/dataSources';
 import type { ColorInstance } from 'color';
@@ -84,7 +83,7 @@ watch(props, () => {
         <img
           class="title-decoration"
           referrerpolicy="no-referrer"
-          src="@/assets/images/riic/rhodes.svg"
+          src="https://i.postimg.cc/gJPj8kZ2/logical-byte-logo-white.png"
         />
       </div>
 
@@ -116,9 +115,6 @@ watch(props, () => {
                 class="base-ap-icon"
                 :style="{
                   backgroundColor: itemInfoMap[stat.itemName]?.textColor.string(),
-                  maskImage: `url(${iconLabor})`,
-                  maskSize: 'contain',
-                  maskMode: 'alpha',
                 }"
               />
               {{ stat.itemCount.split(' + ')[1] }}
@@ -199,7 +195,6 @@ watch(props, () => {
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding-inline: 16px;
   background-color: black;
   border-bottom: 12px solid #00b8f4;
   border-top-left-radius: 6px;
@@ -209,7 +204,7 @@ watch(props, () => {
 .left-icon {
   width: auto;
   height: 48px;
-  margin-right: 16px;
+  margin-inline: 16px;
   color: #09f8c4;
 }
 
@@ -226,8 +221,7 @@ watch(props, () => {
 .title-decoration {
   align-self: flex-end;
   width: auto;
-  height: 36px;
-  margin-bottom: 16px;
+  height: 72px;
   margin-left: 16px;
 }
 
@@ -298,10 +292,13 @@ watch(props, () => {
 }
 
 .base-ap-icon {
-  inline-size: auto;
+  inline-size: 30px;
   block-size: 30px;
   margin-inline: 4px;
   filter: drop-shadow(0 0 2px black);
+  mask-image: url('@/assets/images/riic/icon_labor.webp');
+  mask-mode: alpha;
+  mask-size: contain;
 }
 
 .item-image {
