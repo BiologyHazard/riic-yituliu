@@ -6,20 +6,25 @@ import { loadGameData } from '@/utils/gameData/gameData';
 import { loadPenguinData } from '@/utils/penguinStats';
 import { zh_cn } from '@nuxt/ui/locale';
 import { useHead } from '@unhead/vue';
-import { onMounted, ref } from 'vue';
+import { useColorMode } from '@vueuse/core';
+import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
+
+const colorMode = useColorMode();
+const themeColor = computed(() => (colorMode.value === 'dark' ? '#18181b' : '#ffffff'));
 const { style, link } = useTheme();
 
 const collapsed = ref(false);
 const open = ref(false);
 
 useHead({
-  style,
-  link,
   title: () => route.meta.title as string | undefined,
   titleTemplate: '%s - 明日方舟基建一图流',
+  link,
+  meta: [{ name: 'theme-color', content: themeColor }],
+  style,
 });
 useHeaderTitle(() => route.meta.title as string | undefined);
 

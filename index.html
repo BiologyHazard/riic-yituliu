@@ -4,7 +4,32 @@
     <meta charset="UTF-8" />
     <link rel="icon" href="/src/assets/images/白鸥.webp" type="image/webp" sizes="128x128" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
     <title>明日方舟基建一图流</title>
+    <meta name="description" content="明日方舟基建一图流" />
+    <meta property="og:title" content="明日方舟基建一图流" />
+    <meta property="og:description" content="明日方舟基建一图流" />
+    <style>
+      html {
+        background-color: #ffffff;
+      }
+
+      html.dark {
+        background-color: #18181b;
+      }
+    </style>
+    <script>
+      (function () {
+        var mode = localStorage.getItem('vueuse-color-scheme') || 'auto';
+        var dark =
+          mode === 'dark' ||
+          (mode === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        if (dark) {
+          document.documentElement.classList.add('dark');
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18181b');
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="app" class="isolate"></div>
