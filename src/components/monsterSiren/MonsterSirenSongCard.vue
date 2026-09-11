@@ -41,7 +41,7 @@ const icon = computed(() => {
         :src="props.album.coverUrl"
       />
       <div
-        class="absolute inset-0 flex items-end justify-end gap-3 bg-black/40 p-3 opacity-0 backdrop-blur-[2px] transition-all group-hover:opacity-100"
+        class="absolute inset-0 flex items-end justify-end rounded-md bg-black/40 p-3 opacity-0 backdrop-blur-[2px] transition-[backdrop-filter,opacity] group-hover:opacity-100 sm:rounded-xl"
       >
         <UButton
           class="light rounded-full shadow-sm"
