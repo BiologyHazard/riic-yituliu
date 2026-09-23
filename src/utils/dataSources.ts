@@ -155,7 +155,8 @@ export const charSkinSources: CharSkinSource[] = [
     label: 'Torappu',
     isGithub: false,
     getCharSkinUrl(charId: string, eliteLevel: number): string {
-      return `https://torappu.prts.wiki/assets/char_arts/${encodeURIComponent(getCharPortraitId(charId, eliteLevel))}.png`;
+      const portraitId = getCharPortraitId(charId, eliteLevel);
+      return `https://torappu.prts.wiki/assets/char_arts/${encodeURIComponent(portraitId)}.png`;
     },
   },
   {
@@ -172,8 +173,8 @@ export const charSkinSources: CharSkinSource[] = [
     label: 'yuanyan3060/ArknightsGameResource',
     isGithub: true,
     getCharSkinUrl(charId: string, eliteLevel: number): string {
-      const skinId = getCharSkinId(charId, eliteLevel);
-      return `https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/refs/heads/main/skin/${encodeURIComponent(skinId)}b.png`;
+      const portraitId = getCharPortraitId(charId, eliteLevel);
+      return `https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/refs/heads/main/skin/${encodeURIComponent(portraitId)}b.png`;
     },
   },
 ];
