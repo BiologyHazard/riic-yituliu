@@ -69,7 +69,7 @@ watch(props, () => {
       alt="背景"
       class="background-image"
       referrerpolicy="no-referrer"
-      src="https://i.postimg.cc/Mq3dL6tP/main-bg.jpg"
+      src="https://web.hycdn.cn/arknights/activity/t1UAowRn01/fuse-bead-gallery/assets/imgs/main-bg.d7c8c2.jpg"
     />
 
     <!-- 排班表标题 -->
@@ -92,7 +92,7 @@ watch(props, () => {
         <img
           class="middle-bg"
           referrerpolicy="no-referrer"
-          src="https://i.postimg.cc/Hk5wcCq8/header-title-tex.png"
+          src="https://web.hycdn.cn/arknights/activity/t1UAowRn01/fuse-bead-gallery/assets/imgs/header-title-tex.51431a.png"
         />
         <span class="middle-text">{{ props.description }}</span>
       </div>

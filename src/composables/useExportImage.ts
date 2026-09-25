@@ -26,15 +26,7 @@ const FILE_EXTENSION_MAP: Record<ExportFormat, string> = {
   svg: 'svg',
 };
 
-export interface UseExportImageOptions {
-  /**
-   * html-to-image 的 filter 选项，用于排除不需要导出的 DOM 节点。
-   * 例如排除 `data-ignore-export` 属性的元素。
-   */
-  filter?: (node: Node) => boolean;
-}
-
-export function useExportImage(opts?: UseExportImageOptions) {
+export function useExportImage(options?: Options) {
   // ─── 导出设置 ──────────────────────────────────────────
 
   const exportFormat = ref<ExportFormat>('webp');
@@ -49,15 +41,15 @@ export function useExportImage(opts?: UseExportImageOptions) {
 
   const cachedFontEmbedCSS = ref<string | null>(null);
   const sharedOptions = computed<Options>(() => ({
-    cacheBust: true,
     pixelRatio: exportPixelRatio.value,
     fontEmbedCSS: cachedFontEmbedCSS.value ?? undefined,
-    ...(opts?.filter ? { filter: opts.filter } : {}),
+    ...options,
+    fetchRequestInit: { ...options?.fetchRequestInit, referrerPolicy: 'no-referrer' },
   }));
 
   async function ensureFontEmbedCSS(target: HTMLElement): Promise<void> {
     if (!cachedFontEmbedCSS.value) {
-      cachedFontEmbedCSS.value = await getFontEmbedCSS(target);
+      cachedFontEmbedCSS.value = await getFontEmbedCSS(target, sharedOptions.value);
     }
   }
 
