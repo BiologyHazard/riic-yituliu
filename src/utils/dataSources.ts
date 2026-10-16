@@ -92,6 +92,13 @@ export const gameDataSources: GameDataSource[] = [
       'https://raw.githubusercontent.com/closure-studio/ArknightsGamedataPure/refs/heads/main/excel',
     isGithub: true,
   },
+  {
+    id: 'Logical-Bytes/arknights-game-data',
+    label: 'Logical-Bytes/arknights-game-data',
+    baseUrl:
+      'https://raw.githubusercontent.com/Logical-Bytes/arknights-game-data/refs/heads/main/zh_CN/gamedata/excel',
+    isGithub: true,
+  },
 ];
 
 export const charAvatarSources: CharAvatarSource[] = [
