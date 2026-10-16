@@ -26,7 +26,6 @@ const faqItems: AccordionItem[] = [
 const sections = [
   { id: 'getting-started', icon: 'i-lucide-rocket', title: '新手提示' },
   { id: 'usage', icon: 'i-lucide-keyboard', title: '操作说明' },
-  { id: 'known-issues', icon: 'i-lucide-triangle-alert', title: '已知问题' },
   { id: 'faq', icon: 'i-lucide-circle-help', title: '常见问题' },
   { id: 'feedback', icon: 'i-lucide-message-circle', title: '反馈交流' },
   { id: 'credits', icon: 'i-lucide-heart', title: '致谢' },
@@ -239,15 +238,15 @@ async function downloadFromGithub(): Promise<void> {
             </li>
             <li class="flex items-baseline gap-3">
               <span class="w-6 flex-none text-end text-primary tabular-nums">3.</span>
-              <span>终末地打开<strong class="text-primary">档案库界面</strong></span>
+              <span>终末地打开<strong class="text-primary">档案库主界面</strong></span>
             </li>
             <li class="flex items-baseline gap-3">
               <span class="w-6 flex-none text-end text-primary tabular-nums">4.</span>
-              <span>点击左上角<strong class="text-primary">开始扫描</strong></span>
+              <span>点击扫描结果栏的<strong class="text-primary">开始扫描</strong></span>
             </li>
             <li class="flex items-baseline gap-3">
               <span class="w-6 flex-none text-end text-primary tabular-nums">5.</span>
-              <span>扫完点击右上角<strong class="text-primary">导出到地图集</strong></span>
+              <span>扫完点击全部档案栏的<strong class="text-primary">导出收集状态</strong></span>
             </li>
           </ol>
         </UCard>
@@ -292,20 +291,6 @@ async function downloadFromGithub(): Promise<void> {
           </div>
         </UCard>
 
-        <!-- 已知问题 -->
-        <UCard id="known-issues" class="scroll-mt-[calc(var(--ui-header-height)+(--spacing(4)))]">
-          <template #header>
-            <div class="flex items-center gap-2">
-              <UIcon name="i-lucide-triangle-alert" />
-              <span class="font-semibold text-highlighted">已知问题</span>
-            </div>
-          </template>
-          <ol class="list-disc space-y-3 text-muted">
-            存在 2 个不同的档案，名称都为「挂在竹子上的字条」。OEA
-            目前无法区分二者，目前只要识别到其一就认为 2 个档案都已收集。
-          </ol>
-        </UCard>
-
         <!-- 常见问题 -->
         <UCard id="faq" class="scroll-mt-[calc(var(--ui-header-height)+(--spacing(4)))]">
           <template #header>
@@ -325,7 +310,7 @@ async function downloadFromGithub(): Promise<void> {
                   rel="noopener noreferrer"
                   target="_blank"
                   to="https://github.com/Logical-Byte/open-endfield-assistant/releases"
-                  >GitHub Release</ULink
+                  >GitHub Releases</ULink
                 >
                 免费下载和使用 OEA。
                 <br />
@@ -342,13 +327,13 @@ async function downloadFromGithub(): Promise<void> {
                   >Mirror酱</ULink
                 >
                 是独立的第三方应用分发平台，提供加速下载服务，需要付费使用。OEA
-                本身不收取任何费用，也提供免费的下载渠道，您可以前往
+                本身不收取任何费用，也提供免费的下载渠道。您可以前往
                 <ULink
                   class="text-primary hover:text-primary/75"
                   rel="noopener noreferrer"
                   target="_blank"
                   to="https://github.com/Logical-Byte/open-endfield-assistant/releases"
-                  >GitHub Release</ULink
+                  >GitHub Releases</ULink
                 >
                 免费下载和使用。
               </p>
@@ -435,6 +420,26 @@ async function downloadFromGithub(): Promise<void> {
               rel="noopener noreferrer"
               target="_blank"
               to="https://mirrorchyan.com/"
+              trailing-icon="i-lucide-external-link"
+              variant="link"
+            />
+            <UButton
+              class="px-0"
+              color="primary"
+              label="RapidAI/RapidOCR (GitHub)"
+              rel="noopener noreferrer"
+              target="_blank"
+              to="https://github.com/RapidAI/RapidOCR"
+              trailing-icon="i-simple-icons:github"
+              variant="link"
+            />
+            <UButton
+              class="px-0"
+              color="primary"
+              label="RapidAI/RapidOCR 模型 (ModelScope)"
+              rel="noopener noreferrer"
+              target="_blank"
+              to="https://www.modelscope.cn/models/RapidAI/RapidOCR"
               trailing-icon="i-lucide-external-link"
               variant="link"
             />
