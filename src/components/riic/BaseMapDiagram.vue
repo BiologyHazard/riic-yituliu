@@ -198,7 +198,11 @@ const legend = computed(() => {
             v-for="view in slots"
             :key="view.slot.id"
             class="basemap-slot"
-            :class="{ 'is-narrow': view.isNarrow, 'is-large': view.isLarge }"
+            :class="{
+              'is-narrow': view.isNarrow,
+              'is-large': view.isLarge,
+              'is-passage': ['CORRIDOR', 'ELEVATOR'].includes(view.slot.category),
+            }"
             :style="view.style"
             :title="view.title"
           >
@@ -282,7 +286,17 @@ const legend = computed(() => {
 }
 
 .basemap-slot {
+  --tile-bg: #303030;
+  --tile-border: #626262;
+  --tile-text: #f5f5f5;
+
   position: absolute;
+}
+
+.basemap-slot.is-passage {
+  --tile-bg: #ffffff;
+  --tile-border: #c9c9c9;
+  --tile-text: #303030;
 }
 
 .basemap-tile {
@@ -293,8 +307,8 @@ const legend = computed(() => {
   gap: 0.15cqw;
   padding: 0.3cqw 0.45cqw;
   overflow: hidden;
-  background-color: var(--ui-bg-elevated);
-  border: 1px solid var(--ui-border-accented);
+  background-color: var(--tile-bg);
+  border: 1px solid var(--tile-border);
   border-inline-start: 0.28cqw solid var(--accent);
   border-radius: 0.35cqw;
   box-shadow: 0 1px 2px rgb(0 0 0 / 8%);
@@ -328,7 +342,7 @@ const legend = computed(() => {
   font-family: 'JetBrains Mono', monospace;
   font-size: 1cqw;
   font-weight: 600;
-  color: var(--ui-text-highlighted);
+  color: var(--tile-text);
 }
 
 .basemap-slot-labor-icon {
@@ -346,14 +360,13 @@ const legend = computed(() => {
   overflow: hidden;
   font-size: 1.1cqw;
   font-weight: 500;
-  color: var(--ui-text-toned);
+  color: var(--tile-text);
   white-space: nowrap;
 }
 
 .basemap-slot.is-large .basemap-slot-name {
   font-size: 1.8cqw;
   font-weight: 600;
-  color: var(--ui-text-highlighted);
 }
 
 .basemap-slot.is-narrow .basemap-tile {
