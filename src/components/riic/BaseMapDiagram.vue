@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { BuildingLayout, BuildingRoom, BuildingSlot, BuildingStorey } from '@/types/gameData';
+import type { CSSProperties } from 'vue';
 import { computed } from 'vue';
 
 const props = defineProps<{
@@ -82,7 +83,7 @@ const gridSize = computed<{ rows: number; cols: number }>(() => {
 });
 
 /** 固定使用 `3840 × 1080` 的默认最小缩放投影，不随网页视口改变纹理周期。 */
-const projectionStyle = computed<Record<string, string>>(() => {
+const projectionStyle = computed<CSSProperties>(() => {
   const f = Math.fround;
   const canvasScale = 0.009999999776482582;
   const foregroundScale = 0.800000011920929;
@@ -370,7 +371,6 @@ const legend = computed(() => {
   font-weight: 600;
   color: var(--ui-text-muted);
   text-align: center;
-  letter-spacing: 0.04em;
   transform: translateY(-50%);
 }
 
