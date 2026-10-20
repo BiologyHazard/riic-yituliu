@@ -1,0 +1,49 @@
+{
+  "strings": {
+    "BUILDING_BROOM_CATEGORY_CUSTOM": "自定义设施",
+    "BUILDING_BROOM_CATEGORY_OUTPUT": "产出设施",
+    "BUILDING_BROOM_CATEGORY_FUNC": "功能设施",
+    "BUILDING_BROOM_HIRE_IDLE_STATE": "空闲中",
+    "BUILDING_BROOM_HIRE_STOP_STATE": "联络暂停",
+    "BUILDING_BROOM_HIRE_WORK_STATE": "联络中",
+    "BUILDING_BROOM_HIRE_FINISH_STATE": "联络完成",
+    "BUILDING_BROOM_DORM_IDLE_STATE": "空闲中",
+    "BUILDING_BROOM_DORM_REST_STATE": "休息中",
+    "BUILDING_BROOM_POWER_STATE": "发电中",
+    "BUILDING_BROOM_MANUF_WORK": "生产中",
+    "BUILDING_BROOM_MANUF_IDLE": "空闲中",
+    "BUILDING_BROOM_MANUF_STOP": "已停止",
+    "BUILDING_BROOM_SHOP_WORK": "销售中",
+    "BUILDING_BROOM_SHOP_IDLE": "空闲中",
+    "BUILDING_BROOM_SHOP_STOP": "已停止",
+    "BUILDING_BROOM_TRADING_WORK": "获取中",
+    "BUILDING_BROOM_TRADING_IDEL": "空闲中",
+    "BUILDING_BROOM_TRADING_FULL": "已饱和",
+    "BUILDING_BROOM_TRAINING_WORK": "训练中",
+    "BUILDING_BROOM_TRAINING_IDLE": "空闲中",
+    "BUILDING_BROOM_TRAINING_FINISH": "训练完成",
+    "BUILDING_BROOM_TRAINING_STATE": "训练进度 {0}%",
+    "BUILDING_BROOM_DIY_RESET": "确定要重置所有更改？",
+    "BUILDING_BROOM_DIY_CLEAR": "确定要撤掉所有家具？",
+    "BUILDING_BROOM_DIY_FURNITURE_INTERSECT": "存在家具位置部分重叠，无法保存，请调整家具位置",
+    "BUILDING_BROOM_DIY_QUIT_NOT_SAVED": "房间装扮有尚未保存的更改，确定要退出？",
+    "BUILDING_BROOM_DIY_SAVE": "确定要保存房间的装扮？",
+    "BUILDING_BROOM_DIY_SAVED": "已保存",
+    "BUILDING_BROOM_PRIVATE_IDLE_STATE": "空闲中",
+    "BUILDING_BROOM_PRIVATE_USE_STATE": "使用中",
+    "BUILDING_BLUEPRINT_RECYCLE_STATE_BOOST": "加速转化中",
+    "BUILDING_BLUEPRINT_RECYCLE_STATE_NORMAL": "转化中",
+    "BUILDING_BLUEPRINT_RECYCLE_STATE_STOP": "转化暂停"
+  },
+  "animation": {
+    "workingSlots": 3,
+    "workingDuration": 2,
+    "workingTarget": 1.3300000429153442,
+    "progressEpsilon": 9.999999747378752e-6
+  },
+  "sources": [
+    "dyn/i18n/string_map.txt",
+    "dyn/gamedata/excel/main_texta7862e.bytes",
+    "GameAssembly.dll"
+  ]
+}

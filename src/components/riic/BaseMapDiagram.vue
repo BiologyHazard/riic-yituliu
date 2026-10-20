@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import type { BuildingLayout, BuildingRoom, BuildingSlot } from '@/types/gameData';
 import type { CSSProperties } from 'vue';
-import { useElementSize } from '@vueuse/core';
+import { useElementSize, useTimestamp } from '@vueuse/core';
+import runtimeRules from '@/assets/images/riic/blueprint/runtime-rules.json';
 import { computed, ref, watch } from 'vue';
+import type { BlueprintRoomState } from '@/utils/riic/roomState';
+import { createDefaultRooms, getRoomName } from '@/utils/riic/roomState';
 import BlueprintRoom from './BlueprintRoom.vue';
+import BlueprintRoomEditor from './BlueprintRoomEditor.vue';
 
 const props = defineProps<{
   /** `building_data.json` 中的 `layouts.v0` */
@@ -72,9 +76,43 @@ const showSlotInfo = ref<boolean>(false);
 const cameraX = ref<number>(0);
 const cameraY = ref<number>(0);
 const dragging = ref<boolean>(false);
+const roomStates = ref<Record<string, BlueprintRoomState>>(createDefaultRooms(props.layout));
+const selectedSlotId = ref<string | null>(null);
+const editorOpen = ref<boolean>(false);
+const animateWorking = ref<boolean>(false);
+const timestamp = useTimestamp({ interval: 100 });
+const animatedTriangles = computed<number>(() => {
+  const animation = runtimeRules.animation;
+  const phase = (timestamp.value / 1000) % animation.workingDuration;
+  const progress = Math.min(1, (phase / animation.workingDuration) * animation.workingTarget);
+  return Math.min(
+    animation.workingSlots,
+    Math.floor((progress + animation.progressEpsilon) * animation.workingSlots),
+  );
+});
+const displayStates = computed<Record<string, BlueprintRoomState>>(() => {
+  if (!animateWorking.value) return roomStates.value;
+  const triangles = animatedTriangles.value;
+  return Object.fromEntries(
+    Object.entries(roomStates.value).map(([id, state]) => [
+      id,
+      ['POWER', 'MANUFACTURE', 'TRADING', 'RECYCLE'].includes(state.roomId)
+        ? { ...state, triangles }
+        : state,
+    ]),
+  );
+});
+const selectedSlot = computed<BuildingSlot | undefined>(
+  () => props.layout.slots[selectedSlotId.value ?? ''],
+);
+const selectedState = computed<BlueprintRoomState | undefined>(
+  () => roomStates.value[selectedSlotId.value ?? ''],
+);
 let pointerId: number | null = null;
 let lastX = 0;
 let lastY = 0;
+let pointerTravel = 0;
+let pressedSlotId: string | null = null;
 const tangent = Math.tan(Math.PI / 12);
 
 const camera = computed<{ distance: number; far: number; roomUnit: number }>(() => {
@@ -88,7 +126,9 @@ const camera = computed<{ distance: number; far: number; roomUnit: number }>(() 
   // `_ResetLayout`：模式 `0` 决定距离上限，模式 `2` 的结果乘 `0.75` 决定下限。
   const far = Math.max(f(f(f(width * 0.5) / f(aspect * gameTangent)) * f(0.72)), heightDistance);
   const near = f(heightDistance * 0.75);
-  const distance = far + (near - far) * zoom.value;
+  // 网页窄视口先容纳全部槽位，再按游戏近端距离缩放。
+  const fitDistance = Math.max(far, f(f(width * 0.5) / f(aspect * gameTangent)));
+  const distance = fitDistance + (near - fitDistance) * zoom.value;
   return { distance, far, roomUnit: viewportHeight.value / (2 * tangent * distance) };
 });
 
@@ -119,12 +159,16 @@ function onPointerDown(event: PointerEvent) {
   pointerId = event.pointerId;
   lastX = event.clientX;
   lastY = event.clientY;
+  pointerTravel = 0;
+  pressedSlotId =
+    (event.target as Element).closest<HTMLElement>('[data-slot-id]')?.dataset.slotId ?? null;
   dragging.value = true;
   viewport.value?.setPointerCapture(event.pointerId);
 }
 
 function onPointerMove(event: PointerEvent) {
   if (event.pointerId !== pointerId || camera.value.roomUnit <= 0) return;
+  pointerTravel += Math.hypot(event.clientX - lastX, event.clientY - lastY);
   cameraX.value -= (event.clientX - lastX) / camera.value.roomUnit;
   cameraY.value += (event.clientY - lastY) / camera.value.roomUnit;
   lastX = event.clientX;
@@ -134,14 +178,47 @@ function onPointerMove(event: PointerEvent) {
 
 function onPointerEnd(event: PointerEvent) {
   if (event.pointerId !== pointerId) return;
+  if (event.type === 'pointerup' && pointerTravel < 5 && pressedSlotId) openRoom(pressedSlotId);
   pointerId = null;
   dragging.value = false;
   if (viewport.value?.hasPointerCapture(event.pointerId))
     viewport.value.releasePointerCapture(event.pointerId);
 }
 
+function openRoom(slotId: string) {
+  if (!roomStates.value[slotId]) return;
+  selectedSlotId.value = slotId;
+  editorOpen.value = true;
+}
+
+function saveRoom(state: BlueprintRoomState) {
+  if (selectedSlotId.value) roomStates.value[selectedSlotId.value] = state;
+}
+
+function resetRoom() {
+  if (!selectedSlotId.value) return;
+  const state = createDefaultRooms(props.layout)[selectedSlotId.value];
+  if (state) roomStates.value[selectedSlotId.value] = state;
+}
+
+function resetRooms() {
+  roomStates.value = createDefaultRooms(props.layout);
+  editorOpen.value = false;
+}
+
 watch([viewportWidth, viewportHeight, gridSize], clampCamera);
 watch(() => props.layout, resetCamera);
+watch(() => props.layout, resetRooms);
+watch(
+  () => props.controlLevel,
+  (level) => {
+    if (level === undefined) return;
+    for (const state of Object.values(roomStates.value)) {
+      if (state.roomId === 'CONTROL') state.level = level;
+    }
+  },
+  { immediate: true },
+);
 
 // 背景、房间、前景分别投影，不能将三层一起做二维缩放。
 const projectionStyle = computed<CSSProperties>(() => {
@@ -247,9 +324,11 @@ const legend = computed(() => {
 <template>
   <div class="basemap" :class="{ 'show-slot-info': showSlotInfo }">
     <div class="basemap-controls">
-      <span class="text-muted">滚轮缩放 · 拖动平移</span>
+      <span class="text-muted">点击房间编辑 · 滚轮缩放 · 拖动平移</span>
       <div class="basemap-control-actions">
         <USwitch v-model="showSlotInfo" label="槽位信息" />
+        <USwitch v-model="animateWorking" label="工作动画" />
+        <UButton color="neutral" label="恢复默认布局" variant="soft" @click="resetRooms" />
         <UButton
           color="neutral"
           icon="i-lucide-maximize"
@@ -280,21 +359,39 @@ const legend = computed(() => {
         <div
           v-for="view in slots"
           :key="view.slot.id"
+          :aria-label="
+            roomStates[view.slot.id]
+              ? `编辑${getRoomName(roomStates[view.slot.id]!)} ${view.slot.storeyId}`
+              : view.title
+          "
           class="basemap-slot"
           :class="{
             'is-narrow': view.isNarrow,
             'is-large': view.isLarge,
             'is-control': view.slot.category === 'SPECIAL',
           }"
+          :data-slot-id="view.slot.id"
+          role="button"
           :style="view.style"
-          :title="view.title"
+          tabindex="0"
+          :title="
+            roomStates[view.slot.id]
+              ? `${getRoomName(roomStates[view.slot.id]!)} · 点击编辑`
+              : view.title
+          "
+          @keydown.enter.prevent="openRoom(view.slot.id)"
+          @keydown.space.prevent="openRoom(view.slot.id)"
         >
           <BlueprintRoom
+            :animation-enabled="animateWorking"
             :cols="view.slot.size.col"
             :control="view.slot.category === 'SPECIAL'"
             :control-level="controlLevel"
-            :room-name="view.roomName"
+            :room-name="
+              roomStates[view.slot.id] ? getRoomName(roomStates[view.slot.id]!) : view.roomName
+            "
             :rows="view.slot.size.row"
+            :state="displayStates[view.slot.id]"
           />
           <div class="basemap-tile">
             <div class="basemap-tile-head">
@@ -311,6 +408,15 @@ const legend = computed(() => {
       <div aria-hidden="true" class="basemap-foreground"></div>
       <div aria-hidden="true" class="basemap-edge-mask"></div>
     </div>
+
+    <BlueprintRoomEditor
+      v-if="selectedSlot && selectedState"
+      v-model:open="editorOpen"
+      :room-slot="selectedSlot"
+      :state="selectedState"
+      @reset="resetRoom"
+      @save="saveRoom"
+    />
 
     <ul v-if="showSlotInfo" class="basemap-legend">
       <li v-for="item in legend" :key="item.label" class="basemap-legend-item">
@@ -451,6 +557,12 @@ const legend = computed(() => {
 /* 槽位图像由游戏 Prefab 渲染；此层仅承载可切换的网页信息。 */
 .basemap-slot {
   position: absolute;
+  cursor: pointer;
+}
+
+.basemap-slot:focus-visible {
+  outline: 2px solid var(--ui-primary);
+  outline-offset: -2px;
 }
 
 .basemap-tile {

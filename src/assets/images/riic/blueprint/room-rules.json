@@ -1,0 +1,3693 @@
+{
+  "rooms": {
+    "CONTROL": {
+      "id": "CONTROL",
+      "name": "控制中枢",
+      "description": "罗德岛舰船系统的控制中枢，支撑着各个区域的规划建设。",
+      "defaultPrefabId": "room_control_8x4",
+      "canLevelDown": false,
+      "maxCount": 1,
+      "category": "SPECIAL",
+      "size": {
+        "row": 4,
+        "col": 8
+      },
+      "phases": [
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "CONTROL#1",
+          "buildCost": {
+            "items": [],
+            "time": 0,
+            "labor": 0
+          },
+          "electricity": 0,
+          "maxStationedNum": 1,
+          "manpowerCost": 100
+        },
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "CONTROL#2",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3105",
+                "count": 1,
+                "type": "MATERIAL"
+              },
+              {
+                "id": "3131",
+                "count": 1,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 20
+          },
+          "electricity": 0,
+          "maxStationedNum": 2,
+          "manpowerCost": 100
+        },
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "CONTROL#3",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3105",
+                "count": 1,
+                "type": "MATERIAL"
+              },
+              {
+                "id": "3131",
+                "count": 3,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 40
+          },
+          "electricity": 0,
+          "maxStationedNum": 3,
+          "manpowerCost": 100
+        },
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "CONTROL#4",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3105",
+                "count": 1,
+                "type": "MATERIAL"
+              },
+              {
+                "id": "3132",
+                "count": 4,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 80
+          },
+          "electricity": 0,
+          "maxStationedNum": 4,
+          "manpowerCost": 100
+        },
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "CONTROL#5",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3105",
+                "count": 1,
+                "type": "MATERIAL"
+              },
+              {
+                "id": "3133",
+                "count": 8,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 120
+          },
+          "electricity": 0,
+          "maxStationedNum": 5,
+          "manpowerCost": 100
+        }
+      ]
+    },
+    "POWER": {
+      "id": "POWER",
+      "name": "发电站",
+      "description": "罗德岛的电力生产设施，凭借源石引擎生产与传输电力。",
+      "defaultPrefabId": "room_power_4x2",
+      "canLevelDown": true,
+      "maxCount": 3,
+      "category": "OUTPUT",
+      "size": {
+        "row": 2,
+        "col": 4
+      },
+      "phases": [
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "POWER#1",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3131",
+                "count": 1,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 10
+          },
+          "electricity": 60,
+          "maxStationedNum": 1,
+          "manpowerCost": 100
+        },
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "POWER#2",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3132",
+                "count": 3,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 60
+          },
+          "electricity": 130,
+          "maxStationedNum": 1,
+          "manpowerCost": 100
+        },
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "POWER#3",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3133",
+                "count": 5,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 120
+          },
+          "electricity": 270,
+          "maxStationedNum": 1,
+          "manpowerCost": 100
+        }
+      ]
+    },
+    "MANUFACTURE": {
+      "id": "MANUFACTURE",
+      "name": "制造站",
+      "description": "罗德岛的资源生产设施，利用设备将原材料转化为工业原料，或产出种种器物。",
+      "defaultPrefabId": "room_manufacture_4x2",
+      "canLevelDown": true,
+      "maxCount": 5,
+      "category": "OUTPUT",
+      "size": {
+        "row": 2,
+        "col": 4
+      },
+      "phases": [
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "MANUFACTURE#1",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3131",
+                "count": 1,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 10
+          },
+          "electricity": -10,
+          "maxStationedNum": 1,
+          "manpowerCost": 100
+        },
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "MANUFACTURE#2",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3132",
+                "count": 3,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 60
+          },
+          "electricity": -30,
+          "maxStationedNum": 2,
+          "manpowerCost": 100
+        },
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "MANUFACTURE#3",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3133",
+                "count": 5,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 120
+          },
+          "electricity": -60,
+          "maxStationedNum": 3,
+          "manpowerCost": 100
+        }
+      ]
+    },
+    "TRADING": {
+      "id": "TRADING",
+      "name": "贸易站",
+      "description": "罗德岛的商业贸易设施，用以处理与各个势力间的贸易合同与商务协议，获取罗德岛必须的研究与活动资金。",
+      "defaultPrefabId": "room_trading_4x2",
+      "canLevelDown": true,
+      "maxCount": 5,
+      "category": "OUTPUT",
+      "size": {
+        "row": 2,
+        "col": 4
+      },
+      "phases": [
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "TRADING#1",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3131",
+                "count": 1,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 10
+          },
+          "electricity": -10,
+          "maxStationedNum": 1,
+          "manpowerCost": 100
+        },
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "TRADING#2",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3132",
+                "count": 3,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 60
+          },
+          "electricity": -30,
+          "maxStationedNum": 2,
+          "manpowerCost": 100
+        },
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "TRADING#3",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3133",
+                "count": 5,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 120
+          },
+          "electricity": -60,
+          "maxStationedNum": 3,
+          "manpowerCost": 100
+        }
+      ]
+    },
+    "DORMITORY": {
+      "id": "DORMITORY",
+      "name": "宿舍",
+      "description": "罗德岛干员的标准住宿设施，向干员们提供了休息与活动的必须设备。",
+      "defaultPrefabId": "room_dormitory_6x2",
+      "canLevelDown": true,
+      "maxCount": 4,
+      "category": "CUSTOM",
+      "size": {
+        "row": 2,
+        "col": 6
+      },
+      "phases": [
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "DORMITORY#1",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3131",
+                "count": 1,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 10
+          },
+          "electricity": -10,
+          "maxStationedNum": 5,
+          "manpowerCost": 0
+        },
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "DORMITORY#2",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3131",
+                "count": 3,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 20
+          },
+          "electricity": -20,
+          "maxStationedNum": 5,
+          "manpowerCost": 0
+        },
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "DORMITORY#3",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3132",
+                "count": 3,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 60
+          },
+          "electricity": -30,
+          "maxStationedNum": 5,
+          "manpowerCost": 0
+        },
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "DORMITORY#4",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3133",
+                "count": 4,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 100
+          },
+          "electricity": -45,
+          "maxStationedNum": 5,
+          "manpowerCost": 0
+        },
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "DORMITORY#5",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3133",
+                "count": 8,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 160
+          },
+          "electricity": -65,
+          "maxStationedNum": 5,
+          "manpowerCost": 0
+        }
+      ]
+    },
+    "PRIVATE": {
+      "id": "PRIVATE",
+      "name": "活动室",
+      "description": "罗德岛的个人休整设施，为干员们提供了独立的娱乐与活动空间。",
+      "defaultPrefabId": "room_private_6x2",
+      "canLevelDown": true,
+      "maxCount": 8,
+      "category": "CUSTOM_P",
+      "size": {
+        "row": 2,
+        "col": 6
+      },
+      "phases": [
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "PRIVATE#1",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3131",
+                "count": 1,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 10
+          },
+          "electricity": 0,
+          "maxStationedNum": 0,
+          "manpowerCost": 0
+        },
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "PRIVATE#2",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3132",
+                "count": 3,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 30
+          },
+          "electricity": 0,
+          "maxStationedNum": 0,
+          "manpowerCost": 0
+        },
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "PRIVATE#3",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3133",
+                "count": 5,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 60
+          },
+          "electricity": 0,
+          "maxStationedNum": 0,
+          "manpowerCost": 0
+        }
+      ]
+    },
+    "WORKSHOP": {
+      "id": "WORKSHOP",
+      "name": "加工站",
+      "description": "罗德岛的资源加工设施，利用设备将工业原料加工成各类材料，或分解成其他类型的原料。",
+      "defaultPrefabId": "room_workshop_4x2",
+      "canLevelDown": false,
+      "maxCount": 1,
+      "category": "FUNCTION",
+      "size": {
+        "row": 2,
+        "col": 4
+      },
+      "phases": [
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "WORKSHOP#1",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3131",
+                "count": 1,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 10
+          },
+          "electricity": -10,
+          "maxStationedNum": 1,
+          "manpowerCost": 0
+        },
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "WORKSHOP#2",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3131",
+                "count": 3,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 60
+          },
+          "electricity": -10,
+          "maxStationedNum": 1,
+          "manpowerCost": 0
+        },
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "WORKSHOP#3",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3132",
+                "count": 6,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 120
+          },
+          "electricity": -10,
+          "maxStationedNum": 1,
+          "manpowerCost": 0
+        }
+      ]
+    },
+    "HIRE": {
+      "id": "HIRE",
+      "name": "办公室",
+      "description": "罗德岛的公务处理设施，用以处理罗德岛的各类综合事务。",
+      "defaultPrefabId": "room_hire_4x2",
+      "canLevelDown": false,
+      "maxCount": 1,
+      "category": "FUNCTION",
+      "size": {
+        "row": 2,
+        "col": 4
+      },
+      "phases": [
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "HIRE#1",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3131",
+                "count": 1,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 10
+          },
+          "electricity": -10,
+          "maxStationedNum": 1,
+          "manpowerCost": 100
+        },
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "HIRE#2",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3132",
+                "count": 3,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 60
+          },
+          "electricity": -30,
+          "maxStationedNum": 1,
+          "manpowerCost": 100
+        },
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "HIRE#3",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3133",
+                "count": 5,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 120
+          },
+          "electricity": -60,
+          "maxStationedNum": 1,
+          "manpowerCost": 100
+        }
+      ]
+    },
+    "TRAINING": {
+      "id": "TRAINING",
+      "name": "训练室",
+      "description": "罗德岛的干员训练设施，通过各类训练设备，为干员提供锻炼与自我磨练的空间。",
+      "defaultPrefabId": "room_training_4x2",
+      "canLevelDown": false,
+      "maxCount": 1,
+      "category": "FUNCTION",
+      "size": {
+        "row": 2,
+        "col": 4
+      },
+      "phases": [
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "TRAINING#1",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3131",
+                "count": 2,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 10
+          },
+          "electricity": -10,
+          "maxStationedNum": 2,
+          "manpowerCost": 100
+        },
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "TRAINING#2",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3132",
+                "count": 6,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 60
+          },
+          "electricity": -30,
+          "maxStationedNum": 2,
+          "manpowerCost": 100
+        },
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "TRAINING#3",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3133",
+                "count": 10,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 120
+          },
+          "electricity": -60,
+          "maxStationedNum": 2,
+          "manpowerCost": 100
+        }
+      ]
+    },
+    "RECYCLE": {
+      "id": "RECYCLE",
+      "name": "回收站",
+      "description": "罗德岛的材料转化设施，通过研究已知材料的结构和特性，回收材料，可以产出全新的材料。",
+      "defaultPrefabId": "room_recycle_4x2",
+      "canLevelDown": false,
+      "maxCount": 1,
+      "category": "FUNCTION",
+      "size": {
+        "row": 2,
+        "col": 4
+      },
+      "phases": [
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "RECYCLE#1",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3131",
+                "count": 1,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 10
+          },
+          "electricity": 0,
+          "maxStationedNum": 1,
+          "manpowerCost": 100
+        },
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "RECYCLE#2",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3132",
+                "count": 3,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 60
+          },
+          "electricity": 0,
+          "maxStationedNum": 2,
+          "manpowerCost": 100
+        },
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "RECYCLE#3",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3133",
+                "count": 5,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 120
+          },
+          "electricity": 0,
+          "maxStationedNum": 2,
+          "manpowerCost": 100
+        }
+      ]
+    },
+    "MEETING": {
+      "id": "MEETING",
+      "name": "会客室",
+      "description": "罗德岛的对外接待设施，多数访问与会面都在这里进行。",
+      "defaultPrefabId": "room_meeting_8x2",
+      "canLevelDown": false,
+      "maxCount": 1,
+      "category": "FUNCTION",
+      "size": {
+        "row": 2,
+        "col": 8
+      },
+      "phases": [
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "MEETING#1",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3131",
+                "count": 1,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 10
+          },
+          "electricity": -10,
+          "maxStationedNum": 2,
+          "manpowerCost": 100
+        },
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "MEETING#2",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3132",
+                "count": 3,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 60
+          },
+          "electricity": -30,
+          "maxStationedNum": 2,
+          "manpowerCost": 100
+        },
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "MEETING#3",
+          "buildCost": {
+            "items": [
+              {
+                "id": "3133",
+                "count": 5,
+                "type": "MATERIAL"
+              }
+            ],
+            "time": 0,
+            "labor": 120
+          },
+          "electricity": -60,
+          "maxStationedNum": 2,
+          "manpowerCost": 100
+        }
+      ]
+    },
+    "ELEVATOR": {
+      "id": "ELEVATOR",
+      "name": "电梯间",
+      "description": null,
+      "defaultPrefabId": "room_elevator_1x2",
+      "canLevelDown": false,
+      "maxCount": -1,
+      "category": "SPECIAL",
+      "size": {
+        "row": 2,
+        "col": 1
+      },
+      "phases": [
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "ELEVATOR#1",
+          "buildCost": {
+            "items": [],
+            "time": 0,
+            "labor": 0
+          },
+          "electricity": 0,
+          "maxStationedNum": 0,
+          "manpowerCost": 0
+        }
+      ]
+    },
+    "CORRIDOR": {
+      "id": "CORRIDOR",
+      "name": "走廊",
+      "description": null,
+      "defaultPrefabId": "room_corridor_2x2",
+      "canLevelDown": false,
+      "maxCount": -1,
+      "category": "SPECIAL",
+      "size": {
+        "row": 2,
+        "col": 2
+      },
+      "phases": [
+        {
+          "overrideName": null,
+          "overridePrefabId": null,
+          "unlockCondId": "CORRIDOR#1",
+          "buildCost": {
+            "items": [],
+            "time": 0,
+            "labor": 0
+          },
+          "electricity": 0,
+          "maxStationedNum": 0,
+          "manpowerCost": 0
+        }
+      ]
+    }
+  },
+  "layouts": {
+    "v0": {
+      "id": "v0",
+      "slots": {
+        "slot_1": {
+          "id": "slot_1",
+          "cleanCostId": "ELEVATOR",
+          "costLabor": 0,
+          "provideLabor": 8,
+          "size": {
+            "row": 2,
+            "col": 1
+          },
+          "offset": {
+            "row": 0,
+            "col": 14
+          },
+          "category": "ELEVATOR",
+          "storeyId": "B4"
+        },
+        "slot_2": {
+          "id": "slot_2",
+          "cleanCostId": "CORRIDOR",
+          "costLabor": 0,
+          "provideLabor": 12,
+          "size": {
+            "row": 2,
+            "col": 2
+          },
+          "offset": {
+            "row": 0,
+            "col": 15
+          },
+          "category": "CORRIDOR",
+          "storeyId": "B4"
+        },
+        "slot_3": {
+          "id": "slot_3",
+          "cleanCostId": "CUSTOM",
+          "costLabor": 0,
+          "provideLabor": 6,
+          "size": {
+            "row": 2,
+            "col": 6
+          },
+          "offset": {
+            "row": 0,
+            "col": 17
+          },
+          "category": "CUSTOM",
+          "storeyId": "B4"
+        },
+        "slot_4": {
+          "id": "slot_4",
+          "cleanCostId": "ELEVATOR",
+          "costLabor": 0,
+          "provideLabor": 8,
+          "size": {
+            "row": 2,
+            "col": 1
+          },
+          "offset": {
+            "row": 0,
+            "col": 23
+          },
+          "category": "ELEVATOR",
+          "storeyId": "B4"
+        },
+        "slot_52": {
+          "id": "slot_52",
+          "cleanCostId": "CORRIDOR_P",
+          "costLabor": 0,
+          "provideLabor": 2,
+          "size": {
+            "row": 2,
+            "col": 2
+          },
+          "offset": {
+            "row": 0,
+            "col": 24
+          },
+          "category": "CORRIDOR",
+          "storeyId": "B4"
+        },
+        "slot_53": {
+          "id": "slot_53",
+          "cleanCostId": "FUNCTION",
+          "costLabor": 0,
+          "provideLabor": 3,
+          "size": {
+            "row": 2,
+            "col": 4
+          },
+          "offset": {
+            "row": 0,
+            "col": 26
+          },
+          "category": "FUNCTION",
+          "storeyId": "B4"
+        },
+        "slot_54": {
+          "id": "slot_54",
+          "cleanCostId": "CORRIDOR_P",
+          "costLabor": 0,
+          "provideLabor": 2,
+          "size": {
+            "row": 2,
+            "col": 2
+          },
+          "offset": {
+            "row": 0,
+            "col": 30
+          },
+          "category": "CORRIDOR",
+          "storeyId": "B4"
+        },
+        "slot_55": {
+          "id": "slot_55",
+          "cleanCostId": "ELEVATOR_P",
+          "costLabor": 0,
+          "provideLabor": 2,
+          "size": {
+            "row": 2,
+            "col": 1
+          },
+          "offset": {
+            "row": 0,
+            "col": 32
+          },
+          "category": "ELEVATOR",
+          "storeyId": "B4"
+        },
+        "slot_56": {
+          "id": "slot_56",
+          "cleanCostId": "CUSTOM_P",
+          "costLabor": 0,
+          "provideLabor": 3,
+          "size": {
+            "row": 2,
+            "col": 6
+          },
+          "offset": {
+            "row": 0,
+            "col": 33
+          },
+          "category": "CUSTOM_P",
+          "storeyId": "B4"
+        },
+        "slot_57": {
+          "id": "slot_57",
+          "cleanCostId": "CUSTOM_P",
+          "costLabor": 0,
+          "provideLabor": 3,
+          "size": {
+            "row": 2,
+            "col": 6
+          },
+          "offset": {
+            "row": 0,
+            "col": 39
+          },
+          "category": "CUSTOM_P",
+          "storeyId": "B4"
+        },
+        "slot_5": {
+          "id": "slot_5",
+          "cleanCostId": "OUTPUT",
+          "costLabor": 0,
+          "provideLabor": 2,
+          "size": {
+            "row": 2,
+            "col": 4
+          },
+          "offset": {
+            "row": 2,
+            "col": 2
+          },
+          "category": "OUTPUT",
+          "storeyId": "B3"
+        },
+        "slot_6": {
+          "id": "slot_6",
+          "cleanCostId": "OUTPUT",
+          "costLabor": 0,
+          "provideLabor": 2,
+          "size": {
+            "row": 2,
+            "col": 4
+          },
+          "offset": {
+            "row": 2,
+            "col": 6
+          },
+          "category": "OUTPUT",
+          "storeyId": "B3"
+        },
+        "slot_7": {
+          "id": "slot_7",
+          "cleanCostId": "OUTPUT",
+          "costLabor": 0,
+          "provideLabor": 2,
+          "size": {
+            "row": 2,
+            "col": 4
+          },
+          "offset": {
+            "row": 2,
+            "col": 10
+          },
+          "category": "OUTPUT",
+          "storeyId": "B3"
+        },
+        "slot_8": {
+          "id": "slot_8",
+          "cleanCostId": "ELEVATOR",
+          "costLabor": 0,
+          "provideLabor": 4,
+          "size": {
+            "row": 2,
+            "col": 1
+          },
+          "offset": {
+            "row": 2,
+            "col": 14
+          },
+          "category": "ELEVATOR",
+          "storeyId": "B3"
+        },
+        "slot_9": {
+          "id": "slot_9",
+          "cleanCostId": "CUSTOM",
+          "costLabor": 0,
+          "provideLabor": 2,
+          "size": {
+            "row": 2,
+            "col": 6
+          },
+          "offset": {
+            "row": 2,
+            "col": 15
+          },
+          "category": "CUSTOM",
+          "storeyId": "B3"
+        },
+        "slot_10": {
+          "id": "slot_10",
+          "cleanCostId": "CORRIDOR",
+          "costLabor": 0,
+          "provideLabor": 8,
+          "size": {
+            "row": 2,
+            "col": 2
+          },
+          "offset": {
+            "row": 2,
+            "col": 21
+          },
+          "category": "CORRIDOR",
+          "storeyId": "B3"
+        },
+        "slot_11": {
+          "id": "slot_11",
+          "cleanCostId": "ELEVATOR",
+          "costLabor": 0,
+          "provideLabor": 4,
+          "size": {
+            "row": 2,
+            "col": 1
+          },
+          "offset": {
+            "row": 2,
+            "col": 23
+          },
+          "category": "ELEVATOR",
+          "storeyId": "B3"
+        },
+        "slot_12": {
+          "id": "slot_12",
+          "cleanCostId": "CORRIDOR",
+          "costLabor": 0,
+          "provideLabor": 8,
+          "size": {
+            "row": 2,
+            "col": 2
+          },
+          "offset": {
+            "row": 2,
+            "col": 24
+          },
+          "category": "CORRIDOR",
+          "storeyId": "B3"
+        },
+        "slot_13": {
+          "id": "slot_13",
+          "cleanCostId": "FUNCTION",
+          "costLabor": 0,
+          "provideLabor": 2,
+          "size": {
+            "row": 2,
+            "col": 4
+          },
+          "offset": {
+            "row": 2,
+            "col": 26
+          },
+          "category": "FUNCTION",
+          "storeyId": "B3"
+        },
+        "slot_39": {
+          "id": "slot_39",
+          "cleanCostId": "CORRIDOR_P",
+          "costLabor": 0,
+          "provideLabor": 3,
+          "size": {
+            "row": 2,
+            "col": 2
+          },
+          "offset": {
+            "row": 2,
+            "col": 30
+          },
+          "category": "CORRIDOR",
+          "storeyId": "B3"
+        },
+        "slot_40": {
+          "id": "slot_40",
+          "cleanCostId": "ELEVATOR_P",
+          "costLabor": 0,
+          "provideLabor": 2,
+          "size": {
+            "row": 2,
+            "col": 1
+          },
+          "offset": {
+            "row": 2,
+            "col": 32
+          },
+          "category": "ELEVATOR",
+          "storeyId": "B3"
+        },
+        "slot_41": {
+          "id": "slot_41",
+          "cleanCostId": "CUSTOM_P",
+          "costLabor": 0,
+          "provideLabor": 3,
+          "size": {
+            "row": 2,
+            "col": 6
+          },
+          "offset": {
+            "row": 2,
+            "col": 33
+          },
+          "category": "CUSTOM_P",
+          "storeyId": "B3"
+        },
+        "slot_49": {
+          "id": "slot_49",
+          "cleanCostId": "CUSTOM_P",
+          "costLabor": 0,
+          "provideLabor": 4,
+          "size": {
+            "row": 2,
+            "col": 6
+          },
+          "offset": {
+            "row": 2,
+            "col": 39
+          },
+          "category": "CUSTOM_P",
+          "storeyId": "B3"
+        },
+        "slot_14": {
+          "id": "slot_14",
+          "cleanCostId": "OUTPUT",
+          "costLabor": 0,
+          "provideLabor": 2,
+          "size": {
+            "row": 2,
+            "col": 4
+          },
+          "offset": {
+            "row": 4,
+            "col": 0
+          },
+          "category": "OUTPUT",
+          "storeyId": "B2"
+        },
+        "slot_15": {
+          "id": "slot_15",
+          "cleanCostId": "OUTPUT",
+          "costLabor": 0,
+          "provideLabor": 2,
+          "size": {
+            "row": 2,
+            "col": 4
+          },
+          "offset": {
+            "row": 4,
+            "col": 4
+          },
+          "category": "OUTPUT",
+          "storeyId": "B2"
+        },
+        "slot_16": {
+          "id": "slot_16",
+          "cleanCostId": "OUTPUT",
+          "costLabor": 0,
+          "provideLabor": 2,
+          "size": {
+            "row": 2,
+            "col": 4
+          },
+          "offset": {
+            "row": 4,
+            "col": 8
+          },
+          "category": "OUTPUT",
+          "storeyId": "B2"
+        },
+        "slot_17": {
+          "id": "slot_17",
+          "cleanCostId": "CORRIDOR",
+          "costLabor": 0,
+          "provideLabor": 8,
+          "size": {
+            "row": 2,
+            "col": 2
+          },
+          "offset": {
+            "row": 4,
+            "col": 12
+          },
+          "category": "CORRIDOR",
+          "storeyId": "B2"
+        },
+        "slot_18": {
+          "id": "slot_18",
+          "cleanCostId": "ELEVATOR",
+          "costLabor": 0,
+          "provideLabor": 4,
+          "size": {
+            "row": 2,
+            "col": 1
+          },
+          "offset": {
+            "row": 4,
+            "col": 14
+          },
+          "category": "ELEVATOR",
+          "storeyId": "B2"
+        },
+        "slot_19": {
+          "id": "slot_19",
+          "cleanCostId": "CORRIDOR",
+          "costLabor": 0,
+          "provideLabor": 8,
+          "size": {
+            "row": 2,
+            "col": 2
+          },
+          "offset": {
+            "row": 4,
+            "col": 15
+          },
+          "category": "CORRIDOR",
+          "storeyId": "B2"
+        },
+        "slot_20": {
+          "id": "slot_20",
+          "cleanCostId": "CUSTOM",
+          "costLabor": 0,
+          "provideLabor": 2,
+          "size": {
+            "row": 2,
+            "col": 6
+          },
+          "offset": {
+            "row": 4,
+            "col": 17
+          },
+          "category": "CUSTOM",
+          "storeyId": "B2"
+        },
+        "slot_21": {
+          "id": "slot_21",
+          "cleanCostId": "ELEVATOR",
+          "costLabor": 0,
+          "provideLabor": 4,
+          "size": {
+            "row": 2,
+            "col": 1
+          },
+          "offset": {
+            "row": 4,
+            "col": 23
+          },
+          "category": "ELEVATOR",
+          "storeyId": "B2"
+        },
+        "slot_22": {
+          "id": "slot_22",
+          "cleanCostId": "CORRIDOR",
+          "costLabor": 0,
+          "provideLabor": 8,
+          "size": {
+            "row": 2,
+            "col": 2
+          },
+          "offset": {
+            "row": 4,
+            "col": 24
+          },
+          "category": "CORRIDOR",
+          "storeyId": "B2"
+        },
+        "slot_23": {
+          "id": "slot_23",
+          "cleanCostId": "FUNCTION",
+          "costLabor": 0,
+          "provideLabor": 2,
+          "size": {
+            "row": 2,
+            "col": 4
+          },
+          "offset": {
+            "row": 4,
+            "col": 26
+          },
+          "category": "FUNCTION",
+          "storeyId": "B2"
+        },
+        "slot_42": {
+          "id": "slot_42",
+          "cleanCostId": "CORRIDOR_P",
+          "costLabor": 0,
+          "provideLabor": 3,
+          "size": {
+            "row": 2,
+            "col": 2
+          },
+          "offset": {
+            "row": 4,
+            "col": 30
+          },
+          "category": "CORRIDOR",
+          "storeyId": "B2"
+        },
+        "slot_43": {
+          "id": "slot_43",
+          "cleanCostId": "ELEVATOR_P",
+          "costLabor": 0,
+          "provideLabor": 2,
+          "size": {
+            "row": 2,
+            "col": 1
+          },
+          "offset": {
+            "row": 4,
+            "col": 32
+          },
+          "category": "ELEVATOR",
+          "storeyId": "B2"
+        },
+        "slot_44": {
+          "id": "slot_44",
+          "cleanCostId": "CUSTOM_P",
+          "costLabor": 0,
+          "provideLabor": 3,
+          "size": {
+            "row": 2,
+            "col": 6
+          },
+          "offset": {
+            "row": 4,
+            "col": 33
+          },
+          "category": "CUSTOM_P",
+          "storeyId": "B2"
+        },
+        "slot_50": {
+          "id": "slot_50",
+          "cleanCostId": "CUSTOM_P",
+          "costLabor": 0,
+          "provideLabor": 3,
+          "size": {
+            "row": 2,
+            "col": 6
+          },
+          "offset": {
+            "row": 4,
+            "col": 39
+          },
+          "category": "CUSTOM_P",
+          "storeyId": "B2"
+        },
+        "slot_24": {
+          "id": "slot_24",
+          "cleanCostId": "OUTPUT",
+          "costLabor": 0,
+          "provideLabor": 2,
+          "size": {
+            "row": 2,
+            "col": 4
+          },
+          "offset": {
+            "row": 6,
+            "col": 2
+          },
+          "category": "OUTPUT",
+          "storeyId": "B1"
+        },
+        "slot_25": {
+          "id": "slot_25",
+          "cleanCostId": "OUTPUT",
+          "costLabor": 0,
+          "provideLabor": 2,
+          "size": {
+            "row": 2,
+            "col": 4
+          },
+          "offset": {
+            "row": 6,
+            "col": 6
+          },
+          "category": "OUTPUT",
+          "storeyId": "B1"
+        },
+        "slot_26": {
+          "id": "slot_26",
+          "cleanCostId": "OUTPUT",
+          "costLabor": 0,
+          "provideLabor": 2,
+          "size": {
+            "row": 2,
+            "col": 4
+          },
+          "offset": {
+            "row": 6,
+            "col": 10
+          },
+          "category": "OUTPUT",
+          "storeyId": "B1"
+        },
+        "slot_27": {
+          "id": "slot_27",
+          "cleanCostId": "ELEVATOR",
+          "costLabor": 0,
+          "provideLabor": 4,
+          "size": {
+            "row": 2,
+            "col": 1
+          },
+          "offset": {
+            "row": 6,
+            "col": 14
+          },
+          "category": "ELEVATOR",
+          "storeyId": "B1"
+        },
+        "slot_28": {
+          "id": "slot_28",
+          "cleanCostId": "CUSTOM",
+          "costLabor": 0,
+          "provideLabor": 2,
+          "size": {
+            "row": 2,
+            "col": 6
+          },
+          "offset": {
+            "row": 6,
+            "col": 15
+          },
+          "category": "CUSTOM",
+          "storeyId": "B1"
+        },
+        "slot_29": {
+          "id": "slot_29",
+          "cleanCostId": "CORRIDOR",
+          "costLabor": 0,
+          "provideLabor": 8,
+          "size": {
+            "row": 2,
+            "col": 2
+          },
+          "offset": {
+            "row": 6,
+            "col": 21
+          },
+          "category": "CORRIDOR",
+          "storeyId": "B1"
+        },
+        "slot_30": {
+          "id": "slot_30",
+          "cleanCostId": "ELEVATOR",
+          "costLabor": 0,
+          "provideLabor": 4,
+          "size": {
+            "row": 2,
+            "col": 1
+          },
+          "offset": {
+            "row": 6,
+            "col": 23
+          },
+          "category": "ELEVATOR",
+          "storeyId": "B1"
+        },
+        "slot_31": {
+          "id": "slot_31",
+          "cleanCostId": "CORRIDOR",
+          "costLabor": 0,
+          "provideLabor": 8,
+          "size": {
+            "row": 2,
+            "col": 2
+          },
+          "offset": {
+            "row": 6,
+            "col": 24
+          },
+          "category": "CORRIDOR",
+          "storeyId": "B1"
+        },
+        "slot_32": {
+          "id": "slot_32",
+          "cleanCostId": "FUNCTION",
+          "costLabor": 0,
+          "provideLabor": 2,
+          "size": {
+            "row": 2,
+            "col": 4
+          },
+          "offset": {
+            "row": 6,
+            "col": 26
+          },
+          "category": "FUNCTION",
+          "storeyId": "B1"
+        },
+        "slot_45": {
+          "id": "slot_45",
+          "cleanCostId": "CORRIDOR_P",
+          "costLabor": 0,
+          "provideLabor": 3,
+          "size": {
+            "row": 2,
+            "col": 2
+          },
+          "offset": {
+            "row": 6,
+            "col": 30
+          },
+          "category": "CORRIDOR",
+          "storeyId": "B1"
+        },
+        "slot_46": {
+          "id": "slot_46",
+          "cleanCostId": "ELEVATOR_P",
+          "costLabor": 0,
+          "provideLabor": 2,
+          "size": {
+            "row": 2,
+            "col": 1
+          },
+          "offset": {
+            "row": 6,
+            "col": 32
+          },
+          "category": "ELEVATOR",
+          "storeyId": "B1"
+        },
+        "slot_47": {
+          "id": "slot_47",
+          "cleanCostId": "CUSTOM_P",
+          "costLabor": 0,
+          "provideLabor": 3,
+          "size": {
+            "row": 2,
+            "col": 6
+          },
+          "offset": {
+            "row": 6,
+            "col": 33
+          },
+          "category": "CUSTOM_P",
+          "storeyId": "B1"
+        },
+        "slot_51": {
+          "id": "slot_51",
+          "cleanCostId": "CUSTOM_P",
+          "costLabor": 0,
+          "provideLabor": 3,
+          "size": {
+            "row": 2,
+            "col": 6
+          },
+          "offset": {
+            "row": 6,
+            "col": 39
+          },
+          "category": "CUSTOM_P",
+          "storeyId": "B1"
+        },
+        "slot_33": {
+          "id": "slot_33",
+          "cleanCostId": "ELEVATOR",
+          "costLabor": 0,
+          "provideLabor": 4,
+          "size": {
+            "row": 2,
+            "col": 1
+          },
+          "offset": {
+            "row": 8,
+            "col": 14
+          },
+          "category": "ELEVATOR",
+          "storeyId": ""
+        },
+        "slot_34": {
+          "id": "slot_34",
+          "cleanCostId": "SPECIAL",
+          "costLabor": 0,
+          "provideLabor": 32,
+          "size": {
+            "row": 4,
+            "col": 8
+          },
+          "offset": {
+            "row": 8,
+            "col": 15
+          },
+          "category": "SPECIAL",
+          "storeyId": ""
+        },
+        "slot_35": {
+          "id": "slot_35",
+          "cleanCostId": "ELEVATOR",
+          "costLabor": 0,
+          "provideLabor": 4,
+          "size": {
+            "row": 2,
+            "col": 1
+          },
+          "offset": {
+            "row": 8,
+            "col": 23
+          },
+          "category": "ELEVATOR",
+          "storeyId": "1F"
+        },
+        "slot_36": {
+          "id": "slot_36",
+          "cleanCostId": "MEETING",
+          "costLabor": 0,
+          "provideLabor": 16,
+          "size": {
+            "row": 2,
+            "col": 8
+          },
+          "offset": {
+            "row": 8,
+            "col": 24
+          },
+          "category": "FUNCTION",
+          "storeyId": "1F"
+        },
+        "slot_48": {
+          "id": "slot_48",
+          "cleanCostId": "ELEVATOR_P",
+          "costLabor": 0,
+          "provideLabor": 1,
+          "size": {
+            "row": 2,
+            "col": 1
+          },
+          "offset": {
+            "row": 8,
+            "col": 32
+          },
+          "category": "ELEVATOR",
+          "storeyId": "1F"
+        },
+        "slot_37": {
+          "id": "slot_37",
+          "cleanCostId": "ELEVATOR",
+          "costLabor": 0,
+          "provideLabor": 0,
+          "size": {
+            "row": 2,
+            "col": 1
+          },
+          "offset": {
+            "row": 10,
+            "col": 14
+          },
+          "category": "ELEVATOR",
+          "storeyId": ""
+        },
+        "slot_38": {
+          "id": "slot_38",
+          "cleanCostId": "ELEVATOR",
+          "costLabor": 0,
+          "provideLabor": 0,
+          "size": {
+            "row": 2,
+            "col": 1
+          },
+          "offset": {
+            "row": 10,
+            "col": 23
+          },
+          "category": "ELEVATOR",
+          "storeyId": ""
+        }
+      },
+      "cleanCosts": {
+        "SPECIAL": {
+          "id": "SPECIAL",
+          "number": {
+            "0": {
+              "items": []
+            }
+          }
+        },
+        "MEETING": {
+          "id": "MEETING",
+          "number": {
+            "0": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            }
+          }
+        },
+        "CUSTOM": {
+          "id": "CUSTOM",
+          "number": {
+            "0": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "1": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "2": {
+              "items": [
+                {
+                  "id": "3132",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "3": {
+              "items": [
+                {
+                  "id": "3133",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            }
+          }
+        },
+        "CUSTOM_P": {
+          "id": "CUSTOM_P",
+          "number": {
+            "0": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "1": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "2": {
+              "items": [
+                {
+                  "id": "3132",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "3": {
+              "items": [
+                {
+                  "id": "3132",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "4": {
+              "items": [
+                {
+                  "id": "3132",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "5": {
+              "items": [
+                {
+                  "id": "3132",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "6": {
+              "items": [
+                {
+                  "id": "3133",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "7": {
+              "items": [
+                {
+                  "id": "3133",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            }
+          }
+        },
+        "OUTPUT": {
+          "id": "OUTPUT",
+          "number": {
+            "0": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "1": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "2": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "3": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "4": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "5": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "6": {
+              "items": [
+                {
+                  "id": "3132",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "7": {
+              "items": [
+                {
+                  "id": "3132",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "8": {
+              "items": [
+                {
+                  "id": "3132",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            }
+          }
+        },
+        "FUNCTION": {
+          "id": "FUNCTION",
+          "number": {
+            "0": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "1": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "2": {
+              "items": [
+                {
+                  "id": "3132",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "3": {
+              "items": [
+                {
+                  "id": "3133",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            }
+          }
+        },
+        "CORRIDOR": {
+          "id": "CORRIDOR",
+          "number": {
+            "0": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "1": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "2": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "3": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "4": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "5": {
+              "items": [
+                {
+                  "id": "3132",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "6": {
+              "items": [
+                {
+                  "id": "3132",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "7": {
+              "items": [
+                {
+                  "id": "3133",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            }
+          }
+        },
+        "CORRIDOR_P": {
+          "id": "CORRIDOR_P",
+          "number": {
+            "0": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "1": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "2": {
+              "items": [
+                {
+                  "id": "3132",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "3": {
+              "items": [
+                {
+                  "id": "3132",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "4": {
+              "items": [
+                {
+                  "id": "3132",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            }
+          }
+        },
+        "ELEVATOR": {
+          "id": "ELEVATOR",
+          "number": {
+            "0": {
+              "items": []
+            },
+            "1": {
+              "items": []
+            },
+            "2": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "3": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "4": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "5": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "6": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "7": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "8": {
+              "items": [
+                {
+                  "id": "3132",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "9": {
+              "items": [
+                {
+                  "id": "3132",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "10": {
+              "items": [
+                {
+                  "id": "3133",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "11": {
+              "items": [
+                {
+                  "id": "3133",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            }
+          }
+        },
+        "ELEVATOR_P": {
+          "id": "ELEVATOR_P",
+          "number": {
+            "0": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "1": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "2": {
+              "items": [
+                {
+                  "id": "3131",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "3": {
+              "items": [
+                {
+                  "id": "3132",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            },
+            "4": {
+              "items": [
+                {
+                  "id": "3132",
+                  "count": 1,
+                  "type": "MATERIAL"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "storeys": {
+        "1F": {
+          "id": "1F",
+          "yOffset": 8,
+          "unlockControlLevel": 2,
+          "type": "UPGROUND"
+        },
+        "B1": {
+          "id": "B1",
+          "yOffset": 6,
+          "unlockControlLevel": 1,
+          "type": "DOWNGROUND"
+        },
+        "B2": {
+          "id": "B2",
+          "yOffset": 4,
+          "unlockControlLevel": 3,
+          "type": "DOWNGROUND"
+        },
+        "B3": {
+          "id": "B3",
+          "yOffset": 2,
+          "unlockControlLevel": 4,
+          "type": "DOWNGROUND"
+        },
+        "B4": {
+          "id": "B4",
+          "yOffset": 0,
+          "unlockControlLevel": 5,
+          "type": "DOWNGROUND"
+        }
+      }
+    }
+  },
+  "roomUnlockConds": {
+    "CONTROL#1": {
+      "id": "CONTROL#1",
+      "number": {
+        "1": {
+          "type": "NONE",
+          "level": 0,
+          "count": 0
+        }
+      }
+    },
+    "CONTROL#2": {
+      "id": "CONTROL#2",
+      "number": {
+        "1": {
+          "type": "FUNCTIONAL",
+          "level": 1,
+          "count": 5
+        }
+      }
+    },
+    "CONTROL#3": {
+      "id": "CONTROL#3",
+      "number": {
+        "1": {
+          "type": "FUNCTIONAL",
+          "level": 1,
+          "count": 6
+        }
+      }
+    },
+    "CONTROL#4": {
+      "id": "CONTROL#4",
+      "number": {
+        "1": {
+          "type": "FUNCTIONAL",
+          "level": 2,
+          "count": 8
+        }
+      }
+    },
+    "CONTROL#5": {
+      "id": "CONTROL#5",
+      "number": {
+        "1": {
+          "type": "FUNCTIONAL",
+          "level": 3,
+          "count": 10
+        }
+      }
+    },
+    "POWER#1": {
+      "id": "POWER#1",
+      "number": {
+        "1": {
+          "type": "CONTROL",
+          "level": 1,
+          "count": 1
+        },
+        "2": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        },
+        "3": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        }
+      }
+    },
+    "POWER#2": {
+      "id": "POWER#2",
+      "number": {
+        "1": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        },
+        "2": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        },
+        "3": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        }
+      }
+    },
+    "POWER#3": {
+      "id": "POWER#3",
+      "number": {
+        "1": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        },
+        "2": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        },
+        "3": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        }
+      }
+    },
+    "MANUFACTURE#1": {
+      "id": "MANUFACTURE#1",
+      "number": {
+        "1": {
+          "type": "POWER",
+          "level": 1,
+          "count": 1
+        },
+        "2": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        },
+        "3": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        },
+        "4": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        },
+        "5": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        }
+      }
+    },
+    "MANUFACTURE#2": {
+      "id": "MANUFACTURE#2",
+      "number": {
+        "1": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        },
+        "2": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        },
+        "3": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        },
+        "4": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        },
+        "5": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        }
+      }
+    },
+    "MANUFACTURE#3": {
+      "id": "MANUFACTURE#3",
+      "number": {
+        "1": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        },
+        "2": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        },
+        "3": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        },
+        "4": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        },
+        "5": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        }
+      }
+    },
+    "TRADING#1": {
+      "id": "TRADING#1",
+      "number": {
+        "1": {
+          "type": "MANUFACTURE",
+          "level": 1,
+          "count": 1
+        },
+        "2": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        },
+        "3": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        },
+        "4": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        },
+        "5": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        }
+      }
+    },
+    "TRADING#2": {
+      "id": "TRADING#2",
+      "number": {
+        "1": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        },
+        "2": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        },
+        "3": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        },
+        "4": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        },
+        "5": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        }
+      }
+    },
+    "TRADING#3": {
+      "id": "TRADING#3",
+      "number": {
+        "1": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        },
+        "2": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        },
+        "3": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        },
+        "4": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        },
+        "5": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        }
+      }
+    },
+    "DORMITORY#1": {
+      "id": "DORMITORY#1",
+      "number": {
+        "1": {
+          "type": "CONTROL",
+          "level": 1,
+          "count": 1
+        },
+        "2": {
+          "type": "CONTROL",
+          "level": 1,
+          "count": 1
+        },
+        "3": {
+          "type": "CONTROL",
+          "level": 1,
+          "count": 1
+        },
+        "4": {
+          "type": "CONTROL",
+          "level": 1,
+          "count": 1
+        }
+      }
+    },
+    "DORMITORY#2": {
+      "id": "DORMITORY#2",
+      "number": {
+        "1": {
+          "type": "CONTROL",
+          "level": 2,
+          "count": 1
+        },
+        "2": {
+          "type": "CONTROL",
+          "level": 2,
+          "count": 1
+        },
+        "3": {
+          "type": "CONTROL",
+          "level": 2,
+          "count": 1
+        },
+        "4": {
+          "type": "CONTROL",
+          "level": 2,
+          "count": 1
+        }
+      }
+    },
+    "DORMITORY#3": {
+      "id": "DORMITORY#3",
+      "number": {
+        "1": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        },
+        "2": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        },
+        "3": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        },
+        "4": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        }
+      }
+    },
+    "DORMITORY#4": {
+      "id": "DORMITORY#4",
+      "number": {
+        "1": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        },
+        "2": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        },
+        "3": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        },
+        "4": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        }
+      }
+    },
+    "DORMITORY#5": {
+      "id": "DORMITORY#5",
+      "number": {
+        "1": {
+          "type": "CONTROL",
+          "level": 5,
+          "count": 1
+        },
+        "2": {
+          "type": "CONTROL",
+          "level": 5,
+          "count": 1
+        },
+        "3": {
+          "type": "CONTROL",
+          "level": 5,
+          "count": 1
+        },
+        "4": {
+          "type": "CONTROL",
+          "level": 5,
+          "count": 1
+        }
+      }
+    },
+    "WORKSHOP#1": {
+      "id": "WORKSHOP#1",
+      "number": {
+        "1": {
+          "type": "TRADING",
+          "level": 1,
+          "count": 1
+        }
+      }
+    },
+    "WORKSHOP#2": {
+      "id": "WORKSHOP#2",
+      "number": {
+        "1": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        }
+      }
+    },
+    "WORKSHOP#3": {
+      "id": "WORKSHOP#3",
+      "number": {
+        "1": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        }
+      }
+    },
+    "HIRE#1": {
+      "id": "HIRE#1",
+      "number": {
+        "1": {
+          "type": "WORKSHOP",
+          "level": 1,
+          "count": 1
+        }
+      }
+    },
+    "HIRE#2": {
+      "id": "HIRE#2",
+      "number": {
+        "1": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        }
+      }
+    },
+    "HIRE#3": {
+      "id": "HIRE#3",
+      "number": {
+        "1": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        }
+      }
+    },
+    "TRAINING#1": {
+      "id": "TRAINING#1",
+      "number": {
+        "1": {
+          "type": "HIRE",
+          "level": 1,
+          "count": 1
+        }
+      }
+    },
+    "TRAINING#2": {
+      "id": "TRAINING#2",
+      "number": {
+        "1": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        }
+      }
+    },
+    "TRAINING#3": {
+      "id": "TRAINING#3",
+      "number": {
+        "1": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        }
+      }
+    },
+    "MEETING#1": {
+      "id": "MEETING#1",
+      "number": {
+        "1": {
+          "type": "WORKSHOP",
+          "level": 1,
+          "count": 1
+        }
+      }
+    },
+    "MEETING#2": {
+      "id": "MEETING#2",
+      "number": {
+        "1": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        }
+      }
+    },
+    "MEETING#3": {
+      "id": "MEETING#3",
+      "number": {
+        "1": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        }
+      }
+    },
+    "PRIVATE#1": {
+      "id": "PRIVATE#1",
+      "number": {
+        "1": {
+          "type": "MEETING",
+          "level": 1,
+          "count": 1
+        },
+        "2": {
+          "type": "MEETING",
+          "level": 1,
+          "count": 1
+        },
+        "3": {
+          "type": "HIRE",
+          "level": 1,
+          "count": 1
+        },
+        "4": {
+          "type": "HIRE",
+          "level": 1,
+          "count": 1
+        },
+        "5": {
+          "type": "TRAINING",
+          "level": 1,
+          "count": 1
+        },
+        "6": {
+          "type": "TRAINING",
+          "level": 1,
+          "count": 1
+        },
+        "7": {
+          "type": "RECYCLE",
+          "level": 1,
+          "count": 1
+        },
+        "8": {
+          "type": "RECYCLE",
+          "level": 1,
+          "count": 1
+        }
+      }
+    },
+    "PRIVATE#2": {
+      "id": "PRIVATE#2",
+      "number": {
+        "1": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        },
+        "2": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        },
+        "3": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        },
+        "4": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        },
+        "5": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        },
+        "6": {
+          "type": "CONTROL",
+          "level": 3,
+          "count": 1
+        },
+        "7": {
+          "type": "CONTROL",
+          "level": 5,
+          "count": 1
+        },
+        "8": {
+          "type": "CONTROL",
+          "level": 5,
+          "count": 1
+        }
+      }
+    },
+    "PRIVATE#3": {
+      "id": "PRIVATE#3",
+      "number": {
+        "1": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        },
+        "2": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        },
+        "3": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        },
+        "4": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        },
+        "5": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        },
+        "6": {
+          "type": "CONTROL",
+          "level": 4,
+          "count": 1
+        },
+        "7": {
+          "type": "CONTROL",
+          "level": 5,
+          "count": 1
+        },
+        "8": {
+          "type": "CONTROL",
+          "level": 5,
+          "count": 1
+        }
+      }
+    },
+    "RECYCLE#1": {
+      "id": "RECYCLE#1",
+      "number": {
+        "1": {
+          "type": "TRAINING",
+          "level": 1,
+          "count": 1
+        }
+      }
+    },
+    "RECYCLE#2": {
+      "id": "RECYCLE#2",
+      "number": {
+        "1": {
+          "type": "CONTROL",
+          "level": 5,
+          "count": 1
+        }
+      }
+    },
+    "RECYCLE#3": {
+      "id": "RECYCLE#3",
+      "number": {
+        "1": {
+          "type": "CONTROL",
+          "level": 5,
+          "count": 1
+        }
+      }
+    }
+  },
+  "controlData": {
+    "basicCostBuff": -5,
+    "phases": null
+  },
+  "manufactData": {
+    "basicSpeedBuff": 0.01,
+    "phases": [
+      {
+        "speed": 1.0,
+        "outputCapacity": 24
+      },
+      {
+        "speed": 1.0,
+        "outputCapacity": 36
+      },
+      {
+        "speed": 1.0,
+        "outputCapacity": 54
+      }
+    ]
+  },
+  "tradingData": {
+    "basicSpeedBuff": 0.01,
+    "phases": [
+      {
+        "orderSpeed": 1.0,
+        "orderLimit": 6,
+        "orderRarity": 1
+      },
+      {
+        "orderSpeed": 1.0,
+        "orderLimit": 8,
+        "orderRarity": 2
+      },
+      {
+        "orderSpeed": 1.0,
+        "orderLimit": 10,
+        "orderRarity": 3
+      }
+    ]
+  },
+  "hireData": {
+    "basicSpeedBuff": 0.05,
+    "phases": [
+      {
+        "economizeRate": 0.0,
+        "resSpeed": 100,
+        "refreshTimes": 3
+      },
+      {
+        "economizeRate": 0.0,
+        "resSpeed": 100,
+        "refreshTimes": 3
+      },
+      {
+        "economizeRate": 0.0,
+        "resSpeed": 100,
+        "refreshTimes": 3
+      }
+    ]
+  },
+  "meetingData": {
+    "basicSpeedBuff": 0.05,
+    "phases": [
+      {
+        "friendSlotInc": 10,
+        "maxVisitorNum": 10,
+        "gatheringSpeed": 100
+      },
+      {
+        "friendSlotInc": 20,
+        "maxVisitorNum": 10,
+        "gatheringSpeed": 100
+      },
+      {
+        "friendSlotInc": 35,
+        "maxVisitorNum": 10,
+        "gatheringSpeed": 100
+      }
+    ]
+  },
+  "trainingData": {
+    "basicSpeedBuff": 0.05,
+    "phases": [
+      {
+        "specSkillLvlLimit": 1
+      },
+      {
+        "specSkillLvlLimit": 2
+      },
+      {
+        "specSkillLvlLimit": 3
+      }
+    ]
+  },
+  "workshopData": {
+    "phases": [
+      {
+        "manpowerFactor": 1.0
+      },
+      {
+        "manpowerFactor": 2.5
+      },
+      {
+        "manpowerFactor": 3.0
+      }
+    ]
+  },
+  "powerData": {
+    "basicSpeedBuff": 0.05,
+    "phases": null
+  },
+  "dormData": {
+    "phases": [
+      {
+        "manpowerRecover": 160,
+        "decorationLimit": 1000
+      },
+      {
+        "manpowerRecover": 170,
+        "decorationLimit": 2000
+      },
+      {
+        "manpowerRecover": 180,
+        "decorationLimit": 3000
+      },
+      {
+        "manpowerRecover": 190,
+        "decorationLimit": 4000
+      },
+      {
+        "manpowerRecover": 200,
+        "decorationLimit": 5000
+      }
+    ]
+  },
+  "privateRoomData": {
+    "phases": [
+      {
+        "decorationLimit": 1000
+      },
+      {
+        "decorationLimit": 3000
+      },
+      {
+        "decorationLimit": 5000
+      }
+    ]
+  },
+  "recycleData": {
+    "basicSpeedBuff": 0.01,
+    "phases": [
+      {
+        "recycleCapacity": 0,
+        "recycleSpeed": 1.0
+      },
+      {
+        "recycleCapacity": 5,
+        "recycleSpeed": 1.0
+      },
+      {
+        "recycleCapacity": 5,
+        "recycleSpeed": 1.2
+      }
+    ]
+  },
+  "manufactFormulas": {
+    "1": {
+      "formulaId": "1",
+      "itemId": "2001",
+      "count": 1,
+      "weight": 2,
+      "costPoint": 2700,
+      "formulaType": "F_EXP",
+      "buffType": "M_EXP",
+      "costs": [],
+      "requireRooms": [
+        {
+          "roomId": "MANUFACTURE",
+          "roomLevel": 1,
+          "roomCount": 1
+        }
+      ],
+      "requireStages": []
+    },
+    "2": {
+      "formulaId": "2",
+      "itemId": "2002",
+      "count": 1,
+      "weight": 3,
+      "costPoint": 4800,
+      "formulaType": "F_EXP",
+      "buffType": "M_EXP",
+      "costs": [],
+      "requireRooms": [
+        {
+          "roomId": "MANUFACTURE",
+          "roomLevel": 2,
+          "roomCount": 1
+        }
+      ],
+      "requireStages": []
+    },
+    "3": {
+      "formulaId": "3",
+      "itemId": "2003",
+      "count": 1,
+      "weight": 5,
+      "costPoint": 10800,
+      "formulaType": "F_EXP",
+      "buffType": "M_EXP",
+      "costs": [],
+      "requireRooms": [
+        {
+          "roomId": "MANUFACTURE",
+          "roomLevel": 3,
+          "roomCount": 1
+        }
+      ],
+      "requireStages": []
+    },
+    "4": {
+      "formulaId": "4",
+      "itemId": "3003",
+      "count": 1,
+      "weight": 2,
+      "costPoint": 4320,
+      "formulaType": "F_GOLD",
+      "buffType": "M_GOLD",
+      "costs": [],
+      "requireRooms": [
+        {
+          "roomId": "MANUFACTURE",
+          "roomLevel": 1,
+          "roomCount": 1
+        }
+      ],
+      "requireStages": []
+    },
+    "5": {
+      "formulaId": "5",
+      "itemId": "3213",
+      "count": 1,
+      "weight": 5,
+      "costPoint": 1,
+      "formulaType": "F_ASC",
+      "buffType": "M_ASC",
+      "costs": [
+        {
+          "id": "3212",
+          "count": 2,
+          "type": "MATERIAL"
+        },
+        {
+          "id": "32001",
+          "count": 1,
+          "type": "MATERIAL"
+        }
+      ],
+      "requireRooms": [
+        {
+          "roomId": "MANUFACTURE",
+          "roomLevel": 3,
+          "roomCount": 1
+        }
+      ],
+      "requireStages": []
+    },
+    "6": {
+      "formulaId": "6",
+      "itemId": "3223",
+      "count": 1,
+      "weight": 5,
+      "costPoint": 1,
+      "formulaType": "F_ASC",
+      "buffType": "M_ASC",
+      "costs": [
+        {
+          "id": "3222",
+          "count": 2,
+          "type": "MATERIAL"
+        },
+        {
+          "id": "32001",
+          "count": 1,
+          "type": "MATERIAL"
+        }
+      ],
+      "requireRooms": [
+        {
+          "roomId": "MANUFACTURE",
+          "roomLevel": 3,
+          "roomCount": 1
+        }
+      ],
+      "requireStages": []
+    },
+    "7": {
+      "formulaId": "7",
+      "itemId": "3233",
+      "count": 1,
+      "weight": 5,
+      "costPoint": 1,
+      "formulaType": "F_ASC",
+      "buffType": "M_ASC",
+      "costs": [
+        {
+          "id": "3232",
+          "count": 2,
+          "type": "MATERIAL"
+        },
+        {
+          "id": "32001",
+          "count": 1,
+          "type": "MATERIAL"
+        }
+      ],
+      "requireRooms": [
+        {
+          "roomId": "MANUFACTURE",
+          "roomLevel": 3,
+          "roomCount": 1
+        }
+      ],
+      "requireStages": []
+    },
+    "8": {
+      "formulaId": "8",
+      "itemId": "3243",
+      "count": 1,
+      "weight": 5,
+      "costPoint": 1,
+      "formulaType": "F_ASC",
+      "buffType": "M_ASC",
+      "costs": [
+        {
+          "id": "3242",
+          "count": 2,
+          "type": "MATERIAL"
+        },
+        {
+          "id": "32001",
+          "count": 1,
+          "type": "MATERIAL"
+        }
+      ],
+      "requireRooms": [
+        {
+          "roomId": "MANUFACTURE",
+          "roomLevel": 3,
+          "roomCount": 1
+        }
+      ],
+      "requireStages": []
+    },
+    "9": {
+      "formulaId": "9",
+      "itemId": "3253",
+      "count": 1,
+      "weight": 5,
+      "costPoint": 1,
+      "formulaType": "F_ASC",
+      "buffType": "M_ASC",
+      "costs": [
+        {
+          "id": "3252",
+          "count": 2,
+          "type": "MATERIAL"
+        },
+        {
+          "id": "32001",
+          "count": 1,
+          "type": "MATERIAL"
+        }
+      ],
+      "requireRooms": [
+        {
+          "roomId": "MANUFACTURE",
+          "roomLevel": 3,
+          "roomCount": 1
+        }
+      ],
+      "requireStages": []
+    },
+    "10": {
+      "formulaId": "10",
+      "itemId": "3263",
+      "count": 1,
+      "weight": 5,
+      "costPoint": 1,
+      "formulaType": "F_ASC",
+      "buffType": "M_ASC",
+      "costs": [
+        {
+          "id": "3262",
+          "count": 2,
+          "type": "MATERIAL"
+        },
+        {
+          "id": "32001",
+          "count": 1,
+          "type": "MATERIAL"
+        }
+      ],
+      "requireRooms": [
+        {
+          "roomId": "MANUFACTURE",
+          "roomLevel": 3,
+          "roomCount": 1
+        }
+      ],
+      "requireStages": []
+    },
+    "11": {
+      "formulaId": "11",
+      "itemId": "3273",
+      "count": 1,
+      "weight": 5,
+      "costPoint": 1,
+      "formulaType": "F_ASC",
+      "buffType": "M_ASC",
+      "costs": [
+        {
+          "id": "3272",
+          "count": 2,
+          "type": "MATERIAL"
+        },
+        {
+          "id": "32001",
+          "count": 1,
+          "type": "MATERIAL"
+        }
+      ],
+      "requireRooms": [
+        {
+          "roomId": "MANUFACTURE",
+          "roomLevel": 3,
+          "roomCount": 1
+        }
+      ],
+      "requireStages": []
+    },
+    "12": {
+      "formulaId": "12",
+      "itemId": "3283",
+      "count": 1,
+      "weight": 5,
+      "costPoint": 1,
+      "formulaType": "F_ASC",
+      "buffType": "M_ASC",
+      "costs": [
+        {
+          "id": "3282",
+          "count": 2,
+          "type": "MATERIAL"
+        },
+        {
+          "id": "32001",
+          "count": 1,
+          "type": "MATERIAL"
+        }
+      ],
+      "requireRooms": [
+        {
+          "roomId": "MANUFACTURE",
+          "roomLevel": 3,
+          "roomCount": 1
+        }
+      ],
+      "requireStages": []
+    },
+    "13": {
+      "formulaId": "13",
+      "itemId": "3141",
+      "count": 1,
+      "weight": 3,
+      "costPoint": 3600,
+      "formulaType": "F_DIAMOND",
+      "buffType": "M_DIAMOND",
+      "costs": [
+        {
+          "id": "30012",
+          "count": 2,
+          "type": "MATERIAL"
+        },
+        {
+          "id": "4001",
+          "count": 1600,
+          "type": "GOLD"
+        }
+      ],
+      "requireRooms": [
+        {
+          "roomId": "MANUFACTURE",
+          "roomLevel": 3,
+          "roomCount": 1
+        }
+      ],
+      "requireStages": []
+    },
+    "14": {
+      "formulaId": "14",
+      "itemId": "3141",
+      "count": 1,
+      "weight": 3,
+      "costPoint": 3600,
+      "formulaType": "F_DIAMOND",
+      "buffType": "M_DIAMOND",
+      "costs": [
+        {
+          "id": "30062",
+          "count": 1,
+          "type": "MATERIAL"
+        },
+        {
+          "id": "4001",
+          "count": 1000,
+          "type": "GOLD"
+        }
+      ],
+      "requireRooms": [
+        {
+          "roomId": "MANUFACTURE",
+          "roomLevel": 3,
+          "roomCount": 1
+        }
+      ],
+      "requireStages": []
+    }
+  },
+  "tradingStrategyUnlockLevel": 3,
+  "humanResourceLimit": 4320000,
+  "socialResourceLimit": 7200000,
+  "socialSlotNum": 10,
+  "tiredApThreshold": 100,
+  "manpowerDisplayFactor": 360000,
+  "recycleRoomConsts": {
+    "recycleTimeRequirement": 172800,
+    "recycleBaseCapacity": 5,
+    "recycleBoostSpeed": 0.5,
+    "recycleBoostLimit": 345600,
+    "recycleBoostLimitProtect": 691200,
+    "recycleSpeedUpUnlockLevel": 3,
+    "recycleTwoPersonUnlockLevel": 2
+  },
+  "sources": [
+    {
+      "path": "anon/0f942849730870384390c3a2bb70a13f.bin",
+      "sha256": "a8f003429b3b4cb16bd4f1332b07fc62eace2331525e191bb54f72ca83c7a51f"
+    }
+  ]
+}

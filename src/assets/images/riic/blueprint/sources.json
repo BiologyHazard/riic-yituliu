@@ -42,5 +42,9 @@
   {
     "path": "Arknights_Data/il2cpp_data/Metadata/global-metadata.dat",
     "sha256": "d3fede171f92740a6f5dc053c58c7013d3c962db764ad1f05cbe977c074fcd1f"
+  },
+  {
+    "path": "arts/specialized_hub.ab",
+    "sha256": "ffaa091df000244af58d22f1094ea64f9d69d6ff683721ddd449b02ae92f4782"
   }
 ]
