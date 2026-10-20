@@ -169,10 +169,69 @@ export interface WorkshopFormula {
 }
 
 /**
+ * 基建网格尺寸，单位为网格格数
+ */
+export interface BuildingGridSize {
+  row: number;
+  col: number;
+}
+
+/**
+ * 基建房间槽位（`layouts.v0.slots`）
+ */
+export interface BuildingSlot {
+  id: string;
+  cleanCostId: string;
+  costLabor: number;
+  /** 清理该槽位可提供的无人机数量 */
+  provideLabor: number;
+  size: BuildingGridSize;
+  /** 槽位在网格中的偏移，`row` 自下向上递增 */
+  offset: BuildingGridSize;
+  /** 槽位类别，如 `OUTPUT`、`CUSTOM`、`ELEVATOR` */
+  category: string;
+  storeyId: string;
+}
+
+/**
+ * 基建楼层（`layouts.v0.storeys`）
+ */
+export interface BuildingStorey {
+  id: string;
+  yOffset: number;
+  unlockControlLevel: number;
+  type: string;
+}
+
+/**
+ * 基建布局（`layouts.v0`）
+ */
+export interface BuildingLayout {
+  id: string;
+  slots: Record<string, BuildingSlot>;
+  storeys: Record<string, BuildingStorey>;
+}
+
+/**
+ * 基建房间（`rooms`）
+ */
+export interface BuildingRoom {
+  id: string;
+  name: string;
+  description: string;
+  defaultPrefabId: string;
+  maxCount: number;
+  category: string;
+  size: BuildingGridSize;
+}
+
+/**
  * `excel/building_data.json` 数据格式
  */
 export interface BuildingData {
   chars: Record<string, BuildingChar>;
   buffs: Record<string, BuffInfo>;
   workshopFormulas: Record<string, WorkshopFormula>;
+  layouts: Record<string, BuildingLayout>;
+  rooms: Record<string, BuildingRoom>;
 }
