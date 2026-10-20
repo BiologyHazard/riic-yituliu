@@ -1,0 +1,1029 @@
+{
+  "sprites": {
+    "img_center_bkg": {
+      "width": 386.0,
+      "height": 195.0,
+      "border": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "ppu": 100.0
+    },
+    "img_room_frame": {
+      "width": 49.0,
+      "height": 96.0,
+      "border": {
+        "x": 12.0,
+        "y": 14.0,
+        "z": 12.0,
+        "w": 13.0
+      },
+      "ppu": 100.0
+    },
+    "room_bg_ruin": {
+      "width": 193.0,
+      "height": 99.0,
+      "border": {
+        "x": 17.0,
+        "y": 27.0,
+        "z": 18.0,
+        "w": 10.0
+      },
+      "ppu": 100.0
+    },
+    "ruin": {
+      "width": 35.0,
+      "height": 16.0,
+      "border": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "ppu": 100.0
+    }
+  },
+  "prefabs": {
+    "room_control_8x4": {
+      "name": "room_control_8x4",
+      "active": true,
+      "rect": {
+        "LocalScale": {
+          "x": 1.0499999523162842,
+          "y": 1.0499999523162842,
+          "z": 1.0
+        },
+        "AnchorMin": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "AnchorMax": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "AnchoredPosition": {
+          "x": 0.0,
+          "y": -4.059999942779541
+        },
+        "SizeDelta": {
+          "x": 386.0,
+          "y": 195.0
+        },
+        "Pivot": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "children": [
+        {
+          "name": "image_center_bkg",
+          "active": true,
+          "rect": {
+            "LocalScale": {
+              "x": 1.0,
+              "y": 1.0,
+              "z": 1.0
+            },
+            "AnchorMin": {
+              "x": 0.0,
+              "y": 1.0
+            },
+            "AnchorMax": {
+              "x": 0.0,
+              "y": 1.0
+            },
+            "AnchoredPosition": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "SizeDelta": {
+              "x": 386.0,
+              "y": 195.0
+            },
+            "Pivot": {
+              "x": 0.0,
+              "y": 1.0
+            }
+          },
+          "image": {
+            "sprite": "img_center_bkg",
+            "type": 0,
+            "color": {
+              "r": 1.0,
+              "g": 1.0,
+              "b": 1.0,
+              "a": 1.0
+            },
+            "ppuMultiplier": 1.0,
+            "fillCenter": true
+          },
+          "children": []
+        },
+        {
+          "name": "label_name_zh",
+          "active": true,
+          "rect": {
+            "LocalScale": {
+              "x": 1.0,
+              "y": 1.0,
+              "z": 1.0
+            },
+            "AnchorMin": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "AnchorMax": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "AnchoredPosition": {
+              "x": -5.100000381469727,
+              "y": 39.20000076293945
+            },
+            "SizeDelta": {
+              "x": 132.6999969482422,
+              "y": 30.0
+            },
+            "Pivot": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          },
+          "text": {
+            "value": "",
+            "color": {
+              "r": 1.0,
+              "g": 1.0,
+              "b": 1.0,
+              "a": 1.0
+            },
+            "size": 24,
+            "alignment": 4
+          },
+          "font": "NotoSansHans-Medium",
+          "children": []
+        },
+        {
+          "name": "label_name_en",
+          "active": true,
+          "rect": {
+            "LocalScale": {
+              "x": 0.6899999976158142,
+              "y": 0.6899999976158142,
+              "z": 1.0
+            },
+            "AnchorMin": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "AnchorMax": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "AnchoredPosition": {
+              "x": -2.0500001907348633,
+              "y": 21.299999237060547
+            },
+            "SizeDelta": {
+              "x": 165.3800048828125,
+              "y": 17.299999237060547
+            },
+            "Pivot": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          },
+          "text": {
+            "value": "LEVEL OF CONTROL_INTERFACE",
+            "color": {
+              "r": 1.0,
+              "g": 1.0,
+              "b": 1.0,
+              "a": 1.0
+            },
+            "size": 12,
+            "alignment": 4
+          },
+          "font": "JovannyLemonad-Bender",
+          "children": []
+        },
+        {
+          "name": "panel_level",
+          "active": true,
+          "rect": {
+            "LocalScale": {
+              "x": 1.0,
+              "y": 1.0,
+              "z": 1.0
+            },
+            "AnchorMin": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "AnchorMax": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "AnchoredPosition": {
+              "x": -0.5,
+              "y": 5.5
+            },
+            "SizeDelta": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "Pivot": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          },
+          "children": [
+            {
+              "name": "text_level_shadow",
+              "active": true,
+              "rect": {
+                "LocalScale": {
+                  "x": 1.0,
+                  "y": 1.0,
+                  "z": 1.0
+                },
+                "AnchorMin": {
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                "AnchorMax": {
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                "AnchoredPosition": {
+                  "x": 13.600000381469727,
+                  "y": -17.299999237060547
+                },
+                "SizeDelta": {
+                  "x": 90.80000305175781,
+                  "y": 77.5999984741211
+                },
+                "Pivot": {
+                  "x": 0.5,
+                  "y": 0.5
+                }
+              },
+              "text": {
+                "value": "5.0",
+                "color": {
+                  "r": 1.0,
+                  "g": 0.6000000238418579,
+                  "b": 0.0,
+                  "a": 1.0
+                },
+                "size": 72,
+                "alignment": 4
+              },
+              "font": "JovannyLemonad-Bender-Light",
+              "children": []
+            },
+            {
+              "name": "text_level",
+              "active": true,
+              "rect": {
+                "LocalScale": {
+                  "x": 1.0,
+                  "y": 1.0,
+                  "z": 1.0
+                },
+                "AnchorMin": {
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                "AnchorMax": {
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                "AnchoredPosition": {
+                  "x": 13.600000381469727,
+                  "y": -14.609999656677246
+                },
+                "SizeDelta": {
+                  "x": 90.80000305175781,
+                  "y": 77.5999984741211
+                },
+                "Pivot": {
+                  "x": 0.5,
+                  "y": 0.5
+                }
+              },
+              "text": {
+                "value": "5.0",
+                "color": {
+                  "r": 1.0,
+                  "g": 1.0,
+                  "b": 1.0,
+                  "a": 1.0
+                },
+                "size": 72,
+                "alignment": 4
+              },
+              "font": "JovannyLemonad-Bender-Light",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "label_ver",
+          "active": true,
+          "rect": {
+            "LocalScale": {
+              "x": 1.0,
+              "y": 1.0,
+              "z": 1.0
+            },
+            "AnchorMin": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "AnchorMax": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "AnchoredPosition": {
+              "x": -47.0,
+              "y": -29.40000343322754
+            },
+            "SizeDelta": {
+              "x": 27.799999237060547,
+              "y": 17.299999237060547
+            },
+            "Pivot": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          },
+          "text": {
+            "value": "VER",
+            "color": {
+              "r": 1.0,
+              "g": 1.0,
+              "b": 1.0,
+              "a": 1.0
+            },
+            "size": 17,
+            "alignment": 4
+          },
+          "font": "JovannyLemonad-Bender-Light",
+          "children": []
+        }
+      ]
+    },
+    "frame": {
+      "name": "bkg_frame",
+      "active": true,
+      "rect": {
+        "LocalScale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        },
+        "AnchorMin": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "AnchorMax": {
+          "x": 1.0,
+          "y": 1.0
+        },
+        "AnchoredPosition": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "SizeDelta": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "Pivot": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "image": {
+        "sprite": "img_room_frame",
+        "type": 1,
+        "color": {
+          "r": 1.0,
+          "g": 1.0,
+          "b": 1.0,
+          "a": 1.0
+        },
+        "ppuMultiplier": 1.0,
+        "fillCenter": true
+      },
+      "children": []
+    },
+    "unclean_1x2": {
+      "name": "unclean_1x2",
+      "active": true,
+      "rect": {
+        "LocalScale": {
+          "x": 1.0499999523162842,
+          "y": 1.0499999523162842,
+          "z": 1.0
+        },
+        "AnchorMin": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "AnchorMax": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "AnchoredPosition": {
+          "x": 0.0,
+          "y": -3.4000000953674316
+        },
+        "SizeDelta": {
+          "x": 49.0,
+          "y": 103.00003051757812
+        },
+        "Pivot": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "children": [
+        {
+          "name": "img_backgroud",
+          "active": true,
+          "rect": {
+            "LocalScale": {
+              "x": 1.0,
+              "y": 1.0,
+              "z": 1.0
+            },
+            "AnchorMin": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "AnchorMax": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "AnchoredPosition": {
+              "x": 0.0,
+              "y": -5.5
+            },
+            "SizeDelta": {
+              "x": 0.0,
+              "y": 1.0
+            },
+            "Pivot": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          },
+          "image": {
+            "sprite": "room_bg_ruin",
+            "type": 1,
+            "color": {
+              "r": 1.0,
+              "g": 1.0,
+              "b": 1.0,
+              "a": 1.0
+            },
+            "ppuMultiplier": 1.0,
+            "fillCenter": true
+          },
+          "children": []
+        },
+        {
+          "name": "state_icon",
+          "active": true,
+          "rect": {
+            "LocalScale": {
+              "x": 1.0,
+              "y": 1.0,
+              "z": 1.0
+            },
+            "AnchorMin": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "AnchorMax": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "AnchoredPosition": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "SizeDelta": {
+              "x": 35.0,
+              "y": 16.0
+            },
+            "Pivot": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          },
+          "image": {
+            "sprite": "ruin",
+            "type": 0,
+            "color": {
+              "r": 1.0,
+              "g": 1.0,
+              "b": 1.0,
+              "a": 1.0
+            },
+            "ppuMultiplier": 1.0,
+            "fillCenter": true
+          },
+          "children": []
+        }
+      ]
+    },
+    "unclean_2x2": {
+      "name": "unclean_2x2",
+      "active": true,
+      "rect": {
+        "LocalScale": {
+          "x": 1.0499999523162842,
+          "y": 1.0499999523162842,
+          "z": 1.0
+        },
+        "AnchorMin": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "AnchorMax": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "AnchoredPosition": {
+          "x": 0.0,
+          "y": -3.4000000953674316
+        },
+        "SizeDelta": {
+          "x": 99.0,
+          "y": 103.00003051757812
+        },
+        "Pivot": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "children": [
+        {
+          "name": "img_backgroud",
+          "active": true,
+          "rect": {
+            "LocalScale": {
+              "x": 1.0,
+              "y": 1.0,
+              "z": 1.0
+            },
+            "AnchorMin": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "AnchorMax": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "AnchoredPosition": {
+              "x": 0.0,
+              "y": -5.5
+            },
+            "SizeDelta": {
+              "x": 0.0,
+              "y": 1.0
+            },
+            "Pivot": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          },
+          "image": {
+            "sprite": "room_bg_ruin",
+            "type": 1,
+            "color": {
+              "r": 1.0,
+              "g": 1.0,
+              "b": 1.0,
+              "a": 1.0
+            },
+            "ppuMultiplier": 1.0,
+            "fillCenter": true
+          },
+          "children": []
+        },
+        {
+          "name": "state_icon",
+          "active": true,
+          "rect": {
+            "LocalScale": {
+              "x": 1.0,
+              "y": 1.0,
+              "z": 1.0
+            },
+            "AnchorMin": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "AnchorMax": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "AnchoredPosition": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "SizeDelta": {
+              "x": 35.0,
+              "y": 16.0
+            },
+            "Pivot": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          },
+          "image": {
+            "sprite": "ruin",
+            "type": 0,
+            "color": {
+              "r": 1.0,
+              "g": 1.0,
+              "b": 1.0,
+              "a": 1.0
+            },
+            "ppuMultiplier": 1.0,
+            "fillCenter": true
+          },
+          "children": []
+        }
+      ]
+    },
+    "unclean_4x2": {
+      "name": "unclean_4x2",
+      "active": true,
+      "rect": {
+        "LocalScale": {
+          "x": 1.0499999523162842,
+          "y": 1.0499999523162842,
+          "z": 1.0
+        },
+        "AnchorMin": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "AnchorMax": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "AnchoredPosition": {
+          "x": 0.0,
+          "y": -3.4000000953674316
+        },
+        "SizeDelta": {
+          "x": 195.0,
+          "y": 103.00003051757812
+        },
+        "Pivot": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "children": [
+        {
+          "name": "img_backgroud",
+          "active": true,
+          "rect": {
+            "LocalScale": {
+              "x": 1.0,
+              "y": 1.0,
+              "z": 1.0
+            },
+            "AnchorMin": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "AnchorMax": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "AnchoredPosition": {
+              "x": 0.0,
+              "y": -5.5
+            },
+            "SizeDelta": {
+              "x": 0.0,
+              "y": 1.0
+            },
+            "Pivot": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          },
+          "image": {
+            "sprite": "room_bg_ruin",
+            "type": 1,
+            "color": {
+              "r": 1.0,
+              "g": 1.0,
+              "b": 1.0,
+              "a": 1.0
+            },
+            "ppuMultiplier": 1.0,
+            "fillCenter": true
+          },
+          "children": []
+        },
+        {
+          "name": "state_icon",
+          "active": true,
+          "rect": {
+            "LocalScale": {
+              "x": 1.0,
+              "y": 1.0,
+              "z": 1.0
+            },
+            "AnchorMin": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "AnchorMax": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "AnchoredPosition": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "SizeDelta": {
+              "x": 35.0,
+              "y": 16.0
+            },
+            "Pivot": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          },
+          "image": {
+            "sprite": "ruin",
+            "type": 0,
+            "color": {
+              "r": 1.0,
+              "g": 1.0,
+              "b": 1.0,
+              "a": 1.0
+            },
+            "ppuMultiplier": 1.0,
+            "fillCenter": true
+          },
+          "children": []
+        }
+      ]
+    },
+    "unclean_6x2": {
+      "name": "unclean_6x2",
+      "active": true,
+      "rect": {
+        "LocalScale": {
+          "x": 1.0499999523162842,
+          "y": 1.0499999523162842,
+          "z": 1.0
+        },
+        "AnchorMin": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "AnchorMax": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "AnchoredPosition": {
+          "x": 0.0,
+          "y": -3.4000000953674316
+        },
+        "SizeDelta": {
+          "x": 291.0,
+          "y": 103.00003051757812
+        },
+        "Pivot": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "children": [
+        {
+          "name": "img_backgroud",
+          "active": true,
+          "rect": {
+            "LocalScale": {
+              "x": 1.0,
+              "y": 1.0,
+              "z": 1.0
+            },
+            "AnchorMin": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "AnchorMax": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "AnchoredPosition": {
+              "x": 0.0,
+              "y": -5.5
+            },
+            "SizeDelta": {
+              "x": 0.0,
+              "y": 1.0
+            },
+            "Pivot": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          },
+          "image": {
+            "sprite": "room_bg_ruin",
+            "type": 1,
+            "color": {
+              "r": 1.0,
+              "g": 1.0,
+              "b": 1.0,
+              "a": 1.0
+            },
+            "ppuMultiplier": 1.0,
+            "fillCenter": true
+          },
+          "children": []
+        },
+        {
+          "name": "state_icon",
+          "active": true,
+          "rect": {
+            "LocalScale": {
+              "x": 1.0,
+              "y": 1.0,
+              "z": 1.0
+            },
+            "AnchorMin": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "AnchorMax": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "AnchoredPosition": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "SizeDelta": {
+              "x": 35.0,
+              "y": 16.0
+            },
+            "Pivot": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          },
+          "image": {
+            "sprite": "ruin",
+            "type": 0,
+            "color": {
+              "r": 1.0,
+              "g": 1.0,
+              "b": 1.0,
+              "a": 1.0
+            },
+            "ppuMultiplier": 1.0,
+            "fillCenter": true
+          },
+          "children": []
+        }
+      ]
+    },
+    "unclean_8x2": {
+      "name": "unclean_8x2",
+      "active": true,
+      "rect": {
+        "LocalScale": {
+          "x": 1.0499999523162842,
+          "y": 1.0499999523162842,
+          "z": 1.0
+        },
+        "AnchorMin": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "AnchorMax": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "AnchoredPosition": {
+          "x": 0.0,
+          "y": -3.4000000953674316
+        },
+        "SizeDelta": {
+          "x": 385.0,
+          "y": 103.00003051757812
+        },
+        "Pivot": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "children": [
+        {
+          "name": "img_backgroud",
+          "active": true,
+          "rect": {
+            "LocalScale": {
+              "x": 1.0,
+              "y": 1.0,
+              "z": 1.0
+            },
+            "AnchorMin": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "AnchorMax": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "AnchoredPosition": {
+              "x": 0.0,
+              "y": -5.5
+            },
+            "SizeDelta": {
+              "x": 0.0,
+              "y": 1.0
+            },
+            "Pivot": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          },
+          "image": {
+            "sprite": "room_bg_ruin",
+            "type": 1,
+            "color": {
+              "r": 1.0,
+              "g": 1.0,
+              "b": 1.0,
+              "a": 1.0
+            },
+            "ppuMultiplier": 1.0,
+            "fillCenter": true
+          },
+          "children": []
+        },
+        {
+          "name": "state_icon",
+          "active": true,
+          "rect": {
+            "LocalScale": {
+              "x": 1.0,
+              "y": 1.0,
+              "z": 1.0
+            },
+            "AnchorMin": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "AnchorMax": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "AnchoredPosition": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "SizeDelta": {
+              "x": 35.0,
+              "y": 16.0
+            },
+            "Pivot": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          },
+          "image": {
+            "sprite": "ruin",
+            "type": 0,
+            "color": {
+              "r": 1.0,
+              "g": 1.0,
+              "b": 1.0,
+              "a": 1.0
+            },
+            "ppuMultiplier": 1.0,
+            "fillCenter": true
+          },
+          "children": []
+        }
+      ]
+    }
+  }
+}

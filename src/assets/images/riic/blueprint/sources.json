@@ -1,0 +1,46 @@
+[
+  {
+    "path": "[uc]shaders.ab",
+    "sha256": "668663dccbada9272f30092c5fe5a5b3594a24da56b43527fd65212146860e0a"
+  },
+  {
+    "path": "building/blueprint/[uc]rooms.ab",
+    "sha256": "3781c6959d091cc8a3a71e79ba58f7be506f541a8e10062736d8febb66ac3c42"
+  },
+  {
+    "path": "building/ui/common/building_buffed_value.ab",
+    "sha256": "e4a745a05595e234e598460dec0f84d70f90d4072d9a5e69bd8d61710ef1a4d9"
+  },
+  {
+    "path": "building/ui/todonotify/panel_notify_item.ab",
+    "sha256": "30574549e13bf718d364a9a627e67a5f776dfc346636ba9a72579faae4198856"
+  },
+  {
+    "path": "building/[pack]room.ab",
+    "sha256": "6b9865143bea90a2509cc3335262c8806cdecb8b95cae3ec1124a4549a2e0163"
+  },
+  {
+    "path": "building/ui/common/charavatar/panel_char_avatar.ab",
+    "sha256": "2f8b0c79dc659aaf6f5c4d5f305f8690b434f08dc584de8ba5fa6e1a19e6a25d"
+  },
+  {
+    "path": "anon/dfba18b16546da2b44cbbe0fa4019066.bin",
+    "sha256": "c39807f43e0115f508c9ca3443d3946fe063f4228174143f6f40122311b8be42"
+  },
+  {
+    "path": "anon/88b3c3ecaaefa6003de730686dd5ac53.bin",
+    "sha256": "eb1f2d8339c466192624c42dbb0ab986efa38517e8aca22fd54b5737d78908f3"
+  },
+  {
+    "path": "GameAssembly.dll",
+    "sha256": "583b04ff4d1b1a4b35eaf09d77d936408c25447c9e345ef0463d814b6a123fc5"
+  },
+  {
+    "path": "Arknights_Data/sharedassets1.assets",
+    "sha256": "ff34668305fa4b0969d19733289eef3ee1b0c3137de633f9d9d7b5e72a0a73e3"
+  },
+  {
+    "path": "Arknights_Data/il2cpp_data/Metadata/global-metadata.dat",
+    "sha256": "d3fede171f92740a6f5dc053c58c7013d3c962db764ad1f05cbe977c074fcd1f"
+  }
+]
