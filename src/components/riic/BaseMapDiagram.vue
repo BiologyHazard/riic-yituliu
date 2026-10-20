@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { BuildingLayout, BuildingRoom, BuildingSlot } from '@/types/gameData';
+import type { BuildingLayout, BuildingRoom, BuildingSlot, BuildingStorey } from '@/types/gameData';
 import { computed } from 'vue';
 
 const props = defineProps<{
@@ -9,8 +9,8 @@ const props = defineProps<{
   rooms?: Record<string, BuildingRoom>;
 }>();
 
-/** 网格单元格的宽高比（1 格宽 ≈ 1.05 格高） */
-const CELL_ASPECT_RATIO = 1.05;
+/** 缺少楼层间隔数据时的兜底层高（行） */
+const DEFAULT_STOREY_HEIGHT = 2;
 
 interface SlotCategoryMeta {
   /** 槽位类别显示名，槽位无法确定具体房间时使用 */
@@ -52,6 +52,24 @@ function getRoomsOfCategory(category: string): BuildingRoom[] {
   return roomIds.map((roomId) => props.rooms?.[roomId]).filter((room) => room !== undefined);
 }
 
+/** 楼层，按自上而下的顺序排列 */
+const sortedStoreys = computed<BuildingStorey[]>(() =>
+  Object.values(props.layout.storeys).sort((a, b) => b.yOffset - a.yOffset),
+);
+
+/**
+ * 每层占用的网格行数
+ * 楼层数据只给出起始行 `yOffset`，用相邻楼层的间隔推断层高
+ */
+const storeyHeight = computed<number>(() => {
+  const offsets = sortedStoreys.value.map((storey) => storey.yOffset);
+  const gaps = offsets
+    .slice(1)
+    .map((offset, index) => offsets[index]! - offset)
+    .filter((gap) => gap > 0);
+  return gaps.length > 0 ? Math.min(...gaps) : DEFAULT_STOREY_HEIGHT;
+});
+
 /** 网格总行数、列数 */
 const gridSize = computed<{ rows: number; cols: number }>(() => {
   let rows = 0;
@@ -63,31 +81,24 @@ const gridSize = computed<{ rows: number; cols: number }>(() => {
   return { rows, cols };
 });
 
-interface StoreyBand {
+interface StoreyLabel {
   id: string;
-  /** 楼层区间顶部的百分比位置 */
-  top: string;
-  /** 楼层区间高度百分比 */
-  height: string;
   /** 楼层标签的垂直中心百分比位置 */
   center: string;
 }
 
 /**
- * 楼层区间
+ * 楼层标签位置
  * 网格的 `row` 自下向上递增，渲染时需要翻转纵轴
+ * 只标注游戏内实际存在的楼层，其上方不存在的 2F 区域（`slot_37`、`slot_38` 所在）留空
  */
-const storeyBands = computed<StoreyBand[]>(() => {
+const storeyLabels = computed<StoreyLabel[]>(() => {
   const { rows } = gridSize.value;
-  const storeys = Object.values(props.layout.storeys).sort((a, b) => b.yOffset - a.yOffset);
-  return storeys.map((storey, index) => {
-    const topRow = index === 0 ? rows : storeys[index - 1]!.yOffset;
-    const height = topRow - storey.yOffset;
-    const top = rows - topRow;
+  const height = storeyHeight.value;
+  return sortedStoreys.value.map((storey) => {
+    const top = rows - (storey.yOffset + height);
     return {
       id: storey.id,
-      top: `${(top / rows) * 100}%`,
-      height: `${(height / rows) * 100}%`,
       center: `${((top + height / 2) / rows) * 100}%`,
     };
   });
@@ -168,30 +179,21 @@ const legend = computed(() => {
       <div class="basemap-canvas">
         <div class="basemap-gutter">
           <span
-            v-for="band in storeyBands"
-            :key="band.id"
+            v-for="label in storeyLabels"
+            :key="label.id"
             class="basemap-storey"
-            :style="{ top: band.center }"
+            :style="{ top: label.center }"
           >
-            {{ band.id }}
+            {{ label.id }}
           </span>
         </div>
 
         <div
           class="basemap-grid"
           :style="{
-            '--cols': gridSize.cols,
-            '--rows': gridSize.rows,
-            aspectRatio: `${gridSize.cols * CELL_ASPECT_RATIO} / ${gridSize.rows}`,
+            aspectRatio: `${gridSize.cols} / ${gridSize.rows}`,
           }"
         >
-          <div
-            v-for="band in storeyBands"
-            :key="band.id"
-            class="basemap-storey-band"
-            :style="{ top: band.top, height: band.height }"
-          ></div>
-
           <div
             v-for="view in slots"
             :key="view.slot.id"
@@ -277,30 +279,6 @@ const legend = computed(() => {
 .basemap-grid {
   position: relative;
   flex: 1;
-  outline: 1px solid var(--ui-border);
-  outline-offset: -1px;
-  background-color: var(--ui-bg);
-  background-image:
-    linear-gradient(to right, var(--ui-border) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--ui-border) 1px, transparent 1px);
-  background-size:
-    calc(100% / var(--cols)) 100%,
-    100% calc(100% / var(--rows));
-  border-radius: calc(var(--ui-radius) * 2);
-}
-
-.basemap-storey-band {
-  position: absolute;
-  inset-inline: 0;
-  pointer-events: none;
-}
-
-.basemap-storey-band:not(:first-child) {
-  border-block-start: 1px dashed var(--ui-border-accented);
-}
-
-.basemap-storey-band:nth-child(odd) {
-  background-color: color-mix(in oklab, var(--ui-text) 3%, transparent);
 }
 
 .basemap-slot {
