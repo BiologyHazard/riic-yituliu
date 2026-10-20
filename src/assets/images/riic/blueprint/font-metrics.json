@@ -1,0 +1,20 @@
+{
+  "JovannyLemonad-Bender-Light": {
+    "fontSize": 16.0,
+    "ascent": 14.720000267028809,
+    "descent": -2.880000114440918,
+    "lineSpacing": 18.079999923706055
+  },
+  "NotoSansHans-Medium": {
+    "fontSize": 16.0,
+    "ascent": 14.080000877380371,
+    "descent": -1.9200000762939453,
+    "lineSpacing": 24.0
+  },
+  "JovannyLemonad-Bender": {
+    "fontSize": 16.0,
+    "ascent": 14.720000267028809,
+    "descent": -2.880000114440918,
+    "lineSpacing": 18.079999923706055
+  }
+}

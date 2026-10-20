@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import fontMetrics from '@/assets/images/riic/blueprint/font-metrics.json';
 import trainingAnimation from '@/assets/images/riic/blueprint/training-animation.json';
 import type { BlueprintBox, BlueprintColor, BlueprintNode } from '@/utils/riic/blueprintRenderer';
 import type { BlueprintRoomState } from '@/utils/riic/roomState';
@@ -36,7 +37,7 @@ interface TextLayer {
   font: string;
   fill: string;
   anchor: 'start' | 'middle' | 'end';
-  baseline: 'hanging' | 'central' | 'text-after-edge';
+  baseline: 'alphabetic' | 'hanging' | 'central' | 'text-after-edge';
   scaleX: number;
   scaleY: number;
 }
@@ -312,17 +313,34 @@ const layers = computed<(ImagePatch | TextLayer)[]>(() => {
       const c = node.text.color;
       const horizontal = node.text.alignment % 3;
       const vertical = Math.floor(node.text.alignment / 3);
+      const metrics = fontMetrics[node.font as keyof typeof fontMetrics];
+      // Unity 顶端对齐的首行基线使用字体 `ascent`，不使用 SVG 的悬挂基线。
+      const topBaseline =
+        vertical === 0 && metrics
+          ? (metrics.ascent / metrics.fontSize) * node.text.size
+          : undefined;
       result.push({
         kind: 'text',
         key: path,
         x: box.x + (box.width * box.scaleX * horizontal) / 2,
-        y: box.y + (box.height * box.scaleY * vertical) / 2,
+        y:
+          box.y +
+          (topBaseline !== undefined
+            ? topBaseline * box.scaleY
+            : (box.height * box.scaleY * vertical) / 2),
         value: node.text.value,
         size: node.text.size,
         font: node.font ?? '',
         fill: `rgba(${c.r * 255},${c.g * 255},${c.b * 255},${c.a * opacity})`,
         anchor: horizontal === 0 ? 'start' : horizontal === 1 ? 'middle' : 'end',
-        baseline: vertical === 0 ? 'hanging' : vertical === 1 ? 'central' : 'text-after-edge',
+        baseline:
+          topBaseline !== undefined
+            ? 'alphabetic'
+            : vertical === 0
+              ? 'hanging'
+              : vertical === 1
+                ? 'central'
+                : 'text-after-edge',
         scaleX: box.scaleX,
         scaleY: box.scaleY,
       });
