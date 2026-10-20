@@ -9,7 +9,7 @@ export function getPrtsWikiMediaUrl(fileName: string): string {
 }
 
 /**
- * 根据角色 ID、角色名称和精英化等级获取 PRTS Wiki 角色头像的完整 URL 地址
+ * 根据干员 ID、干员名称和精英化等级获取 PRTS Wiki 干员头像的完整 URL 地址
  *
  * 会特别考虑升变干员
  */
@@ -35,9 +35,9 @@ export function getPrtsWikiCharAvatarUrl(
 }
 
 /**
- * 根据角色 ID、角色名称和精英化等级获取 PRTS Wiki 角色立绘的完整 URL 地址
+ * 根据干员 ID、干员名称和精英化等级获取 PRTS Wiki 干员立绘的完整 URL 地址
  *
- * 会特别考虑升变干员和阿米娅术师形态的文件名
+ * 会特别考虑升变干员
  */
 export function getPrtsWikiCharSkinUrl(
   charId: string,

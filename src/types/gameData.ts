@@ -92,7 +92,7 @@ export interface BuffChar {
 }
 
 /**
- * 基建角色数据接口
+ * 基建干员数据接口
  */
 export interface BuildingChar {
   /** 干员 ID */
