@@ -18,10 +18,7 @@ const rooms = computed<Record<string, BuildingRoom> | undefined>(
 <template>
   <UContainer>
     <UPage>
-      <UPageHeader
-        description="根据游戏数据实时绘制，展示各基建房间的 slot_id 与清理房间可提供的无人机数量。"
-        title="基建地图"
-      />
+      <UPageHeader title="基建地图" />
       <UPageBody>
         <BaseMapDiagram v-if="layout" :layout="layout" :rooms="rooms" />
         <div
