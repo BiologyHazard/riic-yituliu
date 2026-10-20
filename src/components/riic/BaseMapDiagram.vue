@@ -3,12 +3,15 @@ import type { BuildingLayout, BuildingRoom, BuildingSlot } from '@/types/gameDat
 import type { CSSProperties } from 'vue';
 import { useElementSize } from '@vueuse/core';
 import { computed, ref, watch } from 'vue';
+import BlueprintRoom from './BlueprintRoom.vue';
 
 const props = defineProps<{
   /** `building_data.json` 中的 `layouts.v0` */
   layout: BuildingLayout;
   /** `building_data.json` 中的 `rooms`，用于获取房间名 */
   rooms?: Record<string, BuildingRoom>;
+  /** 未提供时显示游戏 Prefab 序列化的控制中枢等级。 */
+  controlLevel?: number;
 }>();
 
 interface SlotCategoryMeta {
@@ -286,8 +289,14 @@ const legend = computed(() => {
           :style="view.style"
           :title="view.title"
         >
+          <BlueprintRoom
+            :cols="view.slot.size.col"
+            :control="view.slot.category === 'SPECIAL'"
+            :control-level="controlLevel"
+            :room-name="view.roomName"
+            :rows="view.slot.size.row"
+          />
           <div class="basemap-tile">
-            <span aria-hidden="true" class="basemap-unbuilt-icon"></span>
             <div class="basemap-tile-head">
               <span class="basemap-slot-id">{{ view.number }}</span>
               <span class="basemap-slot-labor">
@@ -439,46 +448,16 @@ const legend = computed(() => {
   align-items: center;
 }
 
-/* 外框与切角内板分离，所有尺寸随房间平面的投影一起缩放。 */
+/* 槽位图像由游戏 Prefab 渲染；此层仅承载可切换的网页信息。 */
 .basemap-slot {
   position: absolute;
-  padding: 0.12cqw;
-}
-
-.basemap-slot::before {
-  position: absolute;
-  inset: 0.08cqw;
-  content: '';
-  border: 0.065cqw solid rgb(100 100 100 / 44%);
-  box-shadow: inset 0 0 0 0.12cqw rgb(255 255 255 / 70%);
 }
 
 .basemap-tile {
   position: absolute;
   inset: 0.34cqw;
   overflow: hidden;
-  background: rgb(116 116 116 / 72%);
-  box-shadow: inset 0 0 0.65cqw rgb(0 0 0 / 30%);
-  clip-path: polygon(
-    0.5cqw 0,
-    calc(100% - 0.5cqw) 0,
-    100% 0.5cqw,
-    100% calc(100% - 0.5cqw),
-    calc(100% - 0.5cqw) 100%,
-    0.5cqw 100%,
-    0 calc(100% - 0.5cqw),
-    0 0.5cqw
-  );
-}
-
-.basemap-unbuilt-icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  inline-size: 1.8cqw;
-  block-size: 0.823cqw;
-  background: url('@/assets/images/riic/zero_level.png') center / contain no-repeat;
-  transform: translate(-50%, -50%);
+  pointer-events: none;
 }
 
 .basemap-tile-head {
@@ -543,36 +522,6 @@ const legend = computed(() => {
 
 .basemap-slot.is-narrow .basemap-slot-labor-icon {
   display: none;
-}
-
-.basemap-slot.is-control .basemap-tile {
-  background-color: #292929;
-  background-image:
-    repeating-linear-gradient(
-      45deg,
-      transparent 0 0.8cqw,
-      rgb(167 119 39 / 12%) 0.8cqw 0.84cqw,
-      transparent 0.84cqw 1.64cqw
-    ),
-    repeating-linear-gradient(
-      -45deg,
-      transparent 0 0.8cqw,
-      rgb(167 119 39 / 12%) 0.8cqw 0.84cqw,
-      transparent 0.84cqw 1.64cqw
-    );
-}
-
-.basemap-slot.is-control .basemap-unbuilt-icon {
-  display: none;
-}
-
-.basemap-slot.is-control .basemap-slot-name {
-  top: 50%;
-  bottom: auto;
-  visibility: visible;
-  font-size: 1.35cqw;
-  font-weight: 600;
-  transform: translateY(-50%);
 }
 
 @media (width <= 600px) {
