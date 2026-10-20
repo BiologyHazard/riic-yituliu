@@ -31,3 +31,7 @@ tsconfig.node.tsbuildinfo
 
 # Environment variables
 .env
+
+# Python resource generation
+__pycache__/
+*.pyc
