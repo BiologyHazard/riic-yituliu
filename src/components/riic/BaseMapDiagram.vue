@@ -126,9 +126,7 @@ const camera = computed<{ distance: number; far: number; roomUnit: number }>(() 
   // `_ResetLayout`：模式 `0` 决定距离上限，模式 `2` 的结果乘 `0.75` 决定下限。
   const far = Math.max(f(f(f(width * 0.5) / f(aspect * gameTangent)) * f(0.72)), heightDistance);
   const near = f(heightDistance * 0.75);
-  // 网页窄视口先容纳全部槽位，再按游戏近端距离缩放。
-  const fitDistance = Math.max(far, f(f(width * 0.5) / f(aspect * gameTangent)));
-  const distance = fitDistance + (near - fitDistance) * zoom.value;
+  const distance = far + (near - far) * zoom.value;
   return { distance, far, roomUnit: viewportHeight.value / (2 * tangent * distance) };
 });
 
