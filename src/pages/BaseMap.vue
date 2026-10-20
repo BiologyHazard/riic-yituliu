@@ -13,18 +13,18 @@ import { getPrtsWikiMediaUrl } from '@/utils/prtsWiki';
             target="_blank"
           >
             <img
-              alt="2025-09-30-「众生行记」版本之后基建房间slot_id和清理提供的无人机 by bilibili@Bio-Hazard"
+              alt="2026-10-20-「昨日海」版本之后基建房间slot_id和清理提供的无人机 by bilibili@Bio-Hazard"
               class="theme-dark-darken"
               referrerpolicy="no-referrer"
               :src="
                 getPrtsWikiMediaUrl(
-                  '2025-09-30-「众生行记」版本之后基建房间slot_id和清理提供的无人机_by_bilibili@Bio-Hazard.png',
+                  '2026-10-20-「昨日海」版本之后基建房间slot_id和清理提供的无人机_by_bilibili@Bio-Hazard.png',
                 )
               "
             />
           </ULink>
           <figcaption class="mbs-2 text-center text-sm text-toned">
-            2025-09-30-「众生行记」版本之后基建房间 <code>slot_id</code> 和清理提供的无人机 by
+            2026-10-20-「昨日海」版本之后基建房间 <code>slot_id</code> 和清理提供的无人机 by
             <ULink
               class="text-primary hover:text-primary/75"
               rel="noopener noreferrer"
