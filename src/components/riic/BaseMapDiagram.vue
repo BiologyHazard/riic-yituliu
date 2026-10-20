@@ -177,6 +177,11 @@ const legend = computed(() => {
   <div class="basemap">
     <div class="basemap-scroll">
       <div class="basemap-canvas">
+        <div aria-hidden="true" class="basemap-background">
+          <div class="basemap-background-layer basemap-background-fill"></div>
+          <div class="basemap-background-layer basemap-background-rect"></div>
+          <div class="basemap-background-layer basemap-background-grid"></div>
+        </div>
         <div class="basemap-gutter">
           <span
             v-for="label in storeyLabels"
@@ -257,10 +262,49 @@ const legend = computed(() => {
 }
 
 .basemap-canvas {
+  position: relative;
   display: flex;
   align-items: stretch;
   min-inline-size: 1080px;
   container-type: inline-size;
+  isolation: isolate;
+}
+
+.basemap-background {
+  /* 以 `1280px` 设计宽度统一缩放三层，属于网页布局约定而非游戏相机参数。 */
+  --background-unit: 0.078125cqw;
+  --background-offset-x: 0px;
+  --background-offset-y: 0px;
+
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.basemap-background-layer {
+  position: absolute;
+  inset: 0;
+  background-repeat: repeat;
+  background-position: var(--background-offset-x) calc(100% + var(--background-offset-y));
+}
+
+.basemap-background-fill {
+  background-image: url('@/assets/images/riic/blueprint_bkg_fill.png');
+  background-size: calc(64 * var(--background-unit)) calc(64 * var(--background-unit));
+}
+
+.basemap-background-rect {
+  background-image: url('@/assets/images/riic/blueprint_bkg_rect.png');
+  background-size: calc(221 * var(--background-unit)) calc(251 * var(--background-unit));
+  filter: brightness(0.2);
+}
+
+.basemap-background-grid {
+  background-image: url('@/assets/images/riic/blueprint_bkg_grid.png');
+  background-size: calc(279 * var(--background-unit)) calc(184 * var(--background-unit));
+  filter: brightness(0.564706);
 }
 
 .basemap-gutter {
