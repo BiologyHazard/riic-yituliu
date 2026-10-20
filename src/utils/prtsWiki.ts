@@ -9,6 +9,18 @@ export function getPrtsWikiMediaUrl(fileName: string): string {
 }
 
 /**
+ * 获取 PRTS Wiki 使用的干员名称，处理阿米娅升变形态名称。
+ */
+function getPrtsWikiCharName(charId: string, charName: string): string {
+  if (charId === 'char_1001_amiya2') {
+    return '阿米娅(近卫)';
+  } else if (charId === 'char_1037_amiya3') {
+    return '阿米娅(医疗)';
+  }
+  return charName;
+}
+
+/**
  * 根据干员 ID、干员名称和精英化等级获取 PRTS Wiki 干员头像的完整 URL 地址
  *
  * 会特别考虑升变干员
@@ -18,18 +30,10 @@ export function getPrtsWikiCharAvatarUrl(
   charName: string,
   eliteLevel: number,
 ): string {
-  let prtsWikiCharName = charName;
-  if (charId === 'char_1001_amiya2') {
-    prtsWikiCharName = '阿米娅(近卫)';
-  } else if (charId === 'char_1037_amiya3') {
-    prtsWikiCharName = '阿米娅(医疗)';
-  }
-
-  let prtsWikiEliteLevelSuffix: string = '';
+  const prtsWikiCharName = getPrtsWikiCharName(charId, charName);
+  let prtsWikiEliteLevelSuffix = eliteLevel === 2 ? '_2' : '';
   if (charId === 'char_002_amiya' && eliteLevel === 1) {
     prtsWikiEliteLevelSuffix = '_1+';
-  } else if (eliteLevel === 2) {
-    prtsWikiEliteLevelSuffix = '_2';
   }
   return getPrtsWikiMediaUrl(`头像_${prtsWikiCharName}${prtsWikiEliteLevelSuffix}.png`);
 }
@@ -44,19 +48,13 @@ export function getPrtsWikiCharSkinUrl(
   charName: string,
   eliteLevel: number,
 ): string {
-  let prtsWikiCharName = charName;
+  const prtsWikiCharName = getPrtsWikiCharName(charId, charName);
   let prtsWikiEliteLevelSuffix = eliteLevel === 2 ? '_2' : '_1';
-
-  if (charId === 'char_1001_amiya2') {
-    prtsWikiCharName = '阿米娅(近卫)';
-    prtsWikiEliteLevelSuffix = '_2';
-  } else if (charId === 'char_1037_amiya3') {
-    prtsWikiCharName = '阿米娅(医疗)';
-    prtsWikiEliteLevelSuffix = '_2';
-  } else if (charId === 'char_002_amiya' && eliteLevel === 1) {
+  if (charId === 'char_002_amiya' && eliteLevel === 1) {
     prtsWikiEliteLevelSuffix = '_1+';
+  } else if (charId === 'char_1001_amiya2' || charId === 'char_1037_amiya3') {
+    prtsWikiEliteLevelSuffix = '_2';
   }
-
   return getPrtsWikiMediaUrl(`立绘_${prtsWikiCharName}${prtsWikiEliteLevelSuffix}.png`);
 }
 
