@@ -81,6 +81,31 @@ const gridSize = computed<{ rows: number; cols: number }>(() => {
   return { rows, cols };
 });
 
+/** 固定使用 `3840 × 1080` 的默认最小缩放投影，不随网页视口改变纹理周期。 */
+const projectionStyle = computed<Record<string, string>>(() => {
+  const f = Math.fround;
+  const canvasScale = 0.009999999776482582;
+  const foregroundScale = 0.800000011920929;
+  const paddingY = 0.800000011920929;
+  const fitWidthRatio = 0.7200000286102295;
+  // `Blueprint.ROOM_UNIT` 为 `(50, 50)`，房间两侧分别添加一次 `LAYOUT_PADDING`。
+  const width = f(f(gridSize.value.cols * 50 + 2 * 50) * canvasScale);
+  const height = f(f(gridSize.value.rows * 50 + 2 * f(paddingY * 50)) * canvasScale);
+  const tangent = f(Math.tan(f(f(f(30 * 3.1415927410125732) * 0.5) / 180)));
+  // `CalcCamZoom` 模式 `0` 取宽高约束的较大值；`_ResetLayout` 将其设为初始距离和距离上限。
+  const distance = Math.max(
+    f(f(f(width * 0.5) / f(f(3840 / 1080) * tangent)) * fitWidthRatio),
+    f(f(height * 0.5) / tangent),
+  );
+  const backgroundUnit = (1080 * canvasScale) / (2 * tangent * (distance + f(120 * canvasScale)));
+  const foregroundUnit =
+    (1080 * canvasScale * foregroundScale) / (2 * tangent * (distance + f(-80 * canvasScale)));
+  return {
+    '--background-unit': `${backgroundUnit}px`,
+    '--foreground-unit': `${foregroundUnit}px`,
+  };
+});
+
 interface StoreyLabel {
   id: string;
   /** 楼层标签的垂直中心百分比位置 */
@@ -176,7 +201,7 @@ const legend = computed(() => {
 <template>
   <div class="basemap">
     <div class="basemap-scroll">
-      <div class="basemap-canvas">
+      <div class="basemap-canvas" :style="projectionStyle">
         <div aria-hidden="true" class="basemap-background">
           <div class="basemap-background-layer basemap-background-fill"></div>
           <div class="basemap-background-layer basemap-background-rect"></div>
@@ -223,6 +248,8 @@ const legend = computed(() => {
             </div>
           </div>
         </div>
+        <div aria-hidden="true" class="basemap-foreground"></div>
+        <div aria-hidden="true" class="basemap-edge-mask"></div>
       </div>
     </div>
 
@@ -271,8 +298,6 @@ const legend = computed(() => {
 }
 
 .basemap-background {
-  /* 以 `1280px` 设计宽度统一缩放三层，属于网页布局约定而非游戏相机参数。 */
-  --background-unit: 0.078125cqw;
   --background-offset-x: 0px;
   --background-offset-y: 0px;
 
@@ -298,13 +323,38 @@ const legend = computed(() => {
 .basemap-background-rect {
   background-image: url('@/assets/images/riic/blueprint_bkg_rect.png');
   background-size: calc(221 * var(--background-unit)) calc(251 * var(--background-unit));
-  filter: brightness(0.2);
+  /* `level9` 中 `ImgRect` 的 `m_Color`，保留序列化的 `float32` 原值。 */
+  filter: brightness(0.20000000298023224);
 }
 
 .basemap-background-grid {
   background-image: url('@/assets/images/riic/blueprint_bkg_grid.png');
   background-size: calc(279 * var(--background-unit)) calc(184 * var(--background-unit));
-  filter: brightness(0.564706);
+  filter: brightness(0.5647059082984924);
+}
+
+.basemap-foreground {
+  /* `ImgX` 位于房间前方，使用独立深度与缩放投影，不能共用背景层的像素尺度。 */
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image: url('@/assets/images/riic/blueprint_ftg.png');
+  background-repeat: repeat;
+  background-position: left bottom;
+  background-size: calc(199 * var(--foreground-unit)) calc(206 * var(--foreground-unit));
+  filter: brightness(0.6980392336845398);
+}
+
+.basemap-edge-mask {
+  /* `MaskCanvas` 的暗边覆盖整个视口，只拉伸一次，不能重复平铺。 */
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background-image: url('@/assets/images/riic/blueprint_dark_slide.png');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 .basemap-gutter {
