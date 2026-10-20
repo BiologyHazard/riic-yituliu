@@ -14,7 +14,6 @@ import { getPrtsWikiMediaUrl } from '@/utils/prtsWiki';
           >
             <img
               alt="2026-10-20-「昨日海」版本之后基建房间slot_id和清理提供的无人机 by bilibili@Bio-Hazard"
-              class="theme-dark-darken"
               referrerpolicy="no-referrer"
               :src="
                 getPrtsWikiMediaUrl(
