@@ -39,3 +39,9 @@ Prefab 的固定本地化文字由 `m_TextId` 查询本机 `main_text` 数据取
 Sprite 数据的 `width/height` 表示逻辑矩形；`textureRect` 表示已导出 PNG 的内容区域在逻辑矩形中的位置和尺寸（左上角坐标），来自原始 `textureRect` 与 `textureRectOffset`。升级、清理、产物、线索等 8 种图标存在非零裁剪边距，必须保留该偏移，不能将裁剪结果放大至逻辑矩形。有边框的 `Sliced` 图像仍使用九宫格，本批 5 种九宫格 Sprite 均无裁剪偏移。
 
 Sprite 元数据按 Prefab 引用的对象编号匹配，并记录为 `sourcePathId`，不按名称跨 Bundle 合并。`icon_manuf_product` 的蓝图资源为 `118 × 118`（对象编号 `6174729782678007643`），不能被同名 `32 × 32` 资源覆盖；`icon_favor_max` 使用蓝图的 `59 × 59` 无裁剪资源，不能混入同名 `70 × 60` 资源的边距。
+
+## 文字字号与顶端基线
+
+名称字号保留 Prefab 的 `m_FontSize`：制造、贸易、发电为 `21`；加工站、办公室、训练室、回收站为 `20`，其文字节点另有约 `1.05` 的局部缩放；两组再乘房间根缩放后，实际字号均约为 `22.05` 个地图单位。宿舍、活动室为 `20`，会客室为 `22`，控制中枢为 `24`，不得为视觉统一改写这些值。
+
+`font-metrics.json` 来自 `Arknights_Data/sharedassets1.assets` 中实际使用字体的序列化指标。顶端对齐的首行使用 `ascent / fontSize × 当前字号` 定位 alphabetic 基线；例如 `NotoSansHans-Medium` 的基准字号为 `16`、ascent 为 `14.080000877380371`。不能用 SVG `hanging` 直接替代 Unity `UpperLeft`。游戏字体 `m_UseLegacyBoundsCalculation=false`，原生首行边界不额外计入 leading。本次只修正顶端基线，未改动原始字号、锚点和缩放；居中及底端基线仍需单独核验。
