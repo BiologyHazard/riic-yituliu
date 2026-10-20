@@ -45,3 +45,7 @@ Sprite 元数据按 Prefab 引用的对象编号匹配，并记录为 `sourcePat
 名称字号保留 Prefab 的 `m_FontSize`：制造、贸易、发电为 `21`；加工站、办公室、训练室、回收站为 `20`，其文字节点另有约 `1.05` 的局部缩放；两组再乘房间根缩放后，实际字号均约为 `22.05` 个地图单位。宿舍、活动室为 `20`，会客室为 `22`，控制中枢为 `24`，不得为视觉统一改写这些值。
 
 `font-metrics.json` 来自 `Arknights_Data/sharedassets1.assets` 中实际使用字体的序列化指标。顶端对齐的首行使用 `ascent / fontSize × 当前字号` 定位 alphabetic 基线；例如 `NotoSansHans-Medium` 的基准字号为 `16`、ascent 为 `14.080000877380371`。不能用 SVG `hanging` 直接替代 Unity `UpperLeft`。游戏字体 `m_UseLegacyBoundsCalculation=false`，原生首行边界不额外计入 leading。本次只修正顶端基线，未改动原始字号、锚点和缩放；居中及底端基线仍需单独核验。
+
+## 重新生成
+
+在项目根目录设置 `ARKNIGHTS_BASE_DIR` 后运行 `npm run generate:riic`；运行 `npm run generate:riic:check` 可只校验全部产物。入口脚本、依赖、输出范围和版本限制见 [生成说明](../../../../../scripts/README-riic.md)。

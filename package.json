@@ -3,6 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "generate:riic": "uv run scripts/generate_riic.py",
+    "generate:riic:check": "uv run scripts/generate_riic.py --check",
     "dev": "vite",
     "build-only": "vite build",
     "build": "run-s download-fonts split-fonts build-only",

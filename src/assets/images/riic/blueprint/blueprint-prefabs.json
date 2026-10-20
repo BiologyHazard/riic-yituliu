@@ -10,13 +10,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-144251012496423073",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 195.0,
         "height": 99.0
-      },
-      "sourcePathId": "-144251012496423073"
+      }
     },
     "levelup_cmplete_note": {
       "width": 118.0,
@@ -28,13 +28,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-5011102419846538675",
       "textureRect": {
         "x": 7.076120376586914,
         "y": 4.076116561889648,
         "width": 103.84776306152344,
         "height": 109.84776306152344
-      },
-      "sourcePathId": "-5011102419846538675"
+      }
     },
     "img_complete_bg_2x6": {
       "width": 292.0,
@@ -46,13 +46,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-1711194552017270435",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 292.0,
         "height": 100.0
-      },
-      "sourcePathId": "-1711194552017270435"
+      }
     },
     "img_complete_bg_2x8": {
       "width": 391.0,
@@ -64,13 +64,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "2108429753424310659",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 391.0,
         "height": 100.0
-      },
-      "sourcePathId": "2108429753424310659"
+      }
     },
     "img_complete_bg_4x8": {
       "width": 392.0,
@@ -82,13 +82,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "2396273574403718496",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 392.0,
         "height": 201.0
-      },
-      "sourcePathId": "2396273574403718496"
+      }
     },
     "room_bg_buildable": {
       "width": 193.0,
@@ -100,13 +100,13 @@
         "w": 10.0
       },
       "ppu": 100.0,
+      "sourcePathId": "5183315747246793736",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 193.0,
         "height": 99.0
-      },
-      "sourcePathId": "5183315747246793736"
+      }
     },
     "buildable": {
       "width": 36.0,
@@ -118,13 +118,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "2316032793679956973",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 36.0,
         "height": 36.0
-      },
-      "sourcePathId": "2316032793679956973"
+      }
     },
     "img_alert": {
       "width": 27.0,
@@ -136,13 +136,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "6720112145006588934",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 27.0,
         "height": 27.0
-      },
-      "sourcePathId": "6720112145006588934"
+      }
     },
     "product_note": {
       "width": 118.0,
@@ -154,13 +154,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "5544007549091703974",
       "textureRect": {
         "x": 6.076120376586914,
         "y": 4.076116561889648,
         "width": 104.84776306152344,
         "height": 109.84776306152344
-      },
-      "sourcePathId": "5544007549091703974"
+      }
     },
     "img_center_bkg": {
       "width": 386.0,
@@ -172,13 +172,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-3397192824220087692",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 386.0,
         "height": 195.0
-      },
-      "sourcePathId": "-3397192824220087692"
+      }
     },
     "icon_favor_max": {
       "width": 59.0,
@@ -190,13 +190,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-5876831233008913623",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 59.0,
         "height": 59.0
-      },
-      "sourcePathId": "-5876831233008913623"
+      }
     },
     "can_levelup_note": {
       "width": 118.0,
@@ -208,13 +208,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-1605611525491231602",
       "textureRect": {
         "x": 7.076120376586914,
         "y": 4.012907028198242,
         "width": 103.84776306152344,
         "height": 109.91097259521484
-      },
-      "sourcePathId": "-1605611525491231602"
+      }
     },
     "img_corridor_bkg": {
       "width": 99.0,
@@ -226,13 +226,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-7696504844464953247",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 99.0,
         "height": 63.0
-      },
-      "sourcePathId": "-7696504844464953247"
+      }
     },
     "img_dorm_bkg": {
       "width": 291.0,
@@ -244,13 +244,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "816678606547457059",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 291.0,
         "height": 99.0
-      },
-      "sourcePathId": "816678606547457059"
+      }
     },
     "img_char_normal": {
       "width": 6.0,
@@ -262,13 +262,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-5177388190024289218",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 6.0,
         "height": 18.0
-      },
-      "sourcePathId": "-5177388190024289218"
+      }
     },
     "img_elevator_center": {
       "width": 7.0,
@@ -280,13 +280,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "5704671999609815874",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 7.0,
         "height": 7.0
-      },
-      "sourcePathId": "5704671999609815874"
+      }
     },
     "img_elevator_left": {
       "width": 14.0,
@@ -298,13 +298,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-1151536399585212214",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 14.0,
         "height": 3.0
-      },
-      "sourcePathId": "-1151536399585212214"
+      }
     },
     "img_elevator_up": {
       "width": 3.0,
@@ -316,13 +316,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-3419277063496615410",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 3.0,
         "height": 25.0
-      },
-      "sourcePathId": "-3419277063496615410"
+      }
     },
     "img_elevator_right": {
       "width": 15.0,
@@ -334,13 +334,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "3601639935377741028",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 15.0,
         "height": 3.0
-      },
-      "sourcePathId": "3601639935377741028"
+      }
     },
     "img_elevator_down": {
       "width": 3.0,
@@ -352,13 +352,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-7140051461837709087",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 3.0,
         "height": 25.0
-      },
-      "sourcePathId": "-7140051461837709087"
+      }
     },
     "img_hire_bkg": {
       "width": 196.0,
@@ -370,13 +370,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-793125658529182301",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 196.0,
         "height": 99.0
-      },
-      "sourcePathId": "-793125658529182301"
+      }
     },
     "building_bloom": {
       "width": 26.0,
@@ -388,13 +388,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "6579707230741055011",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 26.0,
         "height": 4.0
-      },
-      "sourcePathId": "6579707230741055011"
+      }
     },
     "building_block": {
       "width": 32.0,
@@ -406,13 +406,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-2240643034185867281",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 32.0,
         "height": 10.0
-      },
-      "sourcePathId": "-2240643034185867281"
+      }
     },
     "humanresource": {
       "width": 21.0,
@@ -424,31 +424,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-7620360686424907550",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 21.0,
         "height": 22.0
-      },
-      "sourcePathId": "-7620360686424907550"
-    },
-    "img_manuf_bkg": {
-      "width": 195.0,
-      "height": 99.0,
-      "border": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
-      },
-      "ppu": 100.0,
-      "textureRect": {
-        "x": 0.0,
-        "y": 0.0,
-        "width": 195.0,
-        "height": 99.0
-      },
-      "sourcePathId": "-4453618025826252807"
+      }
     },
     "img_room_sidebar": {
       "width": 36.0,
@@ -460,13 +442,31 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-7646779766888517894",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 36.0,
         "height": 99.0
+      }
+    },
+    "img_manuf_bkg": {
+      "width": 195.0,
+      "height": 99.0,
+      "border": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
       },
-      "sourcePathId": "-7646779766888517894"
+      "ppu": 100.0,
+      "sourcePathId": "-4453618025826252807",
+      "textureRect": {
+        "x": 0.0,
+        "y": 0.0,
+        "width": 195.0,
+        "height": 99.0
+      }
     },
     "icon_warning": {
       "width": 19.0,
@@ -478,13 +478,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "7799932120459664510",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 19.0,
         "height": 17.0
-      },
-      "sourcePathId": "7799932120459664510"
+      }
     },
     "icon_working": {
       "width": 8.0,
@@ -496,13 +496,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "6955483230841997587",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 8.0,
         "height": 8.0
-      },
-      "sourcePathId": "6955483230841997587"
+      }
     },
     "img_sidebar_light": {
       "width": 36.0,
@@ -514,13 +514,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-3406039270497401564",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 36.0,
         "height": 99.0
-      },
-      "sourcePathId": "-3406039270497401564"
+      }
     },
     "img_room_light": {
       "width": 157.0,
@@ -532,13 +532,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-6759966738529289322",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 157.0,
         "height": 81.0
-      },
-      "sourcePathId": "-6759966738529289322"
+      }
     },
     "icon_manuf_product": {
       "width": 118.0,
@@ -550,13 +550,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "6174729782678007643",
       "textureRect": {
         "x": 6.076120376586914,
         "y": 4.076116561889648,
         "width": 104.84776306152344,
         "height": 109.84776306152344
-      },
-      "sourcePathId": "6174729782678007643"
+      }
     },
     "img_prog_empty": {
       "width": 142.0,
@@ -568,13 +568,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-2243846970271280998",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 142.0,
         "height": 4.0
-      },
-      "sourcePathId": "-2243846970271280998"
+      }
     },
     "img_charge_item": {
       "width": 31.0,
@@ -586,13 +586,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-3974358913777085042",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 31.0,
         "height": 12.0
-      },
-      "sourcePathId": "-3974358913777085042"
+      }
     },
     "img_living_bkg": {
       "width": 390.0,
@@ -604,13 +604,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-667448707935009569",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 390.0,
         "height": 99.0
-      },
-      "sourcePathId": "-667448707935009569"
+      }
     },
     "clue_hint": {
       "width": 118.0,
@@ -622,13 +622,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-5043729809467554537",
       "textureRect": {
         "x": 5.076120376586914,
         "y": 3.012907028198242,
         "width": 103.84776306152344,
         "height": 109.91097259521484
-      },
-      "sourcePathId": "-5043729809467554537"
+      }
     },
     "message_board": {
       "width": 59.0,
@@ -640,13 +640,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-7159634834405353844",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 59.0,
         "height": 59.0
-      },
-      "sourcePathId": "-7159634834405353844"
+      }
     },
     "img_power_bkg": {
       "width": 195.0,
@@ -658,13 +658,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "1753471076006325806",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 195.0,
         "height": 99.0
-      },
-      "sourcePathId": "1753471076006325806"
+      }
     },
     "img_private_dorm_bkg": {
       "width": 291.0,
@@ -676,13 +676,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-6449596055381570699",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 291.0,
         "height": 99.0
-      },
-      "sourcePathId": "-6449596055381570699"
+      }
     },
     "bkg_private_char": {
       "width": 62.0,
@@ -694,13 +694,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-3427082236596747114",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 62.0,
         "height": 62.0
-      },
-      "sourcePathId": "-3427082236596747114"
+      }
     },
     "img_private_char": {
       "width": 62.0,
@@ -712,13 +712,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "1832456080301854521",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 62.0,
         "height": 62.0
-      },
-      "sourcePathId": "1832456080301854521"
+      }
     },
     "recycle_bkg": {
       "width": 196.0,
@@ -730,13 +730,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "5781716227657196477",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 196.0,
         "height": 99.0
-      },
-      "sourcePathId": "5781716227657196477"
+      }
     },
     "recycle_has_product": {
       "width": 59.0,
@@ -748,13 +748,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "436348801610573432",
       "textureRect": {
         "x": 0.0,
         "y": 1.9073486328125e-6,
         "width": 54.92387771606445,
         "height": 57.92387771606445
-      },
-      "sourcePathId": "436348801610573432"
+      }
     },
     "recycle_icon": {
       "width": 18.0,
@@ -766,13 +766,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "984216484942391514",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 18.0,
         "height": 20.0
-      },
-      "sourcePathId": "984216484942391514"
+      }
     },
     "img_shop_bkg": {
       "width": 195.0,
@@ -784,13 +784,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-38656879943660",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 195.0,
         "height": 99.0
-      },
-      "sourcePathId": "-38656879943660"
+      }
     },
     "icon_trading": {
       "width": 118.0,
@@ -802,13 +802,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-663930184388061641",
       "textureRect": {
         "x": 5.076120376586914,
         "y": 2.012907028198242,
         "width": 104.84776306152344,
         "height": 110.91097259521484
-      },
-      "sourcePathId": "-663930184388061641"
+      }
     },
     "img_room_frame": {
       "width": 49.0,
@@ -820,13 +820,13 @@
         "w": 13.0
       },
       "ppu": 100.0,
+      "sourcePathId": "1426665666224967277",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 49.0,
         "height": 96.0
-      },
-      "sourcePathId": "1426665666224967277"
+      }
     },
     "img_select_frame": {
       "width": 229.0,
@@ -838,13 +838,13 @@
         "w": 45.0
       },
       "ppu": 100.0,
+      "sourcePathId": "4174539090192038944",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 229.0,
         "height": 139.0
-      },
-      "sourcePathId": "4174539090192038944"
+      }
     },
     "img_white": {
       "width": 128.0,
@@ -856,13 +856,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "6551552205062771165",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 128.0,
         "height": 128.0
-      },
-      "sourcePathId": "6551552205062771165"
+      }
     },
     "img_room_hilight": {
       "width": 174.0,
@@ -874,13 +874,13 @@
         "w": 75.0
       },
       "ppu": 100.0,
+      "sourcePathId": "4061814976563126979",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 174.0,
         "height": 160.0
-      },
-      "sourcePathId": "4061814976563126979"
+      }
     },
     "img_train_bkg": {
       "width": 196.0,
@@ -892,13 +892,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-2940741438123005737",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 196.0,
         "height": 99.0
-      },
-      "sourcePathId": "-2940741438123005737"
+      }
     },
     "train_finish": {
       "width": 59.0,
@@ -910,13 +910,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "3211242427291944615",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 59.0,
         "height": 59.0
-      },
-      "sourcePathId": "3211242427291944615"
+      }
     },
     "img_workshop_bkg": {
       "width": 196.0,
@@ -928,13 +928,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "7187521265452933984",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 196.0,
         "height": 99.0
-      },
-      "sourcePathId": "7187521265452933984"
+      }
     },
     "room_bg_ruin": {
       "width": 193.0,
@@ -946,13 +946,13 @@
         "w": 10.0
       },
       "ppu": 100.0,
+      "sourcePathId": "9116621073935627623",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 193.0,
         "height": 99.0
-      },
-      "sourcePathId": "9116621073935627623"
+      }
     },
     "ruin": {
       "width": 35.0,
@@ -964,13 +964,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-100299447639281908",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 35.0,
         "height": 16.0
-      },
-      "sourcePathId": "-100299447639281908"
+      }
     },
     "can_clean_note": {
       "width": 118.0,
@@ -982,13 +982,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "4350432153502378017",
       "textureRect": {
         "x": 7.076120376586914,
         "y": 4.012907028198242,
         "width": 103.84776306152344,
         "height": 109.91097259521484
-      },
-      "sourcePathId": "4350432153502378017"
+      }
     },
     "img_level_item": {
       "width": 6.0,
@@ -1000,13 +1000,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-5455627675013558274",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 6.0,
         "height": 17.0
-      },
-      "sourcePathId": "-5455627675013558274"
+      }
     },
     "specialized_tiny_3": {
       "width": 22.0,
@@ -1018,13 +1018,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-5674118982600351483",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 22.0,
         "height": 20.0
-      },
-      "sourcePathId": "-5674118982600351483"
+      }
     },
     "specialized_tiny_0": {
       "width": 22.0,
@@ -1036,13 +1036,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-4400221713499102074",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 22.0,
         "height": 20.0
-      },
-      "sourcePathId": "-4400221713499102074"
+      }
     },
     "specialized_tiny_2": {
       "width": 22.0,
@@ -1054,13 +1054,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "-519268715055134425",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 22.0,
         "height": 20.0
-      },
-      "sourcePathId": "-519268715055134425"
+      }
     },
     "specialized_tiny_1": {
       "width": 22.0,
@@ -1072,13 +1072,13 @@
         "w": 0.0
       },
       "ppu": 100.0,
+      "sourcePathId": "7392223557352352356",
       "textureRect": {
         "x": 0.0,
         "y": 0.0,
         "width": 22.0,
         "height": 20.0
-      },
-      "sourcePathId": "7392223557352352356"
+      }
     }
   },
   "prefabs": {
@@ -1164,6 +1164,7 @@
           "image": {
             "sprite": "img_complete_bg_2x4",
             "type": 0,
+            "preserveAspect": true,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -1175,8 +1176,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": true
+            "fillClockwise": true
           },
           "children": []
         },
@@ -1222,6 +1222,7 @@
           "image": {
             "sprite": "levelup_cmplete_note",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -1233,8 +1234,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         }
@@ -1322,6 +1322,7 @@
           "image": {
             "sprite": "img_complete_bg_2x6",
             "type": 0,
+            "preserveAspect": true,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -1333,8 +1334,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": true
+            "fillClockwise": true
           },
           "children": []
         },
@@ -1380,6 +1380,7 @@
           "image": {
             "sprite": "levelup_cmplete_note",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -1391,8 +1392,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         }
@@ -1480,6 +1480,7 @@
           "image": {
             "sprite": "img_complete_bg_2x8",
             "type": 0,
+            "preserveAspect": true,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -1491,8 +1492,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": true
+            "fillClockwise": true
           },
           "children": []
         },
@@ -1538,6 +1538,7 @@
           "image": {
             "sprite": "levelup_cmplete_note",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -1549,8 +1550,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         }
@@ -1638,6 +1638,7 @@
           "image": {
             "sprite": "img_complete_bg_4x8",
             "type": 0,
+            "preserveAspect": true,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -1649,8 +1650,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": true
+            "fillClockwise": true
           },
           "children": []
         },
@@ -1696,6 +1696,7 @@
           "image": {
             "sprite": "levelup_cmplete_note",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -1707,8 +1708,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         }
@@ -1828,6 +1828,7 @@
           "image": {
             "sprite": "room_bg_buildable",
             "type": 1,
+            "preserveAspect": true,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -1839,8 +1840,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": true
+            "fillClockwise": true
           },
           "children": []
         },
@@ -1886,6 +1886,7 @@
           "image": {
             "sprite": "buildable",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -1897,8 +1898,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -1944,6 +1944,7 @@
           "image": {
             "sprite": "",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 0.0,
               "g": 0.0,
@@ -1955,8 +1956,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": [
             {
@@ -2083,7 +2083,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 21,
                       "m_FontStyle": 0,
@@ -2158,7 +2158,7 @@
                         "fontData": {
                           "m_Font": {
                             "m_FileID": 0,
-                            "m_PathID": 0
+                            "m_PathID": "0"
                           },
                           "m_FontSize": 10,
                           "m_FontStyle": 0,
@@ -2224,6 +2224,7 @@
                   "image": {
                     "sprite": "img_alert",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 1.0,
                       "g": 1.0,
@@ -2235,8 +2236,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 }
@@ -2300,7 +2300,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 12,
                   "m_FontStyle": 0,
@@ -2364,6 +2364,7 @@
               "image": {
                 "sprite": "product_note",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -2375,8 +2376,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             }
@@ -2498,6 +2498,7 @@
           "image": {
             "sprite": "room_bg_buildable",
             "type": 1,
+            "preserveAspect": true,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -2509,8 +2510,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": true
+            "fillClockwise": true
           },
           "children": []
         },
@@ -2556,6 +2556,7 @@
           "image": {
             "sprite": "buildable",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -2567,8 +2568,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -2614,6 +2614,7 @@
           "image": {
             "sprite": "",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 0.0,
               "g": 0.0,
@@ -2625,8 +2626,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": [
             {
@@ -2715,6 +2715,7 @@
                   "image": {
                     "sprite": "img_alert",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 1.0,
                       "g": 1.0,
@@ -2726,8 +2727,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -2789,7 +2789,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 21,
                       "m_FontStyle": 0,
@@ -2864,7 +2864,7 @@
                         "fontData": {
                           "m_Font": {
                             "m_FileID": 0,
-                            "m_PathID": 0
+                            "m_PathID": "0"
                           },
                           "m_FontSize": 8,
                           "m_FontStyle": 0,
@@ -2928,6 +2928,7 @@
               "image": {
                 "sprite": "product_note",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -2939,8 +2940,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             }
@@ -3004,7 +3004,7 @@
             "fontData": {
               "m_Font": {
                 "m_FileID": 0,
-                "m_PathID": 0
+                "m_PathID": "0"
               },
               "m_FontSize": 14,
               "m_FontStyle": 0,
@@ -3138,6 +3138,7 @@
           "image": {
             "sprite": "room_bg_buildable",
             "type": 1,
+            "preserveAspect": true,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -3149,8 +3150,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": true
+            "fillClockwise": true
           },
           "children": []
         },
@@ -3196,6 +3196,7 @@
           "image": {
             "sprite": "buildable",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -3207,8 +3208,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -3254,6 +3254,7 @@
           "image": {
             "sprite": "",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 0.0,
               "g": 0.0,
@@ -3265,8 +3266,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": [
             {
@@ -3367,7 +3367,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 21,
                       "m_FontStyle": 0,
@@ -3442,7 +3442,7 @@
                         "fontData": {
                           "m_Font": {
                             "m_FileID": 0,
-                            "m_PathID": 0
+                            "m_PathID": "0"
                           },
                           "m_FontSize": 8,
                           "m_FontStyle": 0,
@@ -3508,6 +3508,7 @@
                   "image": {
                     "sprite": "img_alert",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 1.0,
                       "g": 1.0,
@@ -3519,8 +3520,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 }
@@ -3572,6 +3572,7 @@
               "image": {
                 "sprite": "product_note",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -3583,8 +3584,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             }
@@ -3648,7 +3648,7 @@
             "fontData": {
               "m_Font": {
                 "m_FileID": 0,
-                "m_PathID": 0
+                "m_PathID": "0"
               },
               "m_FontSize": 14,
               "m_FontStyle": 0,
@@ -3782,6 +3782,7 @@
           "image": {
             "sprite": "room_bg_buildable",
             "type": 1,
+            "preserveAspect": true,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -3793,8 +3794,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": true
+            "fillClockwise": true
           },
           "children": []
         },
@@ -3840,6 +3840,7 @@
           "image": {
             "sprite": "buildable",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -3851,8 +3852,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -3898,6 +3898,7 @@
           "image": {
             "sprite": "",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 0.0,
               "g": 0.0,
@@ -3909,8 +3910,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": [
             {
@@ -4011,7 +4011,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 21,
                       "m_FontStyle": 0,
@@ -4086,7 +4086,7 @@
                         "fontData": {
                           "m_Font": {
                             "m_FileID": 0,
-                            "m_PathID": 0
+                            "m_PathID": "0"
                           },
                           "m_FontSize": 8,
                           "m_FontStyle": 0,
@@ -4152,6 +4152,7 @@
                   "image": {
                     "sprite": "img_alert",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 1.0,
                       "g": 1.0,
@@ -4163,8 +4164,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 }
@@ -4212,6 +4212,7 @@
               "image": {
                 "sprite": "product_note",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -4223,8 +4224,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             }
@@ -4288,7 +4288,7 @@
             "fontData": {
               "m_Font": {
                 "m_FileID": 0,
-                "m_PathID": 0
+                "m_PathID": "0"
               },
               "m_FontSize": 14,
               "m_FontStyle": 0,
@@ -4422,6 +4422,7 @@
           "image": {
             "sprite": "room_bg_buildable",
             "type": 1,
+            "preserveAspect": true,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -4433,8 +4434,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": true
+            "fillClockwise": true
           },
           "children": []
         },
@@ -4480,6 +4480,7 @@
           "image": {
             "sprite": "buildable",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -4491,8 +4492,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -4538,6 +4538,7 @@
           "image": {
             "sprite": "",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 0.0,
               "g": 0.0,
@@ -4549,8 +4550,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": [
             {
@@ -4651,7 +4651,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 21,
                       "m_FontStyle": 0,
@@ -4726,7 +4726,7 @@
                         "fontData": {
                           "m_Font": {
                             "m_FileID": 0,
-                            "m_PathID": 0
+                            "m_PathID": "0"
                           },
                           "m_FontSize": 8,
                           "m_FontStyle": 0,
@@ -4792,6 +4792,7 @@
                   "image": {
                     "sprite": "img_alert",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 1.0,
                       "g": 1.0,
@@ -4803,8 +4804,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 }
@@ -4856,6 +4856,7 @@
               "image": {
                 "sprite": "product_note",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -4867,8 +4868,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             }
@@ -4932,7 +4932,7 @@
             "fontData": {
               "m_Font": {
                 "m_FileID": 0,
-                "m_PathID": 0
+                "m_PathID": "0"
               },
               "m_FontSize": 14,
               "m_FontStyle": 0,
@@ -5066,6 +5066,7 @@
           "image": {
             "sprite": "img_center_bkg",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -5077,8 +5078,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -5140,7 +5140,7 @@
             "fontData": {
               "m_Font": {
                 "m_FileID": 0,
-                "m_PathID": 0
+                "m_PathID": "0"
               },
               "m_FontSize": 24,
               "m_FontStyle": 0,
@@ -5216,7 +5216,7 @@
             "fontData": {
               "m_Font": {
                 "m_FileID": 0,
-                "m_PathID": 0
+                "m_PathID": "0"
               },
               "m_FontSize": 12,
               "m_FontStyle": 0,
@@ -5332,7 +5332,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 72,
                   "m_FontStyle": 0,
@@ -5408,7 +5408,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 72,
                   "m_FontStyle": 0,
@@ -5514,6 +5514,7 @@
               "image": {
                 "sprite": "icon_favor_max",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -5525,8 +5526,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             }
@@ -5590,7 +5590,7 @@
             "fontData": {
               "m_Font": {
                 "m_FileID": 0,
-                "m_PathID": 0
+                "m_PathID": "0"
               },
               "m_FontSize": 17,
               "m_FontStyle": 0,
@@ -5650,6 +5650,7 @@
           "image": {
             "sprite": "can_levelup_note",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -5661,8 +5662,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         }
@@ -5770,6 +5770,7 @@
           "image": {
             "sprite": "img_corridor_bkg",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -5781,8 +5782,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         }
@@ -5910,6 +5910,7 @@
           "image": {
             "sprite": "img_dorm_bkg",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -5921,8 +5922,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -6050,7 +6050,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 20,
                   "m_FontStyle": 0,
@@ -6239,7 +6239,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 12,
                   "m_FontStyle": 0,
@@ -6303,6 +6303,7 @@
               "image": {
                 "sprite": "img_char_normal",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -6314,8 +6315,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -6377,7 +6377,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 23,
                   "m_FontStyle": 0,
@@ -6453,7 +6453,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 14,
                   "m_FontStyle": 0,
@@ -6571,7 +6571,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 12,
                   "m_FontStyle": 0,
@@ -6633,6 +6633,7 @@
           "image": {
             "sprite": "can_levelup_note",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -6644,8 +6645,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         }
@@ -6769,6 +6769,7 @@
           "image": {
             "sprite": "img_elevator_center",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -6780,8 +6781,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -6827,6 +6827,7 @@
           "image": {
             "sprite": "img_elevator_left",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -6838,8 +6839,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -6885,6 +6885,7 @@
           "image": {
             "sprite": "img_elevator_up",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -6896,8 +6897,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -6943,6 +6943,7 @@
           "image": {
             "sprite": "img_elevator_right",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -6954,8 +6955,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -7001,6 +7001,7 @@
           "image": {
             "sprite": "img_elevator_down",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -7012,8 +7013,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         }
@@ -7151,6 +7151,7 @@
           "image": {
             "sprite": "img_hire_bkg",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -7162,8 +7163,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -7284,7 +7284,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 20,
                   "m_FontStyle": 0,
@@ -7485,7 +7485,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 12,
                   "m_FontStyle": 0,
@@ -7589,6 +7589,7 @@
                   "image": {
                     "sprite": "img_char_normal",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 1.0,
                       "g": 1.0,
@@ -7600,8 +7601,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -7663,7 +7663,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 14,
                       "m_FontStyle": 0,
@@ -7739,7 +7739,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 23,
                       "m_FontStyle": 0,
@@ -7859,7 +7859,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 12,
                   "m_FontStyle": 0,
@@ -7921,6 +7921,7 @@
           "image": {
             "sprite": "can_levelup_note",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -7932,8 +7933,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -8045,6 +8045,7 @@
               "image": {
                 "sprite": "building_bloom",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -8056,8 +8057,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -8107,6 +8107,7 @@
               "image": {
                 "sprite": "building_bloom",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -8118,8 +8119,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -8169,6 +8169,7 @@
               "image": {
                 "sprite": "building_bloom",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -8180,8 +8181,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -8227,6 +8227,7 @@
               "image": {
                 "sprite": "building_bloom",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -8238,8 +8239,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -8289,6 +8289,7 @@
               "image": {
                 "sprite": "building_bloom",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -8300,8 +8301,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -8351,6 +8351,7 @@
               "image": {
                 "sprite": "building_block",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -8362,8 +8363,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -8413,6 +8413,7 @@
               "image": {
                 "sprite": "building_block",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -8424,8 +8425,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -8475,6 +8475,7 @@
               "image": {
                 "sprite": "building_block",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -8486,8 +8487,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -8537,6 +8537,7 @@
               "image": {
                 "sprite": "building_block",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -8548,8 +8549,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -8599,6 +8599,7 @@
               "image": {
                 "sprite": "building_block",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -8610,8 +8611,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             }
@@ -8659,6 +8659,7 @@
           "image": {
             "sprite": "humanresource",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -8670,8 +8671,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         }
@@ -8947,6 +8947,7 @@
           "image": {
             "sprite": "img_manuf_bkg",
             "type": 0,
+            "preserveAspect": true,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -8958,8 +8959,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": true
+            "fillClockwise": true
           },
           "children": [
             {
@@ -9008,6 +9008,7 @@
               "image": {
                 "sprite": "img_room_sidebar",
                 "type": 0,
+                "preserveAspect": true,
                 "color": {
                   "r": 1.0,
                   "g": 0.800000011920929,
@@ -9019,8 +9020,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": true
+                "fillClockwise": true
               },
               "children": []
             }
@@ -9150,7 +9150,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 21,
                   "m_FontStyle": 0,
@@ -9487,6 +9487,7 @@
                           "image": {
                             "sprite": "img_char_normal",
                             "type": 0,
+                            "preserveAspect": false,
                             "color": {
                               "r": 1.0,
                               "g": 0.800000011920929,
@@ -9498,8 +9499,7 @@
                             "fillMethod": 4,
                             "fillAmount": 1.0,
                             "fillOrigin": 0,
-                            "fillClockwise": true,
-                            "preserveAspect": false
+                            "fillClockwise": true
                           },
                           "children": []
                         },
@@ -9549,6 +9549,7 @@
                           "image": {
                             "sprite": "img_char_normal",
                             "type": 0,
+                            "preserveAspect": false,
                             "color": {
                               "r": 1.0,
                               "g": 0.20784315466880798,
@@ -9560,8 +9561,7 @@
                             "fillMethod": 4,
                             "fillAmount": 1.0,
                             "fillOrigin": 0,
-                            "fillClockwise": true,
-                            "preserveAspect": false
+                            "fillClockwise": true
                           },
                           "children": [
                             {
@@ -9610,6 +9610,7 @@
                               "image": {
                                 "sprite": "icon_warning",
                                 "type": 0,
+                                "preserveAspect": false,
                                 "color": {
                                   "r": 1.0,
                                   "g": 1.0,
@@ -9621,8 +9622,7 @@
                                 "fillMethod": 4,
                                 "fillAmount": 1.0,
                                 "fillOrigin": 0,
-                                "fillClockwise": true,
-                                "preserveAspect": false
+                                "fillClockwise": true
                               },
                               "children": []
                             }
@@ -9688,7 +9688,7 @@
                         "fontData": {
                           "m_Font": {
                             "m_FileID": 0,
-                            "m_PathID": 0
+                            "m_PathID": "0"
                           },
                           "m_FontSize": 24,
                           "m_FontStyle": 0,
@@ -9764,7 +9764,7 @@
                         "fontData": {
                           "m_Font": {
                             "m_FileID": 0,
-                            "m_PathID": 0
+                            "m_PathID": "0"
                           },
                           "m_FontSize": 24,
                           "m_FontStyle": 0,
@@ -9840,7 +9840,7 @@
                         "fontData": {
                           "m_Font": {
                             "m_FileID": 0,
-                            "m_PathID": 0
+                            "m_PathID": "0"
                           },
                           "m_FontSize": 16,
                           "m_FontStyle": 0,
@@ -10009,6 +10009,7 @@
                       "image": {
                         "sprite": "icon_working",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 1.0,
                           "g": 1.0,
@@ -10020,8 +10021,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     },
@@ -10071,6 +10071,7 @@
                       "image": {
                         "sprite": "icon_working",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 1.0,
                           "g": 1.0,
@@ -10082,8 +10083,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     },
@@ -10133,6 +10133,7 @@
                       "image": {
                         "sprite": "icon_working",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 1.0,
                           "g": 1.0,
@@ -10144,8 +10145,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     }
@@ -10209,7 +10209,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 12,
                       "m_FontStyle": 0,
@@ -10271,7 +10271,7 @@
               "canvasGroup": {
                 "m_GameObject": {
                   "m_FileID": 0,
-                  "m_PathID": 8631398556710734612
+                  "m_PathID": "8631398556710734612"
                 },
                 "m_Enabled": 1,
                 "m_Alpha": 1.0,
@@ -10326,6 +10326,7 @@
                   "image": {
                     "sprite": "img_sidebar_light",
                     "type": 0,
+                    "preserveAspect": true,
                     "color": {
                       "r": 1.0,
                       "g": 0.800000011920929,
@@ -10337,8 +10338,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": true
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -10388,6 +10388,7 @@
                   "image": {
                     "sprite": "img_room_light",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 1.0,
                       "g": 0.800000011920929,
@@ -10399,8 +10400,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -10487,20 +10487,10 @@
                       "_ignoreTimeScale": 1
                     }
                   },
-                  "canvasGroup": {
-                    "m_GameObject": {
-                      "m_FileID": 0,
-                      "m_PathID": -7553948770522166508
-                    },
-                    "m_Enabled": 1,
-                    "m_Alpha": 1.0,
-                    "m_Interactable": true,
-                    "m_BlocksRaycasts": true,
-                    "m_IgnoreParentGroups": false
-                  },
                   "image": {
                     "sprite": "icon_manuf_product",
                     "type": 0,
+                    "preserveAspect": true,
                     "color": {
                       "r": 1.0,
                       "g": 1.0,
@@ -10512,8 +10502,18 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": true
+                    "fillClockwise": true
+                  },
+                  "canvasGroup": {
+                    "m_GameObject": {
+                      "m_FileID": 0,
+                      "m_PathID": "-7553948770522166508"
+                    },
+                    "m_Enabled": 1,
+                    "m_Alpha": 1.0,
+                    "m_Interactable": true,
+                    "m_BlocksRaycasts": true,
+                    "m_IgnoreParentGroups": false
                   },
                   "children": []
                 }
@@ -10565,6 +10565,7 @@
               "image": {
                 "sprite": "icon_manuf_product",
                 "type": 0,
+                "preserveAspect": true,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -10576,8 +10577,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": true
+                "fillClockwise": true
               },
               "children": []
             },
@@ -10693,6 +10693,7 @@
                   "image": {
                     "sprite": "img_prog_empty",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 1.0,
                       "g": 1.0,
@@ -10704,8 +10705,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -10755,6 +10755,7 @@
                   "image": {
                     "sprite": "img_charge_item",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 1.0,
                       "g": 0.800000011920929,
@@ -10766,8 +10767,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -10817,6 +10817,7 @@
                   "image": {
                     "sprite": "img_charge_item",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 1.0,
                       "g": 0.800000011920929,
@@ -10828,8 +10829,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -10879,6 +10879,7 @@
                   "image": {
                     "sprite": "img_charge_item",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 1.0,
                       "g": 0.800000011920929,
@@ -10890,8 +10891,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -10941,6 +10941,7 @@
                   "image": {
                     "sprite": "img_charge_item",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 1.0,
                       "g": 0.800000011920929,
@@ -10952,8 +10953,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -11003,6 +11003,7 @@
                   "image": {
                     "sprite": "img_charge_item",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 1.0,
                       "g": 0.800000011920929,
@@ -11014,8 +11015,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 }
@@ -11121,7 +11121,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 12,
                   "m_FontStyle": 0,
@@ -11183,6 +11183,7 @@
           "image": {
             "sprite": "can_levelup_note",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -11194,8 +11195,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         }
@@ -11333,6 +11333,7 @@
           "image": {
             "sprite": "img_living_bkg",
             "type": 0,
+            "preserveAspect": true,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -11344,8 +11345,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": true
+            "fillClockwise": true
           },
           "children": []
         },
@@ -11466,7 +11466,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 22,
                   "m_FontStyle": 0,
@@ -11667,7 +11667,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 12,
                   "m_FontStyle": 0,
@@ -11771,6 +11771,7 @@
                   "image": {
                     "sprite": "img_char_normal",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 1.0,
                       "g": 1.0,
@@ -11782,8 +11783,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -11845,7 +11845,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 14,
                       "m_FontStyle": 0,
@@ -11921,7 +11921,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 23,
                       "m_FontStyle": 0,
@@ -12041,7 +12041,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 12,
                   "m_FontStyle": 0,
@@ -12170,6 +12170,7 @@
               "image": {
                 "sprite": "clue_hint",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -12181,8 +12182,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -12232,6 +12232,7 @@
               "image": {
                 "sprite": "message_board",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -12243,8 +12244,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             }
@@ -12292,6 +12292,7 @@
           "image": {
             "sprite": "can_levelup_note",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -12303,8 +12304,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         }
@@ -12580,6 +12580,7 @@
           "image": {
             "sprite": "img_power_bkg",
             "type": 0,
+            "preserveAspect": true,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -12591,8 +12592,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": true
+            "fillClockwise": true
           },
           "children": [
             {
@@ -12641,6 +12641,7 @@
               "image": {
                 "sprite": "img_room_sidebar",
                 "type": 0,
+                "preserveAspect": true,
                 "color": {
                   "r": 0.800000011920929,
                   "g": 1.0,
@@ -12652,8 +12653,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": true
+                "fillClockwise": true
               },
               "children": []
             }
@@ -12783,7 +12783,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 21,
                   "m_FontStyle": 0,
@@ -12984,7 +12984,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 12,
                   "m_FontStyle": 0,
@@ -13196,6 +13196,7 @@
                       "image": {
                         "sprite": "img_prog_empty",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 1.0,
                           "g": 1.0,
@@ -13207,8 +13208,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     },
@@ -13258,6 +13258,7 @@
                       "image": {
                         "sprite": "img_charge_item",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 0.800000011920929,
                           "g": 1.0,
@@ -13269,8 +13270,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     },
@@ -13320,6 +13320,7 @@
                       "image": {
                         "sprite": "img_charge_item",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 0.800000011920929,
                           "g": 1.0,
@@ -13331,8 +13332,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     },
@@ -13382,6 +13382,7 @@
                       "image": {
                         "sprite": "img_charge_item",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 0.800000011920929,
                           "g": 1.0,
@@ -13393,8 +13394,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     },
@@ -13444,6 +13444,7 @@
                       "image": {
                         "sprite": "img_charge_item",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 0.800000011920929,
                           "g": 1.0,
@@ -13455,8 +13456,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     },
@@ -13506,6 +13506,7 @@
                       "image": {
                         "sprite": "img_charge_item",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 0.800000011920929,
                           "g": 1.0,
@@ -13517,8 +13518,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     }
@@ -13678,6 +13678,7 @@
                           "image": {
                             "sprite": "img_char_normal",
                             "type": 0,
+                            "preserveAspect": false,
                             "color": {
                               "r": 0.800000011920929,
                               "g": 1.0,
@@ -13689,8 +13690,7 @@
                             "fillMethod": 4,
                             "fillAmount": 1.0,
                             "fillOrigin": 0,
-                            "fillClockwise": true,
-                            "preserveAspect": false
+                            "fillClockwise": true
                           },
                           "children": []
                         }
@@ -13754,7 +13754,7 @@
                         "fontData": {
                           "m_Font": {
                             "m_FileID": 0,
-                            "m_PathID": 0
+                            "m_PathID": "0"
                           },
                           "m_FontSize": 24,
                           "m_FontStyle": 0,
@@ -13830,7 +13830,7 @@
                         "fontData": {
                           "m_Font": {
                             "m_FileID": 0,
-                            "m_PathID": 0
+                            "m_PathID": "0"
                           },
                           "m_FontSize": 24,
                           "m_FontStyle": 0,
@@ -13906,7 +13906,7 @@
                         "fontData": {
                           "m_Font": {
                             "m_FileID": 0,
-                            "m_PathID": 0
+                            "m_PathID": "0"
                           },
                           "m_FontSize": 16,
                           "m_FontStyle": 0,
@@ -14075,6 +14075,7 @@
                       "image": {
                         "sprite": "icon_working",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 0.800000011920929,
                           "g": 1.0,
@@ -14086,8 +14087,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     },
@@ -14137,6 +14137,7 @@
                       "image": {
                         "sprite": "icon_working",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 0.800000011920929,
                           "g": 1.0,
@@ -14148,8 +14149,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     },
@@ -14199,6 +14199,7 @@
                       "image": {
                         "sprite": "icon_working",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 0.800000011920929,
                           "g": 1.0,
@@ -14210,8 +14211,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     }
@@ -14275,7 +14275,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 12,
                       "m_FontStyle": 0,
@@ -14381,6 +14381,7 @@
                   "image": {
                     "sprite": "img_sidebar_light",
                     "type": 0,
+                    "preserveAspect": true,
                     "color": {
                       "r": 0.800000011920929,
                       "g": 1.0,
@@ -14392,8 +14393,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": true
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -14443,6 +14443,7 @@
                   "image": {
                     "sprite": "img_room_light",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 0.800000011920929,
                       "g": 1.0,
@@ -14454,8 +14455,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 }
@@ -14505,6 +14505,7 @@
           "image": {
             "sprite": "can_levelup_note",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -14516,8 +14517,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         }
@@ -14649,6 +14649,7 @@
           "image": {
             "sprite": "img_private_dorm_bkg",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -14660,8 +14661,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -14789,7 +14789,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 20,
                   "m_FontStyle": 0,
@@ -14982,7 +14982,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 12,
                   "m_FontStyle": 0,
@@ -15046,6 +15046,7 @@
               "image": {
                 "sprite": "img_char_normal",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -15057,8 +15058,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -15120,7 +15120,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 23,
                   "m_FontStyle": 0,
@@ -15196,7 +15196,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 14,
                   "m_FontStyle": 0,
@@ -15314,7 +15314,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 12,
                   "m_FontStyle": 0,
@@ -15420,6 +15420,7 @@
               "image": {
                 "sprite": "bkg_private_char",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -15431,8 +15432,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -15478,6 +15478,7 @@
               "image": {
                 "sprite": "",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -15489,8 +15490,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -15540,6 +15540,7 @@
               "image": {
                 "sprite": "img_private_char",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -15551,8 +15552,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             }
@@ -15600,6 +15600,7 @@
           "image": {
             "sprite": "can_levelup_note",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -15611,8 +15612,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         }
@@ -15766,6 +15766,7 @@
           "image": {
             "sprite": "recycle_bkg",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -15777,8 +15778,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -15904,7 +15904,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 20,
                   "m_FontStyle": 0,
@@ -16093,7 +16093,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 12,
                   "m_FontStyle": 0,
@@ -16237,7 +16237,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 12,
                       "m_FontStyle": 0,
@@ -16404,6 +16404,7 @@
                       "image": {
                         "sprite": "icon_working",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 0.2666666805744171,
                           "g": 0.8784313797950745,
@@ -16415,8 +16416,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     },
@@ -16466,6 +16466,7 @@
                       "image": {
                         "sprite": "icon_working",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 0.2666666805744171,
                           "g": 0.8784313797950745,
@@ -16477,8 +16478,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     },
@@ -16528,6 +16528,7 @@
                       "image": {
                         "sprite": "icon_working",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 0.2666666805744171,
                           "g": 0.8784313797950745,
@@ -16539,8 +16540,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     }
@@ -16606,7 +16606,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 12,
                   "m_FontStyle": 0,
@@ -16710,6 +16710,7 @@
                   "image": {
                     "sprite": "img_char_normal",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 1.0,
                       "g": 1.0,
@@ -16721,8 +16722,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -16784,7 +16784,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 14,
                       "m_FontStyle": 0,
@@ -16860,7 +16860,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 23,
                       "m_FontStyle": 0,
@@ -16980,7 +16980,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 12,
                   "m_FontStyle": 0,
@@ -17042,6 +17042,7 @@
           "image": {
             "sprite": "recycle_has_product",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -17053,8 +17054,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -17100,6 +17100,7 @@
           "image": {
             "sprite": "can_levelup_note",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -17111,8 +17112,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -17158,6 +17158,7 @@
           "image": {
             "sprite": "recycle_icon",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -17169,8 +17170,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -17286,6 +17286,7 @@
               "image": {
                 "sprite": "building_bloom",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -17297,8 +17298,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -17348,6 +17348,7 @@
               "image": {
                 "sprite": "building_bloom",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -17359,8 +17360,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -17406,6 +17406,7 @@
               "image": {
                 "sprite": "building_bloom",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -17417,8 +17418,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -17468,6 +17468,7 @@
               "image": {
                 "sprite": "building_bloom",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -17479,8 +17480,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -17530,6 +17530,7 @@
               "image": {
                 "sprite": "building_bloom",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -17541,8 +17542,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -17592,6 +17592,7 @@
               "image": {
                 "sprite": "building_block",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -17603,8 +17604,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -17650,6 +17650,7 @@
               "image": {
                 "sprite": "building_block",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -17661,8 +17662,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -17708,6 +17708,7 @@
               "image": {
                 "sprite": "building_block",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -17719,8 +17720,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -17770,6 +17770,7 @@
               "image": {
                 "sprite": "building_block",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -17781,8 +17782,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -17832,6 +17832,7 @@
               "image": {
                 "sprite": "building_block",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -17843,8 +17844,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             }
@@ -18122,6 +18122,7 @@
           "image": {
             "sprite": "img_shop_bkg",
             "type": 0,
+            "preserveAspect": true,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -18133,8 +18134,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": true
+            "fillClockwise": true
           },
           "children": [
             {
@@ -18183,6 +18183,7 @@
               "image": {
                 "sprite": "img_room_sidebar",
                 "type": 0,
+                "preserveAspect": true,
                 "color": {
                   "r": 0.20000000298023224,
                   "g": 0.800000011920929,
@@ -18194,8 +18195,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": true
+                "fillClockwise": true
               },
               "children": []
             }
@@ -18325,7 +18325,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 21,
                   "m_FontStyle": 0,
@@ -18526,7 +18526,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 12,
                   "m_FontStyle": 0,
@@ -18780,6 +18780,7 @@
                           "image": {
                             "sprite": "img_char_normal",
                             "type": 0,
+                            "preserveAspect": false,
                             "color": {
                               "r": 0.20000000298023224,
                               "g": 0.800000011920929,
@@ -18791,8 +18792,7 @@
                             "fillMethod": 4,
                             "fillAmount": 1.0,
                             "fillOrigin": 0,
-                            "fillClockwise": true,
-                            "preserveAspect": false
+                            "fillClockwise": true
                           },
                           "children": []
                         },
@@ -18842,6 +18842,7 @@
                           "image": {
                             "sprite": "img_char_normal",
                             "type": 0,
+                            "preserveAspect": false,
                             "color": {
                               "r": 1.0,
                               "g": 0.2078431397676468,
@@ -18853,8 +18854,7 @@
                             "fillMethod": 4,
                             "fillAmount": 1.0,
                             "fillOrigin": 0,
-                            "fillClockwise": true,
-                            "preserveAspect": false
+                            "fillClockwise": true
                           },
                           "children": [
                             {
@@ -18903,6 +18903,7 @@
                               "image": {
                                 "sprite": "icon_warning",
                                 "type": 0,
+                                "preserveAspect": false,
                                 "color": {
                                   "r": 1.0,
                                   "g": 1.0,
@@ -18914,8 +18915,7 @@
                                 "fillMethod": 4,
                                 "fillAmount": 1.0,
                                 "fillOrigin": 0,
-                                "fillClockwise": true,
-                                "preserveAspect": false
+                                "fillClockwise": true
                               },
                               "children": []
                             }
@@ -18981,7 +18981,7 @@
                         "fontData": {
                           "m_Font": {
                             "m_FileID": 0,
-                            "m_PathID": 0
+                            "m_PathID": "0"
                           },
                           "m_FontSize": 24,
                           "m_FontStyle": 0,
@@ -19057,7 +19057,7 @@
                         "fontData": {
                           "m_Font": {
                             "m_FileID": 0,
-                            "m_PathID": 0
+                            "m_PathID": "0"
                           },
                           "m_FontSize": 24,
                           "m_FontStyle": 0,
@@ -19133,7 +19133,7 @@
                         "fontData": {
                           "m_Font": {
                             "m_FileID": 0,
-                            "m_PathID": 0
+                            "m_PathID": "0"
                           },
                           "m_FontSize": 16,
                           "m_FontStyle": 0,
@@ -19302,6 +19302,7 @@
                       "image": {
                         "sprite": "icon_working",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 0.20000000298023224,
                           "g": 0.800000011920929,
@@ -19313,8 +19314,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     },
@@ -19364,6 +19364,7 @@
                       "image": {
                         "sprite": "icon_working",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 0.20000000298023224,
                           "g": 0.800000011920929,
@@ -19375,8 +19376,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     },
@@ -19426,6 +19426,7 @@
                       "image": {
                         "sprite": "icon_working",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 0.20000000298023224,
                           "g": 0.800000011920929,
@@ -19437,8 +19438,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     }
@@ -19502,7 +19502,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 12,
                       "m_FontStyle": 0,
@@ -19564,7 +19564,7 @@
               "canvasGroup": {
                 "m_GameObject": {
                   "m_FileID": 0,
-                  "m_PathID": 6099737345128720165
+                  "m_PathID": "6099737345128720165"
                 },
                 "m_Enabled": 1,
                 "m_Alpha": 1.0,
@@ -19619,6 +19619,7 @@
                   "image": {
                     "sprite": "img_sidebar_light",
                     "type": 0,
+                    "preserveAspect": true,
                     "color": {
                       "r": 0.20000000298023224,
                       "g": 0.800000011920929,
@@ -19630,8 +19631,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": true
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -19681,6 +19681,7 @@
                   "image": {
                     "sprite": "img_room_light",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 0.20000000298023224,
                       "g": 0.800000011920929,
@@ -19692,8 +19693,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -19780,20 +19780,10 @@
                       "_ignoreTimeScale": 1
                     }
                   },
-                  "canvasGroup": {
-                    "m_GameObject": {
-                      "m_FileID": 0,
-                      "m_PathID": -8543778440095471835
-                    },
-                    "m_Enabled": 1,
-                    "m_Alpha": 1.0,
-                    "m_Interactable": true,
-                    "m_BlocksRaycasts": true,
-                    "m_IgnoreParentGroups": false
-                  },
                   "image": {
                     "sprite": "icon_trading",
                     "type": 0,
+                    "preserveAspect": true,
                     "color": {
                       "r": 1.0,
                       "g": 1.0,
@@ -19805,8 +19795,18 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": true
+                    "fillClockwise": true
+                  },
+                  "canvasGroup": {
+                    "m_GameObject": {
+                      "m_FileID": 0,
+                      "m_PathID": "-8543778440095471835"
+                    },
+                    "m_Enabled": 1,
+                    "m_Alpha": 1.0,
+                    "m_Interactable": true,
+                    "m_BlocksRaycasts": true,
+                    "m_IgnoreParentGroups": false
                   },
                   "children": []
                 }
@@ -19924,6 +19924,7 @@
                   "image": {
                     "sprite": "img_prog_empty",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 1.0,
                       "g": 1.0,
@@ -19935,8 +19936,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -19986,6 +19986,7 @@
                   "image": {
                     "sprite": "img_charge_item",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 0.20000000298023224,
                       "g": 0.800000011920929,
@@ -19997,8 +19998,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -20048,6 +20048,7 @@
                   "image": {
                     "sprite": "img_charge_item",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 0.20000000298023224,
                       "g": 0.800000011920929,
@@ -20059,8 +20060,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -20110,6 +20110,7 @@
                   "image": {
                     "sprite": "img_charge_item",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 0.20000000298023224,
                       "g": 0.800000011920929,
@@ -20121,8 +20122,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -20172,6 +20172,7 @@
                   "image": {
                     "sprite": "img_charge_item",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 0.20000000298023224,
                       "g": 0.800000011920929,
@@ -20183,8 +20184,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -20234,6 +20234,7 @@
                   "image": {
                     "sprite": "img_charge_item",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 0.20000000298023224,
                       "g": 0.800000011920929,
@@ -20245,8 +20246,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 }
@@ -20294,6 +20294,7 @@
               "image": {
                 "sprite": "icon_trading",
                 "type": 0,
+                "preserveAspect": true,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -20305,8 +20306,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": true
+                "fillClockwise": true
               },
               "children": []
             }
@@ -20354,6 +20354,7 @@
           "image": {
             "sprite": "can_levelup_note",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -20365,8 +20366,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         }
@@ -20504,6 +20504,7 @@
           "image": {
             "sprite": "img_room_frame",
             "type": 1,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -20515,8 +20516,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -20562,6 +20562,7 @@
           "image": {
             "sprite": "img_select_frame",
             "type": 1,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -20573,8 +20574,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -20727,6 +20727,7 @@
               "image": {
                 "sprite": "img_white",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 0.0,
                   "g": 0.0,
@@ -20738,8 +20739,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": [
                 {
@@ -20800,7 +20800,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 18,
                       "m_FontStyle": 0,
@@ -20876,7 +20876,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 18,
                       "m_FontStyle": 0,
@@ -20952,7 +20952,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 18,
                       "m_FontStyle": 0,
@@ -21082,6 +21082,7 @@
                       "image": {
                         "sprite": "img_prog_empty",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 1.0,
                           "g": 1.0,
@@ -21093,8 +21094,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     },
@@ -21144,6 +21144,7 @@
                       "image": {
                         "sprite": "img_charge_item",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 1.0,
                           "g": 0.41960787773132324,
@@ -21155,8 +21156,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     },
@@ -21206,6 +21206,7 @@
                       "image": {
                         "sprite": "img_charge_item",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 1.0,
                           "g": 0.41960787773132324,
@@ -21217,8 +21218,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     },
@@ -21268,6 +21268,7 @@
                       "image": {
                         "sprite": "img_charge_item",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 1.0,
                           "g": 0.41960787773132324,
@@ -21279,8 +21280,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     },
@@ -21330,6 +21330,7 @@
                       "image": {
                         "sprite": "img_charge_item",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 1.0,
                           "g": 0.41960787773132324,
@@ -21341,8 +21342,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     },
@@ -21392,6 +21392,7 @@
                       "image": {
                         "sprite": "img_charge_item",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 1.0,
                           "g": 0.41960787773132324,
@@ -21403,8 +21404,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     }
@@ -21502,6 +21502,7 @@
           "image": {
             "sprite": "img_room_hilight",
             "type": 1,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -21513,8 +21514,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         }
@@ -21790,6 +21790,7 @@
           "image": {
             "sprite": "img_shop_bkg",
             "type": 0,
+            "preserveAspect": true,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -21801,8 +21802,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": true
+            "fillClockwise": true
           },
           "children": [
             {
@@ -21847,6 +21847,7 @@
               "image": {
                 "sprite": "img_room_sidebar",
                 "type": 0,
+                "preserveAspect": true,
                 "color": {
                   "r": 0.20000000298023224,
                   "g": 0.800000011920929,
@@ -21858,8 +21859,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": true
+                "fillClockwise": true
               },
               "children": []
             }
@@ -21989,7 +21989,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 21,
                   "m_FontStyle": 0,
@@ -22190,7 +22190,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 12,
                   "m_FontStyle": 0,
@@ -22444,6 +22444,7 @@
                           "image": {
                             "sprite": "img_char_normal",
                             "type": 0,
+                            "preserveAspect": false,
                             "color": {
                               "r": 0.20000000298023224,
                               "g": 0.800000011920929,
@@ -22455,8 +22456,7 @@
                             "fillMethod": 4,
                             "fillAmount": 1.0,
                             "fillOrigin": 0,
-                            "fillClockwise": true,
-                            "preserveAspect": false
+                            "fillClockwise": true
                           },
                           "children": []
                         },
@@ -22506,6 +22506,7 @@
                           "image": {
                             "sprite": "img_char_normal",
                             "type": 0,
+                            "preserveAspect": false,
                             "color": {
                               "r": 1.0,
                               "g": 0.2078431397676468,
@@ -22517,8 +22518,7 @@
                             "fillMethod": 4,
                             "fillAmount": 1.0,
                             "fillOrigin": 0,
-                            "fillClockwise": true,
-                            "preserveAspect": false
+                            "fillClockwise": true
                           },
                           "children": [
                             {
@@ -22567,6 +22567,7 @@
                               "image": {
                                 "sprite": "icon_warning",
                                 "type": 0,
+                                "preserveAspect": false,
                                 "color": {
                                   "r": 1.0,
                                   "g": 1.0,
@@ -22578,8 +22579,7 @@
                                 "fillMethod": 4,
                                 "fillAmount": 1.0,
                                 "fillOrigin": 0,
-                                "fillClockwise": true,
-                                "preserveAspect": false
+                                "fillClockwise": true
                               },
                               "children": []
                             }
@@ -22645,7 +22645,7 @@
                         "fontData": {
                           "m_Font": {
                             "m_FileID": 0,
-                            "m_PathID": 0
+                            "m_PathID": "0"
                           },
                           "m_FontSize": 24,
                           "m_FontStyle": 0,
@@ -22721,7 +22721,7 @@
                         "fontData": {
                           "m_Font": {
                             "m_FileID": 0,
-                            "m_PathID": 0
+                            "m_PathID": "0"
                           },
                           "m_FontSize": 24,
                           "m_FontStyle": 0,
@@ -22797,7 +22797,7 @@
                         "fontData": {
                           "m_Font": {
                             "m_FileID": 0,
-                            "m_PathID": 0
+                            "m_PathID": "0"
                           },
                           "m_FontSize": 16,
                           "m_FontStyle": 0,
@@ -22966,6 +22966,7 @@
                       "image": {
                         "sprite": "icon_working",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 0.20000000298023224,
                           "g": 0.800000011920929,
@@ -22977,8 +22978,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     },
@@ -23028,6 +23028,7 @@
                       "image": {
                         "sprite": "icon_working",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 0.20000000298023224,
                           "g": 0.800000011920929,
@@ -23039,8 +23040,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     },
@@ -23090,6 +23090,7 @@
                       "image": {
                         "sprite": "icon_working",
                         "type": 0,
+                        "preserveAspect": false,
                         "color": {
                           "r": 0.20000000298023224,
                           "g": 0.800000011920929,
@@ -23101,8 +23102,7 @@
                         "fillMethod": 4,
                         "fillAmount": 1.0,
                         "fillOrigin": 0,
-                        "fillClockwise": true,
-                        "preserveAspect": false
+                        "fillClockwise": true
                       },
                       "children": []
                     }
@@ -23166,7 +23166,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 12,
                       "m_FontStyle": 0,
@@ -23228,7 +23228,7 @@
               "canvasGroup": {
                 "m_GameObject": {
                   "m_FileID": 0,
-                  "m_PathID": -2348464605394322114
+                  "m_PathID": "-2348464605394322114"
                 },
                 "m_Enabled": 1,
                 "m_Alpha": 1.0,
@@ -23283,6 +23283,7 @@
                   "image": {
                     "sprite": "img_sidebar_light",
                     "type": 0,
+                    "preserveAspect": true,
                     "color": {
                       "r": 0.20000000298023224,
                       "g": 0.800000011920929,
@@ -23294,8 +23295,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": true
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -23345,6 +23345,7 @@
                   "image": {
                     "sprite": "img_room_light",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 0.20000000298023224,
                       "g": 0.800000011920929,
@@ -23356,8 +23357,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -23444,20 +23444,10 @@
                       "_ignoreTimeScale": 1
                     }
                   },
-                  "canvasGroup": {
-                    "m_GameObject": {
-                      "m_FileID": 0,
-                      "m_PathID": 3920393686618455358
-                    },
-                    "m_Enabled": 1,
-                    "m_Alpha": 1.0,
-                    "m_Interactable": true,
-                    "m_BlocksRaycasts": true,
-                    "m_IgnoreParentGroups": false
-                  },
                   "image": {
                     "sprite": "icon_trading",
                     "type": 0,
+                    "preserveAspect": true,
                     "color": {
                       "r": 1.0,
                       "g": 1.0,
@@ -23469,8 +23459,18 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": true
+                    "fillClockwise": true
+                  },
+                  "canvasGroup": {
+                    "m_GameObject": {
+                      "m_FileID": 0,
+                      "m_PathID": "3920393686618455358"
+                    },
+                    "m_Enabled": 1,
+                    "m_Alpha": 1.0,
+                    "m_Interactable": true,
+                    "m_BlocksRaycasts": true,
+                    "m_IgnoreParentGroups": false
                   },
                   "children": []
                 }
@@ -23588,6 +23588,7 @@
                   "image": {
                     "sprite": "img_prog_empty",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 1.0,
                       "g": 1.0,
@@ -23599,8 +23600,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -23650,6 +23650,7 @@
                   "image": {
                     "sprite": "img_charge_item",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 0.20000000298023224,
                       "g": 0.800000011920929,
@@ -23661,8 +23662,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -23712,6 +23712,7 @@
                   "image": {
                     "sprite": "img_charge_item",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 0.20000000298023224,
                       "g": 0.800000011920929,
@@ -23723,8 +23724,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -23774,6 +23774,7 @@
                   "image": {
                     "sprite": "img_charge_item",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 0.20000000298023224,
                       "g": 0.800000011920929,
@@ -23785,8 +23786,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -23836,6 +23836,7 @@
                   "image": {
                     "sprite": "img_charge_item",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 0.20000000298023224,
                       "g": 0.800000011920929,
@@ -23847,8 +23848,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -23898,6 +23898,7 @@
                   "image": {
                     "sprite": "img_charge_item",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 0.20000000298023224,
                       "g": 0.800000011920929,
@@ -23909,8 +23910,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 }
@@ -23962,6 +23962,7 @@
               "image": {
                 "sprite": "icon_trading",
                 "type": 0,
+                "preserveAspect": true,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -23973,8 +23974,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": true
+                "fillClockwise": true
               },
               "children": []
             }
@@ -24022,6 +24022,7 @@
           "image": {
             "sprite": "can_levelup_note",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -24033,8 +24034,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         }
@@ -24188,6 +24188,7 @@
           "image": {
             "sprite": "img_train_bkg",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -24199,8 +24200,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -24321,7 +24321,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 20,
                   "m_FontStyle": 0,
@@ -24522,7 +24522,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 12,
                   "m_FontStyle": 0,
@@ -24626,6 +24626,7 @@
                   "image": {
                     "sprite": "img_char_normal",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 1.0,
                       "g": 1.0,
@@ -24637,8 +24638,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -24700,7 +24700,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 14,
                       "m_FontStyle": 0,
@@ -24776,7 +24776,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 23,
                       "m_FontStyle": 0,
@@ -24896,7 +24896,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 12,
                   "m_FontStyle": 0,
@@ -24958,6 +24958,7 @@
           "image": {
             "sprite": "train_finish",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -24969,8 +24970,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -25016,6 +25016,7 @@
           "image": {
             "sprite": "can_levelup_note",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -25027,8 +25028,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -25118,6 +25118,7 @@
               "image": {
                 "sprite": "",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -25129,8 +25130,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -25180,6 +25180,7 @@
               "image": {
                 "sprite": "",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -25191,8 +25192,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             }
@@ -25310,6 +25310,7 @@
               "image": {
                 "sprite": "building_bloom",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -25321,8 +25322,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -25372,6 +25372,7 @@
               "image": {
                 "sprite": "building_bloom",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -25383,8 +25384,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -25434,6 +25434,7 @@
               "image": {
                 "sprite": "building_bloom",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -25445,8 +25446,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -25496,6 +25496,7 @@
               "image": {
                 "sprite": "building_bloom",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -25507,8 +25508,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -25558,6 +25558,7 @@
               "image": {
                 "sprite": "building_bloom",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -25569,8 +25570,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -25620,6 +25620,7 @@
               "image": {
                 "sprite": "building_block",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -25631,8 +25632,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -25678,6 +25678,7 @@
               "image": {
                 "sprite": "building_block",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -25689,8 +25690,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -25740,6 +25740,7 @@
               "image": {
                 "sprite": "building_block",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -25751,8 +25752,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -25802,6 +25802,7 @@
               "image": {
                 "sprite": "building_block",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -25813,8 +25814,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             },
@@ -25864,6 +25864,7 @@
               "image": {
                 "sprite": "building_block",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -25875,8 +25876,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             }
@@ -26008,6 +26008,7 @@
           "image": {
             "sprite": "img_workshop_bkg",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -26019,8 +26020,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -26141,7 +26141,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 20,
                   "m_FontStyle": 0,
@@ -26370,6 +26370,7 @@
                   "image": {
                     "sprite": "img_char_normal",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 1.0,
                       "g": 1.0,
@@ -26381,8 +26382,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -26444,7 +26444,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 14,
                       "m_FontStyle": 0,
@@ -26520,7 +26520,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 23,
                       "m_FontStyle": 0,
@@ -26640,7 +26640,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 12,
                   "m_FontStyle": 0,
@@ -26702,6 +26702,7 @@
           "image": {
             "sprite": "can_levelup_note",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -26713,8 +26714,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         }
@@ -27008,6 +27008,7 @@
           "image": {
             "sprite": "room_bg_ruin",
             "type": 1,
+            "preserveAspect": true,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -27019,8 +27020,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": true
+            "fillClockwise": true
           },
           "children": []
         },
@@ -27066,6 +27066,7 @@
           "image": {
             "sprite": "ruin",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -27077,8 +27078,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -27124,6 +27124,7 @@
           "image": {
             "sprite": "img_white",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 0.0,
               "g": 0.0,
@@ -27135,8 +27136,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": [
             {
@@ -27263,7 +27263,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 21,
                       "m_FontStyle": 0,
@@ -27338,7 +27338,7 @@
                         "fontData": {
                           "m_Font": {
                             "m_FileID": 0,
-                            "m_PathID": 0
+                            "m_PathID": "0"
                           },
                           "m_FontSize": 10,
                           "m_FontStyle": 0,
@@ -27404,6 +27404,7 @@
                   "image": {
                     "sprite": "img_alert",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 1.0,
                       "g": 1.0,
@@ -27415,8 +27416,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 }
@@ -27480,7 +27480,7 @@
                 "fontData": {
                   "m_Font": {
                     "m_FileID": 0,
-                    "m_PathID": 0
+                    "m_PathID": "0"
                   },
                   "m_FontSize": 12,
                   "m_FontStyle": 0,
@@ -27544,6 +27544,7 @@
               "image": {
                 "sprite": "can_clean_note",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -27555,8 +27556,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             }
@@ -27670,6 +27670,7 @@
           "image": {
             "sprite": "room_bg_ruin",
             "type": 1,
+            "preserveAspect": true,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -27681,8 +27682,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": true
+            "fillClockwise": true
           },
           "children": []
         },
@@ -27728,6 +27728,7 @@
           "image": {
             "sprite": "ruin",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -27739,8 +27740,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -27786,6 +27786,7 @@
           "image": {
             "sprite": "img_white",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 0.0,
               "g": 0.0,
@@ -27797,8 +27798,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": [
             {
@@ -27887,6 +27887,7 @@
                   "image": {
                     "sprite": "img_alert",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 1.0,
                       "g": 1.0,
@@ -27898,8 +27899,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 },
@@ -27961,7 +27961,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 21,
                       "m_FontStyle": 0,
@@ -28036,7 +28036,7 @@
                         "fontData": {
                           "m_Font": {
                             "m_FileID": 0,
-                            "m_PathID": 0
+                            "m_PathID": "0"
                           },
                           "m_FontSize": 8,
                           "m_FontStyle": 0,
@@ -28104,6 +28104,7 @@
               "image": {
                 "sprite": "can_clean_note",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -28115,8 +28116,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             }
@@ -28230,6 +28230,7 @@
           "image": {
             "sprite": "room_bg_ruin",
             "type": 1,
+            "preserveAspect": true,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -28241,8 +28242,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": true
+            "fillClockwise": true
           },
           "children": []
         },
@@ -28288,6 +28288,7 @@
           "image": {
             "sprite": "ruin",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -28299,8 +28300,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -28346,6 +28346,7 @@
           "image": {
             "sprite": "img_white",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 0.0,
               "g": 0.0,
@@ -28357,8 +28358,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": [
             {
@@ -28459,7 +28459,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 21,
                       "m_FontStyle": 0,
@@ -28534,7 +28534,7 @@
                         "fontData": {
                           "m_Font": {
                             "m_FileID": 0,
-                            "m_PathID": 0
+                            "m_PathID": "0"
                           },
                           "m_FontSize": 8,
                           "m_FontStyle": 0,
@@ -28600,6 +28600,7 @@
                   "image": {
                     "sprite": "img_alert",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 1.0,
                       "g": 1.0,
@@ -28611,8 +28612,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 }
@@ -28660,6 +28660,7 @@
               "image": {
                 "sprite": "can_clean_note",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -28671,8 +28672,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             }
@@ -28786,6 +28786,7 @@
           "image": {
             "sprite": "room_bg_ruin",
             "type": 1,
+            "preserveAspect": true,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -28797,8 +28798,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": true
+            "fillClockwise": true
           },
           "children": []
         },
@@ -28844,6 +28844,7 @@
           "image": {
             "sprite": "ruin",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -28855,8 +28856,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -28902,6 +28902,7 @@
           "image": {
             "sprite": "img_white",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 0.0,
               "g": 0.0,
@@ -28913,8 +28914,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": [
             {
@@ -29015,7 +29015,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 21,
                       "m_FontStyle": 0,
@@ -29090,7 +29090,7 @@
                         "fontData": {
                           "m_Font": {
                             "m_FileID": 0,
-                            "m_PathID": 0
+                            "m_PathID": "0"
                           },
                           "m_FontSize": 8,
                           "m_FontStyle": 0,
@@ -29156,6 +29156,7 @@
                   "image": {
                     "sprite": "img_alert",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 1.0,
                       "g": 1.0,
@@ -29167,8 +29168,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 }
@@ -29216,6 +29216,7 @@
               "image": {
                 "sprite": "can_clean_note",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -29227,8 +29228,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             }
@@ -29342,6 +29342,7 @@
           "image": {
             "sprite": "room_bg_ruin",
             "type": 1,
+            "preserveAspect": true,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -29353,8 +29354,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": true
+            "fillClockwise": true
           },
           "children": []
         },
@@ -29400,6 +29400,7 @@
           "image": {
             "sprite": "ruin",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 1.0,
               "g": 1.0,
@@ -29411,8 +29412,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": []
         },
@@ -29458,6 +29458,7 @@
           "image": {
             "sprite": "img_white",
             "type": 0,
+            "preserveAspect": false,
             "color": {
               "r": 0.0,
               "g": 0.0,
@@ -29469,8 +29470,7 @@
             "fillMethod": 4,
             "fillAmount": 1.0,
             "fillOrigin": 0,
-            "fillClockwise": true,
-            "preserveAspect": false
+            "fillClockwise": true
           },
           "children": [
             {
@@ -29571,7 +29571,7 @@
                     "fontData": {
                       "m_Font": {
                         "m_FileID": 0,
-                        "m_PathID": 0
+                        "m_PathID": "0"
                       },
                       "m_FontSize": 21,
                       "m_FontStyle": 0,
@@ -29646,7 +29646,7 @@
                         "fontData": {
                           "m_Font": {
                             "m_FileID": 0,
-                            "m_PathID": 0
+                            "m_PathID": "0"
                           },
                           "m_FontSize": 8,
                           "m_FontStyle": 0,
@@ -29712,6 +29712,7 @@
                   "image": {
                     "sprite": "img_alert",
                     "type": 0,
+                    "preserveAspect": false,
                     "color": {
                       "r": 1.0,
                       "g": 1.0,
@@ -29723,8 +29724,7 @@
                     "fillMethod": 4,
                     "fillAmount": 1.0,
                     "fillOrigin": 0,
-                    "fillClockwise": true,
-                    "preserveAspect": false
+                    "fillClockwise": true
                   },
                   "children": []
                 }
@@ -29772,6 +29772,7 @@
               "image": {
                 "sprite": "can_clean_note",
                 "type": 0,
+                "preserveAspect": false,
                 "color": {
                   "r": 1.0,
                   "g": 1.0,
@@ -29783,8 +29784,7 @@
                 "fillMethod": 4,
                 "fillAmount": 1.0,
                 "fillOrigin": 0,
-                "fillClockwise": true,
-                "preserveAspect": false
+                "fillClockwise": true
               },
               "children": []
             }
@@ -29834,6 +29834,7 @@
       "image": {
         "sprite": "img_level_item",
         "type": 0,
+        "preserveAspect": false,
         "color": {
           "r": 1.0,
           "g": 1.0,
@@ -29845,8 +29846,7 @@
         "fillMethod": 4,
         "fillAmount": 1.0,
         "fillOrigin": 0,
-        "fillClockwise": true,
-        "preserveAspect": false
+        "fillClockwise": true
       },
       "children": []
     },
@@ -29892,6 +29892,7 @@
       "image": {
         "sprite": "img_room_frame",
         "type": 1,
+        "preserveAspect": false,
         "color": {
           "r": 1.0,
           "g": 1.0,
@@ -29903,8 +29904,7 @@
         "fillMethod": 4,
         "fillAmount": 1.0,
         "fillOrigin": 0,
-        "fillClockwise": true,
-        "preserveAspect": false
+        "fillClockwise": true
       },
       "children": []
     }
