@@ -318,20 +318,18 @@ const legend = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  /* 避免宽图把父级 flex 布局撑开：宽度跟随父级，便于横向滚动 */
+  /* 避免地图内容参与父级网格的固有宽度计算。 */
   inline-size: 0;
   min-inline-size: 100%;
-}
-
-.basemap-scroll {
-  overflow-x: auto;
 }
 
 .basemap-canvas {
   position: relative;
   display: flex;
+  flex: none;
   align-items: stretch;
-  block-size: clamp(320px, 65vh, 720px);
+  inline-size: 100%;
+  aspect-ratio: 16 / 9;
   container-type: inline-size;
   overflow: hidden;
   touch-action: none;
@@ -440,17 +438,17 @@ const legend = computed(() => {
 
 .basemap-tile {
   position: absolute;
-  inset: 2px;
+  inset: 0.185185cqw;
   display: flex;
   flex-direction: column;
   gap: 0.15cqw;
   padding: 0.3cqw 0.45cqw;
   overflow: hidden;
   background-color: var(--tile-bg);
-  border: 1px solid var(--tile-border);
+  border: 0.092593cqw solid var(--tile-border);
   border-inline-start: 0.28cqw solid var(--accent);
   border-radius: 0.35cqw;
-  box-shadow: 0 1px 2px rgb(0 0 0 / 8%);
+  box-shadow: 0 0.092593cqw 0.185185cqw rgb(0 0 0 / 8%);
 }
 
 .basemap-tile-head {
