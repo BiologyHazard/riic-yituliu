@@ -35,6 +35,32 @@ export function getPrtsWikiCharAvatarUrl(
 }
 
 /**
+ * 根据角色 ID、角色名称和精英化等级获取 PRTS Wiki 角色立绘的完整 URL 地址
+ *
+ * 会特别考虑升变干员和阿米娅术师形态的文件名
+ */
+export function getPrtsWikiCharSkinUrl(
+  charId: string,
+  charName: string,
+  eliteLevel: number,
+): string {
+  let prtsWikiCharName = charName;
+  let prtsWikiEliteLevelSuffix = eliteLevel === 2 ? '_2' : '_1';
+
+  if (charId === 'char_1001_amiya2') {
+    prtsWikiCharName = '阿米娅(近卫)';
+    prtsWikiEliteLevelSuffix = '_2';
+  } else if (charId === 'char_1037_amiya3') {
+    prtsWikiCharName = '阿米娅(医疗)';
+    prtsWikiEliteLevelSuffix = '_2';
+  } else if (charId === 'char_002_amiya' && eliteLevel === 1) {
+    prtsWikiEliteLevelSuffix = '_1+';
+  }
+
+  return getPrtsWikiMediaUrl(`立绘_${prtsWikiCharName}${prtsWikiEliteLevelSuffix}.png`);
+}
+
+/**
  * 根据道具 ID 和道具名称获取 PRTS Wiki 道具图标的完整 URL 地址
  *
  * 会特别考虑 EXP

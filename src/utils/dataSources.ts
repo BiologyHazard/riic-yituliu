@@ -8,6 +8,7 @@ import {
 import { getItemIconId, getItemName } from '@/utils/gameData/item';
 import {
   getPrtsWikiCharAvatarUrl,
+  getPrtsWikiCharSkinUrl,
   getPrtsWikiItemIconUrl,
   getPrtsWikiMediaUrl,
 } from '@/utils/prtsWiki';
@@ -164,6 +165,18 @@ export const charSkinSources: CharSkinSource[] = [
     getCharSkinUrl(charId: string, eliteLevel: number): string {
       const portraitId = getCharPortraitId(charId, eliteLevel);
       return `https://torappu.prts.wiki/assets/char_arts/${encodeURIComponent(portraitId)}.png`;
+    },
+  },
+  {
+    id: 'prts-wiki',
+    label: 'PRTS Wiki',
+    isGithub: false,
+    getCharSkinUrl(charId: string, eliteLevel: number): string | undefined {
+      const charName = getCharName(charId);
+      if (charName === undefined) {
+        return undefined;
+      }
+      return getPrtsWikiCharSkinUrl(charId, charName, eliteLevel);
     },
   },
   {
