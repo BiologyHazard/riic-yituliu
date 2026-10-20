@@ -50,7 +50,7 @@ const {
     v-model:open="open"
     :ui="{
       content:
-        'flex max-h-[calc(100dvh-var(--ui-header-height)-var(--ui-title-height)-1rem)] flex-col gap-4 overflow-y-auto p-4 inline-80 max-inline-[calc(100svw-1rem)]',
+        'flex max-h-(--reka-popper-available-height) flex-col gap-4 overflow-y-auto p-4 inline-80 max-inline-(--reka-popper-available-width)',
     }"
   >
     <UTooltip text="更改主题">

@@ -119,7 +119,13 @@ app.provide(openImagePreviewKey, open);
             <UTooltip :kbds="['meta', 'S']" text="下载">
               <UButton color="neutral" icon="i-lucide-download" variant="ghost" @click="download" />
             </UTooltip>
-            <UPopover mode="click" :ui="{ content: 'w-80 p-4' }">
+            <UPopover
+              mode="click"
+              :ui="{
+                content:
+                  'max-h-(--reka-popper-available-height) w-80 max-w-(--reka-popper-available-width) overflow-y-auto p-4',
+              }"
+            >
               <UTooltip text="帮助">
                 <UButton
                   color="neutral"
