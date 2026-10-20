@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import type { BuildingLayout, BuildingRoom, BuildingSlot, BuildingStorey } from '@/types/gameData';
+import type { BuildingLayout, BuildingRoom, BuildingSlot } from '@/types/gameData';
 import type { CSSProperties } from 'vue';
-import { computed } from 'vue';
+import { useElementSize } from '@vueuse/core';
+import { computed, ref, watch } from 'vue';
 
 const props = defineProps<{
   /** `building_data.json` 中的 `layouts.v0` */
@@ -9,9 +10,6 @@ const props = defineProps<{
   /** `building_data.json` 中的 `rooms`，用于获取房间名 */
   rooms?: Record<string, BuildingRoom>;
 }>();
-
-/** 缺少楼层间隔数据时的兜底层高（行） */
-const DEFAULT_STOREY_HEIGHT = 2;
 
 interface SlotCategoryMeta {
   /** 槽位类别显示名，槽位无法确定具体房间时使用 */
@@ -53,24 +51,6 @@ function getRoomsOfCategory(category: string): BuildingRoom[] {
   return roomIds.map((roomId) => props.rooms?.[roomId]).filter((room) => room !== undefined);
 }
 
-/** 楼层，按自上而下的顺序排列 */
-const sortedStoreys = computed<BuildingStorey[]>(() =>
-  Object.values(props.layout.storeys).sort((a, b) => b.yOffset - a.yOffset),
-);
-
-/**
- * 每层占用的网格行数
- * 楼层数据只给出起始行 `yOffset`，用相邻楼层的间隔推断层高
- */
-const storeyHeight = computed<number>(() => {
-  const offsets = sortedStoreys.value.map((storey) => storey.yOffset);
-  const gaps = offsets
-    .slice(1)
-    .map((offset, index) => offsets[index]! - offset)
-    .filter((gap) => gap > 0);
-  return gaps.length > 0 ? Math.min(...gaps) : DEFAULT_STOREY_HEIGHT;
-});
-
 /** 网格总行数、列数 */
 const gridSize = computed<{ rows: number; cols: number }>(() => {
   let rows = 0;
@@ -82,52 +62,109 @@ const gridSize = computed<{ rows: number; cols: number }>(() => {
   return { rows, cols };
 });
 
-/** 固定使用 `3840 × 1080` 的默认最小缩放投影，不随网页视口改变纹理周期。 */
+const viewport = ref<HTMLElement | null>(null);
+const { width: viewportWidth, height: viewportHeight } = useElementSize(viewport);
+const zoom = ref<number>(0);
+const cameraX = ref<number>(0);
+const cameraY = ref<number>(0);
+const dragging = ref<boolean>(false);
+let pointerId: number | null = null;
+let lastX = 0;
+let lastY = 0;
+const tangent = Math.tan(Math.PI / 12);
+
+const camera = computed<{ distance: number; far: number; roomUnit: number }>(() => {
+  const width = gridSize.value.cols * 0.5 + 1;
+  const height = gridSize.value.rows * 0.5 + 0.8;
+  const aspect = Math.max(viewportWidth.value, 1) / Math.max(viewportHeight.value, 1);
+  const heightDistance = height / (2 * tangent);
+  const far = Math.max((width * 0.72) / (2 * aspect * tangent), heightDistance);
+  const near = Math.max(0.81, heightDistance * 0.75);
+  const distance = far + (Math.min(near, far) - far) * zoom.value;
+  return { distance, far, roomUnit: viewportHeight.value / (2 * tangent * distance) };
+});
+
+function clampCamera() {
+  const unit = camera.value.roomUnit;
+  if (unit <= 0) return;
+  const maxX = Math.max(0, (gridSize.value.cols * 0.5 + 1 - viewportWidth.value / unit) / 2);
+  const maxY = Math.max(0, (gridSize.value.rows * 0.5 + 0.8 - viewportHeight.value / unit) / 2);
+  cameraX.value = Math.max(-maxX, Math.min(maxX, cameraX.value));
+  cameraY.value = Math.max(-maxY, Math.min(maxY, cameraY.value));
+}
+
+function resetCamera() {
+  zoom.value = 0;
+  cameraX.value = 0;
+  cameraY.value = 0;
+}
+
+function onWheel(event: WheelEvent) {
+  const delta =
+    event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? viewportHeight.value : 1);
+  zoom.value = Math.max(0, Math.min(1, zoom.value - delta * 0.001));
+  clampCamera();
+}
+
+function onPointerDown(event: PointerEvent) {
+  if (event.button !== 0 || pointerId !== null) return;
+  pointerId = event.pointerId;
+  lastX = event.clientX;
+  lastY = event.clientY;
+  dragging.value = true;
+  viewport.value?.setPointerCapture(event.pointerId);
+}
+
+function onPointerMove(event: PointerEvent) {
+  if (event.pointerId !== pointerId || camera.value.roomUnit <= 0) return;
+  cameraX.value -= (event.clientX - lastX) / camera.value.roomUnit;
+  cameraY.value += (event.clientY - lastY) / camera.value.roomUnit;
+  lastX = event.clientX;
+  lastY = event.clientY;
+  clampCamera();
+}
+
+function onPointerEnd(event: PointerEvent) {
+  if (event.pointerId !== pointerId) return;
+  pointerId = null;
+  dragging.value = false;
+  if (viewport.value?.hasPointerCapture(event.pointerId))
+    viewport.value.releasePointerCapture(event.pointerId);
+}
+
+watch([viewportWidth, viewportHeight, gridSize], clampCamera);
+watch(() => props.layout, resetCamera);
+
+// 背景、房间、前景分别投影，不能将三层一起做二维缩放。
 const projectionStyle = computed<CSSProperties>(() => {
-  const f = Math.fround;
-  const canvasScale = 0.009999999776482582;
-  const foregroundScale = 0.800000011920929;
-  const paddingY = 0.800000011920929;
-  const fitWidthRatio = 0.7200000286102295;
-  // `Blueprint.ROOM_UNIT` 为 `(50, 50)`，房间两侧分别添加一次 `LAYOUT_PADDING`。
-  const width = f(f(gridSize.value.cols * 50 + 2 * 50) * canvasScale);
-  const height = f(f(gridSize.value.rows * 50 + 2 * f(paddingY * 50)) * canvasScale);
-  const tangent = f(Math.tan(f(f(f(30 * 3.1415927410125732) * 0.5) / 180)));
-  // `CalcCamZoom` 模式 `0` 取宽高约束的较大值；`_ResetLayout` 将其设为初始距离和距离上限。
-  const distance = Math.max(
-    f(f(f(width * 0.5) / f(f(3840 / 1080) * tangent)) * fitWidthRatio),
-    f(f(height * 0.5) / tangent),
-  );
-  const backgroundUnit = (1080 * canvasScale) / (2 * tangent * (distance + f(120 * canvasScale)));
-  const foregroundUnit =
-    (1080 * canvasScale * foregroundScale) / (2 * tangent * (distance + f(-80 * canvasScale)));
+  const focal = viewportHeight.value / (2 * tangent);
+  const backgroundUnit = (focal * 0.01) / (camera.value.distance + 1.2);
+  const foregroundUnit = (focal * 0.008) / (camera.value.distance - 0.8);
+  const worldWidth = gridSize.value.cols * 0.5 + 1;
+  const worldHeight = gridSize.value.rows * 0.5 + 0.8;
+  const aspect = Math.max(viewportWidth.value, 1) / Math.max(viewportHeight.value, 1);
+  const backgroundWidth =
+    (Math.max(worldWidth, worldHeight * aspect) * (camera.value.far + 1.2)) / camera.value.far;
+  const backgroundHeight =
+    (Math.max(worldHeight, worldWidth / aspect) * (camera.value.far + 1.2)) / camera.value.far;
   return {
     '--background-unit': `${backgroundUnit}px`,
     '--foreground-unit': `${foregroundUnit}px`,
+    '--background-origin-x': `${viewportWidth.value / 2 + (-backgroundWidth / 2 - cameraX.value) * backgroundUnit * 100}px`,
+    '--background-origin-y': `${viewportHeight.value / 2 + (backgroundHeight / 2 + cameraY.value) * backgroundUnit * 100}px`,
+    '--foreground-origin-x': `${viewportWidth.value / 2 - (cameraX.value * foregroundUnit) / 0.008}px`,
+    '--foreground-origin-y': `${viewportHeight.value / 2 + (cameraY.value * foregroundUnit) / 0.008}px`,
   };
 });
 
-interface StoreyLabel {
-  id: string;
-  /** 楼层标签的垂直中心百分比位置 */
-  center: string;
-}
-
-/**
- * 楼层标签位置
- * 网格的 `row` 自下向上递增，渲染时需要翻转纵轴
- * 只标注游戏内实际存在的楼层，其上方不存在的 2F 区域（`slot_37`、`slot_38` 所在）留空
- */
-const storeyLabels = computed<StoreyLabel[]>(() => {
-  const { rows } = gridSize.value;
-  const height = storeyHeight.value;
-  return sortedStoreys.value.map((storey) => {
-    const top = rows - (storey.yOffset + height);
-    return {
-      id: storey.id,
-      center: `${((top + height / 2) / rows) * 100}%`,
-    };
-  });
+const roomStyle = computed<CSSProperties>(() => {
+  const unit = camera.value.roomUnit;
+  return {
+    width: `${gridSize.value.cols * 0.5 * unit}px`,
+    height: `${gridSize.value.rows * 0.5 * unit}px`,
+    left: `${viewportWidth.value / 2 - cameraX.value * unit}px`,
+    top: `${viewportHeight.value / 2 + cameraY.value * unit}px`,
+  };
 });
 
 interface SlotView {
@@ -201,57 +238,54 @@ const legend = computed(() => {
 
 <template>
   <div class="basemap">
-    <div class="basemap-scroll">
-      <div class="basemap-canvas" :style="projectionStyle">
-        <div aria-hidden="true" class="basemap-background">
-          <div class="basemap-background-layer basemap-background-fill"></div>
-          <div class="basemap-background-layer basemap-background-rect"></div>
-          <div class="basemap-background-layer basemap-background-grid"></div>
-        </div>
-        <div class="basemap-gutter">
-          <span
-            v-for="label in storeyLabels"
-            :key="label.id"
-            class="basemap-storey"
-            :style="{ top: label.center }"
-          >
-            {{ label.id }}
-          </span>
-        </div>
-
+    <div class="basemap-controls">
+      <span>滚轮缩放 · 拖动平移</span
+      ><UButton icon="i-lucide-maximize" label="重置视角" variant="soft" @click="resetCamera" />
+    </div>
+    <div
+      ref="viewport"
+      class="basemap-canvas"
+      :class="{ 'is-dragging': dragging }"
+      :style="projectionStyle"
+      @lostpointercapture="onPointerEnd"
+      @pointercancel="onPointerEnd"
+      @pointerdown="onPointerDown"
+      @pointermove="onPointerMove"
+      @pointerup="onPointerEnd"
+      @wheel.prevent="onWheel"
+    >
+      <div aria-hidden="true" class="basemap-background">
+        <div class="basemap-background-layer basemap-background-fill"></div>
+        <div class="basemap-background-layer basemap-background-rect"></div>
+        <div class="basemap-background-layer basemap-background-grid"></div>
+      </div>
+      <div class="basemap-grid" :style="roomStyle">
         <div
-          class="basemap-grid"
-          :style="{
-            aspectRatio: `${gridSize.cols} / ${gridSize.rows}`,
+          v-for="view in slots"
+          :key="view.slot.id"
+          class="basemap-slot"
+          :class="{
+            'is-narrow': view.isNarrow,
+            'is-large': view.isLarge,
+            'is-passage': ['CORRIDOR', 'ELEVATOR'].includes(view.slot.category),
           }"
+          :style="view.style"
+          :title="view.title"
         >
-          <div
-            v-for="view in slots"
-            :key="view.slot.id"
-            class="basemap-slot"
-            :class="{
-              'is-narrow': view.isNarrow,
-              'is-large': view.isLarge,
-              'is-passage': ['CORRIDOR', 'ELEVATOR'].includes(view.slot.category),
-            }"
-            :style="view.style"
-            :title="view.title"
-          >
-            <div class="basemap-tile">
-              <div class="basemap-tile-head">
-                <span class="basemap-slot-id">{{ view.number }}</span>
-                <span class="basemap-slot-labor">
-                  <UIcon class="basemap-slot-labor-icon" name="i-lucide-zap" />
-                  {{ view.slot.provideLabor }}
-                </span>
-              </div>
-              <span v-if="view.roomName" class="basemap-slot-name">{{ view.roomName }}</span>
+          <div class="basemap-tile">
+            <div class="basemap-tile-head">
+              <span class="basemap-slot-id">{{ view.number }}</span>
+              <span class="basemap-slot-labor">
+                <UIcon class="basemap-slot-labor-icon" name="i-lucide-zap" />
+                {{ view.slot.provideLabor }}
+              </span>
             </div>
+            <span v-if="view.roomName" class="basemap-slot-name">{{ view.roomName }}</span>
           </div>
         </div>
-        <div aria-hidden="true" class="basemap-foreground"></div>
-        <div aria-hidden="true" class="basemap-edge-mask"></div>
       </div>
+      <div aria-hidden="true" class="basemap-foreground"></div>
+      <div aria-hidden="true" class="basemap-edge-mask"></div>
     </div>
 
     <ul class="basemap-legend">
@@ -293,8 +327,12 @@ const legend = computed(() => {
   position: relative;
   display: flex;
   align-items: stretch;
-  min-inline-size: 1080px;
+  block-size: clamp(320px, 65vh, 720px);
   container-type: inline-size;
+  overflow: hidden;
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
   isolation: isolate;
 }
 
@@ -313,15 +351,20 @@ const legend = computed(() => {
   position: absolute;
   inset: 0;
   background-repeat: repeat;
-  background-position: var(--background-offset-x) calc(100% + var(--background-offset-y));
+  background-position: var(--background-origin-x)
+    calc(var(--background-origin-y) - var(--tile-height));
 }
 
 .basemap-background-fill {
+  --tile-height: calc(64 * var(--background-unit));
+
   background-image: url('@/assets/images/riic/blueprint_bkg_fill.png');
   background-size: calc(64 * var(--background-unit)) calc(64 * var(--background-unit));
 }
 
 .basemap-background-rect {
+  --tile-height: calc(251 * var(--background-unit));
+
   background-image: url('@/assets/images/riic/blueprint_bkg_rect.png');
   background-size: calc(221 * var(--background-unit)) calc(251 * var(--background-unit));
   /* `level9` 中 `ImgRect` 的 `m_Color`，保留序列化的 `float32` 原值。 */
@@ -329,6 +372,8 @@ const legend = computed(() => {
 }
 
 .basemap-background-grid {
+  --tile-height: calc(184 * var(--background-unit));
+
   background-image: url('@/assets/images/riic/blueprint_bkg_grid.png');
   background-size: calc(279 * var(--background-unit)) calc(184 * var(--background-unit));
   filter: brightness(0.5647059082984924);
@@ -342,7 +387,8 @@ const legend = computed(() => {
   pointer-events: none;
   background-image: url('@/assets/images/riic/blueprint_ftg.png');
   background-repeat: repeat;
-  background-position: left bottom;
+  background-position: var(--foreground-origin-x)
+    calc(var(--foreground-origin-y) - 206 * var(--foreground-unit));
   background-size: calc(199 * var(--foreground-unit)) calc(206 * var(--foreground-unit));
   filter: brightness(0.6980392336845398);
 }
@@ -358,25 +404,20 @@ const legend = computed(() => {
   background-size: 100% 100%;
 }
 
-.basemap-gutter {
-  position: relative;
-  flex: none;
-  inline-size: 2.6cqw;
+.basemap-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.basemap-storey {
-  position: absolute;
-  inset-inline: 0;
-  font-size: 1.05cqw;
-  font-weight: 600;
-  color: var(--ui-text-muted);
-  text-align: center;
-  transform: translateY(-50%);
+.basemap-canvas.is-dragging {
+  cursor: grabbing;
 }
 
 .basemap-grid {
-  position: relative;
-  flex: 1;
+  position: absolute;
+  container-type: inline-size;
+  transform: translate(-50%, -50%);
 }
 
 .basemap-slot {
