@@ -65,6 +65,7 @@ const gridSize = computed<{ rows: number; cols: number }>(() => {
 const viewport = ref<HTMLElement | null>(null);
 const { width: viewportWidth, height: viewportHeight } = useElementSize(viewport);
 const zoom = ref<number>(0);
+const showSlotInfo = ref<boolean>(false);
 const cameraX = ref<number>(0);
 const cameraY = ref<number>(0);
 const dragging = ref<boolean>(false);
@@ -241,10 +242,19 @@ const legend = computed(() => {
 </script>
 
 <template>
-  <div class="basemap">
+  <div class="basemap" :class="{ 'show-slot-info': showSlotInfo }">
     <div class="basemap-controls">
-      <span>滚轮缩放 · 拖动平移</span
-      ><UButton icon="i-lucide-maximize" label="重置视角" variant="soft" @click="resetCamera" />
+      <span class="text-muted">滚轮缩放 · 拖动平移</span>
+      <div class="basemap-control-actions">
+        <USwitch v-model="showSlotInfo" label="槽位信息" />
+        <UButton
+          color="neutral"
+          icon="i-lucide-maximize"
+          label="重置视角"
+          variant="soft"
+          @click="resetCamera"
+        />
+      </div>
     </div>
     <div
       ref="viewport"
@@ -271,12 +281,13 @@ const legend = computed(() => {
           :class="{
             'is-narrow': view.isNarrow,
             'is-large': view.isLarge,
-            'is-passage': ['CORRIDOR', 'ELEVATOR'].includes(view.slot.category),
+            'is-control': view.slot.category === 'SPECIAL',
           }"
           :style="view.style"
           :title="view.title"
         >
           <div class="basemap-tile">
+            <span aria-hidden="true" class="basemap-unbuilt-icon"></span>
             <div class="basemap-tile-head">
               <span class="basemap-slot-id">{{ view.number }}</span>
               <span class="basemap-slot-labor">
@@ -292,7 +303,7 @@ const legend = computed(() => {
       <div aria-hidden="true" class="basemap-edge-mask"></div>
     </div>
 
-    <ul class="basemap-legend">
+    <ul v-if="showSlotInfo" class="basemap-legend">
       <li v-for="item in legend" :key="item.label" class="basemap-legend-item">
         <span class="basemap-legend-dot" :style="{ backgroundColor: item.accent }"></span>
         <span>{{ item.label }}</span>
@@ -422,104 +433,154 @@ const legend = computed(() => {
   transform: translate(-50%, -50%);
 }
 
-.basemap-slot {
-  --tile-bg: #303030;
-  --tile-border: #626262;
-  --tile-text: #f5f5f5;
-
-  position: absolute;
+.basemap-control-actions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
 }
 
-.basemap-slot.is-passage {
-  --tile-bg: #ffffff;
-  --tile-border: #c9c9c9;
-  --tile-text: #303030;
+/* 外框与切角内板分离，所有尺寸随房间平面的投影一起缩放。 */
+.basemap-slot {
+  position: absolute;
+  padding: 0.12cqw;
+}
+
+.basemap-slot::before {
+  position: absolute;
+  inset: 0.08cqw;
+  content: '';
+  border: 0.065cqw solid rgb(100 100 100 / 44%);
+  box-shadow: inset 0 0 0 0.12cqw rgb(255 255 255 / 70%);
 }
 
 .basemap-tile {
   position: absolute;
-  inset: 0.185185cqw;
-  display: flex;
-  flex-direction: column;
-  gap: 0.15cqw;
-  padding: 0.3cqw 0.45cqw;
+  inset: 0.34cqw;
   overflow: hidden;
-  background-color: var(--tile-bg);
-  border: 0.092593cqw solid var(--tile-border);
-  border-inline-start: 0.28cqw solid var(--accent);
-  border-radius: 0.35cqw;
-  box-shadow: 0 0.092593cqw 0.185185cqw rgb(0 0 0 / 8%);
+  background: rgb(116 116 116 / 72%);
+  box-shadow: inset 0 0 0.65cqw rgb(0 0 0 / 30%);
+  clip-path: polygon(
+    0.5cqw 0,
+    calc(100% - 0.5cqw) 0,
+    100% 0.5cqw,
+    100% calc(100% - 0.5cqw),
+    calc(100% - 0.5cqw) 100%,
+    0.5cqw 100%,
+    0 calc(100% - 0.5cqw),
+    0 0.5cqw
+  );
+}
+
+.basemap-unbuilt-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  inline-size: 1.8cqw;
+  block-size: 0.823cqw;
+  background: url('@/assets/images/riic/zero_level.png') center / contain no-repeat;
+  transform: translate(-50%, -50%);
 }
 
 .basemap-tile-head {
+  position: absolute;
+  inset: 0.35cqw 0.4cqw auto;
+  z-index: 1;
   display: flex;
-  flex: none;
+  visibility: hidden;
   gap: 0.2cqw;
   align-items: center;
   justify-content: space-between;
+}
+
+.basemap-slot-id,
+.basemap-slot-labor {
+  display: flex;
+  gap: 0.15cqw;
+  align-items: center;
+  padding: 0.12cqw 0.2cqw;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85cqw;
+  font-variant-numeric: tabular-nums;
   line-height: 1;
+  color: #ffffff;
+  background: rgb(25 25 25 / 78%);
 }
 
 .basemap-slot-id {
-  padding: 0.1cqw 0.35cqw;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 1.05cqw;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  line-height: 1.2;
-  color: #ffffff;
-  background-color: var(--accent);
-  border-radius: 0.25cqw;
-}
-
-.basemap-slot-labor {
-  display: flex;
-  gap: 0.1cqw;
-  align-items: center;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 1cqw;
-  font-weight: 600;
-  color: var(--tile-text);
+  border-inline-start: 0.15cqw solid var(--accent);
 }
 
 .basemap-slot-labor-icon {
-  inline-size: 1.2cqw;
-  block-size: 1.2cqw;
-  color: var(--accent);
+  inline-size: 0.8cqw;
+  block-size: 0.8cqw;
 }
 
 .basemap-slot-name {
-  display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  min-block-size: 0;
+  position: absolute;
+  right: 0.2cqw;
+  bottom: 0.25cqw;
+  left: 0.2cqw;
+  visibility: hidden;
   overflow: hidden;
-  font-size: 1.1cqw;
-  font-weight: 500;
-  color: var(--tile-text);
+  font-size: 0.9cqw;
+  line-height: 1.25;
+  color: #ffffff;
+  text-align: center;
   white-space: nowrap;
+  text-shadow: 0 1px 3px #000000;
 }
 
-.basemap-slot.is-large .basemap-slot-name {
-  font-size: 1.8cqw;
-  font-weight: 600;
-}
-
-.basemap-slot.is-narrow .basemap-tile {
-  align-items: center;
-  justify-content: center;
-  padding-inline: 0.1cqw;
+.show-slot-info .basemap-tile-head,
+.show-slot-info .basemap-slot-name {
+  visibility: visible;
 }
 
 .basemap-slot.is-narrow .basemap-tile-head {
+  inset-inline: 0;
   flex-direction: column;
-  gap: 0.6cqw;
-  justify-content: center;
+  gap: 0.3cqw;
 }
 
 .basemap-slot.is-narrow .basemap-slot-labor-icon {
   display: none;
+}
+
+.basemap-slot.is-control .basemap-tile {
+  background-color: #292929;
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      transparent 0 0.8cqw,
+      rgb(167 119 39 / 12%) 0.8cqw 0.84cqw,
+      transparent 0.84cqw 1.64cqw
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0 0.8cqw,
+      rgb(167 119 39 / 12%) 0.8cqw 0.84cqw,
+      transparent 0.84cqw 1.64cqw
+    );
+}
+
+.basemap-slot.is-control .basemap-unbuilt-icon {
+  display: none;
+}
+
+.basemap-slot.is-control .basemap-slot-name {
+  top: 50%;
+  bottom: auto;
+  visibility: visible;
+  font-size: 1.35cqw;
+  font-weight: 600;
+  transform: translateY(-50%);
+}
+
+@media (width <= 600px) {
+  .basemap-controls {
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 0.75rem;
+  }
 }
 
 .basemap-legend {
