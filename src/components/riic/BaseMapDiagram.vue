@@ -74,13 +74,17 @@ let lastY = 0;
 const tangent = Math.tan(Math.PI / 12);
 
 const camera = computed<{ distance: number; far: number; roomUnit: number }>(() => {
-  const width = gridSize.value.cols * 0.5 + 1;
-  const height = gridSize.value.rows * 0.5 + 0.8;
-  const aspect = Math.max(viewportWidth.value, 1) / Math.max(viewportHeight.value, 1);
-  const heightDistance = height / (2 * tangent);
-  const far = Math.max((width * 0.72) / (2 * aspect * tangent), heightDistance);
-  const near = Math.max(0.81, heightDistance * 0.75);
-  const distance = far + (Math.min(near, far) - far) * zoom.value;
+  const f = Math.fround;
+  const canvasScale = f(0.01);
+  const width = f(f(gridSize.value.cols * 50 + 100) * canvasScale);
+  const height = f(f(gridSize.value.rows * 50 + 2 * f(f(0.8) * 50)) * canvasScale);
+  const aspect = f(Math.max(viewportWidth.value, 1) / Math.max(viewportHeight.value, 1));
+  const gameTangent = f(Math.tan(f(f(f(30 * f(Math.PI)) * 0.5) / 180)));
+  const heightDistance = f(f(height * 0.5) / gameTangent);
+  // `_ResetLayout`：模式 `0` 决定距离上限，模式 `2` 的结果乘 `0.75` 决定下限。
+  const far = Math.max(f(f(f(width * 0.5) / f(aspect * gameTangent)) * f(0.72)), heightDistance);
+  const near = f(heightDistance * 0.75);
+  const distance = far + (near - far) * zoom.value;
   return { distance, far, roomUnit: viewportHeight.value / (2 * tangent * distance) };
 });
 
