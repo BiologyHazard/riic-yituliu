@@ -16,10 +16,5 @@
       "leave-to-class"
     ]
   },
-  "ignorePatterns": [
-    "src/assets/fonts",
-    "pnpm-lock.yaml",
-    "auto-imports.d.ts",
-    "components.d.ts"
-  ]
+  "ignorePatterns": ["src/assets/fonts", "pnpm-lock.yaml", "auto-imports.d.ts", "components.d.ts"]
 }
