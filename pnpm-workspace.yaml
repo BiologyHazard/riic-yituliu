@@ -1,5 +1,5 @@
 allowBuilds:
-  cn-font-split: false
+  cn-font-split: true
   esbuild: false
   koffi: false
   protobufjs: false
