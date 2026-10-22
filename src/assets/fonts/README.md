@@ -1,11 +1,11 @@
 # 字体分片输出
 
-本目录由 `npm run split-fonts`（或 `npm run build` 自动触发）生成。
+本目录由 `pnpm split-fonts`（或 `pnpm build` 自动触发）生成。
 
 ## 生成方式
 
-1. 运行 `npm run download-fonts` 下载字体压缩包并解压到 `public/fonts/`
-2. 运行 `npm run split-fonts` 将字体文件分片输出到本目录
+1. 运行 `pnpm download-fonts` 下载字体压缩包并解压到 `public/fonts/`
+2. 运行 `pnpm split-fonts` 将字体文件分片输出到本目录
 3. 在 `src/assets/css/main.scss` 中导入各字体的 `result.css`
 
 ## 字体清单
