@@ -27,6 +27,9 @@ jobs:
             npm install
           fi
 
+      - name: Build
+        run: npm run build
+
       - name: Lint
         if: always()
         run: npm run lint
