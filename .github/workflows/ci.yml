@@ -13,31 +13,29 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+
       - name: Install node
         uses: actions/setup-node@v6
         with:
           node-version: 24
-          cache: npm
+          cache: pnpm
 
       - name: Install Dependencies
-        run: |
-          if [ -f package-lock.json ]; then
-            npm ci
-          else
-            npm install
-          fi
+        run: pnpm install --frozen-lockfile
 
       - name: Build
         run: npm run build
 
       - name: Lint
         if: always()
-        run: npm run lint
+        run: pnpm lint
 
       - name: Format Check
         if: always()
-        run: npm run format:check
+        run: pnpm format:check
 
       - name: Type Check
         if: always()
-        run: npm run type-check
+        run: pnpm type-check

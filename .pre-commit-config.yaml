@@ -13,5 +13,5 @@ repos:
       - id: check-all
         name: Check All (type-check, lint, format)
         language: system
-        entry: npm run check
+        entry: pnpm check
         pass_filenames: false

@@ -221,7 +221,7 @@ async function splitSingleFont(fontSplitProps: ExtendedFontSplitProps): Promise<
 
   if (!existsSync(input)) {
     log(`[${label}] [跳过] 原始字体文件不存在: ${input}`);
-    log(`[${label}] 请先运行 \`npm run download-fonts\` 下载原始字体文件。`);
+    log(`[${label}] 请先运行 \`pnpm download-fonts\` 下载原始字体文件。`);
     return;
   }
 

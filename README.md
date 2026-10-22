@@ -27,11 +27,12 @@ src/
 ## 环境要求
 
 - Node.js ^20.19.0 或 >=22.12.0
+- pnpm 12.15.0
 
 ## 项目设置
 
 ```sh
-npm install
+pnpm install
 ```
 
 ## 可用脚本
@@ -39,44 +40,44 @@ npm install
 ### 开发服务器
 
 ```sh
-npm run dev        # 启动本地开发服务器（热重载）
+pnpm dev        # 启动本地开发服务器（热重载）
 ```
 
 ### 构建
 
 ```sh
-npm run build-only  # 仅执行 Vite 生产构建（不含字体处理）
-npm run build       # 完整构建：下载字体 → 拆分字体 → Vite 构建
-npm run preview     # 预览生产构建产物
+pnpm build-only  # 仅执行 Vite 生产构建（不含字体处理）
+pnpm build       # 完整构建：下载字体 → 拆分字体 → Vite 构建
+pnpm preview     # 预览生产构建产物
 ```
 
 ### 类型检查
 
 ```sh
-npm run type-check
+pnpm type-check
 ```
 
 ### 代码规范检查
 
 ```sh
-npm run lint              # ESLint + Stylelint 并行检查
-npm run lint:eslint       # 仅 ESLint 检查
-npm run lint:stylelint    # 仅 Stylelint 检查
-npm run lint:fix          # 自动修复可修复的 ESLint 和 Stylelint 问题
+pnpm lint              # ESLint + Stylelint 并行检查
+pnpm lint:eslint       # 仅 ESLint 检查
+pnpm lint:stylelint    # 仅 Stylelint 检查
+pnpm lint:fix          # 自动修复可修复的 ESLint 和 Stylelint 问题
 ```
 
 ### 格式化
 
 ```sh
-npm run format         # 使用 Prettier 格式化代码
-npm run format:check   # 检查代码格式（不修改文件）
+pnpm format         # 使用 Prettier 格式化代码
+pnpm format:check   # 检查代码格式（不修改文件）
 ```
 
 ### 字体处理
 
 ```sh
-npm run download-fonts  # 下载项目依赖字体（HarmonyOS Sans SC, Alibaba PuHuiTi 3.0, JetBrains Mono, Outfit）
-npm run split-fonts     # 拆分字体文件以优化加载
+pnpm download-fonts  # 下载项目依赖字体（HarmonyOS Sans SC, Alibaba PuHuiTi 3.0, JetBrains Mono, Outfit）
+pnpm split-fonts     # 拆分字体文件以优化加载
 ```
 
 ## IDE 推荐
