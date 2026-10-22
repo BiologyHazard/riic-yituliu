@@ -5,7 +5,7 @@
 ## 技术栈
 
 - **框架**: Vue 3 + TypeScript
-- **构建工具**: Vite 7
+- **构建工具**: Vite 8
 - **UI 组件库**: Nuxt UI 4 + Tailwind CSS 4
 - **路由**: Vue Router 4
 - **工具库**: VueUse, TanStack Vue Virtual
