@@ -1,5 +1,11 @@
 <script setup lang="ts">
 import type { BuildingSlot } from '@/types/gameData';
+import {
+  getCharMaxEliteLevel,
+  isCharInGame,
+  isRogueSpChar,
+  patchedCharacterTable,
+} from '@/utils/gameData/character';
 import type { BlueprintRoomState } from '@/utils/riic/roomState';
 import {
   createRoomState,
@@ -11,12 +17,6 @@ import {
   roomRules,
 } from '@/utils/riic/roomState';
 import { computed, ref, toRaw, watch } from 'vue';
-import {
-  getCharMaxEliteLevel,
-  isCharInGame,
-  isRogueSpChar,
-  patchedCharacterTable,
-} from '@/utils/gameData/character';
 import BlueprintRoom from './BlueprintRoom.vue';
 
 const props = defineProps<{ roomSlot: BuildingSlot; state: BlueprintRoomState }>();

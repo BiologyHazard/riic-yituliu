@@ -1,0 +1,21 @@
+{
+  "camera": {
+    "verticalFieldOfView": 30.0,
+    "widthFitRatio": 0.7200000286102295,
+    "defaultPositionX": -3.6700000762939453,
+    "overdragMargin": 0.0
+  },
+  "source": {
+    "path": "Arknights_Data/level9",
+    "sha256": "49b9ea242c2acb790d09f8e7687b790e242f7782b98559b0c0a795559a57f0f9",
+    "controllerPathId": "412",
+    "cameraPathId": "214",
+    "touchCameraPathId": "440",
+    "offsets": {
+      "verticalFieldOfView": 88,
+      "widthFitRatio": 44,
+      "defaultPositionX": 48,
+      "overdragMargin": 52
+    }
+  }
+}
