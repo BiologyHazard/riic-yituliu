@@ -16,6 +16,7 @@ export default {
   ],
   rules: {
     'at-rule-no-unknown': null,
+    'at-rule-prelude-no-invalid': null,
     'color-hex-length': 'long',
     'comment-empty-line-before': null,
     'custom-property-empty-line-before': null,

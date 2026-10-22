@@ -130,22 +130,22 @@ function judgeStageType(stageId: string): 'SS_T1' | 'SS_T2' | 'SS_T3' | 'OTHERS'
 }
 
 // 计算每一个作战的类型
-const stageTypeMap = computed(
-  () =>
-    new Map(
-      Array.from(stageIdToStage.value.keys()).map((stageId) => [stageId, judgeStageType(stageId)]),
-    ),
-);
-const _ssT2StageIds = computed(() =>
-  Array.from(stageTypeMap.value.entries())
-    .filter(([, type]) => type === 'SS_T2')
-    .map(([stageId]) => stageId),
-);
-const _ssT3StageIds = computed(() =>
-  Array.from(stageTypeMap.value.entries())
-    .filter(([, type]) => type === 'SS_T3')
-    .map(([stageId]) => stageId),
-);
+// const stageTypeMap = computed(
+//   () =>
+//     new Map(
+//       Array.from(stageIdToStage.value.keys()).map((stageId) => [stageId, judgeStageType(stageId)]),
+//     ),
+// );
+// const _ssT2StageIds = computed(() =>
+//   Array.from(stageTypeMap.value.entries())
+//     .filter(([, type]) => type === 'SS_T2')
+//     .map(([stageId]) => stageId),
+// );
+// const _ssT3StageIds = computed(() =>
+//   Array.from(stageTypeMap.value.entries())
+//     .filter(([, type]) => type === 'SS_T3')
+//     .map(([stageId]) => stageId),
+// );
 
 // const t1EliteMaterialItems = Object.fromEntries(
 //   Object.entries(gameData.value?.itemTable.items ?? {}).filter(([itemId, item]) => {
@@ -175,12 +175,12 @@ const t1EliteMaterialTotalDropCountMap = computed(() => {
         }
         break;
       case 'SS_T2': {
-        const dropInfoFiltered = new Map(
-          Array.from(dropInfo.entries()).filter(
-            ([itemId]) => itemIdToItem.value.get(itemId)?.itemType === 'MATERIAL',
-          ),
-        );
-        const _dropItemIds = Array.from(dropInfoFiltered.keys());
+        // const dropInfoFiltered = new Map(
+        //   Array.from(dropInfo.entries()).filter(
+        //     ([itemId]) => itemIdToItem.value.get(itemId)?.itemType === 'MATERIAL',
+        //   ),
+        // );
+        // const _dropItemIds = Array.from(dropInfoFiltered.keys());
 
         break;
       }

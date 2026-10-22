@@ -74,7 +74,7 @@ const openImagePreview = inject(openImagePreviewKey, () => {
           position: 'relative',
         }"
       >
-        <template v-for="{ key, index, start, size, song } in virtualItems" :key="key">
+        <template v-for="{ key, index, start, size, song } in virtualItems" :key="String(key)">
           <div
             v-if="song"
             class="group grid cursor-pointer grid-cols-[--spacing(4)_--spacing(10)_1fr_--spacing(12)] items-center gap-3 border-t border-t-default px-3 transition-colors hover:bg-muted sm:px-4 lg:grid-cols-[--spacing(8)_--spacing(10)_1fr_1fr_--spacing(12)]"

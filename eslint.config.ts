@@ -6,6 +6,14 @@ export default ts.config(
   ...ts.configs.recommended,
   ...eslintPluginVue.configs['flat/recommended'],
   {
+    rules: {
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
+    },
+  },
+  {
     files: ['*.vue', '**/*.vue'],
     languageOptions: {
       parserOptions: {
@@ -13,10 +21,6 @@ export default ts.config(
       },
     },
     rules: {
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
-      ],
       'vue/attributes-order': [
         'warn',
         {

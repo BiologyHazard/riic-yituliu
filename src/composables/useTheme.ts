@@ -2,7 +2,8 @@ import { defaultTheme } from '@/utils/theme/defaultTheme';
 import type { ResolvableLink, ResolvableStyle } from '@unhead/vue';
 import { useStorage } from '@vueuse/core';
 import colors from 'tailwindcss/colors';
-import { computed, ref, watch, type CSSProperties } from 'vue';
+import type { CSSProperties } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 const appConfig = useAppConfig();
 
@@ -33,7 +34,7 @@ interface FontOption {
     | { type: 'use-chinese' }
     | { type: 'keyword' }
     | { type: 'local' }
-    | { type: 'link'; links: { id: string; rel: string; href: string }[] };
+    | { type: 'link'; links: { id: string; rel: 'stylesheet'; href: string }[] };
 }
 
 /**
