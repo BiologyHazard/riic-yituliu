@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import fontMetrics from '@/assets/images/riic/blueprint/font-metrics.json';
 import trainingAnimation from '@/assets/images/riic/blueprint/training-animation.json';
-import type { BlueprintBox, BlueprintColor, BlueprintNode } from '@/utils/riic/blueprintRenderer';
-import type { BlueprintRoomState } from '@/utils/riic/roomState';
 import { getCharAvatarUrl } from '@/utils/dataSources';
+import type { BlueprintBox, BlueprintColor, BlueprintNode } from '@/utils/riic/blueprintRenderer';
 import {
   blueprintBox,
   blueprintData,
   layoutBlueprint,
   prepareBlueprint,
 } from '@/utils/riic/blueprintRenderer';
+import type { BlueprintRoomState } from '@/utils/riic/roomState';
 import { useRafFn } from '@vueuse/core';
 import { computed, onMounted, ref, useId, watch } from 'vue';
 
@@ -111,11 +111,11 @@ watch(
   () =>
     Boolean(
       props.animationEnabled &&
-        props.state?.construction === 'built' &&
-        (props.state.status === 'training' ||
-          (props.state.product &&
-            props.state.highlight &&
-            ['MANUFACTURE', 'TRADING'].includes(props.state.roomId))),
+      props.state?.construction === 'built' &&
+      (props.state.status === 'training' ||
+        (props.state.product &&
+          props.state.highlight &&
+          ['MANUFACTURE', 'TRADING'].includes(props.state.roomId))),
     ),
   (enabled) => {
     animationOrigin = undefined;

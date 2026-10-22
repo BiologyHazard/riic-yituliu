@@ -3,6 +3,7 @@ import type { BuildingLayout, BuildingRoom, BuildingSlot } from '@/types/gameDat
 import type { CSSProperties } from 'vue';
 import { useElementSize, useTimestamp } from '@vueuse/core';
 import runtimeRules from '@/assets/images/riic/blueprint/runtime-rules.json';
+import sceneRules from '@/assets/images/riic/blueprint/scene-rules.json';
 import { computed, ref, watch } from 'vue';
 import type { BlueprintRoomState } from '@/utils/riic/roomState';
 import { createDefaultRooms, getRoomName } from '@/utils/riic/roomState';
@@ -73,7 +74,7 @@ const viewport = ref<HTMLElement | null>(null);
 const { width: viewportWidth, height: viewportHeight } = useElementSize(viewport);
 const zoom = ref<number>(0);
 const showSlotInfo = ref<boolean>(false);
-const cameraX = ref<number>(0);
+const cameraX = ref<number>(sceneRules.camera.defaultPositionX);
 const cameraY = ref<number>(0);
 const dragging = ref<boolean>(false);
 const roomStates = ref<Record<string, BlueprintRoomState>>(createDefaultRooms(props.layout));
@@ -113,7 +114,7 @@ let lastX = 0;
 let lastY = 0;
 let pointerTravel = 0;
 let pressedSlotId: string | null = null;
-const tangent = Math.tan(Math.PI / 12);
+const tangent = Math.tan((sceneRules.camera.verticalFieldOfView * Math.PI) / 360);
 
 const camera = computed<{ distance: number; far: number; roomUnit: number }>(() => {
   const f = Math.fround;
@@ -121,10 +122,15 @@ const camera = computed<{ distance: number; far: number; roomUnit: number }>(() 
   const width = f(f(gridSize.value.cols * 50 + 100) * canvasScale);
   const height = f(f(gridSize.value.rows * 50 + 2 * f(f(0.8) * 50)) * canvasScale);
   const aspect = f(Math.max(viewportWidth.value, 1) / Math.max(viewportHeight.value, 1));
-  const gameTangent = f(Math.tan(f(f(f(30 * f(Math.PI)) * 0.5) / 180)));
+  const gameTangent = f(
+    Math.tan(f(f(f(sceneRules.camera.verticalFieldOfView * f(Math.PI)) * 0.5) / 180)),
+  );
   const heightDistance = f(f(height * 0.5) / gameTangent);
   // `_ResetLayout`：模式 `0` 决定距离上限，模式 `2` 的结果乘 `0.75` 决定下限。
-  const far = Math.max(f(f(f(width * 0.5) / f(aspect * gameTangent)) * f(0.72)), heightDistance);
+  const far = Math.max(
+    f(f(f(width * 0.5) / f(aspect * gameTangent)) * sceneRules.camera.widthFitRatio),
+    heightDistance,
+  );
   const near = f(heightDistance * 0.75);
   const distance = far + (near - far) * zoom.value;
   return { distance, far, roomUnit: viewportHeight.value / (2 * tangent * distance) };
@@ -133,16 +139,23 @@ const camera = computed<{ distance: number; far: number; roomUnit: number }>(() 
 function clampCamera() {
   const unit = camera.value.roomUnit;
   if (unit <= 0) return;
-  const maxX = Math.max(0, (gridSize.value.cols * 0.5 + 1 - viewportWidth.value / unit) / 2);
-  const maxY = Math.max(0, (gridSize.value.rows * 0.5 + 0.8 - viewportHeight.value / unit) / 2);
+  const margin = sceneRules.camera.overdragMargin;
+  const maxX = Math.max(margin, (gridSize.value.cols * 0.5 + 1 - viewportWidth.value / unit) / 2);
+  const maxY = Math.max(
+    margin,
+    (gridSize.value.rows * 0.5 + 0.8 - viewportHeight.value / unit) / 2,
+  );
+  // `ComputeCamBoundaries` 在可移动范围不足时使用中心 ± `camOverdragMargin`；当前场景该值为 `0`。
+  // `UpdatePosition` 每帧执行约束，因此 `ResetPosition` 的默认坐标也必须经过此步骤。
   cameraX.value = Math.max(-maxX, Math.min(maxX, cameraX.value));
   cameraY.value = Math.max(-maxY, Math.min(maxY, cameraY.value));
 }
 
 function resetCamera() {
   zoom.value = 0;
-  cameraX.value = 0;
+  cameraX.value = sceneRules.camera.defaultPositionX;
   cameraY.value = 0;
+  clampCamera();
 }
 
 function onWheel(event: WheelEvent) {

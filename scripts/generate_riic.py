@@ -13,6 +13,7 @@ from pathlib import Path
 
 from riic_export.blueprint import BlueprintExporter, export_fonts_and_background
 from riic_export.rules import export_rules
+from riic_export.scene import export_scene_rules
 from riic_export.source import GameSource
 
 
@@ -54,6 +55,7 @@ def main() -> None:
         language = export_rules(source)
         BlueprintExporter(source, language).run()
         export_fonts_and_background(source)
+        export_scene_rules(source)
         source.finish()
         files = sorted(path for path in stage.rglob("*") if path.is_file())
         changed = [
