@@ -9,19 +9,19 @@
 - **UI 组件库**: Nuxt UI 4 + Tailwind CSS 4
 - **路由**: Vue Router 4
 - **工具库**: VueUse, TanStack Vue Virtual
-- **代码规范**: ESLint + Prettier + Stylelint
+- **代码规范**: ESLint + Oxfmt + Stylelint
 
 ## 项目结构
 
 ```
 src/
 ├── assets/       # 样式、字体、图片、JSON 等静态资源
-├── components/   # 通用 Vue 组件
-├── composables/  # 组合式逻辑
+├── components/   # Vue 组件
+├── composables/  # 组合式函数
 ├── router/       # 路由配置
 ├── types/        # TypeScript 类型定义
-├── utils/        # 纯工具函数
-└── views/        # 路由页面
+├── utils/        # 工具函数
+└── pages/        # 路由页面
 ```
 
 ## 环境要求
