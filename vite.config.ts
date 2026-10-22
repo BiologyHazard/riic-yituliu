@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue';
 import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
 import vueDevTools from 'vite-plugin-vue-devtools';
-import { defaultTheme } from './src/utils/theme/defaultTheme';
+import { defaultTheme } from './src/utils/theme/defaultTheme.ts';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -62,46 +62,4 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
-  server: {
-    proxy: {
-      '/api/proxy/monster-siren': {
-        target: 'https://monster-siren.hypergryph.com',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/proxy\/monster-siren/, ''),
-      },
-    },
-  },
-  // server: {
-  //   proxy: {
-  //     // 匹配 /api/proxy/get 路径的请求
-  //     '/api/proxy/get': {
-  //       // 先设一个占位target（会被动态覆盖）
-  //       target: 'https://example.com',
-  //       changeOrigin: true,
-  //       // 禁用Vite默认的路径重写（我们自己处理）
-  //       rewrite: () => '',
-  //       // 自定义代理逻辑（核心）
-  //       configure: (proxy) => {
-  //         proxy.on('proxyReq', (proxyReq, req) => {
-  //           // 1. 解析URL参数中的 `url` 值（目标地址）
-  //           const urlParams = new URL(req.url || '', `http://${req.headers.host}`).searchParams;
-  //           const targetUrl = urlParams.get('url');
-
-  //           if (targetUrl) {
-  //             // 2. 解析目标URL，修改代理的请求地址
-  //             const parsedTarget = new URL(targetUrl);
-  //             // 设置代理的目标协议+域名（如 https://monster-siren.hypergryph.com）
-  //             proxyReq.setHeader('Host', parsedTarget.host);
-  //             // 重写代理请求的路径+参数（如 /test → 目标URL的path+search）
-  //             proxyReq.path = parsedTarget.pathname + parsedTarget.search;
-  //             // 动态设置代理的protocol（http/https）
-  //             proxy.protocol = parsedTarget.protocol;
-  //             // 动态设置代理的host和port
-  //             proxy.options.target = `${parsedTarget.protocol}//${parsedTarget.host}`;
-  //           }
-  //         });
-  //       },
-  //     },
-  //   },
-  // },
 });
