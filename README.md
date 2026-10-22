@@ -69,7 +69,7 @@ pnpm lint:fix          # 自动修复可修复的 ESLint 和 Stylelint 问题
 ### 格式化
 
 ```sh
-pnpm format         # 使用 Prettier 格式化代码
+pnpm format         # 使用 Oxfmt 格式化代码
 pnpm format:check   # 检查代码格式（不修改文件）
 ```
 
