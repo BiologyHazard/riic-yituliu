@@ -1,26 +1,19 @@
-import skipFormatting from '@vue/eslint-config-prettier/skip-formatting';
-import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript';
-import pluginVue from 'eslint-plugin-vue';
-import { globalIgnores } from 'eslint/config';
+import betterTailwindcss from 'eslint-plugin-better-tailwindcss';
+import { getDefaultAttributes } from 'eslint-plugin-better-tailwindcss/api/defaults';
+import eslintPluginVue from 'eslint-plugin-vue';
+import eslintConfigPrettier from 'eslint-config-prettier/flat';
+import ts from 'typescript-eslint';
 
-// To allow more languages other than `ts` in `.vue` files, uncomment the following lines:
-// import { configureVueProject } from '@vue/eslint-config-typescript'
-// configureVueProject({ scriptLangs: ['ts', 'tsx'] })
-// More info at https://github.com/vuejs/eslint-config-typescript/#advanced-setup
-
-export default defineConfigWithVueTs(
+export default ts.config(
+  ...ts.configs.recommended,
+  ...eslintPluginVue.configs['flat/recommended'],
   {
-    name: 'app/files-to-lint',
-    files: ['**/*.{ts,mts,tsx,vue}'],
-  },
-
-  globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**']),
-
-  pluginVue.configs['flat/recommended'],
-  vueTsConfigs.recommended,
-  skipFormatting,
-
-  {
+    files: ['*.vue', '**/*.vue'],
+    languageOptions: {
+      parserOptions: {
+        parser: '@typescript-eslint/parser',
+      },
+    },
     rules: {
       '@typescript-eslint/no-unused-vars': [
         'error',
@@ -36,4 +29,14 @@ export default defineConfigWithVueTs(
       'vue/multi-word-component-names': 'off',
     },
   },
+  betterTailwindcss.configs['correctness-error'],
+  {
+    settings: {
+      'better-tailwindcss': {
+        entryPoint: 'src/assets/css/main.css',
+        attributes: [...getDefaultAttributes(), ['^v-bind:ui$', [{ match: 'objectValues' }]]],
+      },
+    },
+  },
+  eslintConfigPrettier,
 );
