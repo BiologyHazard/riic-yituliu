@@ -16,6 +16,7 @@ export interface BlueprintRoomState {
   level: number;
   construction: 'built' | 'empty' | 'unclean' | 'complete';
   staff: number;
+  operators: string[];
   tired: boolean;
   status: string;
   progress: number;
@@ -70,6 +71,7 @@ export function createRoomState(roomId: string): BlueprintRoomState {
     level: room?.phases.length ?? 1,
     construction: 'built',
     staff: 0,
+    operators: [],
     tired: false,
     status: 'idle',
     progress: 0,
@@ -153,6 +155,7 @@ export function normalizeRoomState(state: BlueprintRoomState): BlueprintRoomStat
   const maxLevel = roomRules[state.roomId]?.phases.length ?? 1;
   result.level = Math.max(1, Math.min(maxLevel, Math.round(state.level || 1)));
   result.staff = Math.max(0, Math.min(getRoomCapacity(result), Math.round(state.staff || 0)));
+  result.operators = [...new Set(state.operators)].slice(0, result.staff);
   result.progress = Math.max(0, Math.min(1, state.progress || 0));
   result.triangles = Math.max(0, Math.min(3, Math.round(state.triangles || 0)));
   result.trainingLevel = Math.max(0, Math.min(3, Math.round(state.trainingLevel || 0)));

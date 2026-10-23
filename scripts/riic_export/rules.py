@@ -34,6 +34,9 @@ ROOM_KEYS = (
     "tiredApThreshold",
     "manpowerDisplayFactor",
     "recycleRoomConsts",
+    "slotPrequeDatas",
+    "dormitoryPrequeDatas",
+    "stationManageConstData",
 )
 
 # 原生地址只适用于已核验的二进制，更新游戏后必须重新定位，不能继续读取旧偏移。

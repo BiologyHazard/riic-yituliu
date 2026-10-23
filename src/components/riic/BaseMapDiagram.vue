@@ -14,7 +14,7 @@ import BlueprintRoomEditor from './BlueprintRoomEditor.vue';
 import BuildingHud from './BuildingHud.vue';
 import BuildingStationOverview from './BuildingStationOverview.vue';
 import type { BuildingResources } from './BuildingHud.vue';
-import { useRouter } from 'vue-router';
+import { useGameViewport } from '@/composables/useGameViewport';
 
 const props = defineProps<{
   /** `building_data.json` 中的 `layouts.v0` */
@@ -25,7 +25,6 @@ const props = defineProps<{
   controlLevel?: number;
   /** 玩家资源由调用方提供；未接入存档时使用本地页面状态。 */
   resources?: { labor: number; gold: number };
-  immersive?: boolean;
 }>();
 
 interface SlotCategoryMeta {
@@ -80,6 +79,13 @@ const gridSize = computed<{ rows: number; cols: number }>(() => {
 });
 
 const viewport = ref<HTMLElement | null>(null);
+const {
+  pageFullscreen,
+  expanded,
+  error: fullscreenError,
+  enterFullscreen,
+  exitFullscreen,
+} = useGameViewport();
 const { width: viewportWidth, height: viewportHeight } = useElementSize(viewport);
 const zoom = ref<number>(0);
 const showSlotInfo = ref<boolean>(false);
@@ -89,11 +95,10 @@ const dragging = ref<boolean>(false);
 const roomStates = ref<Record<string, BlueprintRoomState>>(createDefaultRooms(props.layout));
 const selectedSlotId = ref<string | null>(null);
 const editorOpen = ref<boolean>(false);
-const animateWorking = ref<boolean>(props.immersive ?? false);
+const animateWorking = ref<boolean>(true);
 const constructionMode = ref<boolean>(false);
 const gameMenuOpen = ref<boolean>(false);
 const stationOverviewOpen = ref<boolean>(false);
-const router = useRouter();
 const hudScale = computed<number>(() => {
   const width = Math.max(viewportWidth.value, 1);
   const height = Math.max(viewportHeight.value, 1);
@@ -129,10 +134,7 @@ const buildingResources = computed<BuildingResources>(() => {
 function onHudAction(action: string) {
   if (action === 'construction') constructionMode.value = !constructionMode.value;
   else if (action === 'overview') stationOverviewOpen.value = true;
-  else if (action === 'back') {
-    if (constructionMode.value) constructionMode.value = false;
-    else router.push('/');
-  }
+  else if (action === 'back') void exitFullscreen();
 }
 const timestamp = useTimestamp({ interval: 100 });
 const animatedTriangles = computed<number>(() => {
@@ -386,10 +388,24 @@ const legend = computed(() => {
 </script>
 
 <template>
-  <div class="basemap" :class="{ 'show-slot-info': showSlotInfo, 'is-immersive': immersive }">
-    <div v-if="!immersive" class="basemap-controls">
+  <div class="basemap" :class="{ 'show-slot-info': showSlotInfo, 'is-immersive': expanded }">
+    <div v-if="!expanded" class="basemap-controls">
       <span class="text-muted">点击房间编辑 · 滚轮缩放 · 拖动平移</span>
       <div class="basemap-control-actions">
+        <UButton
+          color="neutral"
+          icon="i-lucide-expand"
+          label="网页全屏"
+          variant="soft"
+          @click="pageFullscreen = true"
+        />
+        <UButton
+          color="neutral"
+          icon="i-lucide-maximize-2"
+          label="全屏"
+          variant="soft"
+          @click="enterFullscreen"
+        />
         <USwitch v-model="showSlotInfo" label="槽位信息" />
         <USwitch v-model="animateWorking" label="工作动画" />
         <UButton color="neutral" label="恢复默认布局" variant="soft" @click="resetRooms" />
@@ -402,6 +418,7 @@ const legend = computed(() => {
         />
       </div>
     </div>
+    <p v-if="fullscreenError" class="text-error" role="alert">{{ fullscreenError }}</p>
     <div
       ref="viewport"
       class="basemap-canvas"
@@ -550,6 +567,7 @@ const legend = computed(() => {
 .basemap.is-immersive {
   position: fixed;
   inset: 0;
+  z-index: 40;
   gap: 0;
   inline-size: 100%;
   block-size: 100dvh;

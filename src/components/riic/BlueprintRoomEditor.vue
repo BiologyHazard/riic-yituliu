@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { BuildingSlot } from '@/types/gameData';
+import hud from '@/assets/images/riic/blueprint/hud.json';
 import {
   getCharMaxEliteLevel,
   isCharInGame,
@@ -39,6 +40,14 @@ const hasProgress = computed<boolean>(
 );
 const hasTriangles = computed<boolean>(() => outputRoom.value || draft.value.roomId === 'RECYCLE');
 const built = computed<boolean>(() => draft.value.construction === 'built');
+const operators = Object.entries(hud.operators).map(([value, operator]) => ({
+  value,
+  label: operator.name,
+}));
+function changeOperators(value: string[]) {
+  draft.value.operators = value.slice(0, capacity.value);
+  draft.value.staff = draft.value.operators.length;
+}
 const owners = computed<{ label: string; value: string }[]>(() => [
   { label: '未进驻', value: '__none__' },
   ...Object.entries(patchedCharacterTable.value)
@@ -120,6 +129,21 @@ function close() {
           />
         </div>
         <div class="grid grid-cols-2 gap-4">
+          <UFormField
+            v-if="built && capacity > 0 && draft.roomId !== 'PRIVATE'"
+            class="col-span-2"
+            label="进驻干员"
+          >
+            <USelectMenu
+              class="w-full"
+              :items="operators"
+              :model-value="draft.operators"
+              multiple
+              placeholder="选择干员以显示游戏头像"
+              value-key="value"
+              @update:model-value="changeOperators"
+            />
+          </UFormField>
           <UFormField label="设施类型"
             ><USelect
               class="w-full"

@@ -12,6 +12,10 @@
     "sha256": "a8f003429b3b4cb16bd4f1332b07fc62eace2331525e191bb54f72ca83c7a51f"
   },
   {
+    "path": "Arknights_Data/StreamingAssets/AB/Windows/anon/33de6fe6b687c53565f653626579d4d5.bin",
+    "sha256": "c796c7175fe11c638648c1872af54075074c2d5648860b4d9c9773b8a65dfc04"
+  },
+  {
     "path": "Arknights_Data/StreamingAssets/AB/Windows/anon/4b2e8a0ff91de322b2dd5fa9938e8477.bin",
     "sha256": "c115a086563fb3adc69ea5d05c544b37129b3b1d5fbc88f3a8997401633dddef"
   },
@@ -62,6 +66,26 @@
   {
     "path": "Arknights_Data/StreamingAssets/AB/Windows/building/ui/todonotify/panel_notify_item.ab",
     "sha256": "30574549e13bf718d364a9a627e67a5f776dfc346636ba9a72579faae4198856"
+  },
+  {
+    "path": "Arknights_Data/StreamingAssets/AB/Windows/spritepack/ui_char_avatar_10.ab",
+    "sha256": "08fb3139d504495f0758a65ced1f2502797369822b9aa5ce4e06071bfe117956"
+  },
+  {
+    "path": "Arknights_Data/StreamingAssets/AB/Windows/spritepack/ui_char_avatar_11.ab",
+    "sha256": "b16efe5346057d2797570cedc6cdb7d5acb23fae1b98c0d0cf9d191369a4e93e"
+  },
+  {
+    "path": "Arknights_Data/StreamingAssets/AB/Windows/spritepack/ui_char_avatar_18.ab",
+    "sha256": "9fa6a53eeb3d60cf86d0d91400a9066644c97026a713ff7fd6490b3b8fc68e1f"
+  },
+  {
+    "path": "Arknights_Data/StreamingAssets/AB/Windows/spritepack/ui_char_avatar_8.ab",
+    "sha256": "38062c2daa7e9b774957950cb5265fdcb95cc3f87892453dca91a9544b49b503"
+  },
+  {
+    "path": "Arknights_Data/StreamingAssets/AB/Windows/spritepack/ui_char_avatar_9.ab",
+    "sha256": "24ca8dcb30057ce8e4c4c523adeeba4ea2ad0e7761ebefe9cefbc30d06c65e08"
   },
   {
     "path": "Arknights_Data/StreamingAssets/AB/Windows/ui/pages/building_station_manage_page.ab",
