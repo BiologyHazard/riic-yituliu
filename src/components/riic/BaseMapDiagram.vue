@@ -388,155 +388,157 @@ const legend = computed(() => {
 </script>
 
 <template>
-  <div class="basemap" :class="{ 'show-slot-info': showSlotInfo, 'is-immersive': expanded }">
-    <div v-if="!expanded" class="basemap-controls">
-      <span class="text-muted">点击房间编辑 · 滚轮缩放 · 拖动平移</span>
-      <div class="basemap-control-actions">
-        <UButton
-          color="neutral"
-          icon="i-lucide-expand"
-          label="网页全屏"
-          variant="soft"
-          @click="pageFullscreen = true"
-        />
-        <UButton
-          color="neutral"
-          icon="i-lucide-maximize-2"
-          label="全屏"
-          variant="soft"
-          @click="enterFullscreen"
-        />
-        <USwitch v-model="showSlotInfo" label="槽位信息" />
-        <USwitch v-model="animateWorking" label="工作动画" />
-        <UButton color="neutral" label="恢复默认布局" variant="soft" @click="resetRooms" />
-        <UButton
-          color="neutral"
-          icon="i-lucide-maximize"
-          label="重置视角"
-          variant="soft"
-          @click="resetCamera"
-        />
-      </div>
-    </div>
-    <p v-if="fullscreenError" class="text-error" role="alert">{{ fullscreenError }}</p>
-    <div
-      ref="viewport"
-      class="basemap-canvas"
-      :class="{ 'is-dragging': dragging }"
-      :style="projectionStyle"
-      @lostpointercapture="onPointerEnd"
-      @pointercancel="onPointerEnd"
-      @pointerdown="onPointerDown"
-      @pointermove="onPointerMove"
-      @pointerup="onPointerEnd"
-      @wheel.prevent="onWheel"
-    >
-      <div aria-hidden="true" class="basemap-background">
-        <div class="basemap-background-layer basemap-background-fill"></div>
-        <div class="basemap-background-layer basemap-background-rect"></div>
-        <div class="basemap-background-layer basemap-background-grid"></div>
-      </div>
-      <div class="basemap-grid" :inert="stationOverviewOpen" :style="roomStyle">
-        <div
-          v-for="view in slots"
-          :key="view.slot.id"
-          :aria-label="
-            roomStates[view.slot.id]
-              ? `编辑${getRoomName(roomStates[view.slot.id]!)} ${view.slot.storeyId}`
-              : view.title
-          "
-          class="basemap-slot"
-          :class="{
-            'is-narrow': view.isNarrow,
-            'is-large': view.isLarge,
-            'is-control': view.slot.category === 'SPECIAL',
-          }"
-          :data-slot-id="view.slot.id"
-          role="button"
-          :style="view.style"
-          tabindex="0"
-          :title="
-            roomStates[view.slot.id]
-              ? `${getRoomName(roomStates[view.slot.id]!)} · 点击编辑`
-              : view.title
-          "
-          @keydown.enter.prevent="openRoom(view.slot.id)"
-          @keydown.space.prevent="openRoom(view.slot.id)"
-        >
-          <BlueprintRoom
-            :animation-enabled="animateWorking"
-            :cols="view.slot.size.col"
-            :construction="constructionMode"
-            :control="view.slot.category === 'SPECIAL'"
-            :control-level="controlLevel"
-            :room-name="
-              roomStates[view.slot.id] ? getRoomName(roomStates[view.slot.id]!) : view.roomName
-            "
-            :rows="view.slot.size.row"
-            :state="displayStates[view.slot.id]"
+  <Teleport :disabled="!expanded" to="body">
+    <div class="basemap" :class="{ 'show-slot-info': showSlotInfo, 'is-immersive': expanded }">
+      <div v-if="!expanded" class="basemap-controls">
+        <span class="text-muted">点击房间编辑 · 滚轮缩放 · 拖动平移</span>
+        <div class="basemap-control-actions">
+          <UButton
+            color="neutral"
+            icon="i-lucide-expand"
+            label="网页全屏"
+            variant="soft"
+            @click="pageFullscreen = true"
           />
-          <div class="basemap-tile">
-            <div class="basemap-tile-head">
-              <span class="basemap-slot-id">{{ view.number }}</span>
-              <span class="basemap-slot-labor">
-                <UIcon class="basemap-slot-labor-icon" name="i-lucide-zap" />
-                {{ view.slot.provideLabor }}
-              </span>
-            </div>
-            <span v-if="view.roomName" class="basemap-slot-name">{{ view.roomName }}</span>
-          </div>
+          <UButton
+            color="neutral"
+            icon="i-lucide-maximize-2"
+            label="全屏"
+            variant="soft"
+            @click="enterFullscreen"
+          />
+          <USwitch v-model="showSlotInfo" label="槽位信息" />
+          <USwitch v-model="animateWorking" label="工作动画" />
+          <UButton color="neutral" label="恢复默认布局" variant="soft" @click="resetRooms" />
+          <UButton
+            color="neutral"
+            icon="i-lucide-maximize"
+            label="重置视角"
+            variant="soft"
+            @click="resetCamera"
+          />
         </div>
       </div>
-      <div aria-hidden="true" class="basemap-foreground"></div>
-      <div aria-hidden="true" class="basemap-edge-mask"></div>
-      <BuildingHud
-        v-if="!stationOverviewOpen"
-        v-model:menu-open="gameMenuOpen"
-        :construction="constructionMode"
-        :height="hudHeight"
-        :resources="buildingResources"
-        :width="hudWidth"
-        @action="onHudAction"
+      <p v-if="fullscreenError" class="text-error" role="alert">{{ fullscreenError }}</p>
+      <div
+        ref="viewport"
+        class="basemap-canvas"
+        :class="{ 'is-dragging': dragging }"
+        :style="projectionStyle"
+        @lostpointercapture="onPointerEnd"
+        @pointercancel="onPointerEnd"
+        @pointerdown="onPointerDown"
+        @pointermove="onPointerMove"
+        @pointerup="onPointerEnd"
+        @wheel.prevent="onWheel"
+      >
+        <div aria-hidden="true" class="basemap-background">
+          <div class="basemap-background-layer basemap-background-fill"></div>
+          <div class="basemap-background-layer basemap-background-rect"></div>
+          <div class="basemap-background-layer basemap-background-grid"></div>
+        </div>
+        <div class="basemap-grid" :inert="stationOverviewOpen" :style="roomStyle">
+          <div
+            v-for="view in slots"
+            :key="view.slot.id"
+            :aria-label="
+              roomStates[view.slot.id]
+                ? `编辑${getRoomName(roomStates[view.slot.id]!)} ${view.slot.storeyId}`
+                : view.title
+            "
+            class="basemap-slot"
+            :class="{
+              'is-narrow': view.isNarrow,
+              'is-large': view.isLarge,
+              'is-control': view.slot.category === 'SPECIAL',
+            }"
+            :data-slot-id="view.slot.id"
+            role="button"
+            :style="view.style"
+            tabindex="0"
+            :title="
+              roomStates[view.slot.id]
+                ? `${getRoomName(roomStates[view.slot.id]!)} · 点击编辑`
+                : view.title
+            "
+            @keydown.enter.prevent="openRoom(view.slot.id)"
+            @keydown.space.prevent="openRoom(view.slot.id)"
+          >
+            <BlueprintRoom
+              :animation-enabled="animateWorking"
+              :cols="view.slot.size.col"
+              :construction="constructionMode"
+              :control="view.slot.category === 'SPECIAL'"
+              :control-level="controlLevel"
+              :room-name="
+                roomStates[view.slot.id] ? getRoomName(roomStates[view.slot.id]!) : view.roomName
+              "
+              :rows="view.slot.size.row"
+              :state="displayStates[view.slot.id]"
+            />
+            <div class="basemap-tile">
+              <div class="basemap-tile-head">
+                <span class="basemap-slot-id">{{ view.number }}</span>
+                <span class="basemap-slot-labor">
+                  <UIcon class="basemap-slot-labor-icon" name="i-lucide-zap" />
+                  {{ view.slot.provideLabor }}
+                </span>
+              </div>
+              <span v-if="view.roomName" class="basemap-slot-name">{{ view.roomName }}</span>
+            </div>
+          </div>
+        </div>
+        <div aria-hidden="true" class="basemap-foreground"></div>
+        <div aria-hidden="true" class="basemap-edge-mask"></div>
+        <BuildingHud
+          v-if="!stationOverviewOpen"
+          v-model:menu-open="gameMenuOpen"
+          :construction="constructionMode"
+          :height="hudHeight"
+          :resources="buildingResources"
+          :width="hudWidth"
+          @action="onHudAction"
+        />
+        <BuildingStationOverview
+          v-if="stationOverviewOpen"
+          :height="hudHeight"
+          :layout="layout"
+          :rooms="roomStates"
+          :width="hudWidth"
+          @close="stationOverviewOpen = false"
+          @edit="openRoom"
+        />
+      </div>
+
+      <BlueprintRoomEditor
+        v-if="selectedSlot && selectedState"
+        v-model:open="editorOpen"
+        :room-slot="selectedSlot"
+        :state="selectedState"
+        @reset="resetRoom"
+        @save="saveRoom"
       />
-      <BuildingStationOverview
-        v-if="stationOverviewOpen"
-        :height="hudHeight"
-        :layout="layout"
-        :rooms="roomStates"
-        :width="hudWidth"
-        @close="stationOverviewOpen = false"
-        @edit="openRoom"
-      />
+
+      <ul v-if="showSlotInfo" class="basemap-legend">
+        <li v-for="item in legend" :key="item.label" class="basemap-legend-item">
+          <span class="basemap-legend-dot" :style="{ backgroundColor: item.accent }"></span>
+          <span>{{ item.label }}</span>
+          <span class="text-muted">×{{ item.count }}</span>
+          <span v-if="item.hint" class="text-muted">（{{ item.hint }}）</span>
+        </li>
+        <li class="basemap-legend-item">
+          <UIcon class="basemap-legend-icon" name="i-lucide-zap" />
+          <span class="text-muted">清理该槽位可提供的无人机数量</span>
+        </li>
+        <li class="basemap-legend-item">
+          <UIcon class="basemap-legend-icon" name="i-lucide-hash" />
+          <span class="text-muted"
+            >数字为 <code>slot_id</code> 编号，如 24 即 <code>slot_24</code></span
+          >
+        </li>
+      </ul>
     </div>
-
-    <BlueprintRoomEditor
-      v-if="selectedSlot && selectedState"
-      v-model:open="editorOpen"
-      :room-slot="selectedSlot"
-      :state="selectedState"
-      @reset="resetRoom"
-      @save="saveRoom"
-    />
-
-    <ul v-if="showSlotInfo" class="basemap-legend">
-      <li v-for="item in legend" :key="item.label" class="basemap-legend-item">
-        <span class="basemap-legend-dot" :style="{ backgroundColor: item.accent }"></span>
-        <span>{{ item.label }}</span>
-        <span class="text-muted">×{{ item.count }}</span>
-        <span v-if="item.hint" class="text-muted">（{{ item.hint }}）</span>
-      </li>
-      <li class="basemap-legend-item">
-        <UIcon class="basemap-legend-icon" name="i-lucide-zap" />
-        <span class="text-muted">清理该槽位可提供的无人机数量</span>
-      </li>
-      <li class="basemap-legend-item">
-        <UIcon class="basemap-legend-icon" name="i-lucide-hash" />
-        <span class="text-muted"
-          >数字为 <code>slot_id</code> 编号，如 24 即 <code>slot_24</code></span
-        >
-      </li>
-    </ul>
-  </div>
+  </Teleport>
 </template>
 
 <style scoped>
@@ -648,6 +650,8 @@ const legend = computed(() => {
 
 .basemap-controls {
   display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   align-items: center;
   justify-content: space-between;
 }
@@ -664,6 +668,7 @@ const legend = computed(() => {
 
 .basemap-control-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 16px;
   align-items: center;
 }
