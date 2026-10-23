@@ -47,7 +47,8 @@ onMounted(() => {
     </template>
 
     <UApp :locale="zh_cn">
-      <UDashboardGroup class="bg-neutral-50 dark:bg-neutral-950" unit="rem">
+      <RouterView v-if="route.name === 'riic-map'" />
+      <UDashboardGroup v-else class="bg-neutral-50 dark:bg-neutral-950" unit="rem">
         <AppSidebar v-model:collapsed="collapsed" v-model:open="open" />
         <!--
           第 1 层：边框层（只负责圆角、边框、阴影等视觉效果）

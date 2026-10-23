@@ -4,11 +4,17 @@ import type { CSSProperties } from 'vue';
 import { useElementSize, useTimestamp } from '@vueuse/core';
 import runtimeRules from '@/assets/images/riic/blueprint/runtime-rules.json';
 import sceneRules from '@/assets/images/riic/blueprint/scene-rules.json';
+import hudData from '@/assets/images/riic/blueprint/hud.json';
+import roomRulesData from '@/assets/images/riic/blueprint/room-rules.json';
 import { computed, ref, watch } from 'vue';
 import type { BlueprintRoomState } from '@/utils/riic/roomState';
 import { createDefaultRooms, getRoomName } from '@/utils/riic/roomState';
 import BlueprintRoom from './BlueprintRoom.vue';
 import BlueprintRoomEditor from './BlueprintRoomEditor.vue';
+import BuildingHud from './BuildingHud.vue';
+import BuildingStationOverview from './BuildingStationOverview.vue';
+import type { BuildingResources } from './BuildingHud.vue';
+import { useRouter } from 'vue-router';
 
 const props = defineProps<{
   /** `building_data.json` 中的 `layouts.v0` */
@@ -17,6 +23,9 @@ const props = defineProps<{
   rooms?: Record<string, BuildingRoom>;
   /** 未提供时显示游戏 Prefab 序列化的控制中枢等级。 */
   controlLevel?: number;
+  /** 玩家资源由调用方提供；未接入存档时使用本地页面状态。 */
+  resources?: { labor: number; gold: number };
+  immersive?: boolean;
 }>();
 
 interface SlotCategoryMeta {
@@ -80,7 +89,51 @@ const dragging = ref<boolean>(false);
 const roomStates = ref<Record<string, BlueprintRoomState>>(createDefaultRooms(props.layout));
 const selectedSlotId = ref<string | null>(null);
 const editorOpen = ref<boolean>(false);
-const animateWorking = ref<boolean>(false);
+const animateWorking = ref<boolean>(props.immersive ?? false);
+const constructionMode = ref<boolean>(false);
+const gameMenuOpen = ref<boolean>(false);
+const stationOverviewOpen = ref<boolean>(false);
+const router = useRouter();
+const hudScale = computed<number>(() => {
+  const width = Math.max(viewportWidth.value, 1);
+  const height = Math.max(viewportHeight.value, 1);
+  const reference = hudData.canvas.referenceResolution;
+  // `UICanvasScalerHelper` 以游戏原生阈值选择宽适配或高适配。
+  return width / height > hudData.canvasFit.aspectThreshold
+    ? height / reference.y
+    : width / reference.x;
+});
+const hudWidth = computed<number>(() => Math.max(viewportWidth.value, 1) / hudScale.value);
+const hudHeight = computed<number>(() => Math.max(viewportHeight.value, 1) / hudScale.value);
+const buildingResources = computed<BuildingResources>(() => {
+  let electricity = 0;
+  let electricityLimit = 0;
+  let laborLimit = 0;
+  for (const [id, state] of Object.entries(roomStates.value)) {
+    if (state.construction !== 'built') continue;
+    const phases = roomRulesData.rooms[state.roomId as keyof typeof roomRulesData.rooms]?.phases;
+    const power = phases?.[state.level - 1]?.electricity ?? 0;
+    if (power > 0) electricityLimit += power;
+    else electricity -= power;
+    laborLimit += props.layout.slots[id]?.provideLabor ?? 0;
+  }
+  return {
+    labor: props.resources?.labor ?? 0,
+    gold: props.resources?.gold ?? 0,
+    laborLimit,
+    electricity,
+    electricityLimit,
+  };
+});
+
+function onHudAction(action: string) {
+  if (action === 'construction') constructionMode.value = !constructionMode.value;
+  else if (action === 'overview') stationOverviewOpen.value = true;
+  else if (action === 'back') {
+    if (constructionMode.value) constructionMode.value = false;
+    else router.push('/');
+  }
+}
 const timestamp = useTimestamp({ interval: 100 });
 const animatedTriangles = computed<number>(() => {
   const animation = runtimeRules.animation;
@@ -333,8 +386,8 @@ const legend = computed(() => {
 </script>
 
 <template>
-  <div class="basemap" :class="{ 'show-slot-info': showSlotInfo }">
-    <div class="basemap-controls">
+  <div class="basemap" :class="{ 'show-slot-info': showSlotInfo, 'is-immersive': immersive }">
+    <div v-if="!immersive" class="basemap-controls">
       <span class="text-muted">点击房间编辑 · 滚轮缩放 · 拖动平移</span>
       <div class="basemap-control-actions">
         <USwitch v-model="showSlotInfo" label="槽位信息" />
@@ -366,7 +419,7 @@ const legend = computed(() => {
         <div class="basemap-background-layer basemap-background-rect"></div>
         <div class="basemap-background-layer basemap-background-grid"></div>
       </div>
-      <div class="basemap-grid" :style="roomStyle">
+      <div class="basemap-grid" :inert="stationOverviewOpen" :style="roomStyle">
         <div
           v-for="view in slots"
           :key="view.slot.id"
@@ -396,6 +449,7 @@ const legend = computed(() => {
           <BlueprintRoom
             :animation-enabled="animateWorking"
             :cols="view.slot.size.col"
+            :construction="constructionMode"
             :control="view.slot.category === 'SPECIAL'"
             :control-level="controlLevel"
             :room-name="
@@ -418,6 +472,24 @@ const legend = computed(() => {
       </div>
       <div aria-hidden="true" class="basemap-foreground"></div>
       <div aria-hidden="true" class="basemap-edge-mask"></div>
+      <BuildingHud
+        v-if="!stationOverviewOpen"
+        v-model:menu-open="gameMenuOpen"
+        :construction="constructionMode"
+        :height="hudHeight"
+        :resources="buildingResources"
+        :width="hudWidth"
+        @action="onHudAction"
+      />
+      <BuildingStationOverview
+        v-if="stationOverviewOpen"
+        :height="hudHeight"
+        :layout="layout"
+        :rooms="roomStates"
+        :width="hudWidth"
+        @close="stationOverviewOpen = false"
+        @edit="openRoom"
+      />
     </div>
 
     <BlueprintRoomEditor
@@ -473,6 +545,19 @@ const legend = computed(() => {
   cursor: grab;
   user-select: none;
   isolation: isolate;
+}
+
+.basemap.is-immersive {
+  position: fixed;
+  inset: 0;
+  gap: 0;
+  inline-size: 100%;
+  block-size: 100dvh;
+}
+
+.is-immersive .basemap-canvas {
+  block-size: 100%;
+  aspect-ratio: auto;
 }
 
 .basemap-background {
