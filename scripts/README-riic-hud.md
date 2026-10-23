@@ -12,7 +12,9 @@
 | 帮助图标 | `dyn/building/[pack]room/state/panel_blueprint.prefab` |
 | 建造模式上下装饰及提示 | `dyn/building/[pack]room/state/panel_architecture.prefab` |
 | 无人机、电力、龙门币 | `dyn/building/ui/common/panel_building_res_menu.prefab` |
-| 进驻总览页面、房间项及楼层标题 | `dyn/ui/pages/building_station_manage_page.prefab` 与其实际 Bundle 依赖 |
+| 进驻总览页面、房间项及设施分组标题 | `dyn/ui/pages/building_station_manage_page.prefab` 与其实际 Bundle 依赖 |
+| 总览干员卡片与等级标记 | `dyn/building/ui/stationmanage/panel_char_item.prefab` 与 `widget_progress_level_item` |
+| 干员名称与默认头像 | `character_table`、`building_data.chars` 与 `dyn/arts/charavatars/` 的交集 |
 | 固定文字 | `dyn/gamedata/excel/init_text*.bytes` 和 `main_text*.bytes` |
 | 字体 | `sharedassets1.assets` 中的 `NotoSansHans-Medium`、`JovannyLemonad-Bender`、`JovannyLemonad-Bender-Light` |
 
@@ -28,12 +30,20 @@
 
 网页渲染器使用原始锚点、轴心、缩放、旋转、CanvasGroup、布局组和文字对齐。透明 HTML 按钮只负责键盘、读屏和点击热区，按钮外观由游戏图像与文字绘制。屏幕 UI 阻止按键热区的指针事件进入地图拖动逻辑；进驻总览打开时，底层房间不能获得键盘焦点。
 
+展开菜单遵循 `CommonTopMenu._ResetDetailContentRect` 的屏幕边界转换，将 `panel_content` 扩展到视口边缘。按压通过 `Button`／`UIButton.m_Colors.m_PressedColor` 和 `m_TargetGraphic` 着色，`UIColorGraphic._colorElements` 继续解析到实际图形；同一 Prefab 多实例的引用在实例范围内解析。热区自身不绘制按压背景。
+
+渲染器支持无 Sprite 的纯色 Image、嵌套 `RectMask2D` 的交集，以及 UIAtlas 中零宽中心采样线的九宫格拉伸，避免统计标签背景缺失和切换按钮中部断裂。
+
 ## 页面状态与交互范围
 
-`/riic-map` 使用独立游戏视口。普通状态显示进驻人数和生产信息；切换建造模式后使用房间 Prefab 的建造信息分组，并显示游戏的上下装饰和建造模式提示。菜单支持展开、收起及回到基建；返回优先关闭菜单或退出建造模式，再返回网站首页。
+`/riic-map` 默认使用 16:9 内嵌游戏视口。网页全屏以固定定位占满网页；全屏通过 Fullscreen API 请求整个文档进入浏览器全屏，以保留编辑器 Portal。主界面的返回按钮退出当前全屏状态，普通状态不跳转。菜单与进驻总览保留各自的返回层级。Esc 关闭网页全屏时尊重编辑器和下拉框的事件处理。普通状态显示进驻人数和生产信息；切换建造模式后使用房间 Prefab 的建造信息分组，并显示游戏的上下装饰和建造模式提示。
 
 无人机和龙门币由 `BaseMapDiagram.resources` 提供，未提供时为零；无人机上限由已建成槽位的 `provideLabor` 相加。电力消耗与供给分别汇总当前设施等级 `phases[].electricity` 的负值和正值。资源栏中的 Prefab 示例数字不能当作玩家存档。
 
-进驻总览接入游戏页面、工作区与非工作区切换、楼层和房间列表，并显示本地布局的进驻总数与容量。房间项可以打开现有本地状态编辑器。当前房间状态只有人数，没有完整进驻干员身份，因此不生成虚构的干员卡片；队列轮换、干员选择、全局页面导航、帮助页面及资源购买业务尚未实现。原有本地状态编辑器仍使用网页组件，尚未还原游戏的房间详情页面。
+进驻总览按 `slotPrequeDatas` 的 `typeSortId` 分组；非工作区使用 `dormitoryPrequeDatas`，只包含宿舍。标题和房间行高度分别来自组件的 `_preferHeight`，当前为 40 和 159。原始模板提供设施色、等级标记、五个头像槽、统计标签、工作／休息切换及底部按钮。房间数量文案来自游戏字符串表。列表支持滚轮、拖动滚动条和键盘翻页。
+
+本地房间编辑器可选择干员，名称和头像均从游戏安装文件导出，当前包含 429 名基建干员。总览使用原始干员卡片、心情图标、疲劳遮罩与空槽分支。人数预览与具体身份分别保存；只设置人数时不虚构头像。当前心情仍使用房间级疲劳状态，没有独立心情数值或未进驻干员名册，批量休整候选人数为零。
+
+队列编辑与轮换、批量进驻／休整、宿舍锁定、全局页面导航、帮助页面及资源购买业务尚未实现；对应原始图形不表示已接通业务。点击房间仍打开网页状态编辑器，尚未还原游戏的房间详情和干员筛选页面。
 
 此实现核验了静态游戏资源及部分原生显示分支，并通过浏览器检查所列界面的显示与跳转。它不证明运行中热更新委托、服务端结算或 Unity 与浏览器的字体栅格化逐像素相同，也不代表整套基建游戏业务已经完成。

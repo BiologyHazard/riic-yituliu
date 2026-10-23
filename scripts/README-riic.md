@@ -20,14 +20,14 @@ npm run generate:riic
 - `blueprint/runtime-rules.json`：游戏状态文案与原生动画常量。
 - `blueprint/scene-rules.json`：蓝图场景的视场角、宽度适配系数、默认横坐标与越界余量，以及对象身份和字段偏移。
 - `blueprint/hud.json`：总览屏幕 UI、通用导航、进驻总览页面与列表项的原始层级、Sprite 身份、建造开关静态动画值及屏幕缩放分支常量。
-- `blueprint/hud/*.png`：103 张屏幕 UI 图像，包含普通 Sprite 和拆分透明通道后的 UIAtlas 图块；图片在本机生成并由 Git 忽略。
+- `blueprint/hud/*.png`：551 张屏幕 UI 与干员头像图像，包含普通 Sprite 和拆分透明通道后的 UIAtlas 图块；图片在本机生成并由 Git 忽略。
 - `blueprint/training-animation.json`：训练动画的绑定和原始曲线。
 - `blueprint/font-metrics.json`：游戏字体的字号、ascent、descent 与行距。
 - `blueprint/sources.json`：输入文件的游戏根目录相对路径及 SHA-256。
 - `blueprint/*.png`、`blueprint/*.otf`：60 张 Sprite 和 3 个字体。
 - `blueprint_*.png`：5 张地图背景，按完整逻辑矩形保留透明边距。
 
-当前版本共生成 179 个文件。用户指定的默认布局状态仍由页面配置管理，不属于游戏安装包提取结果；角色头像等页面原有动态数据源也不在本生成器范围内。
+当前版本共生成 627 个文件。用户指定的默认布局状态仍由页面配置管理，不属于游戏安装包提取结果。基建本地选择器的干员名称与默认头像由本生成器输出，其他页面原有动态数据源不在本生成器范围内。
 
 ## 校验与其他输出目录
 

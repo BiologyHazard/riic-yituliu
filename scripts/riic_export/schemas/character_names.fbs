@@ -1,0 +1,15 @@
+// 只读取干员表开头的姓名、排序与特殊角色字段。
+table CharacterName {
+    name: string;
+    description: string;
+    sortIndex: int;
+    spTargetType: int;
+}
+table dict__string__CharacterName {
+    key: string(key);
+    value: CharacterName;
+}
+table CharacterNames {
+    characters: [dict__string__CharacterName];
+}
+root_type CharacterNames;

@@ -3684,6 +3684,92 @@
     "recycleSpeedUpUnlockLevel": 3,
     "recycleTwoPersonUnlockLevel": 2
   },
+  "slotPrequeDatas": {
+    "CONTROL": {
+      "roomType": "CONTROL",
+      "name": "控制中枢",
+      "typeSortId": 0,
+      "isPreque": true,
+      "prequeNum": 3
+    },
+    "MEETING": {
+      "roomType": "MEETING",
+      "name": "会客室",
+      "typeSortId": 1,
+      "isPreque": true,
+      "prequeNum": 3
+    },
+    "MANUFACTURE": {
+      "roomType": "MANUFACTURE",
+      "name": "制造站",
+      "typeSortId": 2,
+      "isPreque": true,
+      "prequeNum": 3
+    },
+    "TRADING": {
+      "roomType": "TRADING",
+      "name": "贸易站",
+      "typeSortId": 3,
+      "isPreque": true,
+      "prequeNum": 3
+    },
+    "POWER": {
+      "roomType": "POWER",
+      "name": "发电站",
+      "typeSortId": 4,
+      "isPreque": true,
+      "prequeNum": 3
+    },
+    "HIRE": {
+      "roomType": "HIRE",
+      "name": "办公室",
+      "typeSortId": 5,
+      "isPreque": true,
+      "prequeNum": 3
+    },
+    "RECYCLE": {
+      "roomType": "RECYCLE",
+      "name": "回收站",
+      "typeSortId": 6,
+      "isPreque": true,
+      "prequeNum": 3
+    },
+    "TRAINING": {
+      "roomType": "TRAINING",
+      "name": "训练室",
+      "typeSortId": 7,
+      "isPreque": false,
+      "prequeNum": 0
+    },
+    "WORKSHOP": {
+      "roomType": "WORKSHOP",
+      "name": "加工站",
+      "typeSortId": 8,
+      "isPreque": false,
+      "prequeNum": 0
+    }
+  },
+  "dormitoryPrequeDatas": {
+    "DORMITORY": {
+      "roomType": "DORMITORY",
+      "name": "宿舍"
+    }
+  },
+  "stationManageConstData": {
+    "cantWorkToastNoTiredChar": "没有疲劳的工作中干员",
+    "cantWorkToastNoAvailQueue": "没有可用的预设队列",
+    "cantWorkToastNoNeed": "暂无需轮换的队列",
+    "cantRestToastNoTiredChar": "暂无干员需要休息",
+    "cantRestToastNoAvailDorm": "宿舍暂无空位",
+    "workBatchToast": "{0}个房间已完成队列更换",
+    "restBatchToast": "{0}名干员已进驻宿舍",
+    "roomNoAvailQueueToast": "没有可用的预设队列",
+    "cantUseNoPerson": "尚未编入干员",
+    "cantUseWorking": "队列应用中",
+    "queueCleared": "该设施内预设队列已清空",
+    "updateTime": 1730433600,
+    "dormLockUpdateTime": 1737518400
+  },
   "sources": [
     {
       "path": "anon/0f942849730870384390c3a2bb70a13f.bin",

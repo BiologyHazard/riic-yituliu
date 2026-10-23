@@ -2,6 +2,7 @@
 import data from '@/assets/images/riic/blueprint/hud.json';
 import type { BlueprintNode } from '@/utils/riic/blueprintRenderer';
 import { gameUiSprites } from '@/utils/riic/gameUiData';
+import { prepareTopMenu, screenRoot } from '@/utils/riic/gameUiTree';
 import { computed } from 'vue';
 import GameUiCanvas from './GameUiCanvas.vue';
 
@@ -36,13 +37,7 @@ const actions = computed<Record<string, { action: string; label: string }>>(() =
 const roots = computed<BlueprintNode[]>(() => {
   const page = structuredClone(prefabs.float!);
   // 屏幕 Canvas 的矩形和缩放由 Unity 在初始化时计算，序列化的零值不参与子节点布局。
-  page.rect = {
-    ...page.rect,
-    AnchorMin: { x: 0, y: 0 },
-    AnchorMax: { x: 1, y: 1 },
-    Pivot: { x: 0.5, y: 0.5 },
-    LocalScale: { x: 1, y: 1 },
-  };
+  screenRoot(page);
   const topHolder = page.children.find((node) => node.name === 'panel_common_topmenu')!;
   topHolder.children = [structuredClone(prefabs.topMenu!)];
   const overview = structuredClone(prefabs.panel_bp_or_vault!);
@@ -79,6 +74,7 @@ const roots = computed<BlueprintNode[]>(() => {
   }
   const result = [architecture, overview, blueprint, resources, page];
   result.forEach(prepare);
+  prepareTopMenu(page, props.width, props.height, menuOpen.value);
   return result;
 });
 

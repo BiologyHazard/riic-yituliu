@@ -2,6 +2,7 @@
 import type { BlueprintColor, BlueprintNode } from '@/utils/riic/blueprintRenderer';
 import type { GameUiHit, GameUiSprite } from '@/utils/riic/gameUiRenderer';
 import { renderGameUi } from '@/utils/riic/gameUiRenderer';
+import { applyPressedColor } from '@/utils/riic/gameUiTree';
 import { computed, onMounted, ref, useId } from 'vue';
 import type { CSSProperties } from 'vue';
 
@@ -15,6 +16,7 @@ const props = defineProps<{
 const emit = defineEmits<{ action: [action: string] }>();
 const instanceId = useId();
 const fontsReady = ref<number>(0);
+const pressed = ref<string | null>(null);
 onMounted(async () => {
   await Promise.all(
     ['NotoSansHans-Medium', 'JovannyLemonad-Bender', 'JovannyLemonad-Bender-Light'].map((font) =>
@@ -25,13 +27,9 @@ onMounted(async () => {
 });
 const rendered = computed<ReturnType<typeof renderGameUi>>(() => {
   void fontsReady.value;
-  return renderGameUi(
-    structuredClone(props.roots),
-    props.sprites,
-    props.width,
-    props.height,
-    props.actions,
-  );
+  const roots = structuredClone(props.roots);
+  roots.forEach((root) => applyPressedColor(root, pressed.value));
+  return renderGameUi(roots, props.sprites, props.width, props.height, props.actions);
 });
 function filterId(color: BlueprintColor): string {
   return `${instanceId}-hud-${color.r}-${color.g}-${color.b}`;
@@ -116,6 +114,14 @@ function hitStyle(hit: GameUiHit): CSSProperties {
             :width="layer.sprite.width"
           />
         </svg>
+        <rect
+          v-else-if="layer.kind === 'rect'"
+          :fill="layer.fill"
+          :height="layer.box.height * layer.box.scaleY"
+          :width="layer.box.width * layer.box.scaleX"
+          :x="layer.box.x"
+          :y="layer.box.y"
+        />
         <text
           v-else
           :dominant-baseline="layer.baseline"
@@ -142,7 +148,15 @@ function hitStyle(hit: GameUiHit): CSSProperties {
       :style="hitStyle(hit)"
       :title="hit.label"
       type="button"
+      @blur="pressed = null"
       @click.stop="emit('action', hit.action)"
+      @keydown.enter="pressed = hit.name"
+      @keydown.space="pressed = hit.name"
+      @keyup="pressed = null"
+      @pointercancel="pressed = null"
+      @pointerdown="pressed = hit.name"
+      @pointerleave="pressed = null"
+      @pointerup="pressed = null"
     ></button>
   </div>
 </template>
@@ -169,9 +183,5 @@ function hitStyle(hit: GameUiHit): CSSProperties {
 .game-ui-hit:focus-visible {
   outline: 2px solid #ffffff;
   outline-offset: -2px;
-}
-
-.game-ui-hit:active {
-  background: #ffffff18;
 }
 </style>

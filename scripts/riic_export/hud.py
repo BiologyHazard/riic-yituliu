@@ -1,10 +1,13 @@
 """从内置界面和动态 Prefab 导出基建总览的屏幕 UI。"""
 
 import hashlib
+import json
 import struct
 import zlib
+from pathlib import Path
 lazy from typing import Any
 
+from ark_fbs import Schema
 from PIL import Image
 from UnityPy.classes import PPtr
 
@@ -53,6 +56,72 @@ class HudExporter:
             raise ValueError(f"屏幕 UI 缺少组件类型树：{name}")
         # 严格校验读取长度，禁止将裁剪后的组件头当作完整数据。
         return reader.read_typetree(nodes=template)
+
+    def operators(self) -> dict[str, Any]:
+        """本地进驻选择只使用安装文件中的干员名称与默认头像。"""
+        table_path = self.source.find_asset("dyn/gamedata/excel/character_table")
+        table_env = self.source.load_assets([table_path])
+        schema = Schema.from_fbs_text(
+            (Path(__file__).parent / "schemas/character_names.fbs").read_text(
+                encoding="utf-8"
+            )
+        )
+        raw = text_bytes(table_env.container[table_path].read())
+        characters = json.loads(schema.binary_to_json(raw[128:]))["characters"]
+        building_path = self.source.find_asset("dyn/gamedata/excel/building_data")
+        building_env = self.source.load_assets([building_path])
+        building_schema = Schema.from_fbs_text(
+            (Path(__file__).parent / "schemas/building_data.fbs").read_text(
+                encoding="utf-8"
+            )
+        )
+        building_raw = text_bytes(building_env.container[building_path].read())
+        building_characters = json.loads(
+            building_schema.binary_to_json(building_raw[128:])
+        )["chars"]
+        paths = {
+            row["path"].removeprefix("dyn/arts/charavatars/").removesuffix(".png"): row[
+                "path"
+            ]
+            for row in self.source.manifest["assetToBundleList"]
+            if (row.get("path") or "").startswith("dyn/arts/charavatars/char_")
+            and row["path"].endswith(".png")
+        }
+        selected = {
+            key: value
+            for key, value in characters.items()
+            if key in paths
+            and key in building_characters
+            and value.get("spTargetType", 0) == 0
+        }
+        result: dict[str, Any] = {}
+        # 分批读取，避免把全部角色依赖同时保存在内存中。
+        keys = sorted(selected)
+        for start in range(0, len(keys), 32):
+            batch = keys[start : start + 32]
+            env = self.source.load_assets([paths[key] for key in batch])
+            for key in batch:
+                pointer = env.container[paths[key]]
+                reader = pointer.deref()
+                if reader.type.name == "Sprite":
+                    sprite_key = self.sprite(pointer)
+                else:
+                    texture = reader.read()
+                    image = texture.image.convert("RGBA")
+                    sprite_key = f"avatar_{key}"
+                    image.save(self.image_dir / f"{sprite_key}.png")
+                    self.sprites[sprite_key] = {
+                        "name": texture.m_Name,
+                        "sourceFile": reader.assets_file.name,
+                        "sourcePathId": str(reader.path_id),
+                        "width": image.width,
+                        "height": image.height,
+                        "border": {"x": 0, "y": 0, "z": 0, "w": 0},
+                        "ppu": 100,
+                        "file": f"hud/{sprite_key}.png",
+                    }
+                result[key] = {"name": selected[key]["name"], "sprite": sprite_key}
+        return result
 
     def sprite(self, pointer: Any) -> str:
         key = hashlib.sha256(pointer.deref().assets_file.name.encode()).hexdigest()[:8]
@@ -208,6 +277,9 @@ class HudExporter:
                     "RectMask2D",
                     "BuildingSMRoomItemView",
                     "BuildingSMRoomGroupListView",
+                    "BuildingSMRoomGroupTitleView",
+                    "BuildingSMStationNumView",
+                    "BuildingCharAvatar",
                     "UIRecycleVerticalLayoutGroup",
                     "SimpleLayoutContent",
                 }:
@@ -264,6 +336,11 @@ class HudExporter:
                         for style in data["_roomStyles"]:
                             style["sprite"] = self.sprite(
                                 PPtr(**style["bkgImg"], assetsfile=reader.assets_file)
+                            )
+                    if name == "BuildingCharAvatar":
+                        for state in data["_apStateConfigs"]:
+                            state["sprite"] = self.sprite(
+                                PPtr(**state["icon"], assetsfile=reader.assets_file)
                             )
         return node
 
@@ -339,11 +416,23 @@ class HudExporter:
             "overviewTitle": self.tree(
                 env.container["dyn/building/ui/stationmanage/panel_storey_title.prefab"]
             ),
+            "overviewChar": self.tree(
+                env.container["dyn/building/ui/stationmanage/panel_char_item.prefab"]
+            ),
         }
         for name in ("panel_bp_or_vault", "panel_blueprint", "panel_architecture"):
             prefabs[name] = self.tree(
                 env.container[f"dyn/building/[pack]room/state/{name}.prefab"]
             )
+        level = next(
+            obj
+            for obj in env.objects
+            if obj.type.name == "GameObject"
+            and obj.peek_name() == "widget_progress_level_item"
+        )
+        prefabs["overviewLevel"] = self.tree(
+            PPtr(m_FileID=0, m_PathID=level.path_id, assetsfile=level.assets_file)
+        )
         switch_positions = {}
         for reader in builtin.objects:
             if reader.type.name != "AnimationClip" or reader.peek_name() not in (
@@ -373,6 +462,11 @@ class HudExporter:
         self.source.write_json(
             "hud.json",
             {
+                "operators": self.operators(),
+                "strings": {
+                    key: self.language[key]
+                    for key in ("BUILDING_WORK_ROOM_CNT", "BUILDING_DORM_ROOM_CNT")
+                },
                 "canvas": {
                     "referenceResolution": scale_data["m_ReferenceResolution"],
                     "matchWidthOrHeight": scale_data["m_MatchWidthOrHeight"],

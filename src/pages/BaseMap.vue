@@ -4,5 +4,7 @@ import { blueprintLayout, roomRules } from '@/utils/riic/roomState';
 </script>
 
 <template>
-  <BaseMapDiagram immersive :layout="blueprintLayout" :rooms="roomRules" />
+  <div class="p-4">
+    <BaseMapDiagram :layout="blueprintLayout" :rooms="roomRules" />
+  </div>
 </template>

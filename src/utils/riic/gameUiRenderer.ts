@@ -37,9 +37,19 @@ export interface GameUiText {
 }
 export interface GameUiHit {
   key: string;
+  name: string;
   box: BlueprintBox;
   action: string;
   label: string;
+}
+
+export interface GameUiRect {
+  kind: 'rect';
+  key: string;
+  box: BlueprintBox;
+  fill: string;
+  transform: string;
+  clip?: BlueprintBox;
 }
 
 function colorCss(color: BlueprintColor, opacity = 1): string {
@@ -120,7 +130,10 @@ function imageLayers(
       if (x === 1 && y === 1 && !image.fillCenter) continue;
       const width = dx[x + 1]! - dx[x]!;
       const height = dy[y + 1]! - dy[y]!;
-      if (width <= 0 || height <= 0 || sx[x + 1]! <= sx[x]! || sy[y + 1]! <= sy[y]!) continue;
+      if (width <= 0 || height <= 0) continue;
+      // `UIAtlasImage` 允许中心 UV 重合，用同一列纹素填满拉伸区域。
+      const sourceWidth = Math.max(0.001, sx[x + 1]! - sx[x]!);
+      const sourceHeight = Math.max(0.001, sy[y + 1]! - sy[y]!);
       result.push({
         kind: 'image',
         key: `${key}-${x}-${y}`,
@@ -128,7 +141,7 @@ function imageLayers(
         color: image.color,
         opacity: opacity * image.color.a,
         transform,
-        crop: `${sx[x]} ${sy[y]} ${sx[x + 1]! - sx[x]!} ${sy[y + 1]! - sy[y]!}`,
+        crop: `${sx[x]} ${sy[y]} ${sourceWidth} ${sourceHeight}`,
         box: {
           ...box,
           x: box.x + dx[x]! * box.scaleX,
@@ -148,8 +161,8 @@ export function renderGameUi(
   width: number,
   height: number,
   actions: Record<string, { action: string; label: string }>,
-): { layers: (GameUiImage | GameUiText)[]; hits: GameUiHit[] } {
-  const layers: (GameUiImage | GameUiText)[] = [];
+): { layers: (GameUiImage | GameUiText | GameUiRect)[]; hits: GameUiHit[] } {
+  const layers: (GameUiImage | GameUiText | GameUiRect)[] = [];
   const hits: GameUiHit[] = [];
   const parent = { x: 0, y: 0, width, height, scaleX: 1, scaleY: 1 };
   function visit(
@@ -165,7 +178,27 @@ export function renderGameUi(
     const opacity =
       (node.canvasGroup?.m_IgnoreParentGroups ? 1 : inheritedOpacity) *
       (node.canvasGroup?.m_Alpha ?? 1);
-    const clip = node.scripts.RectMask2D ? box : inheritedClip;
+    let clip = inheritedClip;
+    if (node.scripts.RectMask2D) {
+      const left = Math.max(box.x, inheritedClip?.x ?? box.x);
+      const top = Math.max(box.y, inheritedClip?.y ?? box.y);
+      const right = Math.min(
+        box.x + box.width * box.scaleX,
+        inheritedClip ? inheritedClip.x + inheritedClip.width * inheritedClip.scaleX : Infinity,
+      );
+      const bottom = Math.min(
+        box.y + box.height * box.scaleY,
+        inheritedClip ? inheritedClip.y + inheritedClip.height * inheritedClip.scaleY : Infinity,
+      );
+      clip = {
+        x: left,
+        y: top,
+        width: Math.max(0, right - left),
+        height: Math.max(0, bottom - top),
+        scaleX: 1,
+        scaleY: 1,
+      };
+    }
     const rotation = (
       node.rect as BlueprintNode['rect'] & { LocalRotation?: { z: number; w: number } }
     ).LocalRotation;
@@ -184,6 +217,15 @@ export function renderGameUi(
           clip,
         })),
       );
+    } else if (node.image) {
+      layers.push({
+        kind: 'rect',
+        key,
+        box,
+        fill: colorCss(node.image.color, opacity),
+        transform,
+        clip,
+      });
     }
     if (node.text) {
       const horizontal = node.text.alignment % 3;
@@ -230,7 +272,8 @@ export function renderGameUi(
             scaleY: 1,
           }
         : box;
-      if (hitBox.width > 0 && hitBox.height > 0) hits.push({ key, box: hitBox, ...action });
+      if (hitBox.width > 0 && hitBox.height > 0)
+        hits.push({ key, name: node.name, box: hitBox, ...action });
     }
     node.children.forEach((child, index) =>
       visit(child, box, `${key}-${index}`, opacity, transform, clip),
