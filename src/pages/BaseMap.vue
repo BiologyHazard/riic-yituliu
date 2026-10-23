@@ -4,7 +4,12 @@ import { blueprintLayout, roomRules } from '@/utils/riic/roomState';
 </script>
 
 <template>
-  <div class="p-4">
-    <BaseMapDiagram :layout="blueprintLayout" :rooms="roomRules" />
-  </div>
+  <UContainer>
+    <UPage>
+      <UPageHeader title="基建地图" />
+      <UPageBody>
+        <BaseMapDiagram :layout="blueprintLayout" :rooms="roomRules" />
+      </UPageBody>
+    </UPage>
+  </UContainer>
 </template>
