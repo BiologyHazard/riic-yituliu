@@ -44,6 +44,7 @@ export interface BlueprintNode {
     color: BlueprintColor;
     ppuMultiplier: number;
     fillCenter: boolean;
+    atlasSlice?: { x: number; y: number; z: number; w: number } | null;
   };
   text?: { value: string; color: BlueprintColor; size: number; alignment: number };
   font?: string;
@@ -140,6 +141,7 @@ export function prepareBlueprint(
   state?: BlueprintRoomState,
   roomName?: string,
   controlLevel?: number,
+  construction = false,
 ): BlueprintNode | undefined {
   const source = blueprintData.prefabs[name];
   if (!source) return undefined;
@@ -171,8 +173,8 @@ export function prepareBlueprint(
         node.text.value = `/${getRoomCapacity(state)}`;
     }
     if (node.name === 'panel_archi_only' || node.name === 'panel_architect_only')
-      node.active = false;
-    if (node.name === 'panel_normal_only') node.active = true;
+      node.active = construction;
+    if (node.name === 'panel_normal_only') node.active = !construction;
     if (node.name === 'levelup_icon') node.active = state?.canLevelUp ?? false;
     if (node.name === 'panel_favor_icon') node.active = state?.trust ?? false;
     if (node.name === 'panel_frame_light') node.active = state?.highlight ?? false;
@@ -276,7 +278,7 @@ function textSize(node: BlueprintNode): Vector {
 }
 
 /** Unity 布局组先计算固有尺寸，再根据父矩形排列子节点。 */
-function preferredSize(node: BlueprintNode): Vector {
+function preferredSize(node: BlueprintNode, sprites: Record<string, BlueprintSprite>): Vector {
   const grid = node.scripts.GridLayoutGroup;
   const horizontal = node.scripts.HorizontalLayoutGroup;
   const children = node.children.filter((child) => child.active);
@@ -299,7 +301,7 @@ function preferredSize(node: BlueprintNode): Vector {
   }
   if (horizontal) {
     const padding = horizontal.m_Padding as Padding;
-    const sizes = children.map((child) => preferredSize(child));
+    const sizes = children.map((child) => preferredSize(child, sprites));
     return {
       x:
         padding.m_Left +
@@ -324,7 +326,7 @@ function preferredSize(node: BlueprintNode): Vector {
   }
   if (node.text) return textSize(node);
   if (node.image?.sprite) {
-    const sprite = blueprintData.sprites[node.image.sprite]!;
+    const sprite = sprites[node.image.sprite]!;
     return { x: (sprite.width * 100) / sprite.ppu, y: (sprite.height * 100) / sprite.ppu };
   }
   return { x: numeric(node.rect.SizeDelta.x), y: numeric(node.rect.SizeDelta.y) };
@@ -340,9 +342,13 @@ function setLayoutRect(node: BlueprintNode, x: number, y: number, width: number,
   };
 }
 
-export function layoutBlueprint(node: BlueprintNode, parent: BlueprintBox) {
+export function layoutBlueprint(
+  node: BlueprintNode,
+  parent: BlueprintBox,
+  sprites: Record<string, BlueprintSprite> = blueprintData.sprites,
+) {
   const fitter = node.scripts.ContentSizeFitter;
-  const preferred = preferredSize(node);
+  const preferred = preferredSize(node, sprites);
   if (fitter?.m_HorizontalFit === 2) node.rect.SizeDelta.x = preferred.x;
   if (fitter?.m_VerticalFit === 2) node.rect.SizeDelta.y = preferred.y;
   const box = blueprintBox(node, parent);
@@ -376,7 +382,7 @@ export function layoutBlueprint(node: BlueprintNode, parent: BlueprintBox) {
     const align = numeric(horizontal.m_ChildAlignment);
     let x = padding.m_Left + Math.max(0, box.width - preferred.x) * ((align % 3) / 2);
     for (const child of children) {
-      const size = preferredSize(child);
+      const size = preferredSize(child, sprites);
       const width = horizontal.m_ChildControlWidth ? size.x : numeric(child.rect.SizeDelta.x);
       const height = horizontal.m_ChildControlHeight ? size.y : numeric(child.rect.SizeDelta.y);
       const y =
@@ -386,5 +392,5 @@ export function layoutBlueprint(node: BlueprintNode, parent: BlueprintBox) {
       x += width + numeric(horizontal.m_Spacing);
     }
   }
-  for (const child of children) layoutBlueprint(child, box);
+  for (const child of children) layoutBlueprint(child, box, sprites);
 }

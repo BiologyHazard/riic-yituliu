@@ -90,6 +90,7 @@ const props = defineProps<{
   controlLevel?: number;
   state?: BlueprintRoomState;
   animationEnabled?: boolean;
+  construction?: boolean;
 }>();
 const textures = import.meta.glob<string>('@/assets/images/riic/blueprint/*.png', {
   eager: true,
@@ -357,7 +358,13 @@ const layers = computed<(ImagePatch | TextLayer)[]>(() => {
       ? 'room_control'
       : 'unclean';
   const name = `${prefix}_${props.cols}x${props.rows}`;
-  const prefab = prepareBlueprint(name, state, props.roomName, props.controlLevel);
+  const prefab = prepareBlueprint(
+    name,
+    state,
+    props.roomName,
+    props.controlLevel,
+    props.construction,
+  );
   if (prefab) {
     layoutBlueprint(prefab, parent);
     visit(prefab, parent, 'room');

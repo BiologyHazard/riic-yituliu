@@ -12,6 +12,7 @@ import tempfile
 from pathlib import Path
 
 from riic_export.blueprint import BlueprintExporter, export_fonts_and_background
+from riic_export.hud import HudExporter
 from riic_export.rules import export_rules
 from riic_export.scene import export_scene_rules
 from riic_export.source import GameSource
@@ -54,6 +55,7 @@ def main() -> None:
         source = GameSource(Path(base), stage)
         language = export_rules(source)
         BlueprintExporter(source, language).run()
+        HudExporter(source, language).run()
         export_fonts_and_background(source)
         export_scene_rules(source)
         source.finish()

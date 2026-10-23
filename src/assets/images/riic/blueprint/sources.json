@@ -12,6 +12,10 @@
     "sha256": "a8f003429b3b4cb16bd4f1332b07fc62eace2331525e191bb54f72ca83c7a51f"
   },
   {
+    "path": "Arknights_Data/StreamingAssets/AB/Windows/anon/4b2e8a0ff91de322b2dd5fa9938e8477.bin",
+    "sha256": "c115a086563fb3adc69ea5d05c544b37129b3b1d5fbc88f3a8997401633dddef"
+  },
+  {
     "path": "Arknights_Data/StreamingAssets/AB/Windows/anon/88b3c3ecaaefa6003de730686dd5ac53.bin",
     "sha256": "eb1f2d8339c466192624c42dbb0ab986efa38517e8aca22fd54b5737d78908f3"
   },
@@ -44,12 +48,24 @@
     "sha256": "e4a745a05595e234e598460dec0f84d70f90d4072d9a5e69bd8d61710ef1a4d9"
   },
   {
+    "path": "Arknights_Data/StreamingAssets/AB/Windows/building/ui/common/building_static_outlinks.ab",
+    "sha256": "d9dabeb3fb111b51152035f293d92e1d3066864694e60ad6636abb8be0ebfb66"
+  },
+  {
     "path": "Arknights_Data/StreamingAssets/AB/Windows/building/ui/common/charavatar/panel_char_avatar.ab",
     "sha256": "2f8b0c79dc659aaf6f5c4d5f305f8690b434f08dc584de8ba5fa6e1a19e6a25d"
   },
   {
+    "path": "Arknights_Data/StreamingAssets/AB/Windows/building/ui/common/charavatar/panel_manpower_bar.ab",
+    "sha256": "3389ed48535955bde362261c017cf20a89dddd8a9e785357a6fbf4c5f3b7230e"
+  },
+  {
     "path": "Arknights_Data/StreamingAssets/AB/Windows/building/ui/todonotify/panel_notify_item.ab",
     "sha256": "30574549e13bf718d364a9a627e67a5f776dfc346636ba9a72579faae4198856"
+  },
+  {
+    "path": "Arknights_Data/StreamingAssets/AB/Windows/ui/pages/building_station_manage_page.ab",
+    "sha256": "23614b1dac9caa69689d3d37432c4a64843afc80523169fcb7a473b53546c543"
   },
   {
     "path": "Arknights_Data/level9",

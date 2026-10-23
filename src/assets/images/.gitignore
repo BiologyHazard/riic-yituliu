@@ -1,0 +1,5 @@
+*
+!.gitignore
+!riic/
+!riic/blueprint/
+!riic/blueprint/hud.json
