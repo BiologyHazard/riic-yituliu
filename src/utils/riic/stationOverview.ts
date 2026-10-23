@@ -97,10 +97,7 @@ function prepareRoom(room: OverviewRoom, group: OverviewGroup): BlueprintNode {
   const indexed = rules.rooms[group.type as keyof typeof rules.rooms].maxCount > 1;
   findGameUi(node, 'text_index_holder').active = indexed;
   setText(node, 'text_index', indexed ? String(room.index) : '');
-  // 索引容器本身没有图形，运行时为数字留出布局宽度。
-  findGameUi(node, 'text_index_holder').rect.SizeDelta.x = indexed
-    ? findGameUi(node, 'text_index').rect.SizeDelta.x
-    : 0;
+  // 编号容器保留 Prefab 的零宽度；数字使用子节点原始偏移，不额外占据布局宽度。
   findGameUi(node, 'img_bkg').image!.sprite = style.sprite;
   findGameUi(node, 'panel_inactive').active = false;
   findGameUi(node, 'panel_upgrading').active = false;

@@ -205,7 +205,8 @@ class HudExporter:
             )
         )
         if entry["rotate"]:
-            image = image.transpose(Image.Transpose.ROTATE_90)
+            # `_AddQuadRotate` 的屏幕左上角采样图块左下角，须顺时针还原。
+            image = image.transpose(Image.Transpose.ROTATE_270)
         key = f"atlas_{entry['guid']}"
         if key not in self.sprites:
             image.save(self.image_dir / f"{key}.png")
