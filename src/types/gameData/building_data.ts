@@ -229,9 +229,9 @@ export interface BuildingRoom {
  * `excel/building_data.json` 数据格式
  */
 export interface BuildingData {
+  rooms: Record<string, BuildingRoom>;
+  layouts: Record<string, BuildingLayout>;
   chars: Record<string, BuildingChar>;
   buffs: Record<string, BuffInfo>;
   workshopFormulas: Record<string, WorkshopFormula>;
-  layouts: Record<string, BuildingLayout>;
-  rooms: Record<string, BuildingRoom>;
 }
