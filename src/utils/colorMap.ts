@@ -16,6 +16,7 @@ export const bgColorMap: Map<string, ColorInstance> = new Map(
     宿舍: '#21cdcb',
     办公室: '#565656',
     会客室: '#dd653f',
+    回收站: '#6ccbcb',
   }).map(([k, v]) => [k, Color(v)]),
 );
 
@@ -30,5 +31,6 @@ export const fontColorMap: Map<string, ColorInstance> = new Map(
     宿舍: '#ffffff',
     办公室: '#ffffff',
     会客室: '#ffffff',
+    回收站: '#333333',
   }).map(([k, v]) => [k, Color(v)]),
 );
