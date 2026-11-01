@@ -10,7 +10,7 @@ const itemsExpanded: NavigationMenuItem[] = [
   {
     label: '首页',
     icon: 'i-lucide-home',
-    to: { name: 'home' },
+    to: '/',
   },
   {
     label: '明日方舟',
@@ -124,11 +124,6 @@ const itemsExpanded: NavigationMenuItem[] = [
         to: '/endfield-game-bulletin',
       },
       {
-        label: 'OEA 档案查漏补缺',
-        icon: 'i-lucide-scan-line',
-        to: { name: 'oea' },
-      },
-      {
         label: '终末地一图流',
         icon: 'i-mdi-numeric-1-box-outline',
         to: 'https://ef.yituliu.cn/',
@@ -202,7 +197,7 @@ const itemsCollapsed = computed<NavigationMenuItem[]>(() => flattenNavigationIte
             class: 'rounded-none bg-transparent',
           }"
           class="shrink-0 p-1.5"
-          :to="{ name: 'home' }"
+          to="/"
           variant="ghost"
         />
         <div v-if="!collapsed" class="truncate font-bold">明日方舟基建一图流</div>
